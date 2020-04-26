@@ -1,0 +1,1 @@
+/usr/bin/jackd -dalsa -r44100 -p128 -n2 -D -Chw:MID,0 -Phw:MID,0
