@@ -208,7 +208,7 @@ export MANPAGER="/bin/sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomo
 #source ~/.bash-powerline.sh
 
 ### BROOT ###
-#source /home/dt/.config/broot/launcher/bash/br
+#source /home/ybenel/.config/broot/launcher/bash/br
 
 ### BASH INSULTER ###
 if [ -f /etc/bash.command-not-found ]; then
