@@ -97,7 +97,7 @@ local modkey1      = "Control"
 local browser           = "firefox"
 local editor            = os.getenv("EDITOR") or "vim"
 local editorgui         = "geany"
-local filemanager       = "thunar"
+local filemanager       = "nemo"
 local mailclient        = "geary"
 local mediaplayer       = "vlc"
 local scrlocker         = "slimlock"
@@ -109,7 +109,7 @@ awful.util.terminal = terminal
 --awful.util.tagnames = {  " ", " ", " ", " ", " ", " ", " ", " ", " ", " "  }
 --awful.util.tagnames = { "⠐", "⠡", "⠲", "⠵", "⠻", "⠿" }
 --awful.util.tagnames = { "⌘", "♐", "⌥", "ℵ" }
-awful.util.tagnames = { " FIRE ", " COD ", " TERM ", " MOCP ", " SYS ", " CHAT ", " VBOX ", " VID ", " GFX " }
+awful.util.tagnames = { " FIRE ", " TERM ", " CODE ", " MOCP ", " CHAT ", " SYS ", " VBOX ", " VID ", " GFX " }
 -- Use this : https://fontawesome.com/cheatsheet
 --awful.util.tagnames = { "", "", "", "", "" }
 awful.layout.suit.tile.left.mirror = true
@@ -295,27 +295,27 @@ globalkeys = my_table.join(
         {description = "vifm" , group = "terminal apps" }),
     awful.key({ modkey, altkey  }, "i", function () awful.util.spawn( terminal.." -e irssi" ) end,
         {description = "irssi" , group = "terminal apps" }),
-    awful.key({ modkey, altkey  }, "j", function () awful.util.spawn( terminal.." -e joplin" ) end,
+    awful.key({ modkey, altkey  }, "j", function () awful.util.spawn( terminal.." -e joplin" ) end, -- Change For later
         {description = "joplin" , group = "terminal apps" }),
     awful.key({ modkey, altkey }, "l", function () awful.util.spawn( terminal.." -e lynx --cfg=~/.lynx/lynx.cfg --lss=~/.lynx/lynx.lss -vikeys gopher://distro.tube" ) end,
         {description = "lynx cli browser" , group = "terminal apps" }),
-    awful.key({ modkey, altkey }, "m", function () awful.util.spawn( terminal.." -e toot curses" ) end,
-        {description = "toot curses" , group = "terminal apps" }),
+    awful.key({ modkey, altkey }, "m", function () awful.util.spawn( terminal.." -e PrNdOwN " ) end,
+        {description = "PrNdOwN" , group = "terminal apps" }),
     awful.key({ modkey, altkey }, "n", function () awful.util.spawn( terminal.." -e newsboat" ) end,
         {description = "newsboat" , group = "terminal apps" }),
     awful.key({ modkey, altkey  }, "p", function () awful.util.spawn( terminal.." -e pianobar" ) end,
         {description = "pianobar" , group = "terminal apps" }),
     awful.key({ modkey, altkey }, "r", function () awful.util.spawn( terminal.." -e rtv" ) end,
         {description = "rtv" , group = "terminal apps" }),
-    awful.key({ modkey, altkey  }, "w", function () awful.util.spawn( terminal.." -e wopr report.xml" ) end,
-        {description = "wopr report.xml" , group = "terminal apps" }),
+    awful.key({ modkey, altkey  }, "w", function () awful.util.spawn( terminal.." -e ranger" ) end,
+        {description = "ranger" , group = "terminal apps" }),
     awful.key({ modkey, altkey  }, "y", function () awful.util.spawn( terminal.." -e gtk-youtube-viewer" ) end,
         {description = "youtube-viewer" , group = "terminal apps" }),
 
     -- screenshots
     awful.key({ }, "Print", function () awful.util.spawn("scrot 'Ybenel_D-%Y-%m-%d_$wx$h.jpg' -e 'mv $f $$(xdg-user-dir PICTURES)'") end,
         {description = "Scrot", group = "screenshots"}),
-    awful.key({ modkey1           }, "Print", function () awful.util.spawn( "deepin-screenshot" ) end,
+    awful.key({ modkey1           }, "Print", function () awful.util.spawn( "xfce4-screenshooter" ) end,
         {description = "Xfce screenshot", group = "screenshots"}),
     awful.key({ modkey1, "Shift"  }, "Print", function() awful.util.spawn("gnome-screenshot -i") end,
         {description = "Gnome screenshot", group = "screenshots"}),
@@ -517,7 +517,7 @@ globalkeys = my_table.join(
               {description = "dropdown application", group = "super"}),
 
     -- Widgets popups
-    awful.key({ altkey, }, "k", function () lain.widget.calendar.show(7) end,
+    awful.key({ altkey, }, "n", function () lain.widget.calendar.show(7)  end,
               {description = "show calendar", group = "widgets"}),
     awful.key({ altkey, }, "h", function () if beautiful.fs then beautiful.fs.show(7) end end,
               {description = "show filesystem", group = "widgets"}),

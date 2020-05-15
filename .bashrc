@@ -2,12 +2,10 @@
 # My Personal bashrc file 
 
 # Exporting Ip Machine For Saving Time While Doing CTF 
-export IP=10.10.10.0
-# Fixing My Python Issues by Replacing python3 version 
-alias pip3="python3.7 -m pip"
-alias python3='python3.7'
-PATH="$HOME/.local/bin${PATH:+:${PATH}}"
-EDITOR="nvim"
+export IP=127.0.0.1
+
+PATH="$HOME/.local/bin${PATH:+:${PATH}}" # Adding local bins to path
+EDITOR="vim"
 export TERM="st-256color"
 
 [[ $- != *i* ]] && return
@@ -150,11 +148,17 @@ ex ()
 alias ..='cd ..' 
 alias ...='cd ../..'
 # vim
-alias vim=nvim
+#alias vim=nvim
 
 # broot
 alias br='br -dhp'
 alias bs='br --sizes'
+
+#Source .bashrc
+alias sr='source .bashrc'
+
+# xrdb Xresources
+alias mer="xrdb ~/.Xresources"
 
 # Changing "ls" to "exa"
 alias ll='exa -al --color=always --group-directories-first' # my preferred listing
@@ -162,24 +166,33 @@ alias la='exa -a --color=always --group-directories-first'  # all files and dirs
 alias ls='exa -l --color=always --group-directories-first'  # long format
 alias lt='exa -aT --color=always --group-directories-first' # tree listing
 alias l="ls"
+
 # Dir of my code
 alias pro='cd ~/Projects/'
+
 # Dir Of Pentesting Tools I use While doing ctf
 alias ini='cd ~/Documents/Initial' 
+
 # Saving Time Typing 
 alias gic='git clone' 
 alias pg='ping'   # Extra
-alias py3="python3"
 alias py="python"
-alias p3="pip3 install "
-alias p="pip install "
-alias htb="cd ~/Documents/ctf/htb/"
-alias thm="cd ~/Documents/ctf/THM"
-alias hvpn="sudo openvpn ~/Documents/ctf/ybenel.ovpn"
-alias tvpn="sudo openvpn ~/Documents/ctf/ybenel2.ovpn"
-alias burp="cd ~/Documents/burpPro/lic && ./run.sh"
-alias pu="sudo python3 -m http.server 80"
-alias sd="ini && cd dirsearch && python3 dirsearch.py"
+alias py2="python2"
+alias p="pip install "                                            # python3 pip installer shortcut
+alias p2="pip2 install "										  # python2 pip installer shortcut	
+alias htb="cd ~/Documents/ctf/htb/"								  # CTF Shortcuts	
+alias thm="cd ~/Documents/ctf/thm"								  # CTF Shortcuts	
+alias hvpn="sudo openvpn ~/Documents/ctf/ybenel.ovpn"			  # openvpn CTF networks shortcuts	
+alias tvpn="sudo openvpn ~/Documents/ctf/ybenel2.ovpn"			  # openvpn CTF networks shortcuts
+alias burp="cd ~/Documents/burpPro/lic && ./run.sh"				  # burpsuite run script shortcul
+alias pu="sudo python3 -m http.server 80"                         # Shortcut of python http server
+alias sd="ini && cd dirsearch && python3 dirsearch.py"	          # Shortcut of disearch 
+alias gob="~/Documents/Initial/gobuster"                          # shortcurt of gobuster
+export Word="/home/ybenel/Documents/Initial/dirsearch/medium.txt" # dir wordlist(dirbuster)
+alias evil-winrm="/home/ybenel/.gem/ruby/2.7.0/bin/evil-winrm"
+alias doc="cd ~/Documents/"
+alias ctf="doc && cd ctf"
+
 
 # adding flags
 alias cp="cp -i"                          # confirm before overwriting something
@@ -218,5 +231,3 @@ fi
 ### RANDOM COLOR SCRIPT ###
 /opt/color-scripts/shuffle.py
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"

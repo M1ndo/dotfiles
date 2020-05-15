@@ -128,4 +128,4 @@ case "$choice" in
 		exit 1
 	;;
 esac
-st -e nvim "$choice"
+st -e vim "$choice"
