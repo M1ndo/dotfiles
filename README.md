@@ -1,8 +1,17 @@
 # My Awesome Configuration
-
-![Screenshot of my desktop](https://www.gitlab.com/dwt1/dotfiles/raw/master/.screenshots/dotfiles09.png)
-
 Awesome is a highly configurable, tiling window manager for X. It is very fast, extensible and licensed under the GNU GPLv2 license.  Awesome is a perfect "first" tiling window manager for those who want to try out tiling, but the extreme customization that you can achieve with awesome makes it a power user's dream.  Awesome is configured with Lua.
+
+# Dotfiles Are Used For:
+* AwesomeWM (Window Manager)
+* Compton/Picom (Compositor)
+* Rofi (Window Switcher)
+* Dmenu (Dynamic Menu For X)
+* Xterm (Terminal)
+* st (Terminal)
+* vifm (Terminal File Manager)
+* neovim (Editor)
+* mocp (Terminal Music Player)
+* lynx (Minimal Terminal Browser)
 
 # Features
 
@@ -37,31 +46,15 @@ keybindings consistent with all of my window managers.
 | `MODKEY + comma` | switch focus to prev monitor |
 
 ## Getting Help With Awesome
+*Reporting issues*
 
-#### IRC
+Please report any issues you have with AwesomeWM on [our bugtracker](https://github.com/r2dr0dn/dotfiles/issues).
 
-You can join the `#awesome` channel on the [OFTC](http://www.oftc.net/) IRC network.
-
-[IRC Webchat](https://webchat.oftc.net/?channels=awesome)
-
-#### Stack Overflow
-You can ask questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/awesome-wm).
-
-#### Reddit
-There is an [awesome subreddit](https://www.reddit.com/r/awesomewm/) where you can share your work and ask questions.
-
-## Reporting issues
-
-Please report any issues you have with AwesomeWM on [our bugtracker](https://github.com/awesomeWM/awesome/issues).
-
-## Contributing code
-
-You can submit pull requests on the [github repository](https://github.com/awesomeWM/awesome).
-Please read the [contributing guide](https://github.com/awesomeWM/awesome/blob/master/docs/02-contributing.md) for any coding, documentation or patch guidelines.
-
-## Documentation
+## Documentation For AwesomeWM
 
 Online documentation is available [here](https://awesomewm.org/apidoc/).
+
+## 
 
 ## License
 
