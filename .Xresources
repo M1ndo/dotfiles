@@ -1,3 +1,80 @@
+/* Xterm Configuration */
+
+XTerm.termName: xterm-256color
+XTerm*faceName: Monospace
+xterm*faceSize: 10
+
+! VT Font Menu: Unreadable
+xterm*faceSize1: 8
+! VT font menu: Tiny
+xterm*faceSize2: 10
+! VT font menu: Medium
+xterm*faceSize3: 12
+! VT font menu: Large
+xterm*faceSize4: 16
+! VT font menu: Huge 
+xterm*faceSize5: 22
+
+
+! UTF-8
+xterm.vt100.locale: true
+
+! pointer and cursor (blinking and color)
+xterm*pointerColor: white
+xterm*pointerColorBackground: black
+xterm*cursorColor: white
+xterm*cursorBlink: false
+xterm*bellIsUrgent: true
+! Smooth Scroll
+!scrollInput: on
+multiScroll: on
+scrollKey: off
+
+! Only select text
+xterm*highlightSelection: true
+! Remove trailing spaces
+xterm*trimSelection: true
+
+! Lines of output that you can scroll back over
+xterm*saveLines: 10000
+
+! Do not scroll when there is new input e.g. tail -f /var/syslog
+xterm*scrollTtyOutput: false
+
+! KeyBindings
+
+xterm.vt100.translations: #override \n\
+  Meta Shift <Key>j: smaller-vt-font() \n\
+  Meta Shift <Key>k: larger-vt-font() \n\
+  Meta <Key> 0: set-vt-font(d) \n\
+  Meta <Key>C: copy-selection(CLIPBOARD) \n\
+  Meta <Key>V: insert-selection(CLIPBOARD) \n\
+  Shift <Btn1Up>: exec-formatted("xdg-open '%t'", PRIMARY) \n\
+  <Btn1Up>: select-end(PRIMARY, CLIPBOARD, CUT_BUFFER0) \n\
+  <Btn2Up>: insert-selection(PRIMARY) \n\
+  Meta <Key>U: scroll-back(5,line,m)        \n\
+  Meta <Key>D: scroll-forw(5,line,m)        \n\
+  Shift <KeyPress> Prior:scroll-back(1,halfpage) \n\
+  Shift <KeyPress> Next:scroll-forw(1,halfpage) \n\
+
+
+! enable copy/paste hotkey to work (shift+insert = paste ; mouse highlight = copy)
+xterm*selectToClipboard: true
+! disable fullscreen hotkey alt+enter
+xterm*fullscreen: false
+! enable alt key to work
+xterm*metaSendsEscape: true
+! Fix the backspace key (for Emacs)
+xterm.vt100.backarrowKey: false
+xterm.ttyModes: erase ^?
+
+! double-click to select whole URLs :D
+xterm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
+
+! Tips: Left and right selection (text selection using left button for beginning and right button for end)
+! Tips: Triple Click ( 1 click = nothing, 2 click = select word, 3 click = select line )
+xterm*on3Clicks: regex ([[:alpha:]]+://)?([[:alnum:]!#+,./=?@_~-]|(%[[:xdigit:]][[:xdigit:]]))+
+
 !! Transparency (0-1):
 /* *.alpha: 0.8 */
 
@@ -55,26 +132,26 @@
 /* *.foreground: #282828 */
 /* st.alpha: 0.9 */
 
-/* !! brogrammer: */
-/* *.foreground:  #d6dbe5 */
-/* *.background:  #131313 */
-/* *.color0:      #1f1f1f */
-/* *.color8:      #d6dbe5 */
-/* *.color1:      #f81118 */
-/* *.color9:      #de352e */
-/* *.color2:      #2dc55e */
-/* *.color10:     #1dd361 */
-/* *.color3:      #ecba0f */
-/* *.color11:     #f3bd09 */
-/* *.color4:      #2a84d2 */
-/* *.color12:     #1081d6 */
-/* *.color5:      #4e5ab7 */
-/* *.color13:     #5350b9 */
-/* *.color6:      #1081d6 */
-/* *.color14:     #0f7ddb */
-/* *.color7:      #d6dbe5 */
-/* *.color15:     #ffffff */
-/* *.colorBD:     #d6dbe5 */
+!! brogrammer: 
+*.foreground:  #d6dbe5 
+*.background:  #131313 
+*.color0:      #1f1f1f 
+*.color8:      #d6dbe5 
+*.color1:      #f81118 
+*.color9:      #de352e 
+*.color2:      #2dc55e 
+*.color10:     #1dd361 
+*.color3:      #ecba0f 
+*.color11:     #f3bd09 
+*.color4:      #2a84d2 
+*.color12:     #1081d6 
+*.color5:      #4e5ab7 
+*.color13:     #5350b9 
+*.color6:      #1081d6 
+*.color14:     #0f7ddb 
+*.color7:      #d6dbe5 
+*.color15:     #ffffff 
+*.colorBD:     #d6dbe5 
 
 /* ! base16 */
 /* *.color0:       #181818 */
@@ -129,27 +206,27 @@
 /* *.color13:  #ff00ff */
 /* *.color14:  #00ffff */
 /* *.color15:  #aabac8 */
-/* *.background:   #000000 */
+/* *.background:   #000000 */ 
 
-! Dracula Xresources palette
-*.foreground: #F8F8F2
-*.background: #282A36
-*.color0:     #000000
-*.color8:     #4D4D4D
-*.color1:     #FF5555
-*.color9:     #FF6E67
-*.color2:     #50FA7B
-*.color10:    #5AF78E
-*.color3:     #F1FA8C
-*.color11:    #F4F99D
-*.color4:     #BD93F9
-*.color12:    #CAA9FA
-*.color5:     #FF79C6
-*.color13:    #FF92D0
-*.color6:     #8BE9FD
-*.color14:    #9AEDFE
-*.color7:     #BFBFBF
-*.color15:    #E6E6E6
+/* ! Dracula Xresources palette */
+/* *.foreground: #F8F8F2 */
+/* *.background: #282A36 */
+/* *.color0:     #000000 */
+/* *.color8:     #4D4D4D */
+/* *.color1:     #FF5555 */
+/* *.color9:     #FF6E67 */
+/* *.color2:     #50FA7B */
+/* *.color10:    #5AF78E */
+/* *.color3:     #F1FA8C */
+/* *.color11:    #F4F99D */
+/* *.color4:     #BD93F9 */
+/* *.color12:    #CAA9FA */
+/* *.color5:     #FF79C6 */
+/* *.color13:    #FF92D0 */
+/* *.color6:     #8BE9FD */
+/* *.color14:    #9AEDFE */
+/* *.color7:     #BFBFBF */
+/* *.color15:    #E6E6E6 */
 
 /* *.background: .color0 */
 /* *.color256: 0#1d2021 */
