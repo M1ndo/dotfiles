@@ -27,7 +27,7 @@ keybindings consistent with all of my window managers.
 
 | Keybinding | Action |
 | :--- | :--- |
-| `MODKEY + RETURN` | opens terminal (alacritty is the terminal but can be easily changed) |
+| `MODKEY + RETURN` | opens terminal (xterm is the terminal but can be easily changed) |
 | `MODKEY + SHIFT + RETURN` | opens run launcher (dmenu is the run launcher but can be easily changed) |
 | `MODKEY + SHIFT + c` | closes window with focus |
 | `MODKEY + SHIFT + r` | restarts awesome |
@@ -44,6 +44,7 @@ keybindings consistent with all of my window managers.
 | `MODKEY + SHIFT + l` | rotates the windows in the stack, going right |
 | `MODKEY + period` | switch focus to next monitor |
 | `MODKEY + comma` | switch focus to prev monitor |
+| `MODKEY + s` | show all available keybindings |
 
 ## Getting Help With Awesome
 *Reporting issues*
