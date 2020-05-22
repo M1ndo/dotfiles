@@ -1,7 +1,11 @@
 /* Xterm Configuration */
-
+! Personal KeyBindings 
+! For More Info 
+! https://invisible-island.net/xterm/xterm.faq.html
 XTerm.termName: xterm-256color
-XTerm*faceName: Monospace
+XTerm*renderFont: true
+!XTerm*faceName: DejaVu Sans Mono
+XTerm*faceName: mononoki Nerd Font
 xterm*faceSize: 10
 
 ! VT Font Menu: Unreadable
@@ -22,7 +26,8 @@ xterm.vt100.locale: true
 ! pointer and cursor (blinking and color)
 xterm*pointerColor: white
 xterm*pointerColorBackground: black
-xterm*cursorColor: white
+!xterm*cursorColor: #bbc5ff
+xterm*cursorColor: #bbf0ff 
 xterm*cursorBlink: false
 xterm*bellIsUrgent: true
 ! Smooth Scroll
@@ -56,7 +61,8 @@ xterm.vt100.translations: #override \n\
   Meta <Key>D: scroll-forw(5,line,m)        \n\
   Shift <KeyPress> Prior:scroll-back(1,halfpage) \n\
   Shift <KeyPress> Next:scroll-forw(1,halfpage) \n\
-
+  Meta Shift <Key>Up: larger-vt-font() \n\
+  Meta Shift <Key>Down: smaller-vt-font() \n\
 
 ! enable copy/paste hotkey to work (shift+insert = paste ; mouse highlight = copy)
 xterm*selectToClipboard: true

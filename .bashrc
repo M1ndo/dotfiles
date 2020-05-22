@@ -2,12 +2,10 @@
 # My Personal bashrc file 
 
 # Exporting Ip Machine For Saving Time While Doing CTF 
-export IP=127.0.0.1
-
+export IP=10.10.10.0
 PATH="$HOME/.local/bin${PATH:+:${PATH}}" # Adding local bins to path
-EDITOR="vim"
+EDITOR="nvim"
 export TERM="st-256color"
-
 [[ $- != *i* ]] && return
 
 colors() {
@@ -148,7 +146,7 @@ ex ()
 alias ..='cd ..' 
 alias ...='cd ../..'
 # vim
-#alias vim=nvim
+alias vim=nvim
 
 # broot
 alias br='br -dhp'
@@ -157,42 +155,40 @@ alias bs='br --sizes'
 #Source .bashrc
 alias sr='source .bashrc'
 
-# xrdb Xresources
-alias mer="xrdb ~/.Xresources"
-
 # Changing "ls" to "exa"
 alias ll='exa -al --color=always --group-directories-first' # my preferred listing
 alias la='exa -a --color=always --group-directories-first'  # all files and dirs
 alias ls='exa -l --color=always --group-directories-first'  # long format
 alias lt='exa -aT --color=always --group-directories-first' # tree listing
 alias l="ls"
-
 # Dir of my code
 alias pro='cd ~/Projects/'
-
 # Dir Of Pentesting Tools I use While doing ctf
 alias ini='cd ~/Documents/Initial' 
-
 # Saving Time Typing 
 alias gic='git clone' 
 alias pg='ping'   # Extra
 alias py="python"
 alias py2="python2"
-alias p="pip install "                                            # python3 pip installer shortcut
-alias p2="pip2 install "										  # python2 pip installer shortcut	
-alias htb="cd ~/Documents/ctf/htb/"								  # CTF Shortcuts	
-alias thm="cd ~/Documents/ctf/thm"								  # CTF Shortcuts	
-alias hvpn="sudo openvpn ~/Documents/ctf/ybenel.ovpn"			  # openvpn CTF networks shortcuts	
-alias tvpn="sudo openvpn ~/Documents/ctf/ybenel2.ovpn"			  # openvpn CTF networks shortcuts
-alias burp="cd ~/Documents/burpPro/lic && ./run.sh"				  # burpsuite run script shortcul
-alias pu="sudo python3 -m http.server 80"                         # Shortcut of python http server
-alias sd="ini && cd dirsearch && python3 dirsearch.py"	          # Shortcut of disearch 
-alias gob="~/Documents/Initial/gobuster"                          # shortcurt of gobuster
-export Word="/home/ybenel/Documents/Initial/dirsearch/medium.txt" # dir wordlist(dirbuster)
+alias p="pip install "                                         
+alias p2="pip2 install "							
+
+# CTF / Pentesting ShortCuts
+alias htb="cd ~/Documents/ctf/htb/"								 	
+alias thm="cd ~/Documents/ctf/thm"								  	
+alias hvpn="sudo openvpn ~/Documents/ctf/ybenel.ovpn"			  	
+alias tvpn="sudo openvpn ~/Documents/ctf/ybenel2.ovpn"			  
+alias burp="cd ~/Documents/burpPro/lic && ./run.sh"				
+alias pu="sudo python3 -m http.server 80"                       
+alias sd="ini && cd dirsearch && python3 dirsearch.py"	           
+alias gob="~/Documents/Initial/gobuster"                         
+export Word="/home/ybenel/Documents/Initial/dirsearch/medium.txt" 
 alias evil-winrm="/home/ybenel/.gem/ruby/2.7.0/bin/evil-winrm"
 alias doc="cd ~/Documents/"
 alias ctf="doc && cd ctf"
 
+# Overwrite .Xresources To take effect of the new settings
+alias xd='xrdb .Xresources'
 
 # adding flags
 alias cp="cp -i"                          # confirm before overwriting something
@@ -231,3 +227,5 @@ fi
 ### RANDOM COLOR SCRIPT ###
 /opt/color-scripts/shuffle.py
 
+# PS1 Customization "~$ "
+export PS1="\W\[\e[33;40m\]\\$\[\e[m\] "
