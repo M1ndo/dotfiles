@@ -14,4 +14,5 @@ fi
 if [systemd-detect-virt = "oracle"];
 	/usr/bin/VBoxClient-all
 fi
-start-pulseaudio-X11
+exec start-pulseaudio-X11
+exec xsetroot -cursor_name left_ptr

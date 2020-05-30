@@ -228,4 +228,5 @@ fi
 /opt/color-scripts/shuffle.py
 
 # PS1 Customization "~$ "
-export PS1="\W\[\e[33;40m\]\\$\[\e[m\] "
+#export PS1="\W\[\e[33;40m\]\\$\[\e[m\] "
+export PS1="\[\e[32;40m\]\W\[\e[m\]\[\e[36m\]\\$\[\e[m\] "
