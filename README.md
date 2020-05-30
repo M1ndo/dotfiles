@@ -4,6 +4,7 @@ Awesome And Xmonad are highly configurable, Both are tiling window managers for 
 # Dotfiles Are Used For:
 * AwesomeWM (Window Manager)
 * Xmonad (Window Manager)
+* Xmobar (Status Bar)
 * Compton/Picom (Compositor)
 * Rofi (Window Switcher)
 * Dmenu (Dynamic Menu For X)
