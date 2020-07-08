@@ -78,7 +78,12 @@ local themes = {
     "powerarrow",      -- 2
     "multicolor",      -- 3
     "powerarrow-dark", -- 4
-
+    "rainbow", -- 5
+    "steamburn", -- 6
+    "copland", -- 7
+    "holo", -- 8
+    "dremora",-- 9
+    "vertex", -- 10
 }
 
 -- choose your theme here
@@ -101,7 +106,7 @@ local filemanager       = "nemo"
 local mailclient        = "geary"
 local mediaplayer       = "vlc"
 local scrlocker         = "slimlock"
-local terminal          =  "st" --"terminator" 
+local terminal          = "xterm"  --"st" --"terminator" 
 local virtualmachine    = "virtualbox"
 
 -- awesome variables
@@ -109,9 +114,9 @@ awful.util.terminal = terminal
 --awful.util.tagnames = {  " ", " ", " ", " ", " ", " ", " ", " ", " ", " "  }
 --awful.util.tagnames = { "⠐", "⠡", "⠲", "⠵", "⠻", "⠿" }
 --awful.util.tagnames = { "⌘", "♐", "⌥", "ℵ" }
-awful.util.tagnames = { " FIRE ", " TERM ", " CODE ", " MOCP ", " CHAT ", " SYS ", " VBOX ", " VID ", " GFX " }
+--awful.util.tagnames = { " FIRE ", " TERM ", " CODE ", " MOCP ", " CHAT ", " SYS ", " VBOX ", " VID ", " GFX " }
 -- Use this : https://fontawesome.com/cheatsheet
---awful.util.tagnames = { "", "", "", "", "" }
+awful.util.tagnames = { "", "", "", "", "" }
 awful.layout.suit.tile.left.mirror = true
 awful.layout.layouts = {
     awful.layout.suit.tile,
@@ -897,3 +902,4 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- Autostart applications
 awful.spawn.with_shell("~/.config/awesome/autostart.sh")
 awful.spawn.with_shell("compton --config  $HOME/.config/compton/compton.conf")
+awful.spawn.with_shell("xmp ~/mod_music/morning_ditty.mod")

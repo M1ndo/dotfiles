@@ -1,0 +1,73 @@
+[options]
+#https://github.com/thestinger/termite/blob/master/config
+allow_bold = true
+audible_bell = true 
+browser = xdg-open
+clickable_url = true
+cursor_blink = system
+cursor_shape = block
+dynamic_title = true
+filter_unmatched_urls = true
+font = Mononoki Nerd Font 11
+#font = Hack Bold 10
+geometry = 900x650
+highlight = #2f2f2f
+icon_name = terminal
+modify_other_keys = false
+mouse_autohide = true 
+scroll_on_output = false
+scroll_on_keystroke = true
+scrollback_lines = 15000
+size_hints = false
+search_wrap = true
+urgent_on_bell = true
+
+[hints]
+#font = Monospace 12
+#foreground = #dcdccc
+#background = #3f3f3f
+#active_foreground = #e68080
+#active_background = #3f3f3f
+#padding = 2
+#border = #3f3f3f
+#border_width = 10
+#roundness = 2.0
+
+############################################################
+#### You can change the color coding to your liking
+#### There is a folder themes in ~/config/termite/themes
+#### Copy/paste the colors from one of the 79+ templates to this one
+#### A backup of the original config termite is present
+############################################################
+#### Use websites to make the terminal your own
+#### https://terminal.sexy
+#### https://critical.ch/xterm/
+############################################################
+
+[colors]
+foreground = #d6dbe5
+foreground_bold = #eee8d5
+#foreground_dim = #888888
+background = #131313
+cursor = #bbf0ff
+
+# if unset, will reverse foreground and background
+#highlight = #839496
+
+# colors from color0 to color254 can be set
+color0 =     #1f1f1f
+color8 =     #d6dbe5
+color1 =     #f81118
+color9 =     #de352e
+color2 =     #2dc55e
+color10 =    #1dd361
+color3 =    #ecba0f
+color11 =    #f3bd09
+color4 =    #2a84d2
+color12 =    #1081d6
+color5 =     #4e5ab7
+color13 =    #5350b9
+color6 =     #1081d6
+color14 =    #0f7ddb
+color7 =     #d6dbe5
+color15 =     #ffffff

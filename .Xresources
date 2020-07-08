@@ -4,8 +4,7 @@
 ! https://invisible-island.net/xterm/xterm.faq.html
 XTerm.termName: xterm-256color
 XTerm*renderFont: true
-!XTerm*faceName: DejaVu Sans Mono
-XTerm*faceName: mononoki Nerd Font
+XTerm*faceName: Mononoki Nerd Font
 xterm*faceSize: 10
 
 ! VT Font Menu: Unreadable

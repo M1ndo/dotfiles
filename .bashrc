@@ -1,13 +1,19 @@
-# Author: Ybenel(r2dr0dn)
-# My Personal bashrc file 
+# Maintainer Ybenel (r2dr0dn)
 
-# Exporting Ip Machine For Saving Time While Doing CTF 
-export IP=10.10.10.0
-PATH="$HOME/.local/bin${PATH:+:${PATH}}" # Adding local bins to path
+# Including Local Bin Tool In The Path
+PATH="$HOME/.local/bin${PATH:+:${PATH}}"
+
+# Setting Editor As NeoVim
 EDITOR="nvim"
-export TERM="st-256color"
+
+# Exporting Term Colors To Xterm 
+# Note: For Better Colors Change To "st-256color" if you have st installed
+export TERM="xterm-256color"
+
 [[ $- != *i* ]] && return
 
+# A List Of Colors 
+# To Run Type: colors
 colors() {
 	local fgc bgc vals seq0
 
@@ -153,7 +159,7 @@ alias br='br -dhp'
 alias bs='br --sizes'
 
 #Source .bashrc
-alias sr='source .bashrc'
+alias sr='source ~/.bashrc'
 
 # Changing "ls" to "exa"
 alias ll='exa -al --color=always --group-directories-first' # my preferred listing
@@ -161,34 +167,23 @@ alias la='exa -a --color=always --group-directories-first'  # all files and dirs
 alias ls='exa -l --color=always --group-directories-first'  # long format
 alias lt='exa -aT --color=always --group-directories-first' # tree listing
 alias l="ls"
-# Dir of my code
-alias pro='cd ~/Projects/'
-# Dir Of Pentesting Tools I use While doing ctf
-alias ini='cd ~/Documents/Initial' 
+#alias ls='ls --color=auto'
+#alias ll='ls -alF'
+#alias la='ls -A'
+#alias l='ls -CF'
+
+# yay shortcuts
+alias src='yay -Ss'
+alias ins='yay -S'
+alias up='yay -Sy'
+alias upd='yay -Syu'
+alias rms='yay -R'
 # Saving Time Typing 
 alias gic='git clone' 
 alias pg='ping'   # Extra
-alias py="python"
-alias py2="python2"
-alias p="pip install "                                         
-alias p2="pip2 install "							
-
-# CTF / Pentesting ShortCuts
-alias htb="cd ~/Documents/ctf/htb/"								 	
-alias thm="cd ~/Documents/ctf/thm"								  	
-alias hvpn="sudo openvpn ~/Documents/ctf/ybenel.ovpn"			  	
-alias tvpn="sudo openvpn ~/Documents/ctf/ybenel2.ovpn"			  
-alias burp="cd ~/Documents/burpPro/lic && ./run.sh"				
-alias pu="sudo python3 -m http.server 80"                       
-alias sd="ini && cd dirsearch && python3 dirsearch.py"	           
-alias gob="~/Documents/Initial/gobuster"                         
-export Word="/home/ybenel/Documents/Initial/dirsearch/medium.txt" 
-alias evil-winrm="/home/ybenel/.gem/ruby/2.7.0/bin/evil-winrm"
-alias doc="cd ~/Documents/"
-alias ctf="doc && cd ctf"
 
 # Overwrite .Xresources To take effect of the new settings
-alias xd='xrdb .Xresources'
+alias xd='xrdb ~/.Xresources'
 
 # adding flags
 alias cp="cp -i"                          # confirm before overwriting something
@@ -197,6 +192,18 @@ alias du='du -h'
 alias free='free -m'                      # show sizes in MB
 alias lynx='lynx -cfg=~/.lynx/lynx.cfg -lss=~/.lynx/lynx.lss -vikeys'
 alias vifm='./.config/vifm/scripts/vifmrun'
+
+# Awesome Screen Locker
+alias bls="betterlockscreen -u /usr/share/backgrounds/darkso/DarkOs-Witcher4.jpg -l -t 'DarkOs Forever'"
+
+#check vulnerabilities microcode
+alias microcode='grep . /sys/devices/system/cpu/vulnerabilities/*'
+
+#get fastest mirrors in your neighborhood
+alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
+
+#get the error messages from journalctl
+alias jctl="journalctl -p 3 -xb"
 
 # the terminal rickroll
 alias rr='curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash'
@@ -213,20 +220,14 @@ set -o vi
 ### SET VIM AS MANPAGER ###
 export MANPAGER="/bin/sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist noma' -\""
 
-### BASH POWERLINE ###
-#source ~/.bash-powerline.sh
-
-### BROOT ###
-#source /home/ybenel/.config/broot/launcher/bash/br
-
 ### BASH INSULTER ###
 if [ -f /etc/bash.command-not-found ]; then
     . /etc/bash.command-not-found
 fi
 
 ### RANDOM COLOR SCRIPT ###
-/opt/color-scripts/shuffle.py
+$HOME/.bin/shuffle.py
 
 # PS1 Customization "~$ "
-#export PS1="\W\[\e[33;40m\]\\$\[\e[m\] "
-export PS1="\[\e[32;40m\]\W\[\e[m\]\[\e[36m\]\\$\[\e[m\] "
+export PS1="\[\e[1;49;32m\]\W\[\e[m\]\[\e[1;49;96m\]\\$\[\e[1;49;39m\] "
+#export PS1='\e[1;31;48;5;234m\u \e[38;5;240mon \e[1;38;5;28;48;5;234m\h \e[38;5;54m\d \@\e[0m\n\e[0;31;48;5;234m[\w] \e[1m\$\e[0m '

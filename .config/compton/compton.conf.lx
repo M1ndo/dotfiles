@@ -1,0 +1,5 @@
+backend = "glx";
+glx-no-stencil = true;
+glx-no-rebind-pixmap = true;
+vsync = true;
+

@@ -1,11 +1,11 @@
 # XScreenSaver Preferences File
-# Written by xscreensaver-demo 5.36 for ybenel on Mon Apr 20 01:43:35 2020.
+# Written by xscreensaver-demo 5.44 for ybenel on Tue Jul  7 14:50:31 2020.
 # https://www.jwz.org/xscreensaver/
 
 timeout:	0:10:00
 cycle:		0:10:00
 lock:		True
-lockTimeout:	0:05:00
+lockTimeout:	0:20:00
 passwdTimeout:	0:00:30
 visualID:	default
 installColormap:    True
@@ -24,11 +24,11 @@ fadeTicks:	20
 captureStderr:	True
 ignoreUninstalledPrograms:False
 font:		*-medium-r-*-140-*-m-*
-dpmsEnabled:	False
+dpmsEnabled:	True
 dpmsQuickOff:	False
-dpmsStandby:	2:00:00
-dpmsSuspend:	2:00:00
-dpmsOff:	4:00:00
+dpmsStandby:	0:40:00
+dpmsSuspend:	0:40:00
+dpmsOff:	1:00:00
 grabDesktopImages:  False
 grabVideoFrames:    False
 chooseRandomImages: False
@@ -72,7 +72,7 @@ programs:								      \
 				goop -root				    \n\
 				grav -root				    \n\
 				ifs -root				    \n\
-				unicode -root				    \n\
+-				unicode -root				    \n\
   GL: 				jigsaw -root				    \n\
 				julia -root				    \n\
 				kaleidescope -root			    \n\
@@ -112,7 +112,7 @@ programs:								      \
   GL: 				sonar -root				    \n\
   GL: 				stairs -root				    \n\
 				truchet -root				    \n\
-				vidwhacker -root			    \n\
+-				vidwhacker -root			    \n\
 				blaster -root				    \n\
 				bumps -root				    \n\
 				ccurve -root				    \n\
@@ -131,9 +131,9 @@ programs:								      \
 				spotlight -root				    \n\
 				squiral -root				    \n\
 				wander -root				    \n\
-				webcollage -root			    \n\
+-				webcollage -root			    \n\
 				xflame -root				    \n\
-				xmatrix -root				    \n\
+-				xmatrix -root				    \n\
   GL: 				gflux -root				    \n\
 				nerverot -root				    \n\
 				xrayswarm -root				    \n\
@@ -170,7 +170,7 @@ programs:								      \
   GL: 				sballs -root				    \n\
   GL: 				spheremonics -root			    \n\
 				thornbird -root				    \n\
-				twang -root				    \n\
+-				twang -root				    \n\
   GL: 				antspotlight -root			    \n\
 				apple2 -root				    \n\
   GL: 				atunnel -root				    \n\
@@ -267,6 +267,22 @@ programs:								      \
   GL: 				raverhoop -root				    \n\
   GL: 				splodesic -root				    \n\
   GL: 				unicrud -root				    \n\
+- GL: 				dnalogo -root				    \n\
+				scooter -root				    \n\
+  GL: 				esper -root				    \n\
+  GL: 				vigilance -root				    \n\
+  GL: 				crumbler -root				    \n\
+				filmleader -root			    \n\
+				glitchpeg -root				    \n\
+  GL: 				handsy -root				    \n\
+  GL: 				maze3d -root				    \n\
+  GL: 				peepers -root				    \n\
+  GL: 				razzledazzle -root			    \n\
+				vfeedback -root				    \n\
+  GL: 				deepstars -root				    \n\
+  GL: 				gravitywell -root			    \n\
+  GL: 				etruscanvenus -root			    \n\
+  GL: 				gibson -root				    \n\
 
 
 pointerPollTime:    0:00:05
