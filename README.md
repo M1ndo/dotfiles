@@ -1,10 +1,13 @@
-# My Awesome;Xmonad Configuration
-Awesome And Xmonad are highly configurable, Both are tiling window managers for X. They are very fast, extensible and licensed under the GNU GPLv2 license.  Awesome is a perfect "first" tiling window manager for those who want to try out tiling, but the extreme customization that you can achieve with awesome makes it a power user's dream.  Awesome is configured with Lua, Xmonad Is Not Xmonad Is Not That Hard but if you're not into the haskell programming language you might face issues configuring it (like me) but there's always documentation available so that will remove the pain of taking off time and learning haskell (definitely worth trying it)
+# My Awesome;Xmonad;HerbstluftWm Configuration
+**Awesome** And **Xmonad** And **HerbstluftWm** are highly configurable, All are tiling window managers for X. They are very fast, extensible and licensed under the GNU GPL 2&3 license.  **Awesome** is a perfect "first" tiling window manager for those who want to try out tiling, but the extreme customization that you can achieve with awesome makes it a power user's dream.  Awesome is written In Lua It's Pretty Easy to get in to it and in case you got issues with something there's always a great documentation that has almost anything, **Xmonad** Is Not That Hard but it's quiet challenging if you're not into the haskell programming language you might take alot of time configuring Xmonad And You might face issues ,but there's always documentation available and great community!.
+**HerbstluftWm** Is Magnificent , it's one of the best window managers out there and it has probably the best documentation explaining every phase , when it comes to configuring **HerbstluftWm** you can write the config in any language bash,python,haskel whatever (It's the best).
 
 # Dotfiles Are Used For:
 * AwesomeWM (Window Manager)
 * Xmonad (Window Manager)
+* HerbstluftWM (Window Manager)
 * Xmobar (Status Bar)
+* Polybar (Status Bar)
 * Compton/Picom (Compositor)
 * Rofi (Window Switcher)
 * Dmenu (Dynamic Menu For X)
@@ -12,6 +15,7 @@ Awesome And Xmonad are highly configurable, Both are tiling window managers for 
 * st (Terminal)
 * vifm (Terminal File Manager)
 * neovim (Editor)
+* Nano (Editor)
 * mocp (Terminal Music Player)
 * lynx (Minimal Terminal Browser)
 
@@ -74,15 +78,20 @@ keybindings consistent with all of my window managers.
 | `MODKEY + comma` | switch focus to prev monitor |
 | `MODKEY + SHIFT + t` | small app launcher (built in xmonad) |
 
+
+# My Keybindings For HerbstluftWm Are The Same As Xmonad And Awesome
+
 ## Getting Help With Awesome
 *Reporting issues*
 
-Please report any issues you have with AwesomeWM on [our bugtracker](https://github.com/r2dr0dn/dotfiles/issues).
+Please report any issues you have on [our bugtracker](https://github.com/r2dr0dn/dotfiles/issues).
 
 ## Documentation For AwesomeWM,XmonadWM
 
-Online documentation for Awesome [here](https://awesomewm.org/apidoc/) for Xmonad [here](https://xmonad.org/documentation.html)
+Online documentation for Awesome [here](https://awesomewm.org/apidoc/) for Xmonad [here](https://xmonad.org/documentation.html) for HerbstluftWM [here](https://herbstluftwm.org/herbstluftwm.html)
 ## 
+
+## Written By Ybenel(r2dr0dn)
 
 ## License
 
