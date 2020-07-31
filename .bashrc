@@ -194,13 +194,13 @@ alias lynx='lynx -cfg=~/.lynx/lynx.cfg -lss=~/.lynx/lynx.lss -vikeys'
 alias vifm='./.config/vifm/scripts/vifmrun'
 
 # Awesome Screen Locker
-alias bls="betterlockscreen -u /usr/share/backgrounds/darkso/DarkOs-Witcher4.jpg -l -t 'DarkOs Forever'"
+alias bls="betterlockscreen -u /usr/share/backgrounds/darkso/darkos-wall3.jpg -l -t 'DarkOs Forever'"
 
 #check vulnerabilities microcode
 alias microcode='grep . /sys/devices/system/cpu/vulnerabilities/*'
 
 #get fastest mirrors in your neighborhood
-alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
+alias mirror="sudo reflector -f 50 -l 30 --number 10 --verbose --sort rate --save /etc/pacman.d/mirrorlist"
 
 #get the error messages from journalctl
 alias jctl="journalctl -p 3 -xb"
