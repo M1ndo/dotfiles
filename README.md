@@ -4,11 +4,11 @@
 
 # Dotfiles Are Used For:
 * AwesomeWM (Window Manager)
-* Xmonad (Window Manager)
 * HerbstluftWM (Window Manager)
+* Xmonad (Window Manager)
 * Xmobar (Status Bar)
 * Polybar (Status Bar)
-* Compton/Picom (Compositor)
+* Picom (Compositor)
 * Rofi (Window Switcher)
 * Dmenu (Dynamic Menu For X)
 * Xterm (Terminal)
@@ -18,12 +18,16 @@
 * Nano (Editor)
 * mocp (Terminal Music Player)
 * lynx (Minimal Terminal Browser)
+* PulseAudio (Sound Server)
+* Alsa (Sound Driver/Module)
+* Jack (Audio Connection Kit)
+* Many More ...
 
 # Features
 
-* Simple enough for beginner's but flexible enough for the power user.
+* Flexible for the power user.
 * Extremely customizable, maybe more so than any other window manager.
-* Configured in Lua, Haskell.
+* Configured in Lua, Haskell, C++.
 * A documented API to configure and define the behavior of your window manager.
 
 # My Keybindings For Awesome WM
@@ -40,6 +44,10 @@ keybindings consistent with all of my window managers.
 | `MODKEY + SHIFT + q` | quits awesome |
 | `MODKEY + 1-9` | switch focus to workspace (1-9) |
 | `MODKEY + SHIFT + 1-9` | send focused window to workspace (1-9) |
+| `MODKEY + UP` | switches focus between windows in the stack, going down |
+| `MODKEY + DOWN` | switches focus between windows in the stack, going up |
+| `MODKEY + LEFT` | switches focus between windows in the stack, going left |
+| `MODKEY + RIGHT` | switches focus between windows in the stack, going right |
 | `MODKEY + j` | switches focus between windows in the stack, going down |
 | `MODKEY + k` | switches focus between windows in the stack, going up |
 | `MODKEY + h` | switches focus between windows in the stack, going left |
@@ -50,9 +58,10 @@ keybindings consistent with all of my window managers.
 | `MODKEY + SHIFT + l` | rotates the windows in the stack, going right |
 | `MODKEY + period` | switch focus to next monitor |
 | `MODKEY + comma` | switch focus to prev monitor |
-| `MODKEY + s` | show all available keybindings |
+| `MODKEY + SHIFT + s` | show all available keybindings |
 
-# My Keybindings For Xmonad
+# My Keybindings For HerbstluftWm Are The Same As Awesome
+# My Keybindings For Xmonad Are The Same As Awesome
 
 The MODKEY is set to the Super key (aka the Windows key).  I try to keep the
 keybindings consistent with all of my window managers.
@@ -79,8 +88,6 @@ keybindings consistent with all of my window managers.
 | `MODKEY + SHIFT + t` | small app launcher (built in xmonad) |
 
 
-# My Keybindings For HerbstluftWm Are The Same As Xmonad And Awesome
-
 ## Getting Help With Awesome
 *Reporting issues*
 
@@ -89,7 +96,7 @@ Please report any issues you have on [our bugtracker](https://github.com/r2dr0dn
 ## Documentation For AwesomeWM,XmonadWM
 
 Online documentation for Awesome [here](https://awesomewm.org/apidoc/) for Xmonad [here](https://xmonad.org/documentation.html) for HerbstluftWM [here](https://herbstluftwm.org/herbstluftwm.html)
-## 
+##
 
 ## Written By Ybenel(r2dr0dn)
 

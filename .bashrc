@@ -1,4 +1,4 @@
-# Maintainer Ybenel (r2dr0dn)
+# Maintainer Ybenel (r2dr0dn@pm.me)
 
 # Including Local Bin Tool In The Path
 PATH="$HOME/.local/bin${PATH:+:${PATH}}"
@@ -162,11 +162,16 @@ alias bs='br --sizes'
 alias sr='source ~/.bashrc'
 
 # Changing "ls" to "exa"
-alias ll='exa -al --color=always --group-directories-first' # my preferred listing
-alias la='exa -a --color=always --group-directories-first'  # all files and dirs
-alias ls='exa -l --color=always --group-directories-first'  # long format
-alias lt='exa -aT --color=always --group-directories-first' # tree listing
+alias ll='lsd -al' # my preferred listing
+alias la='lsd -a'  # all files and dirs
+alias ls='lsd -l'  # long format
+alias lt='lsd -a --tree' # tree listing
 alias l="ls"
+#alias ll='exa -al --color=always --group-directories-first' # my preferred listing
+#alias la='exa -a --color=always --group-directories-first'  # all files and dirs
+#alias ls='exa -l --color=always --group-directories-first'  # long format
+#alias lt='exa -aT --color=always --group-directories-first' # tree listing
+#alias l="ls"
 #alias ls='ls --color=auto'
 #alias ll='ls -alF'
 #alias la='ls -A'
@@ -178,6 +183,12 @@ alias ins='yay -S'
 alias up='yay -Sy'
 alias upd='yay -Syu'
 alias rms='yay -R'
+alias pcsrc='pacman -Ss'
+alias pcin='sudo pacman -S'
+alias pcr='sudo pacman -R'
+alias sy='sudo pacman -Sy'
+alias syu='sudo pacman -Syu'
+alias syy='sudo pacman -Syy'
 # Saving Time Typing 
 alias gic='git clone' 
 alias pg='ping'   # Extra
@@ -193,14 +204,21 @@ alias free='free -m'                      # show sizes in MB
 alias lynx='lynx -cfg=~/.lynx/lynx.cfg -lss=~/.lynx/lynx.lss -vikeys'
 alias vifm='./.config/vifm/scripts/vifmrun'
 
+# Aliases
+alias doc='cd ~/Documents'
+alias dow='cd ~/Downloads'
+alias conx="dow && cd conx && sudo openvpn ybenel.ovpn"
+alias htb='doc && cd Sec/htb/'
+alias thm='doc && cd Sec/thm'
+
 # Awesome Screen Locker
-alias bls="betterlockscreen -u /usr/share/backgrounds/darkso/darkos-wall3.jpg -l -t 'DarkOs Forever'"
+alias bls="betterlockscreen -u ~/Pictures/WallOne/TheWitcher4.jpg -l -t 'Ybenel Off The Screen'"
 
 #check vulnerabilities microcode
 alias microcode='grep . /sys/devices/system/cpu/vulnerabilities/*'
 
 #get fastest mirrors in your neighborhood
-alias mirror="sudo reflector -f 50 -l 30 --number 10 --verbose --sort rate --save /etc/pacman.d/mirrorlist"
+alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
 
 #get the error messages from journalctl
 alias jctl="journalctl -p 3 -xb"

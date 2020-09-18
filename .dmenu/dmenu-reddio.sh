@@ -25,7 +25,7 @@ case "$choice" in
 	r/*)
 		reddio print -l 15 "$choice" | sed 's/\x1b\[[0-9;]*m//g' \
 			| dmenu -l 15 -i -p "$choice"
-		exec st -e $SHELL -c "reddio print -l 10 $choice;$SHELL"
+		exec xterm -e $SHELL -c "reddio print -l 10 $choice;$SHELL"
 	;;
 	*)
 		exit 1

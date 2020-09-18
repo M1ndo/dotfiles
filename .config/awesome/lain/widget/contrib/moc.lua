@@ -21,7 +21,7 @@ local function factory(args)
     local moc           = { widget = wibox.widget.textbox() }
     local args          = args or {}
     local timeout       = args.timeout or 2
-    local music_dir     = args.music_dir or os.getenv("HOME") .. "/Music"
+    local music_dir     = args.music_dir or os.getenv("HOME") .. '/Music/Electro'
     local cover_pattern = args.cover_pattern or "*\\.(jpg|jpeg|png|gif)$"
     local cover_size    = args.cover_size or 100
     local default_art   = args.default_art or ""
@@ -37,8 +37,8 @@ local function factory(args)
             moc_now = {
                 state   = "N/A",
                 file    = "N/A",
-                artist  = "N/A",
-                title   = "N/A",
+                artist  = "",
+                title   = "",
                 album   = "N/A",
                 elapsed = "N/A",
                 total   = "N/A"
@@ -75,10 +75,11 @@ local function factory(args)
                         replaces_id = moc.id,
                     }
 
-                    local path   = string.format("%s/%s", music_dir, string.match(moc_now.file, ".*/"))
+                    local path   = string.format("%s", string.match(moc_now.file, ".*/"))
                     local cover  = string.format("find '%s' -maxdepth 1 -type f | egrep -i -m1 '%s'", path, cover_pattern)
                     helpers.async({ shell, "-c", cover }, function(current_icon)
                         common.icon = current_icon:gsub("\n", "")
+                        -- common.icon = "/home/ybenel/Music/Electro/cover.jpg"
                         moc.id = naughty.notify(common).id
                     end)
                 end

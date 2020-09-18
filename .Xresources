@@ -1,10 +1,9 @@
 /* Xterm Configuration */
-! Personal KeyBindings 
-! For More Info 
 ! https://invisible-island.net/xterm/xterm.faq.html
 XTerm.termName: xterm-256color
 XTerm*renderFont: true
-XTerm*faceName: Mononoki Nerd Font
+!XTerm*faceName: DejaVu Sans Mono
+XTerm*faceName: mononoki Nerd Font
 xterm*faceSize: 10
 
 ! VT Font Menu: Unreadable
@@ -138,27 +137,55 @@ xterm*on3Clicks: regex ([[:alpha:]]+://)?([[:alnum:]!#+,./=?@_~-]|(%[[:xdigit:]]
 /* st.alpha: 0.9 */
 
 !! brogrammer: 
-*.foreground:  #d6dbe5 
-*.background:  #131313 
-*.color0:      #1f1f1f 
-*.color8:      #d6dbe5 
-*.color1:      #f81118 
-*.color9:      #de352e 
-*.color2:      #2dc55e 
-*.color10:     #1dd361 
-*.color3:      #ecba0f 
-*.color11:     #f3bd09 
-*.color4:      #2a84d2 
-*.color12:     #1081d6 
-*.color5:      #4e5ab7 
-*.color13:     #5350b9 
-*.color6:      #1081d6 
-*.color14:     #0f7ddb 
-*.color7:      #d6dbe5 
-*.color15:     #ffffff 
-*.colorBD:     #d6dbe5 
+/* *.foreground:  #d6dbe5 */
+/* *.background:  #131313 */
+/* *.color0:      #1f1f1f */
+/* *.color8:      #d6dbe5 */
+/* *.color1:      #f81118 */
+/* *.color9:      #de352e */
+/* *.color2:      #2dc55e */
+/* *.color10:     #1dd361 */
+/* *.color3:      #ecba0f */
+/* *.color11:     #f3bd09 */
+/* *.color4:      #2a84d2 */
+/* *.color12:     #1081d6 */
+/* *.color5:      #4e5ab7 */
+/* *.color13:     #5350b9 */
+/* *.color6:      #1081d6 */
+/* *.color14:     #0f7ddb */
+/* *.color7:      #d6dbe5 */
+/* *.color15:     #ffffff */
+/* *.colorBD:     #d6dbe5 */
+/* ! special                    
+/* *.foreground:   #e1e6c2 */       
+/* *.background:   #000000 */        
+/* *.cursorColor:  #e1e6c2 */        
+/* ! black                 */       
+/* *.color0:       #000000 */          
+/* *.color8:       #2e6cdd */           
+/* ! red                   */      
+/* *.color1:       #10110c */        
+/* *.color9:       #2affe5 */         
+/* ! green                 */         
+/* *.color2:       #23241d */           
+/* *.color10:      #ff00ba */              
+/* ! yellow                */              
+/* *.color3:       #c5d901 */               
+/* *.color11:      #ef915e */                 
+/* ! blue                  */     
+/* *.color4:       #5b5d4d */           
+/* *.color12:      #6bccdf */          
+/* ! magenta               */    
+/* *.color5:       #82846e */         
+/* *.color13:      #50b58b */        
+/* ! cyan                  */       
+/* *.color6:       #aeb195 */          
+/* *.color14:      #ff009b */          
+/* ! white                 */       
+/* *.color7:       #e1e6c2 */        
+/* *.color15:      #00ff8a */        
 
-/* ! base16 */
+/* ! base16 */             
 /* *.color0:       #181818 */
 /* *.color1:       #ab4642 */
 /* *.color2:       #a1b56c */
@@ -195,23 +222,24 @@ xterm*on3Clicks: regex ([[:alpha:]]+://)?([[:alnum:]!#+,./=?@_~-]|(%[[:xdigit:]]
 /* *.color15:	#fdf6e3 */
 
 /* !! xterm */
-/* *.color0:   #000000 */
-/* *.color1:   #cd0000 */
-/* *.color2:   #00cd00 */
-/* *.color3:   #cdcd00 */
-/* *.color4:   #0000cd */
-/* *.color5:   #cd00cd */
-/* *.color6:   #00cdcd */
-/* *.color7:   #e5e5e5 */
-/* *.color8:   #4d4d4d */
-/* *.color9:   #ff0000 */
-/* *.color10:  #00ff00 */
-/* *.color11:  #ffff00 */
-/* *.color12:  #0000ff */
-/* *.color13:  #ff00ff */
-/* *.color14:  #00ffff */
-/* *.color15:  #aabac8 */
-/* *.background:   #000000 */ 
+*.background: #131313  
+*.foreground: #F8F8F2 
+*.color0:   #000000 
+*.color8:   #4d4d4d 
+*.color1:   #cd0000 
+*.color9:   #ff0000 
+*.color2:   #00cd00 
+*.color10:  #00ff00 
+*.color3:   #cdcd00 
+*.color11:  #ffff00 
+*.color4:   #0000cd 
+*.color12:  #0000ff 
+*.color5:   #cd00cd 
+*.color13:  #ff00ff 
+*.color6:   #00cdcd 
+*.color14:  #00ffff 
+*.color7:   #e5e5e5 
+*.color15:  #aabac8 
 
 /* ! Dracula Xresources palette */
 /* *.foreground: #F8F8F2 */
@@ -236,3 +264,24 @@ xterm*on3Clicks: regex ([[:alpha:]]+://)?([[:alnum:]!#+,./=?@_~-]|(%[[:xdigit:]]
 /* *.background: .color0 */
 /* *.color256: 0#1d2021 */
 /* *.color257: 15#ebdbb2 */
+
+/* ! Dracula Xresources palette */
+/* *.foreground: #C0C0C0 */
+/* *.background: #101010 */
+/* *.color0:     #101010 */ 
+/* *.color8:     #454545 */
+/* *.color1:     #EFA6A2 */
+/* *.color9:     #E0AF85 */
+/* *.color2:     #80C990 */
+/* *.color10:    #5ACCAF */
+/* *.color3:     #A69460 */
+/* *.color11:    #C8C874 */
+/* *.color4:     #A3B8EF */
+/* *.color12:    #CCACED */
+/* *.color5:     #E6A3DC */
+/* *.color13:    #F2A1C2 */
+/* *.color6:     #50CACD */
+/* *.color14:    #74C3E4 */
+/* *.color7:     #808080 */
+/* *.color15:    #C0C0C0 */
+

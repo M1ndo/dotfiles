@@ -1,34 +1,17 @@
 #!/bin/bash
 # Dmenu script for editing some of my more frequently edited config files.
-declare options=("alacritty
-awesome
+declare options=("awesome
 bash
-broot
-bspwm
-compton
-doom.d/config.el
-doom.d/init.el
-dunst
-dwm
-emacs.d/init.el
 herbstluftwm
-i3
+picom
 neovim
 polybar
-qtile
 st
-stumpwm
-surf
-sxhkd
-tabbed
 termite
 vifm
-vim
-vimb
 xmobar
 xmonad
 xresources
-zsh
 quit")
 
 choice=$(echo -e "${options[@]}" | dmenu -i -p 'Edit config file: ')
@@ -37,44 +20,17 @@ case "$choice" in
 	quit)
 		echo "Program terminated." && exit 1
 	;;
-	alacritty)
-		choice="$HOME/.config/alacritty/alacritty.yml"
-	;;
 	awesome)
 		choice="$HOME/.config/awesome/rc.lua"
 	;;
 	bash)
 		choice="$HOME/.bashrc"
 	;;
-	broot)
-		choice="$HOME/.config/broot/conf.toml"
-	;;
-	bspwm)
-		choice="$HOME/.config/bspwm/bspwmrc"
-	;;
-	compton)
-		choice="$HOME/.config/compton/compton.conf"
-	;;
-    doom.d/config.el)
-		choice="$HOME/.doom.d/config.el"
-	;;
-    doom.d/init.el)
-		choice="$HOME/.doom.d/init.el"
-	;;
-	dunst)
-		choice="$HOME/.config/dunst/dunstrc"
-	;;
-	dwm)
-		choice="$HOME/dwm-distrotube/config.h"
-	;;
-	emacs.d/init.el)
-		choice="$HOME/.emacs.d/init.el"
-	;;
 	herbstluftwm)
 		choice="$HOME/.config/herbstluftwm/autostart"
 	;;
-	i3)
-		choice="$HOME/.i3/config"
+	picom)
+		choice="$HOME/.config/picom/picom.conf"
 	;;
 	neovim)
 		choice="$HOME/.config/nvim/init.vim"
@@ -82,23 +38,8 @@ case "$choice" in
 	polybar)
 		choice="$HOME/.config/polybar/config"
 	;;
-	qtile)
-		choice="$HOME/.config/qtile/config.py"
-	;;
 	st)
-		choice="$HOME/st-distrotube/config.h"
-	;;
-	stumpwm)
-		choice="$HOME/.config/stumpwm/config"
-	;;
-	surf)
-		choice="$HOME/surf-distrotube/config.h"
-	;;
-	sxhkd)
-		choice="$HOME/.config/sxhkd/sxhkdrc"
-	;;
-	tabbed)
-		choice="$HOME/tabbed-distrotube/config.h"
+		choice="$HOME/Public/Dev/st/config.h"
 	;;
 	termite)
 		choice="$HOME/.config/termite/config"
@@ -106,14 +47,8 @@ case "$choice" in
 	vifm)
 		choice="$HOME/.config/vifm/vifmrc"
 	;;
-	vim)
-		choice="$HOME/.vimrc"
-	;;
-	vimb)
-		choice="$HOME/.config/vimb/config"
-	;;
 	xmobar)
-		choice="$HOME/.config/xmobar/xmobarrc2"
+		choice="$HOME/.config/xmobar/xmobarrc"
 	;;
 	xmonad)
 		choice="$HOME/.xmonad/xmonad.hs"
@@ -121,11 +56,8 @@ case "$choice" in
 	xresources)
 		choice="$HOME/.Xresources"
 	;;
-	zsh)
-		choice="$HOME/.zshrc"
-	;;
 	*)
 		exit 1
 	;;
 esac
-st -e vim "$choice"
+xterm -e vim "$choice"

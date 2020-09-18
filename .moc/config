@@ -69,7 +69,7 @@
 #
 # Example:    MusicDir = "/home/joe/music"
 #
-MusicDir = "/home/ybenel/Music/Tracks"
+MusicDir = "/home/ybenel/Music/Electro"
 
 # Start in the music directory by default?  If set to 'no', start
 # in the current directory by default.  A single directory on
@@ -88,7 +88,7 @@ StartInMusicDir = yes
 
 # Set playback toggles.
 #Repeat = no
-#Shuffle = no
+Shuffle = yes
 #AutoNext = yes
 
 # Default FormatString:
@@ -219,7 +219,7 @@ StartInMusicDir = yes
 #
 # Example:    Theme = laras_theme
 #
-Theme = dt_theme
+Theme = ybenel 
 
 # The theme used when running on an xterm.
 #
@@ -308,8 +308,8 @@ Theme = dt_theme
 
 # How fast to seek (in number of seconds per keystroke).  The first
 # option is for normal seek and the second for silent seek.
-#SeekTime = 1
-#SilentSeekTime = 5
+SeekTime = 1
+SilentSeekTime = 5
 
 # PreferredDecoders allows you to specify which decoder should be used
 # for any given audio format.  It is a colon-separated list in which

@@ -1,0 +1,65 @@
+#!/bin/bash
+# Quick Script To Fetch Mocp Status And Add it to the bar (deprecated)
+
+notify_icon_size="80"
+notify_timeout="15"
+sleep 0.7
+info="$(mocp -i)"
+state="$(echo "${info}"|grep State:|cut -d ' ' -f2-)"
+
+# Run stuff only if player plays something
+if [ "${state}" == "PLAY" ]; then
+	# Data Variables
+	artist="$(echo "${info}"|grep Artist:|cut -d ' ' -f2-)"
+	song="$(echo "${info}"|grep SongTitle:|cut -d ' ' -f2-)"
+	album="$(echo "${info}"|grep Album:|cut -d ' ' -f2-)"
+	time="$(echo "${info}"|grep TotalTime:|cut -d ' ' -f2-)"
+	bitrate="$(echo "${info}"|grep AvgBitrate:|cut -d ' ' -f2-)"
+	file="$(echo "${info}"|grep File:|rev|cut -d '/' -f1|rev)"
+	folder="/$(echo "${info}"|grep File:|rev|cut -d '/' -f2-|rev|cut -d '/' -f2-)"
+	fulltree="$(echo "${info}"|grep File:|cut -d ' ' -f2-)"
+	cover_exists="$(find "${folder}/" -iname "cover.*")"
+
+	# V2 Data Variables with ffprobe for more information
+	info_v2="$(ffprobe "${fulltree}" 2>&1)"
+	date="($(echo "${info_v2}" | sed -E -n 's/^ *DATE *: (.*)/\1/p'))"
+	genre=", $(echo "${info_v2}" | sed -E -n 's/^ *GENRE *: (.*)/\1/p')"
+
+	# Set Cover
+	if [ ! -e "${cover_exists}" ]; then
+		cover_exists="$(find "${folder}/" -iname "folder.*")"
+		if [ ! -e "${cover_exists}" ]; then
+		cover_exists=""${HOME}"/.config/awesome/scripts/cover.png"
+		fi
+	fi
+
+	# Check artist length
+	if [ "${#artist}" -gt "22" ]; then
+		artist="${artist:0:22}.."
+	fi
+	# Check song length
+	if [ "${#song}" -gt "22" ]; then
+		song="${song:0:22}.."
+	fi
+	# Check album length
+	if [ "${#album}" -gt "27" ]; then
+		album="${album:0:27}.."
+	fi
+	# Check if genre name is too short
+	if [ "${#genre}" -le "3" ]; then
+		genre=" "
+	fi
+	# Check if date is too short
+	if [ "${#date}" -le "3" ]; then
+		date=" "
+	fi
+
+	# Filename fallback
+	if [ "$song" != "" ] && [ "$artist" != "" ]; then
+		echo 'require("naughty").notify({ title="'${artist}'", text="'${song}' ('${time}')\n'${album}' '${date}'\n\n'${bitrate}''${genre}'", icon="'${cover_exists}'", icon_size='${notify_icon_size}', timeout='${notify_timeout}', screen='1'})' | awesome-client
+	else
+		echo 'require("naughty").notify({ title = "Playing", text="'${file}'", icon="'${cover_exists}'", icon_size='${notify_icon_size}', timeout='${notify_timeout}', screen='1'})' | awesome-client
+	fi
+else
+	echo 'require("naughty").notify({ title="Music on console", text="Nothing playing", timeout='${notify_timeout}'})' | awesome-client
+fi
