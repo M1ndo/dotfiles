@@ -23,7 +23,7 @@ local function factory(args)
         colors = {
             background = "#000000",
             mute       = "#EB8F8F",
-            unmute     = "#1b21c2"
+            unmute     = "#481699"
         },
 
         _current_level = 0,

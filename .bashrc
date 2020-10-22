@@ -161,6 +161,11 @@ alias bs='br --sizes'
 #Source .bashrc
 alias sr='source ~/.bashrc'
 
+# Add Grep Colors
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+
 # Changing "ls" to "exa"
 alias ll='lsd -al' # my preferred listing
 alias la='lsd -a'  # all files and dirs
@@ -207,10 +212,12 @@ alias vifm='./.config/vifm/scripts/vifmrun'
 # Aliases
 alias doc='cd ~/Documents'
 alias dow='cd ~/Downloads'
+alias ips="curl -s ifconfig.co | grep 'IP</span>:'| cut -d '<' -f 4 | sed 's/\/span>://'" 
 alias conx="dow && cd conx && sudo openvpn ybenel.ovpn"
 alias htb='doc && cd Sec/htb/'
 alias thm='doc && cd Sec/thm'
-
+alias searchsploit='/opt/exploitdb/searchsploit'
+alias fort='htb && cd fortress_jet'
 # Awesome Screen Locker
 alias bls="betterlockscreen -u ~/Pictures/WallOne/TheWitcher4.jpg -l -t 'Ybenel Off The Screen'"
 
@@ -247,5 +254,7 @@ fi
 $HOME/.bin/shuffle.py
 
 # PS1 Customization "~$ "
-export PS1="\[\e[1;49;32m\]\W\[\e[m\]\[\e[1;49;96m\]\\$\[\e[1;49;39m\] "
+#export PS1="\[\e[1;49;32m\]\W \[\e[m\]\[\e[1;49;96m\]\\$\[\e[1;49;39m\] "
 #export PS1='\e[1;31;48;5;234m\u \e[38;5;240mon \e[1;38;5;28;48;5;234m\h \e[38;5;54m\d \@\e[0m\n\e[0;31;48;5;234m[\w] \e[1m\$\e[0m '
+export PS1='\e[1;31;48;5;234m\u \e[38;5;240mon \e[1;38;5;28;48;5;234m\h \e[38;5;54m\d \@\e[0m\n\e[38;5;105m[\W] \e[1m\$\e[0m '
+#export PS1='\[\e[0m\]\[\e[48;5;236m\]\[\e[38;5;105m\]\u\[\e[38;5;105m\]@\[\e[38;5;105m\]\h\[\e[38;5;105m\] \[\e[38;5;221m\]\w\[\e[38;5;221m\]\[\e[38;5;105m\]\[\e[0m\]\[\e[38;5;236m\]\342\226\214\342\226\214\342\226\214\[\e[0m\]'

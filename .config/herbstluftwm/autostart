@@ -1,4 +1,4 @@
-#!/usr/bin/env bash 
+#!/usr/bin/env bash
 
 
 # Herbstluftwm Config
@@ -11,9 +11,15 @@ hc() {
 
 hc emit_hook reload
 xsetroot -solid '#313330'
-compton & 
+picom &
 nitrogen --restore &
 xclickroot -m xterm &
+#jgmenu --hide-on-startup --config-file=~/.config/jgmenu/jgmenurc --csv-file=~/.config/jgmenu/menu.csv
+#xclickroot -r jgmenu_run
+dunst -conf ~/.config/dunst/dunstrc &
+xfce4-power-manager &
+/usr/lib/polkit-kde-authentication-agent-1 &
+xscreensaver -no-splash &
 # The Following Code Is Written To Implement Hide/Restore Windows
 #function hidden_windows() {
 #  for i in $(herbstclient attr clients | grep ‘0x’)
@@ -36,7 +42,7 @@ xclickroot -m xterm &
 #  done
 #  [[ $winid ]] && herbstclient chain . use $tag .  bring $winid
 #}
- 
+
 #function unhide_window() {
 #  case $window in
 #    ‘[ all ]’)    hide_window 0 ;;
@@ -46,7 +52,7 @@ xclickroot -m xterm &
 #                  ;;
 #  esac
 #}
- 
+
 #tag=$(herbstclient list_monitors | grep '\[FOCUS\]' | cut -d'"' -f2)
 #case "$@" in
 #  +1)   herbstclient dump “‘$tag” || herbstclient add “‘$tag”
@@ -74,7 +80,7 @@ xclickroot -m xterm &
 #        ;;
 #esac
 
-# Toggle Hide / Restore PolyBar 
+# Toggle Hide / Restore PolyBar
 
 #minimal=0
 #hc -i |
@@ -118,31 +124,22 @@ hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-c close
 hc keybind $Mod-Return spawn $myTerm
 hc keybind $Mod-e spawn $myTerm -e $myEditor
-
 # Dmenu launcher
 hc keybind $Mod-Shift-Return spawn dmenu_run -fn 'scientifica:size=12' -nb '#212D32' -nf '#bbc5ff' -sb '#E37673' -sf '#292d3e' -p 'Ybenel:'
 
 # My dmenu scripts (Alt+Ctrl+Key)
 hc keybind Mod1-Control-e spawn ./.dmenu/dmenu-edit-configs.sh
 hc keybind Mod1-Control-h spawn ./.dmenu/dmenu-sysmon.sh
-hc keybind Mod1-Control-t spawn ./.dmenu/dmenu-scrot.sh 
-#hc keybind Mod1-Control-s spawn ./.dmenu/dmenu-surfraw.sh
-#hc keybind Mod1-Control-t spawn ./.dmenu/dmenu-trading.sh
-hc keybind $Mod-Control-s spawn rofi -show-icons -show run 
+hc keybind Mod1-Control-s spawn ./.dmenu/dmenu-scrot.sh
+hc keybind $Mod-Control-s spawn rofi -show-icons -show run
 
 # My applications (Super+Alt+Key)
-#hc keybind $Mod-Mod1-l spawn $myTerm -e lynx -cfg=~/.lynx.cfg -lss=~/.lynx.lss http://www.distrowatch.com
-hc keybind $Mod-Mod1-n spawn google-chrome-stable 
-hc keybind $Mod-Mod1-s spawn $myTerm -e shutdown -P now
-hc keybind $Mod-Mod1-h spawn $myTerm -e systemctl hibernate
-hc keybind $Mod-Mod1-r spawn $myTerm -e systemctl reboot
-hc keybind $Mod-Mod1-t spawn $myTerm -e systemctl suspend 
+hc keybind $Mod-Mod1-n spawn google-chrome-stable
+hc keybind $Mod-Mod1-l spawn $myTerm -e lynx --cfg=~/.lynx/lynx.cfg --lss=~/.lynx/lynx.lss -vikeys http://darkos-arch.sourceforge.io
+hc keybind $Mod-Mod1-e spawn $myTerm -e systemctl neomutt
 hc keybind $Mod-Mod1-f spawn $myTerm -e ~/.config/vifm/scripts/vifmrun
-#hc keybind $Mod-Mod1-j spawn $myTerm -e joplin
-hc keybind $Mod-Mod1-c spawn $myTerm -e mocp 
-#hc keybind $Mod-Mod1-i spawn $myTerm -e irssi
-#hc keybind $Mod-Mod1-y spawn $myTerm -e youtube-viewer
-#hc keybind $Mod-Mod1-a spawn $myTerm -e ncpamixer
+hc keybind $Mod-Mod1-p spawn $myTerm -e PrNdOwN
+hc keybind $Mod-Mod1-c spawn $myTerm -e mocp
 
 # focusing clients
 hc keybind $Mod-Left          focus left
@@ -156,7 +153,7 @@ hc keybind $Mod-l             focus right
 
 ## Hide / Restore Windows
 #hc keybind $Mod-n             spawn hide_window +1
-#hc keybind $Mod-Shift-n	      spawn hide_window -1	
+#hc keybind $Mod-Shift-n	      spawn hide_window -1
 #hc keybind $Mod-b 	emit_hook minimal_layout
 #hc keybind $Mod-b spawn bash -c \
 #   'winid=$(wmctrl -l | rofi -dmenu -i -p bring|cut -d" " -f1) \
@@ -168,7 +165,7 @@ hc keybind $Mod-Shift-n spawn bash -c \
    'wind_id=$(cat /tmp/ls_id) && xdotool windowmap "$wind_id"'
 
 
-# moving clients              
+# moving clients
 hc keybind $Mod-Shift-Left    shift left
 hc keybind $Mod-Shift-Down    shift down
 hc keybind $Mod-Shift-Up      shift up
@@ -195,8 +192,8 @@ hc keybind $Mod-Control-Up     resize up +$resizestep
 hc keybind $Mod-Control-Right  resize right +$resizestep
 
 # tags
-tag_names=("" "" "" "") 
-tag_keys=( {1..4} 0 )
+tag_names=("" "" "" "" "" "")
+tag_keys=( {1..6} 0 )
 
 hc rename default "${tag_names[0]}" || true
 for i in ${!tag_names[@]} ; do
@@ -245,7 +242,7 @@ hc set frame_border_active_color '#222222'
 hc set frame_border_normal_color '#101010'
 hc set frame_bg_normal_color '#565656'
 hc set frame_bg_active_color '#345F0C'
-hc set frame_border_width 1 
+hc set frame_border_width 1
 hc set always_show_frame 0
 hc set frame_bg_transparent 1
 hc set frame_transparent_width 0
@@ -265,7 +262,7 @@ hc attr theme.active.inner_color '#222222'
 hc attr theme.active.outer_color '#222222'
 hc attr theme.background_color '#141414'
 
-hc set window_gap 3 
+hc set window_gap 3
 hc set smart_window_surroundings 0
 hc set smart_frame_surroundings 1
 hc set mouse_recenter_gap 0
@@ -276,7 +273,7 @@ hc set swap_monitors_to_get_tag 1
 hc unrule -F
 #hc rule class=XTerm tag=3 # move all xterms to tag 3
 hc rule class=VirtualBox tag=3 # move all VMs to tag 5
-hc rule title='Oracle VM VirtualBox Manager' tag=3 
+hc rule title='Oracle VM VirtualBox Manager' tag=3
 hc rule class=VirtualBox pseudotile=on
 hc rule class=VirtualBox fullscreen=on
 hc rule focus=on # normally focus new clients

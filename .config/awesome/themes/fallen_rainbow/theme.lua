@@ -1,10 +1,11 @@
 --[[
     Fallen_rainbow Awesome WM Theme 1.0
-    github.com/r2dr0dn/fallen_rainbow
+    (C) Ybenel <github.com/r2dr0dn/fallen_rainbow>
     inspired from github.com/lcpz (awesome-copycats 'rainbow')
 --]]
 
 local gears = require("gears")
+local naughty = require('naughty')
 local lain  = require("lain")
 local awful = require("awful")
 local wibox = require("wibox")
@@ -88,10 +89,16 @@ theme.gimp_ico = theme.dir .. "/icons/gimp.png"
 theme.atom_ico = theme.dir .. "/icons/atom.png"
 theme.telegram_ico = theme.dir .. "/icons/telegram.png"
 theme.terminal_ico = theme.dir .. "/icons/xterm.png"
+theme.discord_ico = theme.dir .. "/icons/discord.png"
 theme.logout_ico = theme.dir .. "/icons/logout.png"
 theme.sleep_ico = theme.dir .. "/icons/sleep.png"
 theme.restart_ico = theme.dir .. "/icons/restart.png"
 theme.exit_ico = theme.dir .. "/icons/shutdown.png"
+theme.hibernate_ico = theme.dir .. "/icons/hibernate.png"
+
+-- Bar Icons
+theme.ghost_on = theme.dir .. "icons/ghost.svg"
+theme.terex_off = theme.dir .. "icons/offside.svg"
 
 -- lain related
 theme.layout_txt_cascade                        = "[cascade]"
@@ -163,7 +170,7 @@ theme.mpd = lain.widget.mpd({
 -- /home fs
 --[[ commented because it needs Gio/Glib >= 2.54
 theme.fs = lain.widget.fs({
-    notification_preset = { fg = white, bg = theme.bg_normal, font = "Terminus 10.5" },
+    notification_preset = { fg = white, bg = theme.bg_normal, font = theme.font },
     settings  = function()
         local fs_header, fs_p = "", ""
 
@@ -212,6 +219,7 @@ local volumewidget = wibox.container.margin(volumebg, dpi(7), dpi(7), dpi(5), dp
 -- MOC
 local love_mc = wibox.widget.textbox(markup.font(theme.font2, markup("#ff006a",'♥ ')))
 local prev_next_mc = wibox.widget.textbox(markup.font(theme.font2, markup('#00ffff', ' ')))
+
 theme.moc = lain.widget.contrib.moc({
   settings = function()
     moc_notification_preset.fg = white
@@ -222,21 +230,38 @@ theme.moc = lain.widget.contrib.moc({
       title  = "Paused "
     elseif moc_now.state == "STOP" then
       artist = ""
-      title = "Nothing To Play"
+      title = "Nothing To Play "
     end
     widget:set_markup(markup.font(theme.font, markup(gray, artist) .. markup(white, title)))
   end
 })
 love_mc:buttons(my_table.join(awful.button({ }, 2,
 function ()
-  os.execute('mocp -G')
+  os.execute('mocp -G ; sp next')
   theme.moc.update()
 end)))
 prev_next_mc:buttons(my_table.join(awful.button({}, 1,
 function ()
-  os.execute('mocp -f')
+  os.execute('mocp -f ; sp prev')
   theme.moc.update()
 end)))
+
+theme.spot = lain.widget.contrib.spot({
+  settings = function()
+    if spot_now.state == "Playing" then
+      artist = spot_now.artist .. " "
+      title = spot_now.title .. " "
+    elseif spot_now.state == "Paused" then
+      artist = "Spot "
+      title  = "Paused"
+    elseif spot_now.state == "Stopped" then
+      artist = ""
+      title = ""
+    end
+    widget:set_markup(markup.font(theme.font, markup(gray, artist) .. markup(white, title)))
+  end
+})
+
 -- prev_next_mc:buttons(my_table.join(awful.button({}, 3,
 -- function ()
 --   os.execute('mocp -r')
@@ -252,7 +277,7 @@ theme.weather = lain.widget.weather({
 local memicon = wibox.widget.imagebox(theme.widget_mem)
 local mem = lain.widget.mem({
     settings = function()
-        widget:set_markup(markup.font(theme.font2, markup("#10e81b", "") .. "  " .. markup(gray, mem_now.used) .. "MB "))
+        widget:set_markup(markup.font(theme.font2, markup("#c6dd13", "") .. " " .. markup(gray, mem_now.used) .. "MB "))
     end
 })
 
@@ -260,13 +285,13 @@ local mem = lain.widget.mem({
 local cpuicon = wibox.widget.imagebox(theme.widget_cpu)
 local cpu = lain.widget.cpu({
     settings = function()
-        widget:set_markup(markup.font(theme.font2, markup("#16c982", "") .. "  " .. markup(gray, cpu_now.usage) .. "% "))
+        widget:set_markup(markup.font(theme.font2, markup("#16c982", "") .. " " .. markup(gray, cpu_now.usage) .. "% "))
     end
 })
 
 local temp = lain.widget.temp({
     settings = function()
-        widget:set_markup(markup.font(theme.font2, markup("#e81010", "") .. " " .. markup(gray, coretemp_now) .. "°C "))
+        widget:set_markup(markup.font(theme.font2, markup("#e81010", "") .. " " .. markup(gray, coretemp_now) .. "°C "))
     end
 })
 local tempicon = wibox.widget.imagebox(theme.widget_temp)
@@ -274,7 +299,7 @@ local tempicon = wibox.widget.imagebox(theme.widget_temp)
 local mem_wid = wibox.container.margin(wibox.widget {mem.widget, layout = wibox.layout.align.horizontal }, 2, 3), "#7197E7"
 local cpu_wid = wibox.container.margin(wibox.widget {cpu.widget, layout = wibox.layout.align.horizontal }, 3, 4), "#A77AC4"
 local temp_wid = wibox.container.margin(wibox.widget {temp.widget, layout = wibox.layout.align.horizontal }, 4, 4), "#7197E7"
-local volum = wibox.widget.textbox(markup.font(theme.font2, markup("#88ff00",'')))
+local volum = wibox.widget.textbox(markup.font(theme.font2, markup("#9517b5",' ')))
 -- Separators
 local first = wibox.widget.textbox(markup.font("Terminus 4", " "))
 local spr   = wibox.widget.textbox(' ')
@@ -320,7 +345,7 @@ function theme.at_screen_connect(s)
     s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, awful.util.tasklist_buttons)
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s, height = dpi(18), bg = theme.bg_normal, fg = theme.fg_normal })
+    s.mywibox = awful.wibar({ position = "top", screen = s, height = dpi(18), bg = theme.bg_normal, fg = theme.fg_normal, opacity = 0.86 })
 
     -- Add widgets to the wibox
     s.mywibox:setup {
@@ -335,22 +360,22 @@ function theme.at_screen_connect(s)
             s.mypromptbox,
             spr,
             love_mc,
+            theme.spot,
             theme.moc,
             prev_next_mc,
         },
         spr,
-        --s.mytasklist, -- Middle widget
+        -- s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             wibox.widget.systray(),
             spr,
             --theme.mpd.widget,
             --theme.mail.widget,
-            --theme.fs.widget,
+            -- theme.fs.widget,
             cpu_wid,
             mem_wid,
             temp_wid,
-            -- theme.mocp,
             volum,
             volumewidget,
             mytextclock,
