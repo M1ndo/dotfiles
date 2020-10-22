@@ -21,6 +21,10 @@
 * PulseAudio (Sound Server)
 * Alsa (Sound Driver/Module)
 * Jack (Audio Connection Kit)
+* Dunst (Notification Daemon)
+* Zsh (SHELL)
+* Bash (SHELL)
+* XscreenSaver (Screen Saver)
 * Many More ...
 
 # Features
