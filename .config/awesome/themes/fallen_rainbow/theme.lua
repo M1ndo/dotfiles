@@ -218,19 +218,22 @@ local volumewidget = wibox.container.margin(volumebg, dpi(7), dpi(7), dpi(5), dp
 
 -- MOC
 local love_mc = wibox.widget.textbox(markup.font(theme.font2, markup("#ff006a",'♥ ')))
-local prev_next_mc = wibox.widget.textbox(markup.font(theme.font2, markup('#00ffff', ' ')))
+local prev_next_mc = wibox.widget.textbox(markup.font(theme.font2, markup('#00ffff', '  ')))
 
 theme.moc = lain.widget.contrib.moc({
   settings = function()
     moc_notification_preset.fg = white
     artist = moc_now.artist .. " "
-    title = moc_now.title .. " "
+    title = moc_now.title .. ""
     if moc_now.state == "PAUSE" then
       artist = "Moc "
-      title  = "Paused "
+      title  = "Paused"
     elseif moc_now.state == "STOP" then
       artist = ""
-      title = "Nothing To Play "
+      title = "Nothing To Play"
+    elseif moc_now.state == "N/A" then 
+      artist = ""
+      title = ""
     end
     widget:set_markup(markup.font(theme.font, markup(gray, artist) .. markup(white, title)))
   end
@@ -256,7 +259,7 @@ theme.spot = lain.widget.contrib.spot({
       title  = "Paused"
     elseif spot_now.state == "Stopped" then
       artist = ""
-      title = ""
+      title  = ""
     end
     widget:set_markup(markup.font(theme.font, markup(gray, artist) .. markup(white, title)))
   end

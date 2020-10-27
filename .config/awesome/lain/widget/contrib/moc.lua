@@ -37,8 +37,8 @@ local function factory(args)
             moc_now = {
                 state   = "N/A",
                 file    = "N/A",
-                artist  = "ybenel",
-                title   = "ybenel",
+                artist  = "",
+                title   = "",
                 album   = "N/A",
                 elapsed = "N/A",
                 total   = "N/A"

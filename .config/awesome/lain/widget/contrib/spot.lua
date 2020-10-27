@@ -31,8 +31,8 @@ local function factory(args)
         helpers.async("sp current && sp status", function(f)
             spot_now = {
                 state   = "N/A",
-                artist  = "ybenel",
-                title   = "ybenel",
+                artist  = "",
+                title   = "",
                 album   = "N/A",
                 album_artist = "N/A",
             }
