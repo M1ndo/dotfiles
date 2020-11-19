@@ -1,263 +1,406 @@
 #EXTM3U
-#EXTINF:412,Worakls, Kevin Rodrigues - Mona
-Worakls/Mona.mp3
-#EXTINF:436,Worakls - Salzburg
-Worakls/Salzburg.mp3
-#EXTINF:600,N'to - Trauma (Worakls Remix)
-Worakls/Trauma (Worakls Remix).mp3
-#EXTINF:549,Worakls - Nocturne
-Worakls/Nocturne.mp3
-#EXTINF:425,Daso - Idee
-Daso/Daso - Idee.mp3
-#EXTINF:473,Daso - Meine
-Daso/Daso - Meine.mp3
-#EXTINF:367,Daso - Deine Schuhe
-Daso/Daso - Deine Schuhe.mp3
-#EXTINF:187,Carott - Anything
-Teho/Anything.mp3
-#EXTINF:375,Teho - Arena
-Teho/Arena.mp3
-#EXTINF:272,Teho - Because
-Teho/Because.mp3
-#EXTINF:469,Teho - Signal (Ron Flatter Remix)
-Teho/Signal (Ron Flatter Remix).mp3
-#EXTINF:578,Teho - Space Explorers
-Teho/Space Explorers.mp3
-#EXTINF:425,Alter K - French 79 - 1979
-French79/French 79 - 1979.mp3
-#EXTINF:328,Alter K - French 79 - After Party
-French79/French 79 - After Party.mp3
-#EXTINF:318,Alter K - French 79 - Between the Buttons
-French79/French 79 - Between the Buttons.mp3
-#EXTINF:237,Alter K - French 79 - Je parle français
-French79/French 79 - Je parle français.mp3
-#EXTINF:370,Alter K - French 79 - Pantheon Neon
-French79/French 79 - Pantheon Neon.mp3
-#EXTINF:429,Alter K - French 79 - The Year After
-French79/French 79 - The Year After.mp3
-#EXTINF:291,Alter K - French 79 - Vertigo Valley
-French79/French 79 - Vertigo Valley.mp3
-#EXTINF:484,Animal Trainer - Dragon Games - Original Mix
-Animal Trainer/Animal Trainer - Dragon Games - Original Mix.mp3
-#EXTINF:385,Animal Trainer - Pollen
-Animal Trainer/Animal Trainer - Pollen.mp3
+#MOCSERIAL: 512
+#EXTINF:484,1 Animal Trainer - Dragon Games - Original Mix (Dragon Games EP)
+/home/ybenel/Music/Electro/Animal Trainer/Dragon Games.mp3
+#EXTINF:385,7 Animal Trainer - Pollen (Wide)
+/home/ybenel/Music/Electro/Animal Trainer/Pollen.mp3
 #EXTINF:241,AWOLNATION - Run (Audio)
-AWOLNATION/AWOLNATION - Run (Audio).mp3
-#EXTINF:516,Boris Brejcha - Dark Planet
-Boris Brejcha/Boris Brejcha - Dark Planet.mp3
-#EXTINF:535,Boris Brejcha - Purple Noise
-Boris Brejcha/Boris Brejcha - Purple Noise.mp3
-#EXTINF:216,Boris Brejcha - Gravity (feat. Laura Korinth) - Edit
-Boris Brejcha/Boris Brejcha - Gravity (feat Laura Korinth) - Edit.mp3
-#EXTINF:241,Boris Brejcha - Happinezz - Edit
-Boris Brejcha/Boris Brejcha - Happinezz - Edit.mp3
-#EXTINF:465,Boris Brejcha - Lost Memory
-Boris Brejcha/Boris Brejcha - Lost Memory.mp3
-#EXTINF:497,D1gitalSound - Worakls - Souvenir (N'to Remix)
-Worakls/Souvenir (N'to Remix).mp3
+/home/ybenel/Music/Electro/AWOLNATION/AWOLNATION - Run (Audio).mp3
+#EXTINF:516,2 Boris Brejcha - Dark Planet (Feuerfalter Special Edition)
+/home/ybenel/Music/Electro/Boris Brejcha/Boris Brejcha - Dark Planet.mp3
+#EXTINF:216,1 Boris Brejcha - Gravity (feat. Laura Korinth) - Edit (Gravity (feat. Laura Korinth))
+/home/ybenel/Music/Electro/Boris Brejcha/Boris Brejcha - Gravity (feat Laura Korinth) - Edit.mp3
+#EXTINF:241,1 Boris Brejcha - Happinezz - Edit (Happinezz (Edit))
+/home/ybenel/Music/Electro/Boris Brejcha/Boris Brejcha - Happinezz - Edit.mp3
+#EXTINF:465,1 Boris Brejcha - Lost Memory (Lost Memory)
+/home/ybenel/Music/Electro/Boris Brejcha/Boris Brejcha - Lost Memory.mp3
+#EXTINF:535,17 Boris Brejcha - Purple Noise (Feuerfalter Special Edition)
+/home/ybenel/Music/Electro/Boris Brejcha/Boris Brejcha - Purple Noise.mp3
 #EXTINF:430,Daft Punk - Daft Punk - Around The World
-Daft Punk/Daft Punk - Around The World.mp3
+/home/ybenel/Music/Electro/Daft Punk/Daft Punk - Around The World.mp3
 #EXTINF:248,Daft Punk - Daft Punk - Get Lucky (Official Audio) ft. Pharrell Williams Nile Rodgers
-Daft Punk/Daft Punk - Get Lucky (Official Audio) ft. Pharrell Williams Nile Rodgers.mp3
+/home/ybenel/Music/Electro/Daft Punk/Daft Punk - Get Lucky (Official Audio) ft. Pharrell Williams Nile Rodgers.mp3
 #EXTINF:224,Daft Punk - Daft Punk - Harder Better Faster Stronger
-Daft Punk/Daft Punk - Harder Better Faster Stronger.mp3
-#EXTINF:344,Daft Punk - Daft Punk - Veridis Quo
-Daft Punk/Daft Punk - Veridis Quo.mp3
+/home/ybenel/Music/Electro/Daft Punk/Daft Punk - Harder Better Faster Stronger.mp3
+#EXTINF:343,Daft Punk - Daft Punk - Veridis Quo
+/home/ybenel/Music/Electro/Daft Punk/Daft Punk - Veridis Quo.mp3
 #EXTINF:427,Daniel Fernandes - After All
-Daniel Fernandes/Daniel Fernandes - After All.mp3
+/home/ybenel/Music/Electro/Daniel Fernandes/Daniel Fernandes - After All.mp3
 #EXTINF:362,Daso - Awake at night
-Daso/Daso - Awake at night.mp3
+/home/ybenel/Music/Electro/Daso/Daso - Awake at night.mp3
+#EXTINF:2888,Daso - Daso - Daso (Daso)
+/home/ybenel/Music/Electro/Daso/Daso - Daso.opus
+#EXTINF:367,3 Daso - Deine Schuhe (Meine Idee EP)
+/home/ybenel/Music/Electro/Daso/Daso - Deine Schuhe.mp3
+#EXTINF:570,Daso - Go Upstairs (Go Upstairs)
+/home/ybenel/Music/Electro/Daso/Daso - Go Upstairs.flac
+#EXTINF:425,1 Daso - Idee (Meine Idee EP)
+/home/ybenel/Music/Electro/Daso/Daso - Idee.mp3
+#EXTINF:473,1 Daso - Meine (Meine Idee EP)
+/home/ybenel/Music/Electro/Daso/Daso - Meine.mp3
 #EXTINF:515,Daso - Decide
-Daso/Decide.mp3
+/home/ybenel/Music/Electro/Daso/Decide.mp3
 #EXTINF:462,Daso - Eleven Fingers
-Daso/Eleven Fingers.mp3
+/home/ybenel/Music/Electro/Daso/Eleven Fingers.mp3
 #EXTINF:519,Daso - Follow Me
-Daso/Follow Me.mp3
+/home/ybenel/Music/Electro/Daso/Follow Me.mp3
 #EXTINF:573,Daso - No Lead
-Daso/No Lead (Chymera Remix).mp3
+/home/ybenel/Music/Electro/Daso/No Lead (Chymera Remix).mp3
 #EXTINF:410,Daso - No Lead
-Daso/No Lead.mp3
+/home/ybenel/Music/Electro/Daso/No Lead.mp3
 #EXTINF:439,Daso - Sam n' Max
-Daso/Sam n' Max.mp3
-#EXTINF:2888,Daso - Daso - Daso
-Daso/Daso - Daso.opus
-#EXTINF:570,Daso - Go Upstairs
-Daso/Daso - Go Upstairs.flac
+/home/ybenel/Music/Electro/Daso/Sam n' Max.mp3
 #EXTINF:521,deadmau5 - The Veldt
-Dead Mau/deadmau5 feat. Chris James - The Veldt.mp3
+/home/ybenel/Music/Electro/Dead Mau/deadmau5 feat. Chris James - The Veldt.mp3
 #EXTINF:194,deadmau5 - Ghosts N Stuff
-Dead Mau/deadmau5 feat. Rob Swire - Ghosts N Stuff.mp3
-#EXTINF:375,Extrawelt - Schlusslicht
-Extrawelt/Extrawelt - Schlusslicht (Original Mix).opus
-#EXTINF:419,Extrawelt - The Leopard - Extrawelt Remix
-Extrawelt/Minilogue - The Leopard - Extrawelt Remix.mp3
-#EXTINF:519,Extrawelt - A Little Further (Not on a Map)
-Extrawelt/Extrawelt & Dominik Eulberg - A Little Further (Not On A Map).mp3
-#EXTINF:519,Extrawelt - 37 Routes
-Extrawelt/Extrawelt - 37 Routes.mp3
-#EXTINF:276,Extrawelt - Imaginary Escort
-Extrawelt/Extrawelt - Imaginary Escort.mp3
-#EXTINF:435,Extrawelt - Schmedding
-Extrawelt/Extrawelt - Schmedding.mp3
-#EXTINF:403,Extrawelt - 8000
-Extrawelt/Extrawelt - 8000.mp3
-#EXTINF:526,Extrawelt - One Tree Hill
-Extrawelt/Extrawelt - One Tree Hill.flac
-#EXTINF:458,Extrawelt - Dark Side of My Room
-Extrawelt/Extrawelt - Dark Side of My Room.mp3
-#EXTINF:481,Extrawelt - Soopertrack
-Extrawelt/Extrawelt - Soopertrack Original (High Quality).mp3
+/home/ybenel/Music/Electro/Dead Mau/deadmau5 feat. Rob Swire - Ghosts N Stuff.mp3
+#EXTINF:519,2 Extrawelt - 37 Routes (A Little Further)
+/home/ybenel/Music/Electro/Extrawelt/Extrawelt - 37 Routes.mp3
+#EXTINF:403,2 Extrawelt - 8000 (Schmedding / 8000)
+/home/ybenel/Music/Electro/Extrawelt/Extrawelt - 8000.mp3
+#EXTINF:458,2 Extrawelt - Dark Side of My Room (Schöne Neue Extrawelt)
+/home/ybenel/Music/Electro/Extrawelt/Extrawelt - Dark Side of My Room.mp3
+#EXTINF:519,1 Extrawelt - A Little Further (Not on a Map) (A Little Further)
+/home/ybenel/Music/Electro/Extrawelt/Extrawelt & Dominik Eulberg - A Little Further (Not On A Map).mp3
+#EXTINF:276,3 Extrawelt - Imaginary Escort (A Little Further)
+/home/ybenel/Music/Electro/Extrawelt/Extrawelt - Imaginary Escort.mp3
+#EXTINF:526,Extrawelt - One Tree Hill (Schöne Neue Extrawelt)
+/home/ybenel/Music/Electro/Extrawelt/Extrawelt - One Tree Hill.flac
+#EXTINF:375,14 Extrawelt - Schlusslicht (In Aufruhr)
+/home/ybenel/Music/Electro/Extrawelt/Extrawelt - Schlusslicht (Original Mix).opus
+#EXTINF:435,1 Extrawelt - Schmedding (Schmedding / 8000)
+/home/ybenel/Music/Electro/Extrawelt/Extrawelt - Schmedding.mp3
+#EXTINF:481,Extrawelt - Soopertrack (Soopertrack / Zu Fuss)
+/home/ybenel/Music/Electro/Extrawelt/Extrawelt - Soopertrack Original (High Quality).mp3
+#EXTINF:419,1 Extrawelt - The Leopard - Extrawelt Remix (The Leopard Rmx)
+/home/ybenel/Music/Electro/Extrawelt/Minilogue - The Leopard - Extrawelt Remix.mp3
+#EXTINF:377,French 79 - Drop (BPM Artist, Vol. 4)
+/home/ybenel/Music/Electro/French79/Drop.mp3
+#EXTINF:425,Alter K - French 79 - 1979
+/home/ybenel/Music/Electro/French79/French 79 - 1979.mp3
+#EXTINF:328,Alter K - French 79 - After Party
+/home/ybenel/Music/Electro/French79/French 79 - After Party.mp3
+#EXTINF:318,Alter K - French 79 - Between the Buttons
+/home/ybenel/Music/Electro/French79/French 79 - Between the Buttons.mp3
 #EXTINF:202,French 79 - French 79 - Code Zero
-French79/French 79 - Code Zero.mp3
+/home/ybenel/Music/Electro/French79/French 79 - Code Zero.mp3
 #EXTINF:324,French 79 - French 79 - Hold On
-French79/French 79 - Hold On.mp3
+/home/ybenel/Music/Electro/French79/French 79 - Hold On.mp3
 #EXTINF:317,French 79 - French 79 - Hometown [Official Video]
-French79/French 79 - Hometown.mp3
-#EXTINF:377,French 79 - Drop
-French79/Drop.mp3
+/home/ybenel/Music/Electro/French79/French 79 - Hometown.mp3
+#EXTINF:237,Alter K - French 79 - Je parle français
+/home/ybenel/Music/Electro/French79/French 79 - Je parle français.mp3
+#EXTINF:370,Alter K - French 79 - Pantheon Neon
+/home/ybenel/Music/Electro/French79/French 79 - Pantheon Neon.mp3
+#EXTINF:429,Alter K - French 79 - The Year After
+/home/ybenel/Music/Electro/French79/French 79 - The Year After.mp3
+#EXTINF:291,Alter K - French 79 - Vertigo Valley
+/home/ybenel/Music/Electro/French79/French 79 - Vertigo Valley.mp3
+#EXTINF:335,12 Jan Blomqvist - 404 Not Found (Disconnected)
+/home/ybenel/Music/Electro/Jan Blomqvist/404 Not Found.mp3
+#EXTINF:564,9 Jan Blomqvist - Back In The Taxi (Remote Control)
+/home/ybenel/Music/Electro/Jan Blomqvist/Jan Blomqvist - Back In The Taxi.mp3
+#EXTINF:511,2 Jan Blomqvist - Black Hole Nights (Oliver Koletzki)
+/home/ybenel/Music/Electro/Jan Blomqvist/Jan Blomqvist - Black Hole Nights.mp3
+#EXTINF:506,5 Jan Blomqvist - Dark Noise (Remote Control)
+/home/ybenel/Music/Electro/Jan Blomqvist/Jan Blomqvist - Dark Noise.mp3
+#EXTINF:218,3 Jan Blomqvist - Empty Floor (Armada)
+/home/ybenel/Music/Electro/Jan Blomqvist/Jan Blomqvist - Empty Floor.mp3
+#EXTINF:294,6 Jan Blomqvist - Maybe Not (Disconnected)
+/home/ybenel/Music/Electro/Jan Blomqvist/Jan Blomqvist - Maybe Not (Official Video).mp3
+#EXTINF:310,12 Jan Blomqvist - The End (Remote Control)
+/home/ybenel/Music/Electro/Jan Blomqvist/Jan Blomqvist - The End.mp3
+#EXTINF:391,Jan Blomqvist - Suicide Spaceship (Disconnected)
+/home/ybenel/Music/Electro/Jan Blomqvist/Suicide Spaceship.mp3
 #EXTINF:502,Jan Blomqvist - Dancing People Are Never Wrong
-Jan Blomqvist/The Bianca Story - Dancing People are never wrong.mp3
-#EXTINF:218,Jan Blomqvist - Empty Floor
-Jan Blomqvist/Jan Blomqvist - Empty Floor.mp3
-#EXTINF:391,Jan Blomqvist - Suicide Spaceship
-Jan Blomqvist/Suicide Spaceship.mp3
-#EXTINF:294,Jan Blomqvist - Maybe Not
-Jan Blomqvist/Jan Blomqvist - Maybe Not (Official Video).mp3
-#EXTINF:335,Jan Blomqvist - 404 Not Found
-Jan Blomqvist/404 Not Found.mp3
-#EXTINF:511,Jan Blomqvist - Black Hole Nights
-Jan Blomqvist/Jan Blomqvist - Black Hole Nights.mp3
-#EXTINF:506,Jan Blomqvist - Dark Noise
-Jan Blomqvist/Jan Blomqvist - Dark Noise.mp3
-#EXTINF:564,Jan Blomqvist - Back In The Taxi
-Jan Blomqvist/Jan Blomqvist - Back In The Taxi.mp3
-#EXTINF:310,Jan Blomqvist - The End
-Jan Blomqvist/Jan Blomqvist - The End.mp3
+/home/ybenel/Music/Electro/Jan Blomqvist/The Bianca Story - Dancing People are never wrong.mp3
 #EXTINF:466,Joachim Pastor - Goodbyes
-Joachim Pastor/Goodbyes.mp3
-#EXTINF:422,Joachim Pastor - Millenium
-Joachim Pastor/Millenium.mp3
-#EXTINF:400,Joachim Pastor - Promesse
-Joachim Pastor/Promesse.mp3
-#EXTINF:338,Joachim Pastor - Joda
-Joachim Pastor/Joda.mp3
-#EXTINF:352,Joachim Pastor - Taïga (N'to remix)
-Joachim Pastor/Taïga.mp3
-#EXTINF:264,Joris Delacroix - Don't Change
-Joris Delacroix/Don’t Change.mp3
-#EXTINF:160,Joris Delacroix - Interlude
-Joris Delacroix/Interlude.mp3
-#EXTINF:362,Joris Delacroix - Leaving Space
-Joris Delacroix/Leaving Space.mp3
-#EXTINF:270,Joris Delacroix - Let You Down
-Joris Delacroix/Let You Down.mp3
-#EXTINF:264,Joris Delacroix - Routine
-Joris Delacroix/Routine.mp3
-#EXTINF:339,Joris Delacroix - Platinium
-Joris Delacroix/Stay.mp3
-#EXTINF:330,Joris Delacroix - Voyage
-Joris Delacroix/Voyage.mp3
-#EXTINF:363,Joris Delacroix - Start the Engine
-Joris Delacroix/Start The Engine.mp3
-#EXTINF:337,Joris Delacroix - Platinium
-Joris Delacroix/Platinium.mp3
-#EXTINF:297,Joris Delacroix - I Wanna
-Joris Delacroix/I Wanna.mp3
-#EXTINF:418,Joris Delacroix - Time to Lose
-Joris Delacroix/Epoque.mp3
-#EXTINF:392,Kid Francescoli - Moon
-Kid_Francescoli/Moon.mp3
-#EXTINF:404,Kollektiv Turmstrasse - Last Day (David August revision)
-Kollektiv Turmstrasse/Last Day.mp3
-#EXTINF:347,Kölsch - Loreley
-Kolsch/Loreley.mp3
-#EXTINF:200,Lorde - Royals
-Lorde/Royals.mp3
-#EXTINF:468,Monolink - New Morning
-Monolink/New Morning.mp3
-#EXTINF:211,Muse - Unintended
-Muse/Muse - Unintended (unfa cover).flac
-#EXTINF:444,N’to - Alter Ego
-N'to/Alter Ego.mp3
-#EXTINF:467,N'to - Charlie
-N'to/Charlie.mp3
-#EXTINF:528,N'to - Every Wall Is a Door
-N'to/Every Wall Is A Door.mp3
-#EXTINF:408,N'to - The Hound
-N'to/The Hound.mp3
-#EXTINF:422,Oliver Schories - Molero
-Oliver Schories/Molero2.mp3
-#EXTINF:467,Oliver Schories - Sunset
-Oliver Schories/Sunset.mp3
-#EXTINF:432,Oliver Schories - Marin
-Oliver Schories/Marin.mp3
+/home/ybenel/Music/Electro/Joachim Pastor/Goodbyes.mp3
+#EXTINF:338,1 Joachim Pastor - Joda (Remix EP 01)
+/home/ybenel/Music/Electro/Joachim Pastor/Joda.mp3
+#EXTINF:422,2 Joachim Pastor - Millenium (Eternity)
+/home/ybenel/Music/Electro/Joachim Pastor/Millenium.mp3
+#EXTINF:400,1 Joachim Pastor - Promesse (Promesse)
+/home/ybenel/Music/Electro/Joachim Pastor/Promesse.mp3
+#EXTINF:352,3 Joachim Pastor - Taïga (N'to remix) (Remix EP 01)
+/home/ybenel/Music/Electro/Joachim Pastor/Taïga.mp3
+#EXTINF:264,Joris Delacroix - Don't Change (Night Visions)
+/home/ybenel/Music/Electro/Joris Delacroix/Don’t Change.mp3
+#EXTINF:418,1 Joris Delacroix - Time to Lose (Time to Lose)
+/home/ybenel/Music/Electro/Joris Delacroix/Epoque.mp3
+#EXTINF:160,Joris Delacroix - Interlude (Night Visions)
+/home/ybenel/Music/Electro/Joris Delacroix/Interlude.mp3
+#EXTINF:297,7 Joris Delacroix - I Wanna (Night Visions)
+/home/ybenel/Music/Electro/Joris Delacroix/I Wanna.mp3
+#EXTINF:362,Joris Delacroix - Leaving Space (Night Visions)
+/home/ybenel/Music/Electro/Joris Delacroix/Leaving Space.mp3
+#EXTINF:270,Joris Delacroix - Let You Down (Night Visions)
+/home/ybenel/Music/Electro/Joris Delacroix/Let You Down.mp3
+#EXTINF:337,2 Joris Delacroix - Platinium (Night Visions)
+/home/ybenel/Music/Electro/Joris Delacroix/Platinium.mp3
+#EXTINF:264,Joris Delacroix - Routine (Night Visions)
+/home/ybenel/Music/Electro/Joris Delacroix/Routine.mp3
+#EXTINF:363,1 Joris Delacroix - Start the Engine (Night Visions)
+/home/ybenel/Music/Electro/Joris Delacroix/Start The Engine.mp3
+#EXTINF:339,Joris Delacroix - Platinium (Night Visions)
+/home/ybenel/Music/Electro/Joris Delacroix/Stay.mp3
+#EXTINF:330,Joris Delacroix - Voyage (Night Visions)
+/home/ybenel/Music/Electro/Joris Delacroix/Voyage.mp3
+#EXTINF:392,9 Kid Francescoli - Moon (Play Me Again)
+/home/ybenel/Music/Electro/Kid_Francescoli/Moon.mp3
+#EXTINF:404,1 Kollektiv Turmstrasse - Last Day (David August revision) (Diynamic Revisited)
+/home/ybenel/Music/Electro/Kollektiv Turmstrasse/Last Day.mp3
+#EXTINF:347,12 Kölsch - Loreley (1977)
+/home/ybenel/Music/Electro/Kolsch/Loreley.mp3
+#EXTINF:200,1 Lorde - Royals (Royals)
+/home/ybenel/Music/Electro/Lorde/Royals.mp3
+#EXTINF:413,Lumidelic - Synesthesia (Synesthesia)
+/home/ybenel/Music/Electro/Lumidelic/Lumidelic - Synesthesia.mp3
+#EXTINF:419,Lumidelic - Through The Door (Through The Door)
+/home/ybenel/Music/Electro/Lumidelic/Lumidelic - Through The Door.mp3
+#EXTINF:610,1 Matthieu Faubourg - Please, Stay (Fair)
+/home/ybenel/Music/Electro/Matthieu Faubourg/Matthieu Faubourg - Please Stay.mp3
+#EXTINF:468,2 Monolink - New Morning (The End)
+/home/ybenel/Music/Electro/Monolink/New Morning.mp3
+#EXTINF:211,Muse - Unintended (Unintended)
+/home/ybenel/Music/Electro/Muse/Muse - Unintended (unfa cover).flac
+#EXTINF:444,1 N’to - Alter Ego (Alter Ego)
+/home/ybenel/Music/Electro/N'to/Alter Ego.mp3
+#EXTINF:467,1 N'to - Charlie (Charlie)
+/home/ybenel/Music/Electro/N'to/Charlie.mp3
+#EXTINF:418,5 N'to - Chez nous (Hungry 5 (The Best of 5 Years))
+/home/ybenel/Music/Electro/N'to/Chez nous.mp3
+#EXTINF:528,1 N'to - Every Wall Is a Door (Every Wall Is a Door / The Gloomies)
+/home/ybenel/Music/Electro/N'to/Every Wall Is A Door.mp3
+#EXTINF:416,8 N'to - La clé des champs (Hungry 5 (The Best of 5 Years))
+/home/ybenel/Music/Electro/N'to/La Clé Des Champs.mp3
+#EXTINF:428,14 N'to - Petite (Hungry 5 (The Best of 5 Years))
+/home/ybenel/Music/Electro/N'to/Petite.mp3
+#EXTINF:408,1 N'to - The Hound (The Hound)
+/home/ybenel/Music/Electro/N'to/The Hound.mp3
+#EXTINF:376,2 N'to - Trauma - 2018' Revision (Hungry 5 (The Best of 5 Years))
+/home/ybenel/Music/Electro/N'to/Trauma - 2018' Revision.mp3
+#EXTINF:432,2 Oliver Schories - Marin (Relatively Definately)
+/home/ybenel/Music/Electro/Oliver Schories/Marin.mp3
+#EXTINF:422,Oliver Schories - Molero (Relatively Definately)
+/home/ybenel/Music/Electro/Oliver Schories/Molero2.mp3
+#EXTINF:467,Oliver Schories - Sunset  (Relatively Definately)
+/home/ybenel/Music/Electro/Oliver Schories/Sunset.mp3
+#EXTINF:485,Oxia - Domino (Domino)
+/home/ybenel/Music/Electro/Oxia/Oxia - Domino.mp3
 #EXTINF:243,Patrick Patrikios - Nothing On Me
-Patrick/Patrick Patrikios _ Nothing On Me.mp3
+/home/ybenel/Music/Electro/Patrick/Patrick Patrikios _ Nothing On Me.mp3
 #EXTINF:554,Pepe Bradock - Deep Burnt
-Pepe Bradock/Deep Burnt.mp3
-#EXTINF:429,Popof - Serenity
-Popof/Serenity.mp3
-#EXTINF:428,Rodriguez Jr. - Lila
-Rodriguez Jr/Lila.mp3
-#EXTINF:438,Rodriguez Jr. - Radian
-Rodriguez Jr/Radian.mp3
-#EXTINF:441,Ron Flatter - Mantequilla
-Ron Flatter/Mantequilla.mp3
-#EXTINF:408,Röyksopp - Monument
-Röyksopp/Monument.mp3
-#EXTINF:303,Röyksopp - Monument (Inevitable version)
-Röyksopp/Monument (Inevitable Version).mp3
-#EXTINF:219,Röyksopp - Remind Me
-Röyksopp/Remind Me.mp3
-#EXTINF:220,Röyksopp - Remind Me
-Röyksopp/Remind.mp3
-#EXTINF:295,Röyksopp - Running to the Sea
-Röyksopp/Running To The Sea ( Studio Version).mp3
-#EXTINF:478,Röyksopp - Sordid Affair (Maceo Plex mix)
-Röyksopp/Sordid Affair (Maceo Plex Remix).mp3
-#EXTINF:507,Solee - Phoenix
-Solee/Phoenix.mp3
-#EXTINF:547,Solomun - Friends
-Solomun/Solomun - Friends.mp3
-#EXTINF:598,Soul Capsule - Lady Science (NYC Sunrise)
-Soul Capsule/Lady Science.mp3
-#EXTINF:256,Stereoclip - Airplane Lesson
-Stereoclip/Stereoclip - Airplane Lesson.mp3
+/home/ybenel/Music/Electro/Pepe Bradock/Deep Burnt.mp3
+#EXTINF:429,1 Popof - Serenity (Serenity EP)
+/home/ybenel/Music/Electro/Popof/Serenity.mp3
+#EXTINF:428,1 Rodriguez Jr. - Lila (Lila's)
+/home/ybenel/Music/Electro/Rodriguez Jr/Lila.mp3
+#EXTINF:438,2 Rodriguez Jr. - Radian (Radio)
+/home/ybenel/Music/Electro/Rodriguez Jr/Radian.mp3
+#EXTINF:441,23 Ron Flatter - Mantequilla (Tour de Traum VII)
+/home/ybenel/Music/Electro/Ron Flatter/Mantequilla.mp3
+#EXTINF:303,6 Röyksopp - Monument (Inevitable version) (FluxFM: Popkultur kompakt, Vol. 3)
+/home/ybenel/Music/Electro/Röyksopp/Monument (Inevitable Version).mp3
+#EXTINF:408,Röyksopp - Monument (FluxFM: Popkultur kompakt, Vol. 3)
+/home/ybenel/Music/Electro/Röyksopp/Monument.mp3
+#EXTINF:219,Röyksopp - Remind Me (Melody A.M.)
+/home/ybenel/Music/Electro/Röyksopp/Remind Me.mp3
+#EXTINF:220,8 Röyksopp - Remind Me (Melody A.M.)
+/home/ybenel/Music/Electro/Röyksopp/Remind.mp3
+#EXTINF:214,1 Röyksopp - Here She Comes Again (DJ Antonio remix) (Here She Comes Again (DJ Antonio remix))
+/home/ybenel/Music/Electro/Röyksopp/Royksopp – Here She Comes Again.mp3
+#EXTINF:295,1 Röyksopp - Running to the Sea (Running to the Sea)
+/home/ybenel/Music/Electro/Röyksopp/Running To The Sea ( Studio Version).mp3
+#EXTINF:478,1 Röyksopp - Sordid Affair (Maceo Plex mix) (Sordid Affair)
+/home/ybenel/Music/Electro/Röyksopp/Sordid Affair (Maceo Plex Remix).mp3
+#EXTINF:507,3 Solee - Phoenix  (Phoenix)
+/home/ybenel/Music/Electro/Solee/Phoenix.mp3
+#EXTINF:547,1 Solomun - Friends (Friends)
+/home/ybenel/Music/Electro/Solomun/Solomun - Friends.mp3
+#EXTINF:598,9 Soul Capsule - Lady Science (NYC Sunrise) (The Lab 03)
+/home/ybenel/Music/Electro/Soul Capsule/Lady Science.mp3
+#EXTINF:256,Stereoclip - Airplane Lesson (Airplane Lesson)
+/home/ybenel/Music/Electro/Stereoclip/Stereoclip - Airplane Lesson.mp3
+#EXTINF:187,Carott - Anything (Polytone (Deluxe Edition))
+/home/ybenel/Music/Electro/Teho/Anything.mp3
+#EXTINF:375,Teho - Arena (Polytone (Deluxe Edition))
+/home/ybenel/Music/Electro/Teho/Arena.mp3
+#EXTINF:415,Teho - Arif (ADE / Arif)
+/home/ybenel/Music/Electro/Teho/Arif.mp3
+#EXTINF:272,Teho - Because (Polytone (Deluxe Edition))
+/home/ybenel/Music/Electro/Teho/Because.mp3
+#EXTINF:428,11 Teho - Behind Me (Manualism 9.0)
+/home/ybenel/Music/Electro/Teho/Behind Me.mp3
 #EXTINF:265,Teho - Is That Worth It
-Teho/Is That Worth It.mp3
+/home/ybenel/Music/Electro/Teho/Is That Worth It.mp3
 #EXTINF:378,Teho - Mandala
-Teho/Mandala (Original mix).mp3
+/home/ybenel/Music/Electro/Teho/Mandala (Original mix).mp3
+#EXTINF:469,Teho - Signal (Ron Flatter Remix) (Polytone (Deluxe Edition))
+/home/ybenel/Music/Electro/Teho/Signal (Ron Flatter Remix).mp3
+#EXTINF:578,Teho - Space Explorers (Polytone (Deluxe Edition))
+/home/ybenel/Music/Electro/Teho/Space Explorers.mp3
 #EXTINF:425,Teho - Woody
-Teho/Woody [Original Mix].mp3
-#EXTINF:415,Teho - Arif
-Teho/Arif.mp3
-#EXTINF:356,Ten Walls - Sparta
-Ten Walls/Sparta.mp3
-#EXTINF:260,Tove Lo - Stay High - Habits Remix
-Tove Lo/Stay High - Habits Remix.mp3
-#EXTINF:610,Matthieu Faubourg - Please, Stay
-Matthieu Faubourg/Matthieu Faubourg - Please Stay.mp3
-#EXTINF:428,Teho - Behind Me
-Teho/Behind Me.mp3
-#EXTINF:397,Worakls - Elea
-Worakls/Elea.mp3
-#EXTINF:466,Worakls - Bleu
-Worakls/Bleu.mp3
-#EXTINF:428,Worakls - Toi
-Worakls/Toi.mp3
-#EXTINF:332,Worakls - Porto (original mix)
-Worakls/Porto.mp3
-#EXTINF:376,N'to - Trauma - 2018' Revision
-N'to/Trauma - 2018' Revision.mp3
-#EXTINF:418,N'to - Chez nous
-N'to/Chez nous.mp3
-#EXTINF:416,N'to - La clé des champs
-N'to/La Clé Des Champs.mp3
-#EXTINF:428,N'to - Petite
-N'to/Petite.mp3
-#EXTINF:530,Worakls - Adagio for Square (club mix)
-Worakls/Adagio For Square (Original Mix).mp3
-#EXTINF:609,Worakls - From Now On
-Worakls/From Now On.mp3
-#EXTINF:331,Worakls - Nikki
-Worakls/Nikki.mp3
+/home/ybenel/Music/Electro/Teho/Woody [Original Mix].mp3
+#EXTINF:356,Ten Walls - Sparta (Sparta)
+/home/ybenel/Music/Electro/Ten Walls/Sparta.mp3
+#EXTINF:742,1 Theo Parrish - Overyohead
+/home/ybenel/Music/Electro/Theo Parrish/Overyohead.mp3
+#EXTINF:260,17 Tove Lo - Stay High - Habits Remix (Queen Of The Clouds)
+/home/ybenel/Music/Electro/Tove Lo/Stay High - Habits Remix.mp3
+#EXTINF:274,1 INZO - Overthinker (Overthinker)
+/home/ybenel/Music/Electro/Wolfe/INZO - Overthinker.mp3
+#EXTINF:207,LIHO - Surrender (Surrender)
+/home/ybenel/Music/Electro/Wolfe/LIHO - Surrender.mp3
+#EXTINF:234,1 Not Your Dope - 5 AM (5 AM)
+/home/ybenel/Music/Electro/Wolfe/Not Your Dope - 5 A.M.mp3
+#EXTINF:265,Will Crockford - Chance (Chance)
+/home/ybenel/Music/Electro/Wolfe/Will Crockford - Chance.mp3
+#EXTINF:226,WOLFE - Through With You (Through With You)
+/home/ybenel/Music/Electro/Wolfe/WOLFE - Through With You.mp3
+#EXTINF:530,14 Worakls - Adagio for Square (club mix) (Pete Tong Mix)
+/home/ybenel/Music/Electro/Worakls/Adagio For Square (Original Mix).mp3
+#EXTINF:466,Worakls - Bleu (Good Night My Love)
+/home/ybenel/Music/Electro/Worakls/Bleu.mp3
+#EXTINF:397,2 Worakls - Elea (Flocon de Neige)
+/home/ybenel/Music/Electro/Worakls/Elea.mp3
+#EXTINF:609,Worakls - From Now On (Question réponse)
+/home/ybenel/Music/Electro/Worakls/From Now On.mp3
+#EXTINF:412,Worakls, Kevin Rodrigues - Mona (Sur le front des animaux menacés)
+/home/ybenel/Music/Electro/Worakls/Mona.mp3
+#EXTINF:331,Worakls - Nikki (Under Pressure)
+/home/ybenel/Music/Electro/Worakls/Nikki.mp3
+#EXTINF:549,9 Worakls - Nocturne (Hungry 5)
+/home/ybenel/Music/Electro/Worakls/Nocturne.mp3
+#EXTINF:332,2 Worakls - Porto (original mix) (Hungry)
+/home/ybenel/Music/Electro/Worakls/Porto.mp3
+#EXTINF:436,Worakls - Salzburg (Hungry 5)
+/home/ybenel/Music/Electro/Worakls/Salzburg.mp3
+#EXTINF:497,D1gitalSound - Worakls - Souvenir (N'to Remix)
+/home/ybenel/Music/Electro/Worakls/Souvenir (N'to Remix).mp3
+#EXTINF:428,Worakls - Toi (Hungry)
+/home/ybenel/Music/Electro/Worakls/Toi.mp3
+#EXTINF:600,N'to - Trauma (Worakls Remix) (Hungry 5)
+/home/ybenel/Music/Electro/Worakls/Trauma (Worakls Remix).mp3
+#EXTINF:238,1 r2dr0dn - 3310 - INSTRU (Mix_Achive_1)
+/home/ybenel/Music/Electro/Ybenel/3310.mp3
+#EXTINF:152,/home/ybenel/Music/Electro/Ybenel/8000.mp3
+/home/ybenel/Music/Electro/Ybenel/8000.mp3
+#EXTINF:252,3 r2dr0dn - A Little Further (Response)
+/home/ybenel/Music/Electro/Ybenel/A Little Further.mp3
+#EXTINF:228,2 r2dr0dn - AyamZaman (Wa9tZman)
+/home/ybenel/Music/Electro/Ybenel/AyamZaman.mp3
+#EXTINF:481,/home/ybenel/Music/Electro/Ybenel/Lonely.mp3
+/home/ybenel/Music/Electro/Ybenel/Lonely.mp3
+#EXTINF:233,1 Adele - Rolling in the Deep (Rolling in the Deep)
+/home/ybenel/Music/Singing/Adele/Adele - Rolling in the Deep.mp3
+#EXTINF:289,1 Adele - Skyfall (Skyfall)
+/home/ybenel/Music/Singing/Adele/Adele - Skyfall.mp3
+#EXTINF:368,Ahmet Kilic  - Stumblin' In
+/home/ybenel/Music/Singing/Ahmet Kilic/Ahmet Kilic & Stoto feat. Adeba - Stumblin' In.mp3
+#EXTINF:260,2 Calvin Harris - How Deep Is Your Love (How Deep Is Your Love (remixes))
+/home/ybenel/Music/Singing/Calvin Harris/Calvin Harris & Disciples - How Deep Is Your Love.mp3
+#EXTINF:237,David Guetta - She Wolf
+/home/ybenel/Music/Singing/David Guetta/David Guetta - She Wolf.mp3
+#EXTINF:245,12 David Guetta - Titanium (Vocal Album)
+/home/ybenel/Music/Singing/David Guetta/David Guetta - Titanium ft. Sia.mp3
+#EXTINF:224,10 Dua Lipa - New Rules (Dua Lipa)
+/home/ybenel/Music/Singing/Dua lipa/Dua Lipa - New Rules.mp3
+#EXTINF:252,3 fun - We Are Young (Some Nights)
+/home/ybenel/Music/Singing/Fun/Fun. - We Are Young ft. Janelle Monáe.mp3
+#EXTINF:243,1 Gotye - Somebody That I Used to Know (Somebody That I Used to Know)
+/home/ybenel/Music/Singing/Gotye/Gotye - Somebody That I Used To Know.mp3
+#EXTINF:219,ISSAM - Caviar  (Caviar)
+/home/ybenel/Music/Singing/ISSAM/ISSAM — Caviar.mp3
+#EXTINF:200,ISSAM - Trap Beldi (Trap Beldi)
+/home/ybenel/Music/Singing/ISSAM/ISSAM - Trap Beldi.mp3
+#EXTINF:225,6 Katy Perry - Dark Horse (Prism)
+/home/ybenel/Music/Singing/Katty Perry/Katy Perry - Dark Horse.mp3
+#EXTINF:269,Katy Perry - Roar
+/home/ybenel/Music/Singing/Katty Perry/Katy Perry - Roar.mp3
+#EXTINF:150,8 Lil Tecca - Amigo (We Love You Tecca)
+/home/ybenel/Music/Singing/Lil Tecca/Lil Tecca - Amigo.mp3
+#EXTINF:123,7 Lil Tecca - Bossanova (We Love You Tecca)
+/home/ybenel/Music/Singing/Lil Tecca/Lil Tecca - Bossanova.mp3
+#EXTINF:177,16 Lil Tecca - Count Me Out (We Love You Tecca)
+/home/ybenel/Music/Singing/Lil Tecca/Lil Tecca - Count Me Out.mp3
+#EXTINF:117,4 Lil Tecca - Did It Again (We Love You Tecca)
+/home/ybenel/Music/Singing/Lil Tecca/Lil Tecca - Did It Again.mp3
+#EXTINF:133,11 Lil Tecca - DUI (We Love You Tecca)
+/home/ybenel/Music/Singing/Lil Tecca/Lil Tecca - DUI.mp3
+#EXTINF:153,6 Lil Tecca - Left, Right (We Love You Tecca)
+/home/ybenel/Music/Singing/Lil Tecca/Lil Tecca - Left Right.mp3
+#EXTINF:120,12 Lil Tecca - Love Me (We Love You Tecca)
+/home/ybenel/Music/Singing/Lil Tecca/Lil Tecca - Love Me.mp3
+#EXTINF:115,13 Lil Tecca - Molly Girl (We Love You Tecca)
+/home/ybenel/Music/Singing/Lil Tecca/Lil Tecca - Molly Girl.mp3
+#EXTINF:165,5 Lil Tecca - Out Of Luck (We Love You Tecca)
+/home/ybenel/Music/Singing/Lil Tecca/Lil Tecca - Out Of Luck.mp3
+#EXTINF:204,9 Lil Tecca - Phenom (We Love You Tecca)
+/home/ybenel/Music/Singing/Lil Tecca/Lil Tecca - Phenom.mp3
+#EXTINF:131,1 Lil Tecca - Ransom (Ransom)
+/home/ybenel/Music/Singing/Lil Tecca/Lil Tecca - Ransom.mp3
+#EXTINF:133,15 Lil Tecca - Senorita (We Love You Tecca)
+/home/ybenel/Music/Singing/Lil Tecca/Lil Tecca - Senorita.mp3
+#EXTINF:109,2 Lil Tecca - Shots (We Love You Tecca)
+/home/ybenel/Music/Singing/Lil Tecca/Lil Tecca - Shots.mp3
+#EXTINF:158,3 Lil Tecca - Sidenote (We Love You Tecca)
+/home/ybenel/Music/Singing/Lil Tecca/Lil Tecca - Sidenote.mp3
+#EXTINF:128,14 Lil Tecca - The Score (We Love You Tecca)
+/home/ybenel/Music/Singing/Lil Tecca/Lil Tecca - The Score.mp3
+#EXTINF:172,10 Lil Tecca - Weatherman (We Love You Tecca)
+/home/ybenel/Music/Singing/Lil Tecca/Lil Tecca - Weatherman.mp3
+#EXTINF:216,Madd - 3310 (3310)
+/home/ybenel/Music/Singing/Madd/3310.mp3
+#EXTINF:168,1 Madd - Karma (Karma)
+/home/ybenel/Music/Singing/Madd/Karma.mp3
+#EXTINF:232,1 Macklemore - Thrift Shop (Thrift Shop)
+/home/ybenel/Music/Singing/Mickelmore/MACKLEMORE & RYAN LEWIS - THRIFT SHOP.mp3
+#EXTINF:243,7 Naughty Boy - La La La (Relax)
+/home/ybenel/Music/Singing/Naughtty boy/Naughty Boy - La la la ft. Sam Smith.mp3
+#EXTINF:220,1 Selena Gomez - Good for You (Good for You)
+/home/ybenel/Music/Singing/Selena Gomez/Selena Gomez - Good For You.mp3
+#EXTINF:211,1 Selena Gomez - Me & the Rhythm (Me & the Rhythm)
+/home/ybenel/Music/Singing/Selena Gomez/Selena Gomez - Me & The Rhythm.mp3
+#EXTINF:186,1 Selena Gomez - Naturally (Naturally)
+/home/ybenel/Music/Singing/Selena Gomez/Selena Gomez & The Scene - Naturally.mp3
+#EXTINF:197,1 Shakira - Chantaje (Chantaje)
+/home/ybenel/Music/Singing/Shakira/Shakira - Chantaje.mp3
+#EXTINF:232,1 Shakira - Me enamoré (Me enamoré)
+/home/ybenel/Music/Singing/Shakira/Shakira - Me Enamoré.mp3
+#EXTINF:251,ShayFeen - OMG
+/home/ybenel/Music/Singing/Shayfeen/Shayfeen - OMG.mp3
+#EXTINF:189,Shayfeen - Money Call (Instrumental) (Money Call)
+/home/ybenel/Music/Singing/Shayfeen/Shayfeen - SHOBEE (Instrumental).mp3
+#EXTINF:292,Shayfeen - Money Call (Money Call)
+/home/ybenel/Music/Singing/Shayfeen/Shayfeen - SHOBEE.mp3
+#EXTINF:241,ShayFeen - Wach Kayn Maydar
+/home/ybenel/Music/Singing/Shayfeen/Shayfeen - Wach Kayn Maydar.mp3
+#EXTINF:231,Sia - Chandelier
+/home/ybenel/Music/Singing/Sia/Sia - Chandelier.mp3
+#EXTINF:261,4 Sia - Cheap Thrills (Now 31)
+/home/ybenel/Music/Singing/Sia/Sia - Cheap Thrills.mp3
+#EXTINF:307,18 Sia - Elastic Heart (Blood Diamonds remix) (1000 Forms of Fear)
+/home/ybenel/Music/Singing/Sia/Sia - Elastic Heart.mp3
+#EXTINF:234,Stromae - Alors On Danse
+/home/ybenel/Music/Singing/Stromae/Stromae - Alors On Danse.mp3
+#EXTINF:293,1 Stromae - Formidable (Formidable)
+/home/ybenel/Music/Singing/Stromae/Stromae - Formidable.mp3
+#EXTINF:232,1 Stromae - Papaoutai (Papaoutai)
+/home/ybenel/Music/Singing/Stromae/Stromae - Papaoutai.mp3
+#EXTINF:217,5 Stromae - Tous les mêmes (Racine carrée)
+/home/ybenel/Music/Singing/Stromae/Stromae - Tous Les Mêmes.mp3
+#EXTINF:234,1 The Weeknd - The Hills (The Hills)
+/home/ybenel/Music/Singing/The Weekend/The Weeknd - The Hills.mp3
+#EXTINF:217,1 twenty one pilots - Heathens (Heathens)
+/home/ybenel/Music/Singing/Twenty One Pilot/twenty one pilots - Heathens.mp3
+#EXTINF:225,1 twenty one pilots - Stressed Out (Stressed Out)
+/home/ybenel/Music/Singing/Twenty One Pilot/twenty one pilots - Stressed Out.mp3
+#EXTINF:204,YoungBoy Never Broke Again - YoungBoy Never Broke Again - Deceived Emotions (Official Audio)
+/home/ybenel/Music/Singing/YoungBoy/Deceived Emotions.mp3
+#EXTINF:337,ZAYN - Dusk Till Dawn
+/home/ybenel/Music/Singing/Zayn/ZAYN - Dusk Till Dawn.mp3
+#EXTINF:34,Skins - Skins Series 2 Opening Titles
+/home/ybenel/Music/Special/Skins.opus
+#EXTINF:199,1 Ludwig Göransson - The Mandalorian (The Mandalorian)
+/home/ybenel/Music/Special/The Mandalorian.mp3
