@@ -57,13 +57,13 @@ local function factory(args)
             elseif  spot_now.state ~= "Paused" then
                 helpers.set_map("current playing track", nil)
             end
-            widget:connect_signal("button::press", function(_, _, _, button)
-                if (button == 1) then
-                    awful.spawn("playerctl play", false)      -- left click
-                elseif (button == 3) then
-                    awful.spawn("playerctl pause", false)  -- scroll up
-                end
-            end)
+            --widget:connect_signal("button::press", function(_, _, _, button)
+            --    if (button == 1) then
+            --        awful.spawn("playerctl play", false)      -- left click
+            --    elseif (button == 3) then
+            --        awful.spawn("playerctl pause", false)  -- scroll up
+            --    end
+            --end)
             if show_tooltip then
                 local spot_tooltip = awful.tooltip {
                     mode = 'outside',

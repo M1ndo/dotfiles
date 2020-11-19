@@ -20,7 +20,6 @@ run "/home/ybenel/monitors.sh"
 run "nitrogen --restore"
 run "xscreensaver -no-splash"
 run "buckle -f -g 40"
-#run "conky -c $HOME/.config/awesome/system-overview"
 
 #run applications from startup
 #run "firefox"

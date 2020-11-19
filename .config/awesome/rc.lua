@@ -90,7 +90,7 @@ local modkey1      = "Control"
 -- personal variables
 --change these variables if you want
 local browser           = "google-chrome-stable"
-local editor            = os.getenv("EDITOR") or "vim"
+local editor            = os.getenv("EDITOR") or "nvim"
 local editorgui         = "xed"
 local filemanager       = "dolphin"
 local mailclient        = "geary"
@@ -292,13 +292,19 @@ globalkeys = my_table.join(
         beautiful.bg_normal, beautiful.fg_normal, beautiful.bg_focus, beautiful.fg_focus))
 	end,
     {description = "show dmenu", group = "hotkeys"}),
+    awful.key({ modkey, altkey }, "s",
+    function ()
+        awful.spawn(string.format("dmenu_run -c -bw 2 -l 10 -g 4 -p 'ybenel: ' -fn 'scientifica:size=12'",
+        beautiful.bg_normal, beautiful.fg_normal, beautiful.bg_focus, beautiful.fg_focus))
+	end,
+    {description = "show dmenu (Small)", group = "hotkeys"}),
     awful.key({ modkey1, modkey  }, "s",
     function()
 	    awful.spawn(string.format("rofi -show-icons -show run",
 	    beautiful.bg_normal, beautiful.fg_normal, beautiful.bg_focus, beautiful.fg_focus))
 	    end,
     {description = "show rofi", group = "hotkeys"}),
-    awful.key({ modkey, }, "e", function () awful.util.spawn( terminal .. " -e nvim" ) end,
+    awful.key({ altkey, }, "e", function () awful.util.spawn( terminal .. " -e nvim" ) end,
         {description = "Open Nvim" , group = "hotkeys" }),
     -- My dmenu scripts (Alt+Ctrl+Key)
     awful.key({ altkey, "Control" }, "e", function () awful.util.spawn( "./.dmenu/dmenu-edit-configs.sh" ) end,
@@ -311,7 +317,7 @@ globalkeys = my_table.join(
     -- My applications (Super+Alt+Key)
     awful.key({ modkey, altkey  }, "c", function () awful.util.spawn( terminal.." -e mocp" ) end,
         {description = "mocp" , group = "terminal apps" }),
-    awful.key({ modkey, altkey }, "e", function () awful.util.spawn( terminal.." -e neomutt" ) end,
+    awful.key({ modkey, altkey }, "e", function () awful.util.spawn( terminal.." -e irssi" ) end,
         {description = "neomutt email" , group = "terminal apps" }),
     awful.key({ modkey, altkey  }, "f", function () awful.util.spawn( terminal.." -e sh ./.config/vifm/scripts/vifmrun" ) end,
         {description = "vifm" , group = "terminal apps" }),
@@ -559,6 +565,14 @@ globalkeys = my_table.join(
         function ()
             os.execute(string.format("amixer -q set %s 0%%", beautiful.volume.channel))
             beautiful.volume.update()
+        end),
+    awful.key({altkey }, "l",
+        function()
+            os.execute('playerctl play')
+        end),
+    awful.key({altkey }, "p",
+        function()
+            os.execute('playerctl pause')
         end),
 
     -- Copy primary to clipboard (terminals to gtk)
