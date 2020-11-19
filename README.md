@@ -25,7 +25,10 @@
 * Zsh (SHELL)
 * Bash (SHELL)
 * XscreenSaver (Screen Saver)
-* Many More ...
+* irssi (IRC Client)
+* Spicetify (Spotify Beautifier)
+* SpaceVim (Vim/Nvim PreConfigured ?)
+* That's All I Guess.
 
 # Features
 
@@ -65,7 +68,7 @@ keybindings consistent with all of my window managers.
 | `MODKEY + SHIFT + s` | show all available keybindings |
 
 # My Keybindings For HerbstluftWm Are The Same As Awesome
-# My Keybindings For Xmonad Are The Same As Awesome
+# My Keybindings For Xmonad Are Similar To Awesome
 
 The MODKEY is set to the Super key (aka the Windows key).  I try to keep the
 keybindings consistent with all of my window managers.
@@ -73,24 +76,33 @@ keybindings consistent with all of my window managers.
 | Keybinding | Action |
 | :--- | :--- |
 | `MODKEY + RETURN` | opens terminal (xterm is the terminal but can be easily changed) |
-| `MODKEY + SHIFT + RETURN` | opens run launcher (dmenu is the run launcher but can be easily changed) |
+| `MODKEY + SHIFT + RETURN` | opens run launcher (Xmonad App Launch) |
 | `MODKEY + SHIFT + c` | closes window with focus |
-| `MODKEY + SHIFT + r` | restarts Xmonad |
+| `MODKEY + SHIFT + a` | Closes All Windows Within Active Workspace |
+| `MODKEY + SHIFT + r` | Recompile And restarts Xmonad |
 | `MODKEY + SHIFT + q` | quits xmonad |
 | `MODKEY + 1-9` | switch focus to workspace (1-9) |
 | `MODKEY + SHIFT + 1-9` | send focused window to workspace (1-9) |
-| `MODKEY + j` | Move Focus to the next Window |
-| `MODKEY + k` | Move Focus to the previous window |
-| `MODKEY + h` | Shrink size of focused window |
-| `MODKEY + l` | Expand size of focused window |
-| `MODKEY + SHIFT + up` | Increase size of focused window up |
-| `MODKEY + SHIFT + down` | Increase size of focused window down |
-| `MODKEY + SHIFT + left` | Increase size of focused window left |
-| `MODKEY + SHIFT + right` | Increase size of focused window right |
+| `MODKEY + LEFT` | Move Focus to the LEFT Window |
+| `MODKEY + RIGHT` | Move Focus to the RIGHT window |
+| `MODKEY + LEFT` | Move Focus to the Window Up|
+| `MODKEY + RIGHT` | Move Focus to the window Down|
+| `MODKEY + i` | Shrink Window Spacing |
+| `MODKEY + d` | Expand Window Spacing |
+| `MODKEY + SHIFT + i` | Shrink window Screen Spacing |
+| `MODKEY + SHIFT + d` | Expand window Screen Spacing |
+| `MODKEY + SHIFT + up` | rotates the windows in the stack, going up |
+| `MODKEY + SHIFT + down` | rotates the windows in the stack, going down |
+| `MODKEY + SHIFT + left` | rotates the windows in the stack, going left |
+| `MODKEY + SHIFT + right` | rotates the windows in the stack, going right |
 | `MODKEY + period` | switch focus to next monitor |
 | `MODKEY + comma` | switch focus to prev monitor |
 | `MODKEY + SHIFT + t` | small app launcher (built in xmonad) |
+| `MODKEY + n` | Minimize Focused Window |
+| `MODKEY + CTRL + n` | Restore Minimized Window |
+| `MODKEY + b` | Open Browser |
 
+*****Note** Read The Config File To See All Available Keybinding , You Don't Want To Miss The Great Features i've added to it :D
 
 # Screenshots
 <img src="https://github.com/r2dr0dn/dotfiles/blob/master/screenshots/ybenel%4017-43-19-scrot.png" alt="Awesome" border="0">
