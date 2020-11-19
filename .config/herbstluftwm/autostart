@@ -20,96 +20,6 @@ dunst -conf ~/.config/dunst/dunstrc &
 xfce4-power-manager &
 /usr/lib/polkit-kde-authentication-agent-1 &
 xscreensaver -no-splash &
-# The Following Code Is Written To Implement Hide/Restore Windows
-#function hidden_windows() {
-#  for i in $(herbstclient attr clients | grep ‘0x’)
-#  do
-#    if herbstclient attr clients.$i | grep -q “‘$tag”; then
-#      window=$(herbstclient attr clients.$i | grep ‘title’ | cut -d’”’ -f2)
-#      [[ $hidden ]] && hidden=”$hidden\n$window” || hidden=”$window”
-#    fi
-#  done
-#  [[ $hidden ]] && return 0 || return 1
-#}
-
-#function unhide() {
-#  for i in $(herbstclient attr clients | grep ‘0x’)
-#  do
-#    if herbstclient attr clients.$i | grep -q “$@”; then
-#      winid=${i%.}
-#      break
-#    fi
-#  done
-#  [[ $winid ]] && herbstclient chain . use $tag .  bring $winid
-#}
-
-#function unhide_window() {
-#  case $window in
-#    ‘[ all ]’)    hide_window 0 ;;
-#    ‘[ last ]’)   hide_window -1 ;;
-#    *)            unhide “$window”
-#                  release_ticktag $tag
-#                  ;;
-#  esac
-#}
-
-#tag=$(herbstclient list_monitors | grep '\[FOCUS\]' | cut -d'"' -f2)
-#case "$@" in
-#  +1)   herbstclient dump “‘$tag” || herbstclient add “‘$tag”
-#        herbstclient move “‘$tag”
-#        ;;
-#  -1)   if herbstclient dump “‘$tag”; then
-#          herbstclient chain . lock . use “‘$tag”
-#          winid=$(herbstclient attr clients.focus.winid)
-#          herbstclient chain . use $tag . bring $winid . unlock
-#          release_ticktag $tag
-#        fi
-#        ;;
-#  0)    herbstclient dump “‘$tag” && herbstclient merge_tag “‘$tag” ;;
-#  *)    if hidden_windows; then
-#          if (( $(echo -e $hidden | wc -l) - 1 )); then
-#            if window=$(echo -e $hidden | sort | sed “1i[ all ]\n[ last ]” | $(dwrapper) -p “Raise Window □ $tag”); then
-#              unhide_window
-#            fi
-#          else
-#            if window=$(echo -e $hidden | sort | $(dwrapper) -p “Raise Window □ $tag”); then
-#              unhide_window
-##            fi
-#          fi
-#        fi
-#        ;;
-#esac
-
-# Toggle Hide / Restore PolyBar
-
-#minimal=0
-#hc -i |
-#while read line; do
-# case $line in
- # minimal_layout*)
- #  case $minimal in
-  #  0)
-   #  minimal=1
-    # hc pad 0 10 10 10 10
-     #window=( "polybar" )
-     #for i in ${window[@]}; do
-     # win_id=$(xdotool search --name "$i")
-   #   xdotool windowmove $win_id x -24
-   #  done
-   #  ;;
-   # 1|*)
-     #minimal=0
-    # hc pad 0 34 10 10 10
-   #  window=( "polybar" )
-  #   for i in ${window[@]}; do
- #     win_id=$(xdotool search --name "$i")
-#      xdotool windowmove $win_id x 0
-#     done
-#     ;;
-#   esac
-# esac
-#done
-
 
 # remove all existing keybindings
 hc keyunbind --all
@@ -126,6 +36,7 @@ hc keybind $Mod-Return spawn $myTerm
 hc keybind $Mod-e spawn $myTerm -e $myEditor
 # Dmenu launcher
 hc keybind $Mod-Shift-Return spawn dmenu_run -fn 'scientifica:size=12' -nb '#212D32' -nf '#bbc5ff' -sb '#E37673' -sf '#292d3e' -p 'Ybenel:'
+hc keybind $Mod-Mod1-s spawn dmenu_run -c -bw 2 -l 10 -g 4 -p 'ybenel: ' -fn 'scientifica:size=12'
 
 # My dmenu scripts (Alt+Ctrl+Key)
 hc keybind Mod1-Control-e spawn ./.dmenu/dmenu-edit-configs.sh
@@ -135,11 +46,15 @@ hc keybind $Mod-Control-s spawn rofi -show-icons -show run
 
 # My applications (Super+Alt+Key)
 hc keybind $Mod-Mod1-n spawn google-chrome-stable
-hc keybind $Mod-Mod1-l spawn $myTerm -e lynx --cfg=~/.lynx/lynx.cfg --lss=~/.lynx/lynx.lss -vikeys http://darkos-arch.sourceforge.io
-hc keybind $Mod-Mod1-e spawn $myTerm -e systemctl neomutt
+hc keybind $Mod-Mod1-l spawn $myTerm -e lynx --cfg=~/.lynx/lynx.cfg --lss=~/.lynx/lynx.lss -vikeys http://ybenel.tk
+hc keybind $Mod-Mod1-e spawn $myTerm -e irssi
 hc keybind $Mod-Mod1-f spawn $myTerm -e ~/.config/vifm/scripts/vifmrun
 hc keybind $Mod-Mod1-p spawn $myTerm -e PrNdOwN
 hc keybind $Mod-Mod1-c spawn $myTerm -e mocp
+
+# Controllers
+hc keybind Mod-l spawn bash -c 'playerctl pause'
+hc keybind Mod-p spawn bash -c 'playerctl play'
 
 # focusing clients
 hc keybind $Mod-Left          focus left
