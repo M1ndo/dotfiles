@@ -1,5 +1,5 @@
 export ZSH=/home/ybenel/.oh-my-zsh
-ZSH_THEME="random"
+ZSH_THEME="miloshadzic"
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 # CASE_SENSITIVE="true"
 # HYPHEN_INSENSITIVE="true"
@@ -31,9 +31,9 @@ setopt GLOB_DOTS
 [[ $- != *i* ]] && return
 
 export HISTCONTROL=ignoreboth:erasedups
-if [ -d "$HOME/.bin" ] ;
-  then PATH="$HOME/.bin:$PATH"
-fi
+#if [ -d "$HOME/.bin" ] ;
+#  then PATH="$HOME/.bin:$PATH"
+#fi
 
 if [ -d "$HOME/.local/bin" ] ;
   then PATH="$HOME/.local/bin:$PATH"
@@ -135,7 +135,7 @@ alias htb='doc && cd Sec/htb/'
 alias thm='doc && cd Sec/thm'
 
 # Awesome Screen Locker
-alias bls="betterlockscreen -u ~/Pictures/WallOne/TheWitcher4.jpg -l -t 'Ybenel Off The Screen'"
+alias bls="betterlockscreen -u ~/Pictures/WallOne/Mandalorian4.jpg -l -t 'This Is The Way'"
 
 #check vulnerabilities microcode
 alias microcode='grep . /sys/devices/system/cpu/vulnerabilities/*'

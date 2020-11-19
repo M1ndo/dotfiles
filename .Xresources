@@ -2,7 +2,6 @@
 ! https://invisible-island.net/xterm/xterm.faq.html
 XTerm.termName: xterm-256color
 XTerm*renderFont: true
-!XTerm*faceName: DejaVu Sans Mono
 XTerm*faceName: mononoki Nerd Font
 xterm*faceSize: 10
 
@@ -14,7 +13,7 @@ xterm*faceSize2: 10
 xterm*faceSize3: 12
 ! VT font menu: Large
 xterm*faceSize4: 16
-! VT font menu: Huge 
+! VT font menu: Huge
 xterm*faceSize5: 22
 
 
@@ -25,7 +24,7 @@ xterm.vt100.locale: true
 xterm*pointerColor: white
 xterm*pointerColorBackground: black
 !xterm*cursorColor: #bbc5ff
-xterm*cursorColor: #bbf0ff 
+xterm*cursorColor: #bbf0ff
 xterm*cursorBlink: false
 xterm*bellIsUrgent: true
 ! Smooth Scroll
@@ -136,7 +135,7 @@ xterm*on3Clicks: regex ([[:alpha:]]+://)?([[:alnum:]!#+,./=?@_~-]|(%[[:xdigit:]]
 /* *.foreground: #282828 */
 /* st.alpha: 0.9 */
 
-!! brogrammer: 
+!! brogrammer:
 /* *.foreground:  #d6dbe5 */
 /* *.background:  #131313 */
 /* *.color0:      #1f1f1f */
@@ -156,36 +155,31 @@ xterm*on3Clicks: regex ([[:alpha:]]+://)?([[:alnum:]!#+,./=?@_~-]|(%[[:xdigit:]]
 /* *.color7:      #d6dbe5 */
 /* *.color15:     #ffffff */
 /* *.colorBD:     #d6dbe5 */
-/* ! special                    
-/* *.foreground:   #e1e6c2 */       
-/* *.background:   #000000 */        
-/* *.cursorColor:  #e1e6c2 */        
-/* ! black                 */       
-/* *.color0:       #000000 */          
-/* *.color8:       #2e6cdd */           
-/* ! red                   */      
-/* *.color1:       #10110c */        
-/* *.color9:       #2affe5 */         
-/* ! green                 */         
-/* *.color2:       #23241d */           
-/* *.color10:      #ff00ba */              
-/* ! yellow                */              
-/* *.color3:       #c5d901 */               
-/* *.color11:      #ef915e */                 
-/* ! blue                  */     
-/* *.color4:       #5b5d4d */           
-/* *.color12:      #6bccdf */          
-/* ! magenta               */    
-/* *.color5:       #82846e */         
-/* *.color13:      #50b58b */        
-/* ! cyan                  */       
-/* *.color6:       #aeb195 */          
-/* *.color14:      #ff009b */          
-/* ! white                 */       
-/* *.color7:       #e1e6c2 */        
-/* *.color15:      #00ff8a */        
 
-/* ! base16 */             
+/* ! special
+/* *.foreground:   #e1e6c2 */
+/* *.background:   #F8F8F2 */
+/* *.cursorColor:  #e1e6c2 */
+/* *.color0:       #000000 */
+/* *.color8:       #2e6cdd */
+/* *.color1:       #10110c */
+/* *.color9:       #2affe5 */
+/* *.color2:       #23241d */
+/* *.color10:      #ff00ba */
+/* *.color3:       #c5d901 */
+/* *.color11:      #ef915e */
+/* *.color4:       #5b5d4d */
+/* *.color12:      #6bccdf */
+/* *.color5:       #82846e */
+/* *.color13:      #50b58b */
+/* *.color6:       #aeb195 */
+/* *.color14:      #ff009b */
+/* *.color7:       #e1e6c2 */
+/* *.color15:      #00ff8a */
+
+/* ! base16 */
+/* *.background:   #131313 */
+/* *.foreground:   #F8F8F2 */
 /* *.color0:       #181818 */
 /* *.color1:       #ab4642 */
 /* *.color2:       #a1b56c */
@@ -204,42 +198,44 @@ xterm*on3Clicks: regex ([[:alpha:]]+://)?([[:alnum:]!#+,./=?@_~-]|(%[[:xdigit:]]
 /* *.color15:      #f8f8f8 */
 
 /* !! solarized */
-/* *.color0:	#073642 */
-/* *.color1:	#dc322f */
-/* *.color2:	#859900 */
-/* *.color3:	#b58900 */
-/* *.color4:	#268bd2 */
-/* *.color5:	#d33682 */
-/* *.color6:	#2aa198 */
-/* *.color7:	#eee8d5 */
-/* *.color9:	#cb4b16 */
-/* *.color8:	#fdf6e3 */
-/* *.color10:	#586e75 */
-/* *.color11:	#657b83 */
-/* *.color12:	#839496 */
-/* *.color13:	#6c71c4 */
-/* *.color14:	#93a1a1 */
-/* *.color15:	#fdf6e3 */
+/* *.background: #131313 */
+/* *.foreground: #F8F8F2 */
+/* *.color0:	   #073642 */
+/* *.color1:	   #dc322f */
+/* *.color2:	   #859900 */
+/* *.color3:	   #b58900 */
+/* *.color4:	   #268bd2 */
+/* *.color5:	   #d33682 */
+/* *.color6:	   #2aa198 */
+/* *.color7:	   #eee8d5 */
+/* *.color9:	   #cb4b16 */
+/* *.color8:	   #fdf6e3 */
+/* *.color10:    #586e75 */
+/* *.color11:	   #657b83 */
+/* *.color12:	   #839496 */
+/* *.color13:	   #6c71c4 */
+/* *.color14:	   #93a1a1 */
+/* *.color15:	   #fdf6e3 */
 
 /* !! xterm */
-*.background: #131313  
-*.foreground: #F8F8F2 
-*.color0:   #000000 
-*.color8:   #4d4d4d 
-*.color1:   #cd0000 
-*.color9:   #ff0000 
-*.color2:   #00cd00 
-*.color10:  #00ff00 
-*.color3:   #cdcd00 
-*.color11:  #ffff00 
-*.color4:   #0000cd 
-*.color12:  #0000ff 
-*.color5:   #cd00cd 
-*.color13:  #ff00ff 
-*.color6:   #00cdcd 
-*.color14:  #00ffff 
-*.color7:   #e5e5e5 
-*.color15:  #aabac8 
+/* *.background: #131313 */
+/* *.foreground: #F8F8F2 */
+/* *.color0:     #000000 */
+/* *.color8:     #4d4d4d */
+/* *.color1:     #cd0000 */
+/* *.color9:     #ff0000 */
+/* *.color2:     #00cd00 */
+/* *.color10:    #00ff00 */
+/* *.color3:     #cdcd00 */
+/* *.color11:    #ffff00 */
+/* *.color4:     #0000cd */
+/* *.color12:    #0000ff */
+/* *.color5:     #cd00cd */
+/* *.color13:    #ff00ff */
+/* *.color6:     #00cdcd */
+/* *.color14:    #00ffff */
+/* *.color7:     #e5e5e5 */
+/* *.color15:    #aabac8 */
 
 /* ! Dracula Xresources palette */
 /* *.foreground: #F8F8F2 */
@@ -268,7 +264,7 @@ xterm*on3Clicks: regex ([[:alpha:]]+://)?([[:alnum:]!#+,./=?@_~-]|(%[[:xdigit:]]
 /* ! Dracula Xresources palette */
 /* *.foreground: #C0C0C0 */
 /* *.background: #101010 */
-/* *.color0:     #101010 */ 
+/* *.color0:     #101010 */
 /* *.color8:     #454545 */
 /* *.color1:     #EFA6A2 */
 /* *.color9:     #E0AF85 */
@@ -285,3 +281,47 @@ xterm*on3Clicks: regex ([[:alpha:]]+://)?([[:alnum:]!#+,./=?@_~-]|(%[[:xdigit:]]
 /* *.color7:     #808080 */
 /* *.color15:    #C0C0C0 */
 
+
+/* ! Adventure Time */
+/* *.foreground:  #f8dcc0 */
+/* *.background:  #1f1d45 */
+/* *.cursorColor: #efbf38 */
+/* *.color0:      #050404 */
+/* *.color8:      #4e7cbf */
+/* *.color1:      #bd0013 */
+/* *.color9:      #fc5f5a */
+/* *.color2:      #4ab118 */
+/* *.color10:     #9eff6e */
+/* *.color3:      #e7741e */
+/* *.color11:     #efc11a */
+/* *.color4:      #0f4ac6 */
+/* *.color12:     #1997c6 */
+/* *.color5:      #665993 */
+/* *.color13:     #9b5953 */
+/* *.color6:      #70a598 */
+/* *.color14:     #c8faf4 */
+/* *.color7:      #f8dcc0 */
+/* *.color15:     #f6f5fb */
+/* *.colorBD:     #bd0013 */
+
+/* ! Argonaut */
+*.foreground:  #fffaf4
+*.background:  #0e1019
+*.cursorColor: #ff0018
+*.color0:      #232323
+*.color8:      #444444
+*.color1:      #ff000f
+*.color9:      #ff2740
+*.color2:      #8ce10b
+*.color10:     #abe15b
+*.color3:      #ffb900
+*.color11:     #ffd242
+*.color4:      #008df8
+*.color12:     #0092ff
+*.color5:      #6d43a6
+*.color13:     #9a5feb
+*.color6:      #00d8eb
+*.color14:     #67fff0
+*.color7:      #ffffff
+*.color15:     #ffffff
+*.colorBD:     #9e9c9a
