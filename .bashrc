@@ -1,7 +1,7 @@
 # Maintainer Ybenel (r2dr0dn@pm.me)
 
 # Including Local Bin Tool In The Path
-PATH="$HOME/.local/bin${PATH:+:${PATH}}"
+PATH="$HOME/.local/bin:$PATH:/usr/bin/vendor_perl:/usr/bin/core_perl"
 
 # Setting Editor As NeoVim
 EDITOR="nvim"
@@ -149,7 +149,7 @@ ex ()
 #alias doas="doas --"
 
 # navigation
-alias ..='cd ..' 
+alias ..='cd ..'
 alias ...='cd ../..'
 # vim
 alias vim=nvim
@@ -160,27 +160,15 @@ alias bs='br --sizes'
 
 #Source .bashrc
 alias sr='source ~/.bashrc'
+alias zrc='source ~/.zshrc'
 
-# Add Grep Colors
-alias grep='grep --color=auto'
-alias egrep='egrep --color=auto'
-alias fgrep='fgrep --color=auto'
+# Changing "ls" to "lsd"
 
-# Changing "ls" to "exa"
 alias ll='lsd -al' # my preferred listing
 alias la='lsd -a'  # all files and dirs
 alias ls='lsd -l'  # long format
 alias lt='lsd -a --tree' # tree listing
 alias l="ls"
-#alias ll='exa -al --color=always --group-directories-first' # my preferred listing
-#alias la='exa -a --color=always --group-directories-first'  # all files and dirs
-#alias ls='exa -l --color=always --group-directories-first'  # long format
-#alias lt='exa -aT --color=always --group-directories-first' # tree listing
-#alias l="ls"
-#alias ls='ls --color=auto'
-#alias ll='ls -alF'
-#alias la='ls -A'
-#alias l='ls -CF'
 
 # yay shortcuts
 alias src='yay -Ss'
@@ -194,8 +182,8 @@ alias pcr='sudo pacman -R'
 alias sy='sudo pacman -Sy'
 alias syu='sudo pacman -Syu'
 alias syy='sudo pacman -Syy'
-# Saving Time Typing 
-alias gic='git clone' 
+# Saving Time Typing
+alias gic='git clone'
 alias pg='ping'   # Extra
 
 # Overwrite .Xresources To take effect of the new settings
@@ -212,12 +200,15 @@ alias vifm='./.config/vifm/scripts/vifmrun'
 # Aliases
 alias doc='cd ~/Documents'
 alias dow='cd ~/Downloads'
-alias ips="curl -s ifconfig.co | grep 'IP</span>:'| cut -d '<' -f 4 | sed 's/\/span>://'" 
+alias ips="curl -s ifconfig.co | grep 'IP</span>:'| cut -d '<' -f 4 | sed 's/\/span>://'"
+
+# Hacking  Tools Shortcuts
+alias searchsploit='/opt/exploitdb/searchsploit'
 alias conx="dow && cd conx && sudo openvpn ybenel.ovpn"
+alias conx2="dow && cd conx && sudo openvpn Thm.ovpn"
 alias htb='doc && cd Sec/htb/'
 alias thm='doc && cd Sec/thm'
-alias searchsploit='/opt/exploitdb/searchsploit'
-alias fort='htb && cd fortress_jet'
+
 # Awesome Screen Locker
 alias bls="betterlockscreen -u ~/Pictures/WallOne/TheWitcher4.jpg -l -t 'Ybenel Off The Screen'"
 
@@ -257,8 +248,9 @@ fi
 ### RANDOM COLOR SCRIPT ###
 $HOME/.bin/shuffle.py
 
-# PS1 Customization "~$ " " ... " 
-#export PS1="\[\e[1;49;32m\]\W \[\e[m\]\[\e[1;49;96m\]\\$\[\e[1;49;39m\] "
-export PS1='\[\e[31;1;48;234m\]\u \[\e[38;5;240m\]on \[\e[1;38;5;28;48;234m\]\h \[\e[38;5;54m\]\d \@\[\e[0m\]\n\[\e[38;5;105m\][\W] \[\e[1m\]\$\e[0m\] '
+# PS1 Customization "~$ "
+export PS1="\[\e[1;49;32m\]\W \[\e[m\]\[\e[1;49;96m\]\\$\[\e[1;49;39m\] "
 #export PS1='\[\e[0m\]\[\e[48;5;236m\]\[\e[38;5;105m\]\u\[\e[38;5;105m\]@\[\e[38;5;105m\]\h\[\e[38;5;105m\] \[\e[38;5;221m\]\w\[\e[38;5;221m\]\[\e[38;5;105m\]\[\e[0m\]\[\e[38;5;236m\]\342\226\214\342\226\214\342\226\214\[\e[0m\]'
+#export PS1='\[\e[31;1;48;234m\]\u \[\e[38;5;240m\]on \[\e[1;38;5;28;48;234m\]\h \[\e[38;5;54m\]\d \@\[\e[0m\]\n\[\e[38;5;105m\][\W] \[\e[1m\]\$\e[0m\] '
+
 

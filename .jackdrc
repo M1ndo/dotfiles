@@ -1,1 +1,1 @@
-/usr/bin/jackd -t 200 -p 2048 -R -T -d alsa -n 2 -r 48000 -p 1024 -d hw:MID,0 -X raw
+/usr/bin/jackd -dalsa -r48000 -p256 -n2 -D -Chw:MID -Phw:MID
