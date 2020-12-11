@@ -142,8 +142,8 @@ load-module module-filter-apply
 #set-default-source input
 
 # Surrouned Audio
-load-module module-remap-sink sink_name=Remape remix=yes master=alsa_output.pci-0000_00_1b.0.analog-stereo channels=8 master_channel_map=rear-left,rear-right,front-left,front-right,front-center,lfe,side-left,side-right channel_map=front-left,front-right,rear-left,rear-right,front-center,lfe,side-left,side-right
-load-module module-combine channels=8 channel_map=front-left,front-right,rear-left,rear-right,front-center,lfe,side-left,side-right
+#load-module module-remap-sink sink_name=Remape remix=yes master=alsa_output.pci-0000_00_1b.0.analog-stereo channels=8 master_channel_map=rear-left,rear-right,front-left,front-right,front-center,lfe,side-left,side-right channel_map=front-left,front-right,rear-left,rear-right,front-center,lfe,side-left,side-right
+#load-module module-combine channels=8 channel_map=front-left,front-right,rear-left,rear-right,front-center,lfe,side-left,side-right
 load-module module-ladspa-sink sink_name=Ybenel plugin=bs2b label=bs2b control=700,4.5
 
 #load-module module-combine channels=6 channel_map=front-left,front-right,rear-left,rear-right,front-center,lfe
@@ -159,3 +159,7 @@ set-default-sink echoCancel_sink
 # Set To Play With Jack 
 load-module module-jack-sink
 load-module module-jack-source
+load-module module-null-sink
+set-default-sink jack_out
+set-default-source jack_in
+
