@@ -1,3 +1,5 @@
+# Maintainer Ybenel (r2dr0dn@pm.me)
+
 export ZSH=/home/ybenel/.oh-my-zsh
 ZSH_THEME="miloshadzic"
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
@@ -13,7 +15,7 @@ ENABLE_CORRECTION="true"
 # COMPLETION_WAITING_DOTS="true"
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 # HIST_STAMPS="mm/dd/yyyy"
-plugins=(git)
+plugins=("git" "thefuck")
 source $ZSH/oh-my-zsh.sh
 
 # Man Page
@@ -78,7 +80,7 @@ ex ()
 #alias doas="doas --"
 
 # navigation
-alias ..='cd ..' 
+alias ..='cd ..'
 alias ...='cd ../..'
 # vim
 alias vim=nvim
@@ -111,8 +113,8 @@ alias pcr='sudo pacman -R'
 alias sy='sudo pacman -Sy'
 alias syu='sudo pacman -Syu'
 alias syy='sudo pacman -Syy'
-# Saving Time Typing 
-alias gic='git clone' 
+# Saving Time Typing
+alias gic='git clone'
 alias pg='ping'   # Extra
 
 # Overwrite .Xresources To take effect of the new settings
@@ -129,8 +131,12 @@ alias vifm='./.config/vifm/scripts/vifmrun'
 # Aliases
 alias doc='cd ~/Documents'
 alias dow='cd ~/Downloads'
-alias ips="curl -s ifconfig.co | grep 'IP</span>:'| cut -d '<' -f 4 | sed 's/\/span>://'" 
+alias ips="curl -s ifconfig.co | grep 'IP</span>:'| cut -d '<' -f 4 | sed 's/\/span>://'"
+
+# Hacking  Tools Shortcuts
+alias searchsploit='/opt/exploitdb/searchsploit'
 alias conx="dow && cd conx && sudo openvpn ybenel.ovpn"
+alias conx2="dow && cd conx && sudo openvpn Thm.ovpn"
 alias htb='doc && cd Sec/htb/'
 alias thm='doc && cd Sec/thm'
 
@@ -158,16 +164,9 @@ alias tb="nc termbin.com 9999"
 ### SET VI MODE IN BASH SHELL
 set -o vi
 
-#merge new settings
-alias cz='sudo cp /etc/skel/.zshrc ~/.zshrc && source ~/.zshrc'
-
 #Recent Installed Packages
 alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
 alias riplong="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -3000 | nl"
 
 ### RANDOM COLOR SCRIPT ###
 $HOME/.bin/shuffle.py
-
-
-
-

@@ -10,9 +10,4 @@ if [ -d /etc/X11/xinit/xinitrc.d ]; then
   done
   unset f
 fi
-
-if [systemd-detect-virt = "oracle"];
-	/usr/bin/VBoxClient-all
-fi
-exec start-pulseaudio-X11
-exec xsetroot -cursor_name left_ptr
+exec xmonad
