@@ -1,0 +1,3 @@
+configuration {
+	theme: "/home/ybenel/.config/rofi/themes/onedark.rasi";
+}
