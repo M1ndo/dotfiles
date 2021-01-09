@@ -106,7 +106,7 @@ keybindings consistent with all of my window managers.
 
 # Screenshots
 <img src="https://github.com/m1ndo/dotfiles/blob/master/screenshots/ybenel%4017-43-19-scrot.png" alt="Awesome" border="0">
-<img src="https://github.com/m1ndo/dotfiles/blob/master/screenshots/ybenel%421-01-09-scrot.png" alt="Xmonad" border="0">
+<img src="https://github.com/m1ndo/dotfiles/blob/master/screenshots/ybenel%4021-01-09-scrot.png" alt="Xmonad" border="0">
 <img src="https://github.com/m1ndo/dotfiles/blob/master/screenshots/ybenel%4017-44-41-scrot.png" alt="Herbstluftwm" border="0">
 
 ## Getting Help With Awesome
