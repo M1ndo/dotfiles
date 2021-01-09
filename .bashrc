@@ -1,4 +1,4 @@
-# Maintainer Ybenel (r2dr0dn@pm.me)
+# Maintainer Ybenel (ybenel@molero.xyz)
 
 # Including Local Bin Tool In The Path
 PATH="$HOME/.local/bin:$PATH:/usr/bin/vendor_perl:/usr/bin/core_perl"
@@ -149,7 +149,7 @@ ex ()
 #alias doas="doas --"
 
 # navigation
-alias ..='cd ..'
+alias ..='cd ..' 
 alias ...='cd ../..'
 # vim
 alias vim=nvim
@@ -160,10 +160,13 @@ alias bs='br --sizes'
 
 #Source .bashrc
 alias sr='source ~/.bashrc'
-alias zrc='source ~/.zshrc'
 
-# Changing "ls" to "lsd"
+# Add Grep Colors
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
 
+# Changing "ls" to "exa"
 alias ll='lsd -al' # my preferred listing
 alias la='lsd -a'  # all files and dirs
 alias ls='lsd -l'  # long format
@@ -182,8 +185,8 @@ alias pcr='sudo pacman -R'
 alias sy='sudo pacman -Sy'
 alias syu='sudo pacman -Syu'
 alias syy='sudo pacman -Syy'
-# Saving Time Typing
-alias gic='git clone'
+# Saving Time Typing 
+alias gic='git clone' 
 alias pg='ping'   # Extra
 
 # Overwrite .Xresources To take effect of the new settings
@@ -197,11 +200,6 @@ alias free='free -m'                      # show sizes in MB
 alias lynx='lynx -cfg=~/.lynx/lynx.cfg -lss=~/.lynx/lynx.lss -vikeys'
 alias vifm='./.config/vifm/scripts/vifmrun'
 
-# Aliases
-alias doc='cd ~/Documents'
-alias dow='cd ~/Downloads'
-alias ips="curl -s ifconfig.co | grep 'IP</span>:'| cut -d '<' -f 4 | sed 's/\/span>://'"
-
 # Hacking  Tools Shortcuts
 alias searchsploit='/opt/exploitdb/searchsploit'
 alias conx="dow && cd conx && sudo openvpn ybenel.ovpn"
@@ -210,7 +208,7 @@ alias htb='doc && cd Sec/htb/'
 alias thm='doc && cd Sec/thm'
 
 # Awesome Screen Locker
-alias bls="betterlockscreen -u ~/Pictures/WallOne/TheWitcher4.jpg -l -t 'Ybenel Off The Screen'"
+alias bls="betterlockscreen -u ~/Pictures/WallOne/Mandalorian4.jpg -l -t 'This Is The Way'"
 
 #check vulnerabilities microcode
 alias microcode='grep . /sys/devices/system/cpu/vulnerabilities/*'

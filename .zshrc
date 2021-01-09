@@ -1,5 +1,3 @@
-# Maintainer Ybenel (r2dr0dn@pm.me)
-
 export ZSH=/home/ybenel/.oh-my-zsh
 ZSH_THEME="miloshadzic"
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
@@ -120,6 +118,9 @@ alias pg='ping'   # Extra
 # Overwrite .Xresources To take effect of the new settings
 alias xd='xrdb ~/.Xresources'
 
+# Add A Specific Env File For My Old laptop
+alias scv='LIBGL_ALWAYS_SOFTWARE=1'
+
 # adding flags
 alias cp="cp -i"                          # confirm before overwriting something
 alias df='df -h'                          # human-readable sizes
@@ -132,6 +133,7 @@ alias vifm='./.config/vifm/scripts/vifmrun'
 alias doc='cd ~/Documents'
 alias dow='cd ~/Downloads'
 alias ips="curl -s ifconfig.co | grep 'IP</span>:'| cut -d '<' -f 4 | sed 's/\/span>://'"
+alias fxr="./.bin/ybl/resolution"
 
 # Hacking  Tools Shortcuts
 alias searchsploit='/opt/exploitdb/searchsploit'
