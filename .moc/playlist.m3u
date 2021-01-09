@@ -1,5 +1,5 @@
 #EXTM3U
-#MOCSERIAL: 512
+#MOCSERIAL: 768
 #EXTINF:484,1 Animal Trainer - Dragon Games - Original Mix (Dragon Games EP)
 /home/ybenel/Music/Electro/Animal Trainer/Dragon Games.mp3
 #EXTINF:385,7 Animal Trainer - Pollen (Wide)
@@ -138,10 +138,10 @@
 /home/ybenel/Music/Electro/Joris Delacroix/Let You Down.mp3
 #EXTINF:337,2 Joris Delacroix - Platinium (Night Visions)
 /home/ybenel/Music/Electro/Joris Delacroix/Platinium.mp3
-#EXTINF:264,Joris Delacroix - Routine (Night Visions)
-/home/ybenel/Music/Electro/Joris Delacroix/Routine.mp3
 #EXTINF:363,1 Joris Delacroix - Start the Engine (Night Visions)
 /home/ybenel/Music/Electro/Joris Delacroix/Start The Engine.mp3
+#EXTINF:264,Joris Delacroix - Routine (Night Visions)
+/home/ybenel/Music/Electro/Joris Delacroix/Routine.mp3
 #EXTINF:339,Joris Delacroix - Platinium (Night Visions)
 /home/ybenel/Music/Electro/Joris Delacroix/Stay.mp3
 #EXTINF:330,Joris Delacroix - Voyage (Night Visions)
@@ -154,10 +154,10 @@
 /home/ybenel/Music/Electro/Kolsch/Loreley.mp3
 #EXTINF:200,1 Lorde - Royals (Royals)
 /home/ybenel/Music/Electro/Lorde/Royals.mp3
-#EXTINF:413,Lumidelic - Synesthesia (Synesthesia)
-/home/ybenel/Music/Electro/Lumidelic/Lumidelic - Synesthesia.mp3
 #EXTINF:419,Lumidelic - Through The Door (Through The Door)
 /home/ybenel/Music/Electro/Lumidelic/Lumidelic - Through The Door.mp3
+#EXTINF:413,Lumidelic - Synesthesia (Synesthesia)
+/home/ybenel/Music/Electro/Lumidelic/Lumidelic - Synesthesia.mp3
 #EXTINF:610,1 Matthieu Faubourg - Please, Stay (Fair)
 /home/ybenel/Music/Electro/Matthieu Faubourg/Matthieu Faubourg - Please Stay.mp3
 #EXTINF:468,2 Monolink - New Morning (The End)
@@ -186,20 +186,22 @@
 /home/ybenel/Music/Electro/Oliver Schories/Molero2.mp3
 #EXTINF:467,Oliver Schories - Sunset  (Relatively Definately)
 /home/ybenel/Music/Electro/Oliver Schories/Sunset.mp3
+#EXTINF:429,1 Popof - Serenity (Serenity EP)
+/home/ybenel/Music/Electro/Popof/Serenity.mp3
 #EXTINF:485,Oxia - Domino (Domino)
 /home/ybenel/Music/Electro/Oxia/Oxia - Domino.mp3
 #EXTINF:243,Patrick Patrikios - Nothing On Me
 /home/ybenel/Music/Electro/Patrick/Patrick Patrikios _ Nothing On Me.mp3
 #EXTINF:554,Pepe Bradock - Deep Burnt
 /home/ybenel/Music/Electro/Pepe Bradock/Deep Burnt.mp3
-#EXTINF:429,1 Popof - Serenity (Serenity EP)
-/home/ybenel/Music/Electro/Popof/Serenity.mp3
 #EXTINF:428,1 Rodriguez Jr. - Lila (Lila's)
 /home/ybenel/Music/Electro/Rodriguez Jr/Lila.mp3
 #EXTINF:438,2 Rodriguez Jr. - Radian (Radio)
 /home/ybenel/Music/Electro/Rodriguez Jr/Radian.mp3
 #EXTINF:441,23 Ron Flatter - Mantequilla (Tour de Traum VII)
 /home/ybenel/Music/Electro/Ron Flatter/Mantequilla.mp3
+#EXTINF:478,1 Röyksopp - Sordid Affair (Maceo Plex mix) (Sordid Affair)
+/home/ybenel/Music/Electro/Röyksopp/Sordid Affair (Maceo Plex Remix).mp3
 #EXTINF:303,6 Röyksopp - Monument (Inevitable version) (FluxFM: Popkultur kompakt, Vol. 3)
 /home/ybenel/Music/Electro/Röyksopp/Monument (Inevitable Version).mp3
 #EXTINF:408,Röyksopp - Monument (FluxFM: Popkultur kompakt, Vol. 3)
@@ -212,8 +214,6 @@
 /home/ybenel/Music/Electro/Röyksopp/Royksopp – Here She Comes Again.mp3
 #EXTINF:295,1 Röyksopp - Running to the Sea (Running to the Sea)
 /home/ybenel/Music/Electro/Röyksopp/Running To The Sea ( Studio Version).mp3
-#EXTINF:478,1 Röyksopp - Sordid Affair (Maceo Plex mix) (Sordid Affair)
-/home/ybenel/Music/Electro/Röyksopp/Sordid Affair (Maceo Plex Remix).mp3
 #EXTINF:507,3 Solee - Phoenix  (Phoenix)
 /home/ybenel/Music/Electro/Solee/Phoenix.mp3
 #EXTINF:547,1 Solomun - Friends (Friends)
@@ -400,7 +400,9 @@
 /home/ybenel/Music/Singing/YoungBoy/Deceived Emotions.mp3
 #EXTINF:337,ZAYN - Dusk Till Dawn
 /home/ybenel/Music/Singing/Zayn/ZAYN - Dusk Till Dawn.mp3
-#EXTINF:34,Skins - Skins Series 2 Opening Titles
-/home/ybenel/Music/Special/Skins.opus
 #EXTINF:199,1 Ludwig Göransson - The Mandalorian (The Mandalorian)
 /home/ybenel/Music/Special/The Mandalorian.mp3
+#EXTINF:186,3 The Empire Strikes Back - The Imperial March (John Williams)
+/home/ybenel/Music/Special/The_Imperial_March.mp3
+#EXTINF:5868,1 Monster - Monster (David Sylvian)
+/home/ybenel/Music/Special/Monster.mp3
