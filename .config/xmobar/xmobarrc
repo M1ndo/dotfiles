@@ -10,7 +10,7 @@ Config { font    = "xft:Scientifica:pixelsize=11:antialias=true:hinting=true"
        , hideOnStart = False
        , allDesktops = True
        , persistent = True
-       , alpha = 150
+       , alpha = 255
        , iconRoot = "/home/ybenel/.xmonad/xpm/"  -- default: "."
        , commands = [
                       -- Time and date
