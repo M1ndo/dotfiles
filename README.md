@@ -105,20 +105,21 @@ keybindings consistent with all of my window managers.
 *****Note** Read The Config File To See All Available Keybinding , You Don't Want To Miss The Great Features i've added to it :D
 
 # Screenshots
-<img src="https://github.com/r2dr0dn/dotfiles/blob/master/screenshots/ybenel%4017-43-19-scrot.png" alt="Awesome" border="0">
-<img src="https://github.com/r2dr0dn/dotfiles/blob/master/screenshots/ybenel%4017-44-41-scrot.png" alt="Herbstluftwm" border="0">
+<img src="https://github.com/m1ndo/dotfiles/blob/master/screenshots/ybenel%4017-43-19-scrot.png" alt="Awesome" border="0">
+<img src="https://github.com/m1ndo/dotfiles/blob/master/screenshots/ybenel%421-01-09-scrot.png" alt="Xmonad" border="0">
+<img src="https://github.com/m1ndo/dotfiles/blob/master/screenshots/ybenel%4017-44-41-scrot.png" alt="Herbstluftwm" border="0">
 
 ## Getting Help With Awesome
 *Reporting issues*
 
-Please report any issues you have on [our bugtracker](https://github.com/r2dr0dn/dotfiles/issues).
+Please report any issues you have on [our bugtracker](https://github.com/m1ndo/dotfiles/issues).
 
 ## Documentation For AwesomeWM,XmonadWM
 
 Online documentation for Awesome [here](https://awesomewm.org/apidoc/) for Xmonad [here](https://xmonad.org/documentation.html) for HerbstluftWM [here](https://herbstluftwm.org/herbstluftwm.html)
 ##
 
-## Written By Ybenel(r2dr0dn)
+## Written By Ybenel(m1ndo)
 
 ## License
 
