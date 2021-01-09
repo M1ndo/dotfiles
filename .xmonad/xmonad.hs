@@ -154,11 +154,14 @@ windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace
 
 myStartupHook :: X ()
 myStartupHook = do
+        --spawn "/home/ybenel/.bin/ybl/resolution"
         spawnOnce "nitrogen --restore &"
         spawnOnce "picom &"
+        spawnOnce "unclutter -root &"
+        spawnOnce "sxhkd &"
         spawnOnce "nm-applet &"
         spawnOnce "volumeicon &"
-        spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x1B2F31 --height 22 --iconspacing 0 --margin 682 &"
+        spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x282C34 --height 22 --iconspacing 0 --margin 682 &"
         spawnOnce "/usr/lib/polkit-kde-authentication-agent-1 &"
         spawnOnce "xfce4-power-manager"
         spawnOnce "numlockx on"
@@ -589,7 +592,7 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
   findMocp   = appName =? "mocp"
   manageMocp = nonFloating
 
-  spawnIrc  = myTerminal ++ " -n irssi -e 'irssi'"
+  spawnIrc  = myTerminal ++ " -n irssi -e 'torify irssi'"
   findIrc   = (stringProperty "WM_NAME" =? "irssi")
   manageIrc = customFloating $ W.RationalRect l t w h
             where
