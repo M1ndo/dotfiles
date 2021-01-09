@@ -92,8 +92,8 @@ local modkey1      = "Control"
 local browser           = "google-chrome-stable"
 local editor            = os.getenv("EDITOR") or "nvim"
 local editorgui         = "xed"
-local filemanager       = "dolphin"
-local mailclient        = "geary"
+local filemanager       = "pcmanfm"
+local mailclient        = "evolution"
 local mediaplayer       = "vlc"
 local scrlocker         = "xscreensaver"
 local terminal          = "xterm"
@@ -300,7 +300,7 @@ globalkeys = my_table.join(
     {description = "show dmenu (Small)", group = "hotkeys"}),
     awful.key({ modkey1, modkey  }, "s",
     function()
-	    awful.spawn(string.format("rofi -show-icons -show run",
+	    awful.spawn(string.format("rofi -combi-modi run,drun -show combi -modi combi -show-icons -icon-theme 'Breeze' -display-combi 'ybenel: '",
 	    beautiful.bg_normal, beautiful.fg_normal, beautiful.bg_focus, beautiful.fg_focus))
 	    end,
     {description = "show rofi", group = "hotkeys"}),
@@ -318,13 +318,13 @@ globalkeys = my_table.join(
     awful.key({ modkey, altkey  }, "c", function () awful.util.spawn( terminal.." -e mocp" ) end,
         {description = "mocp" , group = "terminal apps" }),
     awful.key({ modkey, altkey }, "e", function () awful.util.spawn( terminal.." -e irssi" ) end,
-        {description = "neomutt email" , group = "terminal apps" }),
+        {description = "Irssi" , group = "terminal apps" }),
     awful.key({ modkey, altkey  }, "f", function () awful.util.spawn( terminal.." -e sh ./.config/vifm/scripts/vifmrun" ) end,
         {description = "vifm" , group = "terminal apps" }),
     awful.key({ modkey, altkey }, "l", function () awful.util.spawn( terminal.." -e lynx --cfg=~/.lynx/lynx.cfg --lss=~/.lynx/lynx.lss -vikeys http://darkos-arch.sourceforge.io" ) end,
         {description = "lynx cli browser" , group = "terminal apps" }),
-    awful.key({ modkey, altkey }, "m", function () awful.util.spawn( terminal.." -e PrNdOwN " ) end,
-        {description = "PrNdOwN" , group = "terminal apps" }),
+    awful.key({ modkey, modkey1 }, "e", function () awful.util.spawn( terminal.." -e 'torify irssi' " ) end,
+        {description = "Torify Irssi" , group = "terminal apps" }),
 
     -- screenshots
     awful.key({ }, "Print", function () awful.util.spawn("scrot 'Ybenel_D-%Y-%m-%d_$wx$h.jpg' -e 'mv $f $$(xdg-user-dir PICTURES)'") end,
@@ -334,6 +334,16 @@ globalkeys = my_table.join(
 
     -- Personal keybindings}}}
 
+    -- Moc Controls
+
+    awful.key({ modkey, "u"}, "<Space>", function () os.execute('mocp --toggle-pause') end,
+        {description = "Moc Pause/Resume", group = "Moc"}),
+    awful.key({ modkey, "u"}, "p", function () os.execute('mocp --play') end,
+        {description = "Moc Play", group = "Moc"}),
+    awful.key({ modkey, "u"}, "h", function () os.execute('mocp --previous') end,
+        {description = "Moc Previous", group = "Moc"}),
+    awful.key({ modkey, "u"}, "l", function () os.execute('mocp --next') end,
+        {description = "Moc Next", group = "Moc"}),
 
     -- Hotkeys Awesome
 
@@ -354,7 +364,7 @@ globalkeys = my_table.join(
     -- Reload And Quit Awesome
     awful.key({ modkey, "Shift" }, "r", awesome.restart,
               {description = "Reload Awesome", group = "Awesome"}),
-    awful.key({ modkey, "Shift"   }, "q",  function () awful.spawn.with_shell( '~/.dmenu/prompt "are you sure?" "killall awesome"' ) end,
+    awful.key({ modkey, "Shift"   }, "q",  function () awesome.quit() end,
               {description = "Quit Awesome", group = "Awesome"}),
     -- Tag browsing with modkey
     awful.key({ modkey, modkey1         }, "Left",   awful.tag.viewprev,
@@ -731,22 +741,24 @@ awful.rules.rules = {
 
     -- Set applications to always map on the tag 1 on screen 1.
     -- find class or role via xprop command
-    --{ rule = { class = browser1 },
-      --properties = { screen = 1, tag = awful.util.tagnames[1] } },
+    { rule = { class = "Google Chrome" },
+      properties = { screen = 1, tag = awful.util.tagnames[1] } },
 
-    --{ rule = { class = editorgui },
-        --properties = { screen = 1, tag = awful.util.tagnames[2] } },
+    { rule = { class = "mpv" },
+        properties = { screen = 1, tag = awful.util.tagnames[4] } },
 
-    --{ rule = { class = "Geany" },
-        --properties = { screen = 1, tag = awful.util.tagnames[2] } },
+    { rule = { class = "Geany" },
+        properties = { screen = 1, tag = awful.util.tagnames[3] } },
+    { rule = { class = "Atom" },
+        properties = { screen = 1, tag = awful.util.tagnames[3] } },
 
-    -- Set applications to always map on the tag 3 on screen 1.
-    --{ rule = { class = "Inkscape" },
-        --properties = { screen = 1, tag = awful.util.tagnames[3] } },
+    { rule = { class = "vlc" },
+        properties = { screen = 1, tag = awful.util.tagnames[4] } },
 
-    -- Set applications to always map on the tag 4 on screen 1.
-    --{ rule = { class = "Gimp" },
-        --properties = { screen = 1, tag = awful.util.tagnames[4] } },
+    { rule = { class = "Gimp" },
+        properties = { screen = 1, tag = awful.util.tagnames[4] } },
+    { rule = { class = "stremio" },
+        properties = { screen = 1, tag = awful.util.tagnames[4] } },
 
     -- Set applications to be maximized at startup.
     -- find class or role via xprop command

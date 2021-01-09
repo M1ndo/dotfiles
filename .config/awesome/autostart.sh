@@ -16,10 +16,11 @@ run "blueberry-tray"
 run "/usr/lib/polkit-kde-authentication-agent-1"
 run "numlockx on"
 run "volumeicon"
-run "/home/ybenel/monitors.sh"
+#run "/home/ybenel/monitors.sh"
+run "/home/ybenel/.bin/ybl/jack_start"
 run "nitrogen --restore"
 run "xscreensaver -no-splash"
-run "buckle -f -g 40"
+#run "buckle -f -g 40"
 
 #run applications from startup
 #run "firefox"
