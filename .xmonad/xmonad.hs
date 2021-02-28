@@ -1,5 +1,5 @@
 -- Reconfigured added / removed by ybenel (github.com/m1ndo)
--- Modification Date: 12/09/2020
+-- Modification Date: 10/02/2021
 -- Base
 import XMonad
 import System.IO (hPutStrLn)
@@ -102,7 +102,7 @@ main = do
       , modMask            = myModMask
       , terminal           = myTerminal
       , startupHook        = myStartupHook
-      , layoutHook         = showWName' myShowWNameTheme $ myLayoutHook
+      , layoutHook         = myLayoutHook -- Add showWName' myShowWNameTheme $ If you want to print the current workspace in the screen
       , workspaces         = myWorkspaces
       , borderWidth        = myBorderWidth
       , normalBorderColor  = myNormColor
@@ -131,7 +131,7 @@ myTerminal :: String
 myTerminal = "xterm"   -- Sets default terminal to the favorite (xterm)
 
 myBrowser :: String
-myBrowser = "google-chrome-stable "               -- Sets chrome (crap Proprietary Garbage) as browser for tree select
+myBrowser = "librewolf "               -- Moved To A better Browser .
 
 myEditor :: String
 myEditor = "nvim "  -- Sets nvim as editor for tree select
@@ -165,6 +165,7 @@ myStartupHook = do
         spawnOnce "/usr/lib/polkit-kde-authentication-agent-1 &"
         spawnOnce "xfce4-power-manager"
         spawnOnce "numlockx on"
+	spawnOnce "xscreensaver -no-splash &"
         spawn "/home/ybenel/.bin/ybl/jack_start"
         setWMName "LG3D"
 
@@ -199,13 +200,12 @@ spawnSelected' lst = gridselect conf lst >>= flip whenJust spawn
                  }
 
 myAppGrid = [ ("Xterm", "xterm")
-               , ("Chrome", "google-chrome-stable")
+               , ("Browser", "librewolf")
                , ("Stremio", "stremio")
-               , ("Atom", "atom")
+               , ("Lite", "lite")
                , ("Gimp", "gimp")
-               , ("Discord", "Discord")
+               , ("Discord", "discord")
                , ("Spotify", "spot_load")
-               , ("LibreOffice Impress", "loimpress")
                , ("LibreOffice Writer", "lowriter")
                , ("PCManFM", "pcmanfm")
                ]
@@ -220,17 +220,17 @@ treeselectAction a = TS.treeselectAction a
      , Node (TS.TSNode "Firejail" "Firejail Configurator" (spawn "firejail-ui")) []
      , Node (TS.TSNode "DarkOs Tweaks" "Tweak Ur Life" (spawn "darkos-tweaks")) []
      , Node (TS.TSNode "Virtualbox" "Oracle's virtualization program" (spawn "virtualbox")) []
+     , Node (TS.TSNode "Vmware" "Vmware Workstation" (spawn "vmware")) []
      ]
  , Node (TS.TSNode "+ Graphics" "graphics programs" (return ()))
      [ Node (TS.TSNode "Gimp" "GNU image manipulation program" (spawn "gimp")) []
      , Node (TS.TSNode "Inkscape" "An SVG editing program" (spawn "inkscape")) []
-     , Node (TS.TSNode "LibreOffice Draw" "LibreOffice drawing program" (spawn "lodraw")) []
      , Node (TS.TSNode "Shotcut" "Professional Video Editor" (spawn "shotcut")) []
-     , Node (TS.TSNode "Krita" "Image Editor And Painter" (spawn "krita")) []
+     , Node (TS.TSNode "Kdenlive" "Another Video Editor" (spawn "kdenlive")) []
      ]
  , Node (TS.TSNode "+ Internet" "internet and web programs" (return ()))
-     [ Node (TS.TSNode "Chrome" "Proprietary Shit Browser" (spawn "google-chrome-stable")) []
-     , Node (TS.TSNode "Discord" "Chat and video chat platform" (spawn "Discord")) []
+     [ Node (TS.TSNode "Browser" "A Privacy Purpose Browser" (spawn "librewolf")) []
+     , Node (TS.TSNode "Discord" "Chat and video chat platform" (spawn "discord")) []
      , Node (TS.TSNode "Telegram" "Telegram Client" (spawn "telegram-desktop")) []
      , Node (TS.TSNode "Firefox" "Open source web browser" (spawn "firefox")) []
      , Node (TS.TSNode "IRssi" "Great IRC Client" (spawn (myTerminal ++ " -e irssi"))) []
@@ -260,11 +260,8 @@ treeselectAction a = TS.treeselectAction a
      ]
  , Node (TS.TSNode "+ Programming" "programming and scripting tools" (return ()))
      [  Node (TS.TSNode "Nvim" "Boomers Text Editor" (spawn (myTerminal ++ " -e nvim"))) []
-      , Node (TS.TSNode "Atom" "21 Century Editor" (spawn "atom")) []
-      , Node (TS.TSNode "Sublime" "Sublime Text Editor" (spawn "subl3")) []
-      , Node (TS.TSNode "Vscodium" "Vscode Without Garbage" (spawn "code")) []
+      , Node (TS.TSNode "Lite" "SuperFast Lua Based File Editor" (spawn "lite")) []
       , Node (TS.TSNode "Meld" "Comparaison Program" (spawn "meld")) []
-      , Node (TS.TSNode "Kate" "Kde Text Editor" (spawn "kate")) []
       , Node (TS.TSNode "Xed" "Simple Text Editor" (spawn "xed")) []
      ]
  , Node (TS.TSNode "+ System" "system tools and utilities" (return ()))
@@ -276,7 +273,6 @@ treeselectAction a = TS.treeselectAction a
     , Node (TS.TSNode "Gufw" "GUI uncomplicated firewall" (spawn "gufw")) []
     , Node (TS.TSNode "Htop" "Terminal process viewer" (spawn (myTerminal ++ " -e htop"))) []
     , Node (TS.TSNode "LXAppearance" "Customize look and feel" (spawn "lxappearance")) []
-    , Node (TS.TSNode "Nmon" "Network monitor" (spawn (myTerminal ++ " -e nmon"))) []
     , Node (TS.TSNode "Simple Terminal" "Suckless simple terminal" (spawn "st")) []
     , Node (TS.TSNode "Vifm" "Vim-like file manager" (spawn (myTerminal ++ " -e vifm"))) []
     ]
@@ -292,7 +288,7 @@ treeselectAction a = TS.treeselectAction a
          , Node (TS.TSNode "+ Linux News" "linux news and blogs" (return ()))
              [ Node (TS.TSNode "DistroWatch" "Linux distro release announcments" (spawn (myBrowser ++ "https://distrowatch.com/"))) []
              , Node (TS.TSNode "LXer" "LXer linux news aggregation" (spawn (myBrowser ++ "http://lxer.com"))) []
-             , Node (TS.TSNode "OMG Ubuntu" "Ubuntu news, apps and reviews" (spawn (myBrowser ++ "https://www.omgubuntu.co.uk"))) []
+             , Node (TS.TSNode "NixCraft" "Ubuntu news, apps and reviews" (spawn (myBrowser ++ "https://www.cyberciti.biz/"))) []
              ]
          , Node (TS.TSNode "+ Window Managers" "window manager documentation" (return ()))
              [ Node (TS.TSNode "+ Awesome" "awesomewm documentation" (return ()))
@@ -316,7 +312,6 @@ treeselectAction a = TS.treeselectAction a
          ]
      , Node (TS.TSNode "+ Search and Reference" "Search engines, indices and wikis" (return ()))
          [ Node (TS.TSNode "DuckDuckGo" "Privacy-oriented search engine" (spawn (myBrowser ++ "https://duckduckgo.com/"))) []
-         , Node (TS.TSNode "Google" "The evil search engine" (spawn (myBrowser ++ "http://www.google.com"))) []
          , Node (TS.TSNode "Thesaurus" "Lookup synonyms and antonyms" (spawn (myBrowser ++ "https://www.thesaurus.com/"))) []
          , Node (TS.TSNode "Wikipedia" "The free encyclopedia" (spawn (myBrowser ++ "https://www.wikipedia.org/"))) []
          ]
@@ -347,17 +342,18 @@ treeselectAction a = TS.treeselectAction a
      , Node (TS.TSNode "My Start Page" "Custom start page for browser" (spawn (myBrowser ++ "file:///home/ybenel/Downloads/StartPage/homepage.html"))) []
      ]
  , Node (TS.TSNode "+ Config Files" "config files that edit often" (return ()))
-     [ Node (TS.TSNode "xmobar" "status bar" (spawn (myEditor ++ "/home/ybenel/.config/xmobar/xmobarrc"))) []
+     [ Node (TS.TSNode "Xmonad" "the window manager you know!" (spawn (myEditor ++ "/home/ybenel/.xmonad/xmonad.hs"))) []
      , Node (TS.TSNode "awesome" "awesome window manager" (spawn (myEditor ++ "/home/ybenel/.config/awesome/rc.lua"))) []
-     , Node (TS.TSNode "bashrc" "the bourne again shell" (spawn (myEditor ++ "/home/ybenel/.bashrc"))) []
-     , Node (TS.TSNode "dunst" "dunst notifications" (spawn (myEditor ++ "/home/ybenel/.config/dunst/dunstrc"))) []
      , Node (TS.TSNode "herbstluftwm" "herbstluft window manager" (spawn (myEditor ++ "/home/ybenel/.config/herbstluftwm/autostart"))) []
+     , Node (TS.TSNode "xmobar" "status bar" (spawn (myEditor ++ "/home/ybenel/.config/xmobar/xmobarrc"))) []
+     , Node (TS.TSNode "bashrc" "the bourne again shell" (spawn (myEditor ++ "/home/ybenel/.bashrc"))) []
+     , Node (TS.TSNode "zshrc" "Config for the z shell" (spawn (myEditor ++ "/home/ybenel/.zshrc"))) []
+     , Node (TS.TSNode "xresources" "xresources file" (spawn (myEditor ++ "/home/ybenel/.Xresources"))) []
+     , Node (TS.TSNode "dunst" "dunst notifications" (spawn (myEditor ++ "/home/ybenel/.config/dunst/dunstrc"))) []
      , Node (TS.TSNode "neovim init.vim" "neovim text editor" (spawn (myEditor ++ "/home/ybenel/.Spacevim/config/init.vim"))) []
      , Node (TS.TSNode "polybar" "easy-to-use status bar" (spawn (myEditor ++ "/home/ybenel/.config/polybar/config.ini"))) []
      , Node (TS.TSNode "st config.h" "suckless simple terminal" (spawn (myEditor ++ "home/ybenel/Projects/Patches/st/config.h"))) []
      , Node (TS.TSNode "dmenu config.h" "surf web browser" (spawn (myEditor ++ "/home/ybenel/Projects/Patches/dmenu/config.h"))) []
-     , Node (TS.TSNode "xresources" "xresources file" (spawn (myEditor ++ "/home/ybenel/.Xresources"))) []
-     , Node (TS.TSNode "zshrc" "Config for the z shell" (spawn (myEditor ++ "/home/ybenel/.zshrc"))) []
      ]
  , Node (TS.TSNode "+ Screenshots" "take a screenshot" (return ()))
      [ Node (TS.TSNode "Quick fullscreen" "take screenshot immediately" (spawn "scrot -d 1 ~/Pictures/Screenshots/ybenel-full-%m-%d-@%H-%M-%S.png")) []
@@ -550,7 +546,7 @@ ebay     = S.searchEngine "ebay" "https://www.ebay.com/sch/i.html?_nkw="
 news     = S.searchEngine "news" "https://news.google.com/search?q="
 reddit   = S.searchEngine "reddit" "https://www.reddit.com/search/?q="
 urban    = S.searchEngine "urban" "https://www.urbandictionary.com/define.php?term="
-browser  = S.selectSearchBrowser "/usr/local/bin/google-chrome-stable"
+browser  = S.selectSearchBrowser "/usr/local/bin/librewolf"
 -- This is the list of search engines that I want to use. Some are from
 -- XMonad.Actions.Search, and some are the ones that I added above.
 searchList :: [(String, S.SearchEngine)]
@@ -578,6 +574,7 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
               , NS "irssi" spawnIrc findIrc manageIrc
               , NS "discord" spawnDiscord findDiscord manageDiscord
               , NS "qjackctl" spawnQjack findQjack manageQjack
+              , NS "spotify" spawnSpot findSpot manageSpot
               ]
  where
   spawnTerm  = myTerminal ++ " -n scratchpad"
@@ -600,13 +597,17 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
               w = 0.96
               t = 0.5
               l = 0.5
-  spawnDiscord  = "Discord"
+  spawnDiscord  = "discord"
   findDiscord   = (className =? "discord")
   manageDiscord = nonFloating
 
   spawnQjack  = "qjackctl"
   findQjack   = (className =? "qjackctl")
   manageQjack = defaultFloating
+
+  spawnSpot  = "spot_load"
+  findSpot   = (className =? "spotify")
+  manageSpot = nonFloating
 
 mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
 mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True
@@ -718,22 +719,21 @@ myClickableWorkspaces = clickable . (map xmobarEscape)
                     (i,ws) <- zip [1..6] l,
                     let n = i ]
 
-myFadeHook = composeAll [className =? "atom" --> transparency 0.6
+myFadeHook = composeAll [className =? "lite" --> transparency 0.6
                         ,                opaque
                         ]
 myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
 myManageHook = composeAll
    -- using 'doShift ( myWorkspaces !! 3)' sends program to workspace 4!
-   [ title =? "Google Chrome"     --> doShift ( myWorkspaces !! 0 )
+   [ title =? "LibreWolf"     --> doShift ( myWorkspaces !! 0 )
    , className =? "mpv"     --> doShift ( myWorkspaces !! 4 )
-   , className =? "atom"     --> doShift ( myWorkspaces !! 2 )
+   , className =? "lite"     --> doShift ( myWorkspaces !! 2 )
    , className =? "vlc"     --> doShift ( myWorkspaces !! 3 )
    , className =? "stremio"     --> doShift ( myWorkspaces !! 3 )
    , className =? "Gimp"    --> doShift ( myWorkspaces !! 3 )
-   , className =? "Gimp"    --> doFloat
    , title =? "Oracle VM VirtualBox Manager"     --> doFloat
    , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 3 )
-   , (className =? "google-chrome" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
+   , (className =? "librewolf" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
    ] <+> namedScratchpadManageHook myScratchPads
 
 myLogHook :: X ()
@@ -841,6 +841,7 @@ myKeys =
       , ("M-C-e", namedScratchpadAction myScratchPads "irssi")
       , ("M-C-x", namedScratchpadAction myScratchPads "discord")
       , ("M-C-p", namedScratchpadAction myScratchPads "qjackctl")
+      , ("M-C-y", namedScratchpadAction myScratchPads "spotify")
 
   -- Controls for mocp music player (SUPER-u followed by a key)
       , ("M-u p", spawn "mocp --play")
@@ -866,7 +867,7 @@ myKeys =
       , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%- unmute")
       , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 5%+ unmute")
       , ("<XF86HomePage>", spawn "firefox")
-      , ("<XF86Search>", safeSpawn "google-chrome-stable" ["https://www.duckduckgo.com/"])
+      , ("<XF86Search>", safeSpawn "librewolf" ["https://www.duckduckgo.com/"])
       , ("<XF86Mail>", runOrRaise "thunderbird" (resource =? "thunderbird"))
       , ("<XF86Calculator>", runOrRaise "gcalctool" (resource =? "gcalctool"))
       , ("<XF86Eject>", spawn "toggleeject")
@@ -874,7 +875,7 @@ myKeys =
       ]
   -- Appending search engine prompts to keybindings list.
   -- Look at "search engines" section of this config for values for "k".
-      ++ [("M-s " ++ k,S.promptSearchBrowser ybXPConfig' "/usr/local/bin/google-chrome-stable" f) | (k,f) <- searchList ]
+      ++ [("M-s " ++ k,S.promptSearchBrowser ybXPConfig' "/usr/local/bin/librewolf" f) | (k,f) <- searchList ]
       ++ [("M-S-s " ++ k, S.selectSearch f) | (k,f) <- searchList ]
   -- Appending some extra xprompts to keybindings list.
   -- Look at "xprompt settings" section this of config for values for "k".
