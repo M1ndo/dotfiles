@@ -1,11 +1,11 @@
 # XScreenSaver Preferences File
-# Written by xscreensaver-demo 5.44 for ybenel on Thu Sep 10 17:02:35 2020.
+# Written by xscreensaver-demo 5.44 for ybenel on Sat Feb 27 12:22:46 2021.
 # https://www.jwz.org/xscreensaver/
 
-timeout:	0:10:00
-cycle:		0:10:00
+timeout:	0:05:00
+cycle:		0:05:00
 lock:		True
-lockTimeout:	0:20:00
+lockTimeout:	0:30:00
 passwdTimeout:	0:00:30
 visualID:	default
 installColormap:    True
@@ -26,9 +26,9 @@ ignoreUninstalledPrograms:False
 font:		*-medium-r-*-140-*-m-*
 dpmsEnabled:	True
 dpmsQuickOff:	False
-dpmsStandby:	0:40:00
+dpmsStandby:	0:30:00
 dpmsSuspend:	0:40:00
-dpmsOff:	1:00:00
+dpmsOff:	1:30:00
 grabDesktopImages:  False
 grabVideoFrames:    False
 chooseRandomImages: False
@@ -37,8 +37,8 @@ imageDirectory:
 mode:		random
 selected:	168
 
-textMode:	url
-textLiteral:	XScreenSaver
+textMode:	literal
+textLiteral:	What A Deuce
 textFile:	
 textProgram:	fortune
 textURL:	http://feeds.feedburner.com/ubuntu-news
@@ -92,7 +92,7 @@ programs:								      \
 				strange -root				    \n\
 				swirl -root				    \n\
 				triangle -root				    \n\
-				xjack -root				    \n\
+-				xjack -root				    \n\
 				xlyap -root				    \n\
   GL: 				atlantis -root				    \n\
 				bsod -root				    \n\
@@ -254,9 +254,9 @@ programs:								      \
   GL: 				geodesicgears -root			    \n\
   GL: 				projectiveplane -root			    \n\
   GL: 				romanboy -root				    \n\
-				tessellimage -root			    \n\
+-				tessellimage -root			    \n\
   GL: 				winduprobot -root			    \n\
-  GL: 				splitflap -root				    \n\
+  GL: 				splitflap -root -speed 1.5348		    \n\
   GL: 				cubestack -root				    \n\
   GL: 				cubetwist -root				    \n\
   GL: 				discoball -root				    \n\
@@ -270,7 +270,7 @@ programs:								      \
 - GL: 				dnalogo -root				    \n\
 				scooter -root				    \n\
   GL: 				esper -root				    \n\
-  GL: 				vigilance -root				    \n\
+- GL: 				vigilance -root				    \n\
   GL: 				crumbler -root				    \n\
 				filmleader -root			    \n\
 				glitchpeg -root				    \n\
