@@ -72,6 +72,11 @@ ex ()
   fi
 }
 
+# Get Ip Addresses
+function ipc () {
+  curl ipinfo.io/$1
+}
+
 ### ALIASES ###
 
 # root privileges
@@ -118,7 +123,7 @@ alias pg='ping'   # Extra
 # Overwrite .Xresources To take effect of the new settings
 alias xd='xrdb ~/.Xresources'
 
-# Add A Specific Env File For My Old laptop
+# Add A Specific Env File For My laptop
 alias scv='LIBGL_ALWAYS_SOFTWARE=1'
 
 # adding flags
@@ -135,7 +140,7 @@ alias dow='cd ~/Downloads'
 alias ips="curl -s ifconfig.co | grep 'IP</span>:'| cut -d '<' -f 4 | sed 's/\/span>://'"
 alias fxr="./.bin/ybl/resolution"
 
-# Hacking  Tools Shortcuts
+# Tools Shortcuts
 alias searchsploit='/opt/exploitdb/searchsploit'
 alias conx="dow && cd conx && sudo openvpn ybenel.ovpn"
 alias conx2="dow && cd conx && sudo openvpn Thm.ovpn"
@@ -172,3 +177,4 @@ alias riplong="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -3000 | n
 
 ### RANDOM COLOR SCRIPT ###
 $HOME/.bin/shuffle.py
+
