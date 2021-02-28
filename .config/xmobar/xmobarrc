@@ -32,8 +32,9 @@ Config { font    = "xft:Scientifica:pixelsize=11:antialias=true:hinting=true"
                       -- The workspaces are 'clickable' in my configs.
                     , Run UnsafeStdinReader
                     , Run Com "/home/ybenel/.config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 10
+                    , Run Com "/home/ybenel/.config/xmobar/moc.sh" [] "moc_spot" 300
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = " <action=`xdotool key control+alt+g`><icon=ybenel.xpm/> </action><fc=#666666> | </fc> %UnsafeStdinReader% }{ <fc=#666666><fn=2>| %trayerpad% |</fn> </fc><fc=#b3afc2><fn=1> </fn>  %uname% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#ecbe7b> %cpu% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#ff6c6b> %memory% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#51afef> %disku% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#c678dd><fn=1> </fn>  %pacupdate% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#46d9ff> %date%  </fc>"
+       , template = " <action=`xdotool key control+alt+g`><icon=ybenel.xpm/> </action><fc=#666666> | </fc> %UnsafeStdinReader% }{ <fc=#666666><fn=2>|</fn></fc> <fc=#1ebace> %moc_spot% </fc><fc=#666666> <fn=2>| %trayerpad% |</fn> </fc><fc=#b3afc2><fn=1> </fn>  %uname% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#ecbe7b> %cpu% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#ff6c6b> %memory% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#51afef> %disku% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#c678dd><fn=1> </fn>  %pacupdate% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#46d9ff> %date%  </fc>"
        }
