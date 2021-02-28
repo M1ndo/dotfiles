@@ -3,7 +3,7 @@
 XTerm.termName: xterm-256color
 XTerm*renderFont: true
 XTerm*faceName: mononoki Nerd Font
-xterm*faceSize: 10
+xterm*faceSize: 8
 
 ! VT Font Menu: Unreadable
 xterm*faceSize1: 8
