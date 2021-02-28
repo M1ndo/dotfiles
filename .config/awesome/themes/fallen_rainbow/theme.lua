@@ -101,14 +101,11 @@ theme.ghost_on = theme.dir .. "icons/ghost.svg"
 theme.terex_off = theme.dir .. "icons/offside.svg"
 
 -- lain related
--- theme.layout_txt_tile                           = "[tile]"
--- theme.layout_txt_floating                           = "[floating]"
--- theme.layout_txt_spiral                           = "[spiral]"
--- theme.layout_txt_max                        = "[max]"
--- -- theme.layout_txt_cascadetile                    = "[cascadetile]"
--- -- theme.layout_txt_centerwork                     = "[centerwork]"
--- theme.layout_txt_termfair                       = "[termfair]"
--- theme.layout_txt_centerfair                     = "[centerfair]"
+theme.layout_txt_cascade                        = "[cascade]"
+theme.layout_txt_cascadetile                    = "[cascadetile]"
+theme.layout_txt_centerwork                     = "[centerwork]"
+theme.layout_txt_termfair                       = "[termfair]"
+theme.layout_txt_centerfair                     = "[centerfair]"
 
 local markup = lain.util.markup
 local white  = theme.fg_focus
@@ -234,7 +231,7 @@ theme.moc = lain.widget.contrib.moc({
     elseif moc_now.state == "STOP" then
       artist = ""
       title = "Nothing To Play"
-    elseif moc_now.state == "N/A" then
+    elseif moc_now.state == "N/A" then 
       artist = ""
       title = ""
     end
@@ -361,18 +358,17 @@ function theme.at_screen_connect(s)
             first,
             s.mytaglist,
             spr,
-            s.mytxtlayoutbox,
-            spr,
+            -- s.mytxtlayoutbox,
+            --spr,
             s.mypromptbox,
             spr,
             love_mc,
             theme.spot,
             theme.moc,
             prev_next_mc,
-            spr,
-            s.mytasklist, -- Middle widget
         },
         spr,
+        -- s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             wibox.widget.systray(),

@@ -1,5 +1,6 @@
 -- My Personall Config File
--- Customized by ybenel (r2dr0dn)
+-- Customized by ybenel
+-- Date: 10/02/2021
 -- {{{  libraries
 local awesome, client, mouse, screen, tag = awesome, client, mouse, screen, tag
 local ipairs, string, os, table, tostring, tonumber, type = ipairs, string, os, table, tostring, tonumber, type
@@ -89,7 +90,7 @@ local modkey1      = "Control"
 
 -- personal variables
 --change these variables if you want
-local browser           = "google-chrome-stable"
+local browser           = "librewolf"
 local editor            = os.getenv("EDITOR") or "nvim"
 local editorgui         = "xed"
 local filemanager       = "pcmanfm"
@@ -201,7 +202,7 @@ local myawesomemenu = {
 }
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    {"Browser", "google-chrome-stable", beautiful.browser_ico},
+                                    {"Browser", "librewolf", beautiful.browser_ico},
                                     {"Stremio", "stremio", beautiful.stremio_ico},
                                     {"Gimp","gimp", beautiful.gimp_ico},
                                     {"Atom", "atom", beautiful.atom_ico},
@@ -321,7 +322,7 @@ globalkeys = my_table.join(
         {description = "Irssi" , group = "terminal apps" }),
     awful.key({ modkey, altkey  }, "f", function () awful.util.spawn( terminal.." -e sh ./.config/vifm/scripts/vifmrun" ) end,
         {description = "vifm" , group = "terminal apps" }),
-    awful.key({ modkey, altkey }, "l", function () awful.util.spawn( terminal.." -e lynx --cfg=~/.lynx/lynx.cfg --lss=~/.lynx/lynx.lss -vikeys http://darkos-arch.sourceforge.io" ) end,
+    awful.key({ modkey, altkey }, "l", function () awful.util.spawn( terminal.." -e lynx --cfg=~/.lynx/lynx.cfg --lss=~/.lynx/lynx.lss -vikeys https://ybenel.cf" ) end,
         {description = "lynx cli browser" , group = "terminal apps" }),
     awful.key({ modkey, modkey1 }, "e", function () awful.util.spawn( terminal.." -e 'torify irssi' " ) end,
         {description = "Torify Irssi" , group = "terminal apps" }),
@@ -336,13 +337,13 @@ globalkeys = my_table.join(
 
     -- Moc Controls
 
-    awful.key({ modkey, "u"}, "<Space>", function () os.execute('mocp --toggle-pause') end,
+    awful.key({ modkey, altkey}, "<Space>", function () os.execute('mocp --toggle-pause') end,
         {description = "Moc Pause/Resume", group = "Moc"}),
-    awful.key({ modkey, "u"}, "p", function () os.execute('mocp --play') end,
+    awful.key({ modkey, altkey}, "p", function () os.execute('mocp --play') end,
         {description = "Moc Play", group = "Moc"}),
-    awful.key({ modkey, "u"}, "h", function () os.execute('mocp --previous') end,
+    awful.key({ modkey, altkey}, "h", function () os.execute('mocp --previous') end,
         {description = "Moc Previous", group = "Moc"}),
-    awful.key({ modkey, "u"}, "l", function () os.execute('mocp --next') end,
+    awful.key({ modkey, altkey}, "l", function () os.execute('mocp --next') end,
         {description = "Moc Next", group = "Moc"}),
 
     -- Hotkeys Awesome
@@ -371,7 +372,7 @@ globalkeys = my_table.join(
         {description = "View Previous", group = "Tag"}),
     awful.key({ modkey, modkey1         }, "Right",  awful.tag.viewnext,
         {description = "View Next", group = "Tag"}),
-    awful.key({ altkey, modkey1         }, "Escape", awful.tag.history.restore,
+    awful.key({ altkey, modkey1         }, "Tab", awful.tag.history.restore,
         {description = "Go Back", group = "Tag"}),
 
       -- Tag browsing alt + tab
@@ -535,10 +536,10 @@ globalkeys = my_table.join(
               {description = "Dropdown Dpplication", group = "Super"}),
 
     -- Widgets popups
-    awful.key({ altkey, }, "n", function () lain.widget.cal.show(7)  end,
-              {description = "Show Calendar", group = "Widgets"}),
-    awful.key({ altkey, }, "h", function () if beautiful.fs then beautiful.fs.show(7) end end,
-              {description = "Show Filesystem", group = "Widgets"}),
+--     awful.key({ altkey, }, "n", function () lain.widget.cal.show(7)  end,
+--               {description = "Show Calendar", group = "Widgets"}),
+--     awful.key({ altkey, }, "h", function () if beautiful.fs then beautiful.fs.show(7) end end,
+--               {description = "Show Filesystem", group = "Widgets"}),
     awful.key({ altkey, }, "w", function () if beautiful.weather then beautiful.weather.show(7) end end,
               {description = "Show Weather", group = "Widgets"}),
 
@@ -742,6 +743,9 @@ awful.rules.rules = {
     -- Set applications to always map on the tag 1 on screen 1.
     -- find class or role via xprop command
     { rule = { class = "Google Chrome" },
+      properties = { screen = 1, tag = awful.util.tagnames[1] } },
+
+    { rule = { class = "LibreWolf" },
       properties = { screen = 1, tag = awful.util.tagnames[1] } },
 
     { rule = { class = "mpv" },
