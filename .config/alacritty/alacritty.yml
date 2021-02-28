@@ -36,7 +36,7 @@ font:
   bold_italic:
     family: Mononoki Nerd Font
     style: Bold Italic
-  size: 10.0
+  size: 9.0
   offset:
     x: 0
     y: 0
