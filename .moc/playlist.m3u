@@ -1,5 +1,5 @@
 #EXTM3U
-#MOCSERIAL: 768
+#MOCSERIAL: 512
 #EXTINF:484,1 Animal Trainer - Dragon Games - Original Mix (Dragon Games EP)
 /home/ybenel/Music/Electro/Animal Trainer/Dragon Games.mp3
 #EXTINF:385,7 Animal Trainer - Pollen (Wide)
@@ -404,5 +404,5 @@
 /home/ybenel/Music/Special/The Mandalorian.mp3
 #EXTINF:186,3 The Empire Strikes Back - The Imperial March (John Williams)
 /home/ybenel/Music/Special/The_Imperial_March.mp3
-#EXTINF:5868,1 Monster - Monster (David Sylvian)
-/home/ybenel/Music/Special/Monster.mp3
+#EXTINF:136,/home/ybenel/Music/Special/Harpy.flac
+/home/ybenel/Music/Special/Harpy.flac

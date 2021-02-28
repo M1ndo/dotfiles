@@ -194,7 +194,7 @@ Shuffle = yes
 #ShowTime = IfAvailable
 
 # Show time played as a percentage in the time progress bar.
-#ShowTimePercent = no
+ShowTimePercent = no
 
 # Values of the TERM environment variable which are deemed to be managed by
 # screen(1).  If you are setting a specific terminal using screen(1)'s
