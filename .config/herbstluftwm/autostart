@@ -33,7 +33,7 @@ hc keyunbind --all
 Mod=Mod4                            # Use the super key as the main modifier
 myTerm=xterm                   # Set my preferred terminal
 myEditor="nvim"  # Set my preferred editor
-myBrowser="/usr/local/bin/google-chrome-stable"
+myBrowser="/usr/local/bin/librewolf"
 
 hc keybind $Mod-Shift-q quit
 hc keybind $Mod-Shift-r reload
@@ -51,8 +51,8 @@ hc keybind Mod1-Control-s spawn ./.dmenu/dmenu-scrot.sh
 hc keybind $Mod-Control-s spawn rofi -combi-modi run,drun -show combi -modi combi -show-icons -icon-theme 'Breeze' -display-combi 'ybenel: '
 
 # My applications (Super+Alt+Key)
-hc keybind $Mod-Mod1-n spawn google-chrome-stable
-hc keybind $Mod-Mod1-l spawn $myTerm -e lynx --cfg=~/.lynx/lynx.cfg --lss=~/.lynx/lynx.lss -vikeys https://music.ybenel.tk
+hc keybind $Mod-Mod1-n spawn librewolf
+hc keybind $Mod-Mod1-l spawn $myTerm -e lynx --cfg=~/.lynx/lynx.cfg --lss=~/.lynx/lynx.lss -vikeys https://music.ybenel.cf
 hc keybind $Mod-Mod1-e spawn $myTerm -e irssi
 hc keybind $Mod-Mod1-f spawn $myTerm -e ~/.config/vifm/scripts/vifmrun
 hc keybind $Mod-Mod1-c spawn $myTerm -e mocp
@@ -83,17 +83,46 @@ hc keybind $Mod-k             focus up
 hc keybind $Mod-l             focus right
 
 ## Hide / Restore Windows
-#hc keybind $Mod-n             spawn hide_window +1
-#hc keybind $Mod-Shift-n	      spawn hide_window -1
-#hc keybind $Mod-b 	emit_hook minimal_layout
 #hc keybind $Mod-b spawn bash -c \
 #   'winid=$(wmctrl -l | rofi -dmenu -i -p bring|cut -d" " -f1) \
 #    && herbstclient bring "$winid"'
-hc keybind $Mod-n spawn bash -c \
-   'wind_id=$(xdotool getactivewindow) && echo "$wind_id" > /tmp/ls_id \
-    && xdotool windowunmap "$wind_id"'
-hc keybind $Mod-Shift-n spawn bash -c \
-   'wind_id=$(cat /tmp/ls_id) && xdotool windowmap "$wind_id"'
+#hc keybind $Mod-n spawn bash -c \
+   #'wind_id=$(xdotool getactivewindow) && echo "$wind_id" > /tmp/ls_id \
+   # && xdotool windowunmap "$wind_id"'
+#hc keybind $Mod-Shift-n spawn bash -c \
+#   'wind_id=$(cat /tmp/ls_id) && xdotool windowmap "$wind_id"'
+#hc keybind $Mod-n set_attr clients.focus.minimized true
+#hc keybind $Mod-Shift-n foreach CLIENT clients. \
+#     sprintf MINATT "%c.minimized" CLIENT \
+#     sprintf TAGATT "%c.tag" CLIENT and \
+#       , compare MINATT "=" "true" \
+#       , substitute FOCUS "tags.focus.name" compare TAGATT "=" FOCUS \
+#       , set_attr MINATT false
+
+# minimize current window
+herbstclient keybind $Mod-n spawn ~/.config/herbstluftwm/minimize.sh
+
+# unminimize last window of a tag
+herbstclient keybind $Mod-Shift-n mktemp string MINCLIENT mktemp int LASTIDATT chain \
+  . set_attr LASTIDATT 0 \
+  . foreach CLIENT clients. and \
+    , sprintf MINATT "%c.minimized" CLIENT \
+        compare MINATT "=" "true" \
+    , sprintf TAGATT "%c.tag" CLIENT substitute FOCUS "tags.focus.name" \
+        compare TAGATT "=" FOCUS \
+    , sprintf CURRENTIDATT "%c.my_minimized_age" CLIENT and \
+      : substitute LASTID LASTIDATT \
+          compare CURRENTIDATT 'gt' LASTID \
+      : substitute CURRENTID CURRENTIDATT \
+          set_attr LASTIDATT CURRENTID \
+    , set_attr MINCLIENT CLIENT \
+  . and \
+    , compare MINCLIENT "!=" "" \
+    , substitute CLIENT MINCLIENT chain \
+      : sprintf MINATT "%c.minimized" CLIENT \
+          set_attr MINATT false \
+      : sprintf CURRENTIDATT "%c.my_minimized_age" CLIENT \
+          remove_attr CURRENTIDATT \
 
 
 # moving clients
@@ -200,19 +229,21 @@ hc set mouse_recenter_gap 0
 hc set focus_crosses_monitor_boundaries 1
 hc set swap_monitors_to_get_tag 1
 
-# rules
+# rules 
+## Tag == workspace
 hc unrule -F
-hc rule class=google-chrome tag=1 # move all browser to tag 1
-hc rule class=mpv tag=4 # move all browser to tag 1
-hc rule class=atom tag=3 # move all browser to tag 1
-hc rule class=vlc tag=3 # move all browser to tag 1
-hc rule class=atom tag=3 # move all browser to tag 1
-hc rule class=stremio tag=3 # move all browser to tag 1
-hc rule class=gimp tag=3 # move all browser to tag 1
-hc rule class=VirtualBox tag=5 # move all VMs to tag 5
+hc rule class="google-chrome" tag=1 # move all browser to tag 1
+hc rule class="LibreWolf" tag=1 # move browser to tag 1
+hc rule class="mpv" tag=4 # move all browser to tag 1
+hc rule class="atom" tag=3 # move all browser to tag 1
+hc rule class="vlc" tag=3 # move all browser to tag 1
+hc rule class="atom" tag=3 # move all browser to tag 1
+hc rule class="stremio" tag=3 # move all browser to tag 1
+hc rule class="gimp" tag=3 # move all browser to tag 1
+hc rule class="VirtualBox" tag=5 # move all VMs to tag 5
 hc rule title='Oracle VM VirtualBox Manager' tag=4
-hc rule class=VirtualBox pseudotile=on
-hc rule class=VirtualBox fullscreen=on
+hc rule class="VirtualBox" pseudotile=on
+hc rule class="VirtualBox" fullscreen=on
 hc rule focus=on # normally focus new clients
 #hc rule focus=off # normally do not focus new clients
 # give focus to most common terminals
@@ -227,10 +258,10 @@ hc unlock
 herbstclient set tree_style '╾│ ├└╼─┐'
 
 # do multi monitor setup here, e.g.:
-# hc set_monitors 1280x1024+0+0 1280x1024+1280+0
+# hc set_monitors 1280x1024+0+0 1504x846+0+0
 # or simply:
 #hc detect_monitors
-hc set_monitors 1504x846+0+0 #1920x1060+1920+22 1920x1060+3840+22
+hc set_monitors 1920x1080+0+0 #1920x1060+1920+22 1920x1060+3840+22
 
 # find the panel
 panel=~/.config/herbstluftwm/panel.sh
