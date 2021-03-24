@@ -1,5 +1,5 @@
--- Reconfigured added / removed by ybenel (github.com/m1ndo)
--- Modification Date: 10/02/2021
+-- Configured added / removed by ybenel (github.com/m1ndo)
+-- Modification Date: 13/03/2021
 -- Base
 import XMonad
 import System.IO (hPutStrLn)
@@ -18,6 +18,7 @@ import XMonad.Actions.WindowGo (runOrRaise)
 import XMonad.Actions.WithAll (sinkAll, killAll)
 import qualified XMonad.Actions.Search as S
 import XMonad.Actions.Minimize
+import XMonad.Actions.AfterDrag (afterDrag)
 -- Controls
 import XMonad.Actions.Navigation2D
   -- Data
@@ -161,12 +162,14 @@ myStartupHook = do
         spawnOnce "sxhkd &"
         spawnOnce "nm-applet &"
         spawnOnce "volumeicon &"
-        spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x282C34 --height 22 --iconspacing 0 --margin 682 &"
+        -- spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x282C34 --height 22 --iconspacing 0 --margin 682 &" -- Enable When Using Secondary Xmobar config
+        spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x090D12 --height 22 --iconspacing 0 --margin 476 &"
         spawnOnce "/usr/lib/polkit-kde-authentication-agent-1 &"
         spawnOnce "xfce4-power-manager"
         spawnOnce "numlockx on"
-	spawnOnce "xscreensaver -no-splash &"
-        spawn "/home/ybenel/.bin/ybl/jack_start"
+        spawnOnce "/usr/bin/emacs --daemon &"
+        spawnOnce "xscreensaver -no-splash &"
+        -- spawn "/home/ybenel/.bin/ybl/jack_start"
         setWMName "LG3D"
 
 myColorizer :: Window -> Bool -> X (String, String)
@@ -215,6 +218,7 @@ treeselectAction a = TS.treeselectAction a
  [ Node (TS.TSNode "+ Accessories" "Accessory applications" (return ()))
      [ Node (TS.TSNode "Archive Manager" "Tool for archived packages" (spawn "file-roller")) []
      , Node (TS.TSNode "Calculator" "Gui version of qalc" (spawn "qalculate-gtk")) []
+     , Node (TS.TSNode "Emacs" "Huh The Best More Than Textt Editor" (spawn "emacs")) []
      , Node (TS.TSNode "Nitrogen" "Wallpaper Drawer And Organizer" (spawn "nitrogen")) []
      , Node (TS.TSNode "RedShift" "Color Adjustment Tool" (spawn "redshift-gtk")) []
      , Node (TS.TSNode "Firejail" "Firejail Configurator" (spawn "firejail-ui")) []
@@ -273,7 +277,6 @@ treeselectAction a = TS.treeselectAction a
     , Node (TS.TSNode "Gufw" "GUI uncomplicated firewall" (spawn "gufw")) []
     , Node (TS.TSNode "Htop" "Terminal process viewer" (spawn (myTerminal ++ " -e htop"))) []
     , Node (TS.TSNode "LXAppearance" "Customize look and feel" (spawn "lxappearance")) []
-    , Node (TS.TSNode "Simple Terminal" "Suckless simple terminal" (spawn "st")) []
     , Node (TS.TSNode "Vifm" "Vim-like file manager" (spawn (myTerminal ++ " -e vifm"))) []
     ]
  , Node (TS.TSNode "------------------------" "" (spawn "xdotool key Escape")) []
@@ -346,6 +349,7 @@ treeselectAction a = TS.treeselectAction a
      , Node (TS.TSNode "awesome" "awesome window manager" (spawn (myEditor ++ "/home/ybenel/.config/awesome/rc.lua"))) []
      , Node (TS.TSNode "herbstluftwm" "herbstluft window manager" (spawn (myEditor ++ "/home/ybenel/.config/herbstluftwm/autostart"))) []
      , Node (TS.TSNode "xmobar" "status bar" (spawn (myEditor ++ "/home/ybenel/.config/xmobar/xmobarrc"))) []
+     , Node (TS.TSNode "Emacs" "Emacsss Config File" (spawn (myEditor ++ "/home/ybenel/.doom.d/config.el"))) []
      , Node (TS.TSNode "bashrc" "the bourne again shell" (spawn (myEditor ++ "/home/ybenel/.bashrc"))) []
      , Node (TS.TSNode "zshrc" "Config for the z shell" (spawn (myEditor ++ "/home/ybenel/.zshrc"))) []
      , Node (TS.TSNode "xresources" "xresources file" (spawn (myEditor ++ "/home/ybenel/.Xresources"))) []
@@ -394,7 +398,7 @@ treeselectAction a = TS.treeselectAction a
      , Node (TS.TSNode "Restart" "Reboot The System" (spawn "systemctl reboot")) []
      , Node (TS.TSNode "Suspend" "Suspend The System" (spawn "systemctl suspend")) []
      , Node (TS.TSNode "Hibernate" "Hibernate The System" (spawn "systemctl hibernate")) []
-     , Node (TS.TSNode "Lock" "Lock The Screen" (spawn "betterlockscreen -l -t 'This Is The Way'")) []
+     , Node (TS.TSNode "Lock" "Lock The Screen" (spawn "betterlockscreen -l -t 'Victory Is Mine !'")) []
      ]
  ]
 
@@ -448,18 +452,27 @@ myTreeNavigation = M.fromList
   , ((mod4Mask .|. altMask, xK_w), TS.moveTo ["+ Bookmarks", "+ Linux", "+ Window Managers"])
   ]
 
+-- Xmonad Shell Prompt Coordinates On The Screen (Default Centered)
+ybCords :: XPPosition
+ybCords = CenteredAt
+     { xpCenterY = 0.5
+     , xpWidth = 0.5
+     }
+
 ybXPConfig :: XPConfig
 ybXPConfig = def
     { font                = myFont
-    , bgColor             = "#282c34"
+    --, bgColor             = "#282c34"
     , fgColor             = "#bbc2cf"
     , bgHLight            = "#c792ea"
     , fgHLight            = "#000000"
-    , borderColor         = "#535974"
+    --, borderColor         = "#535974"
+    , borderColor = "#090d12" -- Dark Xmobar
+    , bgColor = "#090d12" -- Dark Xmobar
     , promptBorderWidth   = 0
     , promptKeymap        = ybXPKeymap
-    , position            = Top
-    , height              = 20
+    , position            = ybCords
+    , height              = 24
     , historySize         = 256
     , historyFilter       = id
     , defaultText         = []
@@ -573,6 +586,7 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
               , NS "mocp" spawnMocp findMocp manageMocp
               , NS "irssi" spawnIrc findIrc manageIrc
               , NS "discord" spawnDiscord findDiscord manageDiscord
+              , NS "lightcord" spawnLcord findLcord manageLcord
               , NS "qjackctl" spawnQjack findQjack manageQjack
               , NS "spotify" spawnSpot findSpot manageSpot
               ]
@@ -601,10 +615,19 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
   findDiscord   = (className =? "discord")
   manageDiscord = nonFloating
 
+  spawnLcord  = "lightcord"
+  findLcord   = (className =? "lightcord")
+  manageLcord = nonFloating
+
   spawnQjack  = "qjackctl"
   findQjack   = (className =? "qjackctl")
-  manageQjack = defaultFloating
-
+  -- manageQjack = defaultFloating
+  manageQjack = customFloating $ W.RationalRect l t w h
+            where
+              h = 0.96
+              w = 0.96
+              t = 0.5
+              l = 0.5
   spawnSpot  = "spot_load"
   findSpot   = (className =? "spotify")
   manageSpot = nonFloating
@@ -820,6 +843,8 @@ myKeys =
       , ("M-M1-j", sendMessage MirrorShrink)          -- Shrink vert window width
       , ("M-M1-k", sendMessage MirrorExpand)          -- Exoand vert window width
 
+ -- AfterDrag Resize Window
+     --, ((mod, button3), (\w -> focus w >> mouseResizeWindow w >> afterDrag (windows $ W.float w $ W.RationalRect 0 0 1 1)))
  -- Window Minimize / Maximize
       , ("M-n", withFocused minimizeWindow)
       , ("M-C-n", withLastMinimized maximizeWindow)
@@ -840,6 +865,7 @@ myKeys =
       , ("M-C-c", namedScratchpadAction myScratchPads "mocp")
       , ("M-C-e", namedScratchpadAction myScratchPads "irssi")
       , ("M-C-x", namedScratchpadAction myScratchPads "discord")
+      , ("M-C-z", namedScratchpadAction myScratchPads "lightdiscord")
       , ("M-C-p", namedScratchpadAction myScratchPads "qjackctl")
       , ("M-C-y", namedScratchpadAction myScratchPads "spotify")
 
@@ -854,7 +880,7 @@ myKeys =
       , ("M-M1-s", spawn "dmenu_run -c -bw 2 -l 10 -g 4 -p 'ybenel: ' -fn 'scientifica:size=12'")
       , ("M-M1-e", spawn (myTerminal ++ " -e irssi"))
       , ("M-M1-c", spawn (myTerminal ++ " -e mocp"))
-      , ("M-e", spawn (myTerminal ++ " -e nvim"))
+      , ("M-e", spawn (myTerminal ++ " -e emacs"))
       , ("M1-C-s", spawn "./.dmenu/dmenu-scrot.sh")
       , ("M1-C-h", spawn "./.dmenu/dmenu-sysmon.sh")
       , ("M1-C-e", spawn "./.dmenu/dmenu-edit-configs.sh")
