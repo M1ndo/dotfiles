@@ -102,11 +102,7 @@ local virtualmachine    = "virtualbox"
 
 -- awesome variables
 awful.util.terminal = terminal
---awful.util.tagnames = {  " ", " ", " ", " ", " ", " ", " ", " ", " ", " "  }
 awful.util.tagnames = { "", "", " ", "", " ", " "}
---awful.util.tagnames = { "⠐", "⠡", "⠲", "⠵", "⠻", "⠿" }
---awful.util.tagnames = { "⌘", "♐", "⌥", "ℵ" }
---awful.util.tagnames = { " FIRE ", " TERM ", " CODE ", " MOCP ", " CHAT ", " SYS ", " VBOX ", " VID ", " GFX " }
 -- Use this : https://fontawesome.com/cheatsheet
 --awful.util.tagnames = { "", "", "", "", "" }
 awful.layout.suit.tile.left.mirror = true
@@ -204,10 +200,10 @@ local myawesomemenu = {
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
                                     {"Browser", "librewolf", beautiful.browser_ico},
                                     {"Stremio", "stremio", beautiful.stremio_ico},
+                                    {"Lite", "lite", beautiful.atom_ico},
                                     {"Gimp","gimp", beautiful.gimp_ico},
-                                    {"Atom", "atom", beautiful.atom_ico},
-                                    {"Telegram", "telegram-desktop", beautiful.telegram_ico},
                                     {"Discord", "discord", beautiful.discord_ico},
+                                    {"Telegram", "telegram-desktop", beautiful.telegram_ico},
                                     { "Terminal", terminal, beautiful.terminal_ico},
                                     { "Log out", function() awesome.quit() end, beautiful.logout_ico},
                                     { "Sleep", "xscreensaver-command -lock", beautiful.sleep_ico},
@@ -337,7 +333,7 @@ globalkeys = my_table.join(
 
     -- Moc Controls
 
-    awful.key({ modkey, altkey}, "<Space>", function () os.execute('mocp --toggle-pause') end,
+    awful.key({ modkey, altkey}, "b", function () os.execute('mocp --toggle-pause') end,
         {description = "Moc Pause/Resume", group = "Moc"}),
     awful.key({ modkey, altkey}, "p", function () os.execute('mocp --play') end,
         {description = "Moc Play", group = "Moc"}),
@@ -753,7 +749,7 @@ awful.rules.rules = {
 
     { rule = { class = "Geany" },
         properties = { screen = 1, tag = awful.util.tagnames[3] } },
-    { rule = { class = "Atom" },
+    { rule = { class = "lite" },
         properties = { screen = 1, tag = awful.util.tagnames[3] } },
 
     { rule = { class = "vlc" },
@@ -761,9 +757,12 @@ awful.rules.rules = {
 
     { rule = { class = "Gimp" },
         properties = { screen = 1, tag = awful.util.tagnames[4] } },
+    
     { rule = { class = "stremio" },
         properties = { screen = 1, tag = awful.util.tagnames[4] } },
 
+    { rule = { class = "Vmware" },
+        properties = { screen = 1, tag = awful.util.tagnames[4] } },
     -- Set applications to be maximized at startup.
     -- find class or role via xprop command
 
@@ -787,6 +786,9 @@ awful.rules.rules = {
 
     { rule = { class = "VirtualBox Machine" },
           properties = { maximized = true } },
+          
+    { rule = { class = "Vmware" },
+          properties = { maximized = true } }, 
 
     { rule = { class = "Xfce4-settings-manager" },
           properties = { floating = false } },
