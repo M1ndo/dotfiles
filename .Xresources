@@ -1,5 +1,13 @@
 /* Xterm Configuration */
 ! https://invisible-island.net/xterm/xterm.faq.html
+Xft.dpi: 96 
+Xft.antialias: true 
+Xft.hinting: true 
+Xft.rgba: rgb 
+Xft.autohint: true 
+Xft.hintstyle: hintfull 
+Xft.lcdfilter: lcdfilter
+
 XTerm.termName: xterm-256color
 XTerm*renderFont: true
 XTerm*faceName: mononoki Nerd Font

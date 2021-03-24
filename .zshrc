@@ -36,7 +36,7 @@ export HISTCONTROL=ignoreboth:erasedups
 #fi
 
 if [ -d "$HOME/.local/bin" ] ;
-  then PATH="$HOME/.local/bin:$PATH"
+  then PATH="$HOME/.local/bin:/home/ybenel/.gem/ruby/2.7.0/bin:$PATH"
 fi
 
 xhost +local:root > /dev/null 2>&1
@@ -139,6 +139,7 @@ alias doc='cd ~/Documents'
 alias dow='cd ~/Downloads'
 alias ips="curl -s ifconfig.co | grep 'IP</span>:'| cut -d '<' -f 4 | sed 's/\/span>://'"
 alias fxr="./.bin/ybl/resolution"
+alias fxr2="./.bin/ybl/resolution2"
 
 # Tools Shortcuts
 alias searchsploit='/opt/exploitdb/searchsploit'
@@ -148,7 +149,7 @@ alias htb='doc && cd Sec/htb/'
 alias thm='doc && cd Sec/thm'
 
 # Awesome Screen Locker
-alias bls="betterlockscreen -u ~/Pictures/WallOne/Mandalorian4.jpg -l -t 'This Is The Way'"
+alias bls="betterlockscreen -u ~/Pictures/WallOne/Mandalorian4.jpg -l -t 'Victory Is Mine !'"
 
 #check vulnerabilities microcode
 alias microcode='grep . /sys/devices/system/cpu/vulnerabilities/*'

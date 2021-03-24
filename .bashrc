@@ -1,7 +1,7 @@
 # Maintainer Ybenel (ybenel@molero.xyz)
 
 # Including Local Bin Tool In The Path
-PATH="$HOME/.local/bin:$PATH:/usr/bin/vendor_perl:/usr/bin/core_perl"
+PATH="$HOME/.emacs.d/bin:$HOME/.local/bin:$PATH"
 
 # Setting Editor As NeoVim
 EDITOR="nvim"
@@ -198,6 +198,17 @@ alias pg='ping'   # Extra
 # Overwrite .Xresources To take effect of the new settings
 alias xd='xrdb ~/.Xresources'
 
+
+# Doom Emacs
+
+alias emax='
+export DISPLAY=:0.0
+export LIBGL_ALWAYS_INDIRECT=1
+setxkbmap -layout us
+setsid emacs
+exit
+'
+
 # Add A Special Env For My Laptop
 alias scv='LIBGL_ALWAYS_SOFTWARE=1'
 # adding flags
@@ -223,7 +234,7 @@ alias htb='doc && cd Sec/htb/'
 alias thm='doc && cd Sec/thm'
 
 # Awesome Screen Locker
-alias bls="betterlockscreen -w ~/Pictures/Backgrounds/Skull_GreyMono.jpg -l -t 'What A Deuce'"
+alias bls="betterlockscreen -w ~/Pictures/Backgrounds/Skull_GreyMono.jpg -l -t 'Victory Is Mine !'"
 
 #check vulnerabilities microcode
 alias microcode='grep . /sys/devices/system/cpu/vulnerabilities/*'

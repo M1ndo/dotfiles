@@ -3,3 +3,4 @@
 "\C-n":next-history
 "\C-a.":beginning-of-line
 "\C-e.":end-of-line
+"\C-x":backward-kill-word
