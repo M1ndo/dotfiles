@@ -3,6 +3,7 @@
 declare options=("awesome
 bash
 herbstluftwm
+emacs
 picom
 neovim
 polybar
@@ -28,6 +29,9 @@ case "$choice" in
 	;;
 	herbstluftwm)
 		choice="$HOME/.config/herbstluftwm/autostart"
+	;;
+	emacs)
+		choice="$HOME/.doom.d/config.el"
 	;;
 	picom)
 		choice="$HOME/.config/picom/picom.conf"

@@ -7,6 +7,7 @@ TIME=3000
 
 prog="
 ---Local screenshots (saved at IMG_PATH)---
+0.Flameshot
 1.quick_fullscreen
 2.delayed_fullscreen
 3.section
@@ -24,6 +25,7 @@ cmd=$(dmenu  -l 20  -nf '#999' -nb '#292d3e' -sf '#eee' -sb '#0077bb' -p 'Choose
 cd $IMG_PATH
 case ${cmd%% *} in
 
+	0.Flameshot)	flameshot  ;;
 	1.quick_fullscreen)	scrot -d 1 'ybenel@%H-%M-%S-scrot.png'  && notify-send -u low -t $TIME 'Scrot' 'Fullscreen saved'  ;;
 	2.delayed_fullscreen)	scrot -d 4 'ybenel@%H-%M-%S-scrot.png'  && notify-send -u low -t $TIME 'Scrot' 'Fullscreen saved'    ;;
 	3.section)	scrot -a $(slop -f '%x,%y,%w,%h') -d 2 && notify-send -u low -t $TIME 'Scrot' 'Section Screen saved'    ;;
