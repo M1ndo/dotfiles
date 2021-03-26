@@ -1,5 +1,5 @@
 -- Configured added / removed by ybenel (github.com/m1ndo)
--- Modification Date: 13/03/2021
+-- Modification Date: 25/03/2021
 -- Base
 import XMonad
 import System.IO (hPutStrLn)
@@ -313,13 +313,13 @@ treeselectAction a = TS.treeselectAction a
                  ]
              ]
          ]
-     , Node (TS.TSNode "+ Search and Reference" "Search engines, indices and wikis" (return ()))
+     , Node (TS.TSNode "+ Look-Up" "Engines & wikis" (return ()))
          [ Node (TS.TSNode "DuckDuckGo" "Privacy-oriented search engine" (spawn (myBrowser ++ "https://duckduckgo.com/"))) []
          , Node (TS.TSNode "Thesaurus" "Lookup synonyms and antonyms" (spawn (myBrowser ++ "https://www.thesaurus.com/"))) []
          , Node (TS.TSNode "Wikipedia" "The free encyclopedia" (spawn (myBrowser ++ "https://www.wikipedia.org/"))) []
          ]
      , Node (TS.TSNode "+ Programming" "programming and scripting" (return ()))
-         [ Node (TS.TSNode "+ Bash and Shell Scripting" "shell scripting documentation" (return ()))
+         [ Node (TS.TSNode "+ $SHELL SCRIPT" "$SHELL DOC" (return ()))
              [ Node (TS.TSNode "GNU Bash" "Documentation for bash" (spawn (myBrowser ++ "https://www.gnu.org/software/bash/manual/"))) []
              , Node (TS.TSNode "r/bash" "Subreddit for bash" (spawn (myBrowser ++ "https://www.reddit.com/r/bash/"))) []
              , Node (TS.TSNode "r/commandline" "Subreddit for the command line" (spawn (myBrowser ++ "https://www.reddit.com/r/commandline/"))) []
@@ -357,12 +357,11 @@ treeselectAction a = TS.treeselectAction a
      , Node (TS.TSNode "neovim init.vim" "neovim text editor" (spawn (myEditor ++ "/home/ybenel/.Spacevim/config/init.vim"))) []
      , Node (TS.TSNode "polybar" "easy-to-use status bar" (spawn (myEditor ++ "/home/ybenel/.config/polybar/config.ini"))) []
      , Node (TS.TSNode "st config.h" "suckless simple terminal" (spawn (myEditor ++ "home/ybenel/Projects/Patches/st/config.h"))) []
-     , Node (TS.TSNode "dmenu config.h" "surf web browser" (spawn (myEditor ++ "/home/ybenel/Projects/Patches/dmenu/config.h"))) []
      ]
  , Node (TS.TSNode "+ Screenshots" "take a screenshot" (return ()))
-     [ Node (TS.TSNode "Quick fullscreen" "take screenshot immediately" (spawn "scrot -d 1 ~/Pictures/Screenshots/ybenel-full-%m-%d-@%H-%M-%S.png")) []
-     , Node (TS.TSNode "Delayed fullscreen" "take screenshot in 5 secs" (spawn "scrot -d 5 ~/Pictures/Screenshots/ybenel-full-%m-%d-@%H-%M-%S.png")) []
-     , Node (TS.TSNode "Section screenshot" "take screenshot of section" (spawn "scrot -a $(slop -f '%x,%y,%w,%h') -d 1 ~/Pictures/Screenshots/ybenel-area-%m-%d-@%H-%M-%S.png")) []
+     [ Node (TS.TSNode "Quick fullscreen" "take screenshot immediately" (spawn "scrot -d 1 ~/Pictures/Screenshots/ybenel@%m-%d-%H.png")) []
+     , Node (TS.TSNode "Delayed fullscreen" "take screenshot in 5 secs" (spawn "scrot -d 5 ~/Pictures/Screenshots/ybenel@%m-%d-%H.png")) []
+     , Node (TS.TSNode "Section screenshot" "take screenshot of section" (spawn "scrot -a $(slop -f '%x,%y,%w,%h') -d 1 ~/Pictures/Screenshots/ybenel-S@%m-%d-%H.png")) []
      ]
  , Node (TS.TSNode "------------------------" "" (spawn "xdotool key Escape")) []
  , Node (TS.TSNode "+ XMonad" "window manager commands" (return ()))
@@ -526,8 +525,7 @@ ybXPKeymap = M.fromList $
    , (xK_f, moveCursor Next)       -- move cursor backward
    , (xK_BackSpace, killWord Prev) -- kill the previous word
    , (xK_y, pasteString)           -- paste a string
-   , (xK_g, quit)                  -- quit out of prompt
-   , (xK_bracketleft, quit)
+   , (xK_x, quit)                  -- quit out of prompt
    ]
    ++
    map (first $ (,) altMask)       -- meta key + <key>
@@ -599,7 +597,7 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
                w = 0.9
                t = 0.95 -h
                l = 0.95 -w
-  spawnMocp  = myTerminal ++ " -name mocp -e mocp"
+  spawnMocp  = myTerminal ++ " -name mocp -e /usr/bin/mocp"
   findMocp   = appName =? "mocp"
   manageMocp = nonFloating
 
@@ -865,7 +863,7 @@ myKeys =
       , ("M-C-c", namedScratchpadAction myScratchPads "mocp")
       , ("M-C-e", namedScratchpadAction myScratchPads "irssi")
       , ("M-C-x", namedScratchpadAction myScratchPads "discord")
-      , ("M-C-z", namedScratchpadAction myScratchPads "lightdiscord")
+      , ("M-C-z", namedScratchpadAction myScratchPads "lightcord")
       , ("M-C-p", namedScratchpadAction myScratchPads "qjackctl")
       , ("M-C-y", namedScratchpadAction myScratchPads "spotify")
 
@@ -879,8 +877,8 @@ myKeys =
       , ("M-C-s", spawn "rofi -combi-modi run,drun -show combi -modi combi -show-icons -icon-theme 'Breeze' -display-combi 'ybenel: '")
       , ("M-M1-s", spawn "dmenu_run -c -bw 2 -l 10 -g 4 -p 'ybenel: ' -fn 'scientifica:size=12'")
       , ("M-M1-e", spawn (myTerminal ++ " -e irssi"))
-      , ("M-M1-c", spawn (myTerminal ++ " -e mocp"))
-      , ("M-e", spawn (myTerminal ++ " -e emacs"))
+      , ("M-M1-c", spawn (myTerminal ++ " -e /usr/bin/mocp"))
+      , ("M-e", spawn "emacs")
       , ("M1-C-s", spawn "./.dmenu/dmenu-scrot.sh")
       , ("M1-C-h", spawn "./.dmenu/dmenu-sysmon.sh")
       , ("M1-C-e", spawn "./.dmenu/dmenu-edit-configs.sh")
