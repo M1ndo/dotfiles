@@ -12,17 +12,16 @@ hc() {
 hc emit_hook reload
 xsetroot -solid '#313330'
 picom &
-sxhkd &
+$HOME/.config/herbstluftwm/start.sh
 nm-applet &
-volumeicon &
 nitrogen --restore &
-unclutter -root & 
-numlockx on & 
+numlockx on &
 dunst -conf ~/.config/dunst/dunstrc &
 xfce4-power-manager &
 /usr/lib/polkit-kde-authentication-agent-1 &
 /usr/bin/emacs --daemon &
 xscreensaver -no-splash &
+#~/.config/herbstluftwm/uminimize.sh &
 #/home/ybenel/.bin/ybl/jack_start &
 #jgmenu --hide-on-startup --config-file=~/.config/jgmenu/jgmenurc --csv-file=~/.config/jgmenu/menu.csv
 #xclickroot -r jgmenu_run
@@ -33,14 +32,16 @@ hc keyunbind --all
 # keybindings
 Mod=Mod4                            # Use the super key as the main modifier
 myTerm=xterm                   # Set my preferred terminal
-myEditor="nvim"  # Set my preferred editor
+myEditor="emacsclient -c -a emacs"  # Set my preferred editor
 myBrowser="/usr/local/bin/librewolf"
-
+myMusic="/usr/bin/mocp"
+myMMusic="ncmpcpp"
+MMControl="mpc"
 hc keybind $Mod-Shift-q quit
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-c close
 hc keybind $Mod-Return spawn $myTerm
-hc keybind $Mod-e spawn $myTerm -e $myEditor
+hc keybind $Mod-e spawn $myEditor
 # Dmenu launcher
 hc keybind $Mod-Shift-Return spawn dmenu_run -fn 'scientifica:size=11' -nb '#212D32' -nf '#bbc5ff' -sb '#E37673' -sf '#292d3e' -p 'Ybenel:'
 hc keybind $Mod-Mod1-s spawn dmenu_run -c -bw 2 -l 10 -g 4 -p 'ybenel: ' -fn 'scientifica:size=11'
@@ -49,29 +50,35 @@ hc keybind $Mod-Mod1-s spawn dmenu_run -c -bw 2 -l 10 -g 4 -p 'ybenel: ' -fn 'sc
 hc keybind Mod1-Control-e spawn ./.dmenu/dmenu-edit-configs.sh
 hc keybind Mod1-Control-h spawn ./.dmenu/dmenu-sysmon.sh
 hc keybind Mod1-Control-s spawn ./.dmenu/dmenu-scrot.sh
-hc keybind $Mod-Control-s spawn rofi -combi-modi run,drun -show combi -modi combi -show-icons -icon-theme 'Breeze' -display-combi 'ybenel: '
+hc keybind Mod1-Control-p spawn passmenu
+hc keybind $Mod-Control-s spawn rofi -combi-modi run,drun -show combi -modi combi -show-icons -icon-theme 'Adwaita' -display-combi 'ybenel: '
 
 # My applications (Super+Alt+Key)
 hc keybind $Mod-Mod1-n spawn librewolf
 hc keybind $Mod-Mod1-l spawn $myTerm -e lynx --cfg=~/.lynx/lynx.cfg --lss=~/.lynx/lynx.lss -vikeys https://music.ybenel.cf
 hc keybind $Mod-Mod1-e spawn $myTerm -e irssi
 hc keybind $Mod-Mod1-f spawn $myTerm -e ~/.config/vifm/scripts/vifmrun
-hc keybind $Mod-Mod1-c spawn $myTerm -e mocp
+hc keybind $Mod-Mod1-c spawn $myTerm -e $myMusic
+hc keybind $Mod-Mod1-z spawn $myTerm -e $myMMusic
 hc keybind $Mod-Mod1-h spawn $myTerm -e htop
 
 # My Secondary Applications
 hc keybind $Mod-Control-Return spawn $myTerm
-hc keybind $Mod-Control-x spawn Discord
+hc keybind $Mod-Control-x spawn discord
 hc keybind $Mod-Control-p spawn qjackctl
 hc keybind $Mod-Control-e spawn $myTerm -e torify irssi
 hc keybind $Mod-b spawn $myBrowser " file:///home/ybenel/Downloads/StartPage/homepage.html"
 
 
 # Controllers
-hc keybind $Mod-Mod1-p spawn bash -c 'mocp --play'
-hc keybind $Mod-Mod1-l spawn bash -c 'mocp --next'
-hc keybind $Mod-Mod1-h spawn bash -c 'mocp --previous'
-hc keybind $Mod-Mod1-j spawn bash -c 'mocp --toggle-pause'
+hc keybind $Mod-Mod1-p spawn $myTerm -e $myMusic --play
+hc keybind $Mod-Mod1-l spawn $myTerm -e $myMusic --next
+hc keybind $Mod-Mod1-h spawn $myTerm -e $myMusic --previous
+hc keybind $Mod-Mod1-j spawn $myTerm -e $myMusic --toggle-pause
+hc keybind $Mod-Mod1-m spawn $myTerm -e $MMControl stop
+hc keybind $Mod-Mod1-b spawn $myTerm -e $MMControl prev
+hc keybind $Mod-Mod1-v spawn $myTerm -e $MMControl next
+hc keybind $Mod-Mod1-x spawn $myTerm -e $MMControl toggle
 
 # focusing clients
 hc keybind $Mod-Left          focus left
@@ -83,26 +90,8 @@ hc keybind $Mod-j             focus down
 hc keybind $Mod-k             focus up
 hc keybind $Mod-l             focus right
 
-## Hide / Restore Windows
-#hc keybind $Mod-b spawn bash -c \
-#   'winid=$(wmctrl -l | rofi -dmenu -i -p bring|cut -d" " -f1) \
-#    && herbstclient bring "$winid"'
-#hc keybind $Mod-n spawn bash -c \
-   #'wind_id=$(xdotool getactivewindow) && echo "$wind_id" > /tmp/ls_id \
-   # && xdotool windowunmap "$wind_id"'
-#hc keybind $Mod-Shift-n spawn bash -c \
-#   'wind_id=$(cat /tmp/ls_id) && xdotool windowmap "$wind_id"'
-#hc keybind $Mod-n set_attr clients.focus.minimized true
-#hc keybind $Mod-Shift-n foreach CLIENT clients. \
-#     sprintf MINATT "%c.minimized" CLIENT \
-#     sprintf TAGATT "%c.tag" CLIENT and \
-#       , compare MINATT "=" "true" \
-#       , substitute FOCUS "tags.focus.name" compare TAGATT "=" FOCUS \
-#       , set_attr MINATT false
-
 # minimize current window
 herbstclient keybind $Mod-n spawn ~/.config/herbstluftwm/minimize.sh
-
 # unminimize last window of a tag
 herbstclient keybind $Mod-Shift-n mktemp string MINCLIENT mktemp int LASTIDATT chain \
   . set_attr LASTIDATT 0 \
