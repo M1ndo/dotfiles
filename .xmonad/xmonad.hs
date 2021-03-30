@@ -1,5 +1,5 @@
 -- Configured added / removed by ybenel (github.com/m1ndo)
--- Modification Date: 25/03/2021
+-- Modification Date: 13/03/2021
 -- Base
 import XMonad
 import System.IO (hPutStrLn)
@@ -138,6 +138,10 @@ myEditor :: String
 myEditor = "nvim "  -- Sets nvim as editor for tree select
 -- myEditor = myTerminal ++ " -e vim "    -- Sets vim as editor for tree select
 
+-- Setup A Emacs Client
+myEmacs :: String
+myEmacs = "emacsclient -c -a emacs"
+
 myBorderWidth :: Dimension
 myBorderWidth = 2          -- Sets border width for windows
 
@@ -218,7 +222,7 @@ treeselectAction a = TS.treeselectAction a
  [ Node (TS.TSNode "+ Accessories" "Accessory applications" (return ()))
      [ Node (TS.TSNode "Archive Manager" "Tool for archived packages" (spawn "file-roller")) []
      , Node (TS.TSNode "Calculator" "Gui version of qalc" (spawn "qalculate-gtk")) []
-     , Node (TS.TSNode "Emacs" "Huh The Best More Than Textt Editor" (spawn "emacs")) []
+     , Node (TS.TSNode "Emacs" "Huh The Best More Than Textt Editor" (spawn myEmacs)) []
      , Node (TS.TSNode "Nitrogen" "Wallpaper Drawer And Organizer" (spawn "nitrogen")) []
      , Node (TS.TSNode "RedShift" "Color Adjustment Tool" (spawn "redshift-gtk")) []
      , Node (TS.TSNode "Firejail" "Firejail Configurator" (spawn "firejail-ui")) []
@@ -243,6 +247,7 @@ treeselectAction a = TS.treeselectAction a
  , Node (TS.TSNode "+ Multimedia" "sound and video applications" (return ()))
      [ Node (TS.TSNode "Moc" "Ncurses music player" (spawn (myTerminal ++ " -e mocp"))) []
      , Node (TS.TSNode "Alsa Mixer" "Alsa volume control utility" (spawn (myTerminal ++ " -e alsamixer"))) []
+     , Node (TS.TSNode "Ncmpcpp" "MPD Ncurses Music Client" (spawn (myTerminal ++ " -e ncmpcpp"))) []
      , Node (TS.TSNode "Clementine" "Advanced Music Player" (spawn "clementine")) []
      , Node (TS.TSNode "Audacity" "Graphical audio editing program" (spawn "audacity")) []
      , Node (TS.TSNode "Spotify" "Spotify Music" (spawn "spot_load")) []
@@ -581,8 +586,9 @@ searchList = [ ("a", archwiki)
 
 myScratchPads :: [NamedScratchpad]
 myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
-              , NS "mocp" spawnMocp findMocp manageMocp
               , NS "irssi" spawnIrc findIrc manageIrc
+              , NS "mocp" spawnMocp findMocp manageMocp
+              , NS "ncmpcpp" spawnnpc findnpc managenpc
               , NS "discord" spawnDiscord findDiscord manageDiscord
               , NS "lightcord" spawnLcord findLcord manageLcord
               , NS "qjackctl" spawnQjack findQjack manageQjack
@@ -600,6 +606,10 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
   spawnMocp  = myTerminal ++ " -name mocp -e /usr/bin/mocp"
   findMocp   = appName =? "mocp"
   manageMocp = nonFloating
+
+  spawnnpc  = myTerminal ++ " -name ncmpcpp -e /usr/bin/ncmpcpp"
+  findnpc   = appName =? "ncmpcpp"
+  managenpc = nonFloating
 
   spawnIrc  = myTerminal ++ " -n irssi -e 'torify irssi'"
   findIrc   = (stringProperty "WM_NAME" =? "irssi")
@@ -862,6 +872,7 @@ myKeys =
       , ("M-C-<Return>", namedScratchpadAction myScratchPads "terminal")
       , ("M-C-c", namedScratchpadAction myScratchPads "mocp")
       , ("M-C-e", namedScratchpadAction myScratchPads "irssi")
+      , ("M-C-c", namedScratchpadAction myScratchPads "ncmpcpp")
       , ("M-C-x", namedScratchpadAction myScratchPads "discord")
       , ("M-C-z", namedScratchpadAction myScratchPads "lightcord")
       , ("M-C-p", namedScratchpadAction myScratchPads "qjackctl")
@@ -873,12 +884,16 @@ myKeys =
       , ("M-u h", spawn "mocp --previous")
       , ("M-u <Space>", spawn "mocp --toggle-pause")
 
+      , ("M-u x", spawn "mpc toggle")
+      , ("M-u v", spawn "mpc next")
+      , ("M-u b", spawn "mpc prev")
+      , ("M-u m", spawn "mocp stop")
   -- App Shortcuts
       , ("M-C-s", spawn "rofi -combi-modi run,drun -show combi -modi combi -show-icons -icon-theme 'Breeze' -display-combi 'ybenel: '")
       , ("M-M1-s", spawn "dmenu_run -c -bw 2 -l 10 -g 4 -p 'ybenel: ' -fn 'scientifica:size=12'")
       , ("M-M1-e", spawn (myTerminal ++ " -e irssi"))
       , ("M-M1-c", spawn (myTerminal ++ " -e /usr/bin/mocp"))
-      , ("M-e", spawn "emacs")
+      , ("M-e", spawn myEmacs)
       , ("M1-C-s", spawn "./.dmenu/dmenu-scrot.sh")
       , ("M1-C-h", spawn "./.dmenu/dmenu-sysmon.sh")
       , ("M1-C-e", spawn "./.dmenu/dmenu-edit-configs.sh")
