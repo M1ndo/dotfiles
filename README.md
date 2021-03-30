@@ -29,6 +29,9 @@
 * irssi (IRC Client)
 * Spicetify (Spotify Beautifier)
 * SpaceVim (Vim/Nvim PreConfigured ?)
+* mpd (Music Player Server)
+* ncmpcpp (Mpd Advanced Music Client)
+* qutebrowser (Minimale Browser)
 * That's All I Guess.
 
 # Features
@@ -108,7 +111,7 @@ keybindings consistent with all of my window managers.
 # Screenshots
 <img src="https://github.com/m1ndo/dotfiles/blob/master/screenshots/ybenel%4017-43-19-scrot.png" alt="Awesome" border="0">
 <img src="https://github.com/m1ndo/dotfiles/blob/master/screenshots/ybenel@03-25-04-scrot.png" alt="Xmonad" border="0">
-<img src="https://github.com/m1ndo/dotfiles/blob/master/screenshots/ybenel%4017-44-41-scrot.png" alt="Herbstluftwm" border="0">
+<img src="https://github.com/m1ndo/dotfiles/blob/master/screenshots/ybenel@21-26-36-scrot.png" alt="Herbstluftwm" border="0">
 
 ## Getting Help With Awesome
 *Reporting issues*
