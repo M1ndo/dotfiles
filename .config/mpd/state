@@ -1,0 +1,275 @@
+sw_volume: 100
+audio_device_state:1:Jack Output
+state: play
+current: 21
+time: 120.992000
+random: 0
+repeat: 0
+single: 0
+consume: 0
+crossfade: 1
+mixrampdb: 0.000000
+mixrampdelay: -1.000000
+playlist_begin
+0:Singing/Sia/Sia - Elastic Heart.mp3
+1:Singing/Selena Gomez/Selena Gomez - Me & The Rhythm.mp3
+2:Special/Anti-Feature.mp3
+3:Electro/Daso/Daso - Awake at night.mp3
+4:Electro/Matthieu Faubourg/Matthieu Faubourg - Please Stay.mp3
+5:Electro/Wolfe/LIHO - Surrender.mp3
+6:Electro/Daso/No Lead (Chymera Remix).mp3
+7:Splitter/40-present.mp3
+8:Electro/Theo Parrish/Overyohead.mp3
+9:Electro/Oliver Schories/Sunset.mp3
+10:Splitter/18-be-lit-up.mp3
+11:Singing/Lil Tecca/Lil Tecca - Shots.mp3
+12:Electro/Röyksopp/Running To The Sea ( Studio Version).mp3
+13:Electro/Animal Trainer/Dragon Games.mp3
+14:Electro/Kid_Francescoli/Moon.mp3
+15:Electro/Worakls/Salzburg.mp3
+16:Electro/Daniel Fernandes/Daniel Fernandes - After All.mp3
+17:Electro/Kolsch/Loreley.mp3
+18:Electro/Ybenel/3310.mp3
+19:Electro/Joris Delacroix/Epoque.mp3
+20:Electro/Teho/Because.mp3
+21:Electro/N'to/Alter Ego.mp3
+22:Singing/Lil Tecca/Lil Tecca - Love Me.mp3
+23:Splitter/29-hold-on.mp3
+24:Electro/Oliver Schories/Molero2.mp3
+25:Electro/Teho/Is That Worth It.mp3
+26:Electro/Worakls/Souvenir (N'to Remix).mp3
+27:Electro/Worakls/Adagio For Square (Original Mix).mp3
+28:Electro/Oxia/Oxia - Domino.mp3
+29:Electro/Solomun/Solomun - Friends.mp3
+30:Electro/Boris Brejcha/Boris Brejcha - Gravity (feat Laura Korinth) - Edit.mp3
+31:Singing/Twenty One Pilot/twenty one pilots - Heathens.mp3
+32:Electro/Joris Delacroix/Start The Engine.mp3
+33:Splitter/35-you-are-the-move-you-make.mp3
+34:Electro/Rodriguez Jr/Lila.mp3
+35:Electro/Daso/Follow Me.mp3
+36:Electro/N'to/Charlie.mp3
+37:Electro/Worakls/Mona.mp3
+38:Splitter/04-part.mp3
+39:Electro/Extrawelt/Extrawelt - Schmedding.mp3
+40:Electro/Worakls/From Now On.mp3
+41:Splitter/12-idler-wheel.mp3
+42:Electro/Extrawelt/Extrawelt - Soopertrack Original (High Quality).mp3
+43:Splitter/38-faith.mp3
+44:Splitter/31-our-destination-calls.mp3
+45:Electro/French79/French 79 - The Year After.mp3
+46:Electro/Daso/Daso - Meine.mp3
+47:Electro/Worakls/Bleu.mp3
+48:Splitter/10-xenia.mp3
+49:Singing/Lil Tecca/Lil Tecca - DUI.mp3
+50:Electro/Worakls/Toi.mp3
+51:Electro/French79/Drop.mp3
+52:Electro/Extrawelt/Extrawelt - 37 Routes.mp3
+53:Electro/Joris Delacroix/I Wanna.mp3
+54:Special/The Mandalorian.mp3
+55:Singing/Shayfeen/Shayfeen - SHOBEE.mp3
+56:Special/Harpy.flac
+57:Singing/Gotye/Gotye - Somebody That I Used To Know.mp3
+58:Electro/Teho/Arif.mp3
+59:Electro/Popof/Serenity.mp3
+60:Splitter/05-float-flower.mp3
+61:Electro/Daso/Daso - Deine Schuhe.mp3
+62:Singing/Selena Gomez/Selena Gomez - Good For You.mp3
+63:Electro/Teho/Anything.mp3
+64:Special/Sincerely.mp3
+65:Electro/Dead Mau/deadmau5 feat. Chris James - The Veldt.mp3
+66:Electro/French79/French 79 - Je parle français.mp3
+67:Splitter/16-rest.mp3
+68:Electro/Oliver Schories/Marin.mp3
+69:Singing/Dua lipa/Dua Lipa - New Rules.mp3
+70:Special/Zynthetic.mp3
+71:Electro/Boris Brejcha/Boris Brejcha - Purple Noise.mp3
+72:Special/Sawtooth Love.mp3
+73:Splitter/34-catch.mp3
+74:Electro/Röyksopp/Remind.mp3
+75:Electro/Joachim Pastor/Taïga.mp3
+76:Special/Overheat.mp3
+77:Electro/Daso/Daso - Daso.opus
+78:Electro/Teho/Mandala (Original mix).mp3
+79:Singing/The Weekend/The Weeknd - The Hills.mp3
+80:Special/Rebooting.mp3
+81:Electro/Joris Delacroix/Don’t Change.mp3
+82:Splitter/39-than-one.mp3
+83:Splitter/02-grain.mp3
+84:Splitter/36-cannot-hear.mp3
+85:Splitter/03-drift-mind.mp3
+86:Splitter/26-what-do-i-see.mp3
+87:Electro/Joachim Pastor/Goodbyes.mp3
+88:Singing/David Guetta/David Guetta - Titanium ft. Sia.mp3
+89:Singing/ISSAM/ISSAM - Trap Beldi.mp3
+90:Splitter/13-bush.mp3
+91:Singing/Calvin Harris/Calvin Harris & Disciples - How Deep Is Your Love.mp3
+92:Electro/Joachim Pastor/Promesse.mp3
+93:Splitter/33-cast-upon-the-wind.mp3
+94:Electro/Worakls/Porto.mp3
+95:Electro/Röyksopp/Remind Me.mp3
+96:Electro/Ybenel/The Way.flac
+97:Splitter/44-make-it-home.mp3
+98:Singing/Lil Tecca/Lil Tecca - Molly Girl.mp3
+99:Special/Stomia.mp3
+100:Electro/Lumidelic/Lumidelic - Synesthesia.mp3
+101:Electro/French79/French 79 - Pantheon Neon.mp3
+102:Splitter/19-decola.mp3
+103:Splitter/06-collage-man.mp3
+104:Singing/Stromae/Stromae - Tous Les Mêmes.mp3
+105:Electro/Worakls/Elea.mp3
+106:Splitter/14-drift.mp3
+107:Electro/Daso/Daso - Go Upstairs.flac
+108:Electro/Ron Flatter/Mantequilla.mp3
+109:Singing/Adele/Adele - Rolling in the Deep.mp3
+110:Electro/Wolfe/Will Crockford - Chance.mp3
+111:Electro/Stereoclip/Stereoclip - Airplane Lesson.mp3
+112:Electro/Lorde/Royals.mp3
+113:Electro/Daso/Sam n' Max.mp3
+114:Electro/Animal Trainer/Pollen.mp3
+115:Singing/Shayfeen/Shayfeen - OMG.mp3
+116:Splitter/01-for-the-love-of-life.mp3
+117:Singing/Lil Tecca/Lil Tecca - Bossanova.mp3
+118:Splitter/28-before-you-go-to-sleep.mp3
+119:Singing/Selena Gomez/Selena Gomez & The Scene - Naturally.mp3
+120:Electro/Daft Punk/Daft Punk - Around The World.mp3
+121:Splitter/17-sweeper.mp3
+122:Electro/Jan Blomqvist/Jan Blomqvist - Maybe Not (Official Video).mp3
+123:Electro/Jan Blomqvist/Jan Blomqvist - Back In The Taxi.mp3
+124:Electro/Tove Lo/Stay High - Habits Remix.mp3
+125:Special/The_Imperial_March.mp3
+126:Splitter/09-nacht-tour.mp3
+127:Electro/Daft Punk/Daft Punk - Veridis Quo.mp3
+128:Electro/Joris Delacroix/Let You Down.mp3
+129:Electro/Wolfe/WOLFE - Through With You.mp3
+130:Singing/Shayfeen/Shayfeen - Wach Kayn Maydar.mp3
+131:Electro/Extrawelt/Minilogue - The Leopard - Extrawelt Remix.mp3
+132:Electro/Kollektiv Turmstrasse/Last Day.mp3
+133:Splitter/15-medium-shot.mp3
+134:Splitter/30-close-your-eyes.mp3
+135:Splitter/07-sweet-home.mp3
+136:Electro/Ten Walls/Sparta.mp3
+137:Singing/Lil Tecca/Lil Tecca - Left Right.mp3
+138:Electro/Ybenel/Lonely.mp3
+139:Singing/Lil Tecca/Lil Tecca - The Score.mp3
+140:Singing/Twenty One Pilot/twenty one pilots - Stressed Out.mp3
+141:Singing/Lil Tecca/Lil Tecca - Count Me Out.mp3
+142:Electro/Daso/Daso - Idee.mp3
+143:Electro/Teho/Signal (Ron Flatter Remix).mp3
+144:Electro/Daso/No Lead.mp3
+145:Splitter/20-mid-point.mp3
+146:Singing/YoungBoy/Deceived Emotions.mp3
+147:Electro/Lumidelic/Lumidelic - Through The Door.mp3
+148:Electro/Jan Blomqvist/Suicide Spaceship.mp3
+149:Singing/Shayfeen/Shayfeen - SHOBEE (Instrumental).mp3
+150:Electro/Patrick/Patrick Patrikios _ Nothing On Me.mp3
+151:Splitter/08-gingerly.mp3
+152:Singing/Stromae/Stromae - Formidable.mp3
+153:Electro/French79/French 79 - Between the Buttons.mp3
+154:Electro/Daso/Eleven Fingers.mp3
+155:Splitter/25-make-it-home.mp3
+156:Singing/Lil Tecca/Lil Tecca - Did It Again.mp3
+157:Electro/Joris Delacroix/Routine.mp3
+158:Special/Stop The Panic.flac
+159:Electro/Extrawelt/Extrawelt - Schlusslicht (Original Mix).opus
+160:Electro/Soul Capsule/Lady Science.mp3
+161:Electro/French79/French 79 - 1979.mp3
+162:Electro/Joachim Pastor/Millenium.mp3
+163:Singing/Madd/Karma.mp3
+164:Electro/French79/French 79 - Hometown.mp3
+165:Singing/Ahmet Kilic/Ahmet Kilic & Stoto feat. Adeba - Stumblin' In.mp3
+166:Splitter/42-its-a-long-way-to-go.mp3
+167:Singing/Zayn/ZAYN - Dusk Till Dawn.mp3
+168:Electro/Wolfe/INZO - Overthinker.mp3
+169:Electro/Pepe Bradock/Deep Burnt.mp3
+170:Splitter/21-twin.mp3
+171:Singing/Lil Tecca/Lil Tecca - Amigo.mp3
+172:Singing/Lil Tecca/Lil Tecca - Senorita.mp3
+173:Singing/Sia/Sia - Cheap Thrills.mp3
+174:Singing/Lil Tecca/Lil Tecca - Sidenote.mp3
+175:Electro/Joris Delacroix/Platinium.mp3
+176:Electro/Solee/Phoenix.mp3
+177:Electro/Jan Blomqvist/Jan Blomqvist - Dark Noise.mp3
+178:Electro/Ybenel/The_Way.wav
+179:Electro/Teho/Behind Me.mp3
+180:Electro/Worakls/Trauma (Worakls Remix).mp3
+181:Singing/Lil Tecca/Lil Tecca - Ransom.mp3
+182:Splitter/45-changes.mp3
+183:Special/Riddle.mp3
+184:Electro/Extrawelt/Extrawelt & Dominik Eulberg - A Little Further (Not On A Map).mp3
+185:Electro/Daft Punk/Daft Punk - Get Lucky (Official Audio) ft. Pharrell Williams Nile Rodgers.mp3
+186:Electro/Ybenel/The_Way.mp3
+187:Singing/Naughtty boy/Naughty Boy - La la la ft. Sam Smith.mp3
+188:Electro/N'to/The Hound.mp3
+189:Singing/Katty Perry/Katy Perry - Dark Horse.mp3
+190:Splitter/23-red-line.mp3
+191:Singing/Shakira/Shakira - Chantaje.mp3
+192:Splitter/32-right-and-wrong.mp3
+193:Electro/Daso/Decide.mp3
+194:Electro/N'to/La Clé Des Champs.mp3
+195:Singing/Lil Tecca/Lil Tecca - Weatherman.mp3
+196:Electro/Extrawelt/Extrawelt - One Tree Hill.flac
+197:Electro/Joris Delacroix/Interlude.mp3
+198:Electro/Jan Blomqvist/Jan Blomqvist - Empty Floor.mp3
+199:Electro/French79/French 79 - Hold On.mp3
+200:Electro/Jan Blomqvist/404 Not Found.mp3
+201:Splitter/11-room.mp3
+202:Electro/Jan Blomqvist/The Bianca Story - Dancing People are never wrong.mp3
+203:Singing/Mickelmore/MACKLEMORE & RYAN LEWIS - THRIFT SHOP.mp3
+204:Singing/ISSAM/ISSAM — Caviar.mp3
+205:Electro/Teho/Arena.mp3
+206:Electro/Boris Brejcha/Boris Brejcha - Lost Memory.mp3
+207:Electro/Joris Delacroix/Voyage.mp3
+208:Singing/Katty Perry/Katy Perry - Roar.mp3
+209:Singing/Lil Tecca/Lil Tecca - Phenom.mp3
+210:Electro/Worakls/Nikki.mp3
+211:Electro/N'to/Every Wall Is A Door.mp3
+212:Electro/French79/French 79 - Vertigo Valley.mp3
+213:Singing/David Guetta/David Guetta - She Wolf.mp3
+214:Electro/Wolfe/Not Your Dope - 5 A.M.mp3
+215:Electro/Röyksopp/Royksopp – Here She Comes Again.mp3
+216:Singing/Lil Tecca/Lil Tecca - Out Of Luck.mp3
+217:Electro/N'to/Chez nous.mp3
+218:Singing/Fun/Fun. - We Are Young ft. Janelle Monáe.mp3
+219:Splitter/24-angel-hand.mp3
+220:Electro/Muse/Muse - Unintended (unfa cover).flac
+221:Electro/Joris Delacroix/Stay.mp3
+222:Electro/N'to/Petite.mp3
+223:Electro/Worakls/Nocturne.mp3
+224:Electro/Extrawelt/Extrawelt - Dark Side of My Room.mp3
+225:Electro/Boris Brejcha/Boris Brejcha - Dark Planet.mp3
+226:Electro/Ybenel/8000.mp3
+227:Splitter/41-the-more-i-see.mp3
+228:Singing/Adele/Adele - Skyfall.mp3
+229:Singing/Sia/Sia - Chandelier.mp3
+230:Splitter/27-the-seeds-of-time.mp3
+231:Electro/Extrawelt/Extrawelt - 8000.mp3
+232:Splitter/22-gossip.mp3
+233:Electro/Dead Mau/deadmau5 feat. Rob Swire - Ghosts N Stuff.mp3
+234:Electro/N'to/Trauma - 2018' Revision.mp3
+235:Electro/Ybenel/A Little Further.mp3
+236:Electro/Monolink/New Morning.mp3
+237:Electro/Ybenel/AyamZaman.mp3
+238:Singing/Madd/3310.mp3
+239:Splitter/37-salright.mp3
+240:Electro/Röyksopp/Sordid Affair (Maceo Plex Remix).mp3
+241:Electro/Röyksopp/Monument.mp3
+242:Electro/Rodriguez Jr/Radian.mp3
+243:Electro/Jan Blomqvist/Jan Blomqvist - The End.mp3
+244:Splitter/43-well-be-waiting-for-the-night.mp3
+245:Electro/Joachim Pastor/Joda.mp3
+246:Electro/AWOLNATION/AWOLNATION - Run (Audio).mp3
+247:Electro/French79/French 79 - Code Zero.mp3
+248:Electro/Jan Blomqvist/Jan Blomqvist - Black Hole Nights.mp3
+249:Singing/Stromae/Stromae - Alors On Danse.mp3
+250:Electro/Teho/Space Explorers.mp3
+251:Singing/Stromae/Stromae - Papaoutai.mp3
+252:Electro/Teho/Woody [Original Mix].mp3
+253:Special/Bodacious.flac
+254:Electro/Daft Punk/Daft Punk - Harder Better Faster Stronger.mp3
+255:Singing/Shakira/Shakira - Me Enamoré.mp3
+256:Electro/Extrawelt/Extrawelt - Imaginary Escort.mp3
+257:Electro/French79/French 79 - After Party.mp3
+258:Electro/Boris Brejcha/Boris Brejcha - Happinezz - Edit.mp3
+259:Electro/Joris Delacroix/Leaving Space.mp3
+260:Electro/Röyksopp/Monument (Inevitable Version).mp3
+playlist_end
