@@ -1,0 +1,14 @@
+[Unit]
+Description=JACK
+After=sound.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+PrivateTmp=true
+User=ybenel
+Environment="JACK_NO_AUDIO_RESERVATION=1"
+ExecStart=/usr/bin/jackd -dalsa -r44100 -p256 -n2 -D -Chw:MID -Phw:MID
+
