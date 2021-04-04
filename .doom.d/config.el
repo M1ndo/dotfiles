@@ -60,6 +60,16 @@
 (set-frame-parameter (selected-frame) 'alpha '(95 . 80))
 (add-to-list 'default-frame-alist '(alpha . (95 . 80)))
 
+(map! :leader
+      (:prefix ("c". "code")
+        :desc "Comment Line(s)" "[" #'comment-region
+        :desc "Uncomment Line(s)" "]" #'uncomment-region))
+
+(map! :leader
+      (:prefix ("b". "buffer")
+        :desc "List bookmarks" "L" #'list-bookmarks
+        :desc "Save current bookmarks to bookmark file" "w" #'bookmark-save))
+
 ;; Setting the indent guides to show a pipe character.
 ;;(def-package! highlight-indent-guides
 ;;  :commands highlight-indent-guides-mode
@@ -71,19 +81,40 @@
 ;;        highlight-indent-guides-responsive 'top
 ;;        highlight-indent-guides-auto-enabled nil))
 
-;; Here are some additional functions/macros that could help you configure Doom:
-;;
-;; - `load!' for loading external *.el files relative to this one
-;; - `use-package!' for configuring packages
-;; - `after!' for running code after a package has loaded
-;; - `add-load-path!' for adding directories to the `load-path', relative to
-;;   this file. Emacs searches the `load-path' when you load packages with
-;;   `require' or `use-package'.
-;; - `map!' for binding new keys
-;;
-;; To get information about any of these functions/macros, move the cursor over
-;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
-;; This will open documentation for it, including demos of how they are used.
-;;
-;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
-;; they are implemented.
+(require 'mu4e)
+
+;; use mu4e for e-mail in emacs
+(setq mail-user-agent 'mu4e-user-agent)
+
+(setq mu4e-drafts-folder "/Draft")
+(setq mu4e-trash-folder  "/Trash")
+
+;; don't save message to Sent Messages, Gmail/IMAP takes care of this
+(setq mu4e-sent-messages-behavior 'delete)
+;; setup some handy shortcuts
+;; you can quickly switch to your Inbox -- press ``ji''
+;; then, when you want archive some messages, move them to
+;; the 'All Mail' folder by pressing ``ma''.
+
+(setq mu4e-maildir-shortcuts
+    '( (:maildir "/INBOX"       :key ?i)
+       (:maildir "/Sent"        :key ?s)
+       (:maildir "/Trash"       :key ?t)
+       (:maildir "/Draft"       :key ?d)))
+
+(setq mu4e-get-mail-command "offlineimap"
+      mu4e-update-interval  300)
+(setq
+   user-mail-address "USERMAIL@gmail.com"
+   user-full-name  "Younes Ben El"
+   mu4e-compose-signature)
+(require 'smtpmail)
+(setq message-send-mail-function 'smtpmail-send-it
+   starttls-use-gnutls t
+   smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+   smtpmail-auth-credentials
+     '(("smtp.gmail.com" 587 "USERMAIL@gmail.com" nil))
+   smtpmail-default-smtp-server "smtp.gmail.com"
+   smtpmail-smtp-server "smtp.gmail.com"
+   smtpmail-smtp-service 587)
+(setq message-kill-buffer-on-exit t)
