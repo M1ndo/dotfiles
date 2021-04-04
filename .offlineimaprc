@@ -1,0 +1,29 @@
+[general]
+accounts = Gmail
+maxsyncaccounts = 3
+#pythonfile = ~/.offlineimap.py
+
+[Account Gmail]
+localrepository = Local
+remoterepository = Remote
+
+[Repository Local]
+type = Maildir
+localfolders = ~/Maildir
+nametrans = lambda f: '[Gmail]/' + f if f in ['Drafts', 'Starred', 'Important', 'Spam', 'Trash', 'All Mail', 'Sent Mail'] else f
+
+[Repository Remote]
+type = IMAP
+remotehost = imap.gmail.com
+remoteuser = USERMAIL@gmail.com
+auth_mechanisms = XOAUTH2
+oauth2_client_id = CLIENT_ID
+oauth2_client_secret = CLIENT_SECRET
+oauth2_request_url = https://accounts.google.com/o/oauth2/token
+oauth2_refresh_token = REFRESH_TOKEN
+ssl = yes
+maxconnections = 1
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+ssl_version = tls1_2
+folderfilter = lambda foldername: foldername in ['INBOX', 'Important']
+nametrans = lambda f: f.replace('[Gmail]/', '') if f.startswith('[Gmail]/') else f
