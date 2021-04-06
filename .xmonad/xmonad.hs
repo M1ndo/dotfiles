@@ -1,5 +1,5 @@
 -- Configured added / removed by ybenel (github.com/m1ndo)
--- Modification Date: 13/03/2021
+-- Modification Date: 06/04/2021
 -- Base
 import XMonad
 import System.IO (hPutStrLn)
@@ -588,7 +588,7 @@ myScratchPads :: [NamedScratchpad]
 myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
               , NS "irssi" spawnIrc findIrc manageIrc
               , NS "mocp" spawnMocp findMocp manageMocp
-              , NS "ncmpcpp" spawnnpc findnpc managenpc
+              , NS "Ncp" spawnNcp findNcp manageNcp
               , NS "discord" spawnDiscord findDiscord manageDiscord
               , NS "lightcord" spawnLcord findLcord manageLcord
               , NS "qjackctl" spawnQjack findQjack manageQjack
@@ -607,9 +607,9 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
   findMocp   = appName =? "mocp"
   manageMocp = nonFloating
 
-  spawnnpc  = myTerminal ++ " -name ncmpcpp -e /usr/bin/ncmpcpp"
-  findnpc   = appName =? "ncmpcpp"
-  managenpc = nonFloating
+  spawnNcp  = myTerminal ++ " -name ncmpcpp -e ncmpcpp"
+  findNcp   = appName =? "ncmpcpp"
+  manageNcp = nonFloating
 
   spawnIrc  = myTerminal ++ " -n irssi -e 'torify irssi'"
   findIrc   = (stringProperty "WM_NAME" =? "irssi")
@@ -834,8 +834,8 @@ myKeys =
       , ("M-<Tab>", sendMessage NextLayout)           -- Switch to next layout
       , ("M-C-M1-<Up>", sendMessage Arrange)
       , ("M-C-M1-<Down>", sendMessage DeArrange)
-      , ("M-<Space>", sendMessage (MT.Toggle NBFULL) >> sendMessage ToggleStruts) -- Toggles noborder/full
       , ("M-S-<Space>", sendMessage ToggleStruts)     -- Toggles struts
+      , ("M-<Space>", sendMessage (MT.Toggle NBFULL) >> sendMessage ToggleStruts) -- Toggles noborder/full
       , ("M-S-n", sendMessage $ MT.Toggle NOBORDERS)  -- Toggles noborder
       , ("M-C-d", windows $ copyToAll)
 
@@ -872,7 +872,7 @@ myKeys =
       , ("M-C-<Return>", namedScratchpadAction myScratchPads "terminal")
       , ("M-C-c", namedScratchpadAction myScratchPads "mocp")
       , ("M-C-e", namedScratchpadAction myScratchPads "irssi")
-      , ("M-C-c", namedScratchpadAction myScratchPads "ncmpcpp")
+      , ("M-C-a", namedScratchpadAction myScratchPads "Ncp")
       , ("M-C-x", namedScratchpadAction myScratchPads "discord")
       , ("M-C-z", namedScratchpadAction myScratchPads "lightcord")
       , ("M-C-p", namedScratchpadAction myScratchPads "qjackctl")
@@ -884,6 +884,7 @@ myKeys =
       , ("M-u h", spawn "mocp --previous")
       , ("M-u <Space>", spawn "mocp --toggle-pause")
 
+  -- Controls for Ncmpcpp mpd music player (SUPER-u followed by a key)
       , ("M-u x", spawn "mpc toggle")
       , ("M-u v", spawn "mpc next")
       , ("M-u b", spawn "mpc prev")
@@ -897,6 +898,7 @@ myKeys =
       , ("M1-C-s", spawn "./.dmenu/dmenu-scrot.sh")
       , ("M1-C-h", spawn "./.dmenu/dmenu-sysmon.sh")
       , ("M1-C-e", spawn "./.dmenu/dmenu-edit-configs.sh")
+      , ("M-M1-z", spawn (myTerminal ++ " -e ncmpcpp"))
 
   -- Multimedia Keys
       , ("<XF86AudioPlay>", spawn (myTerminal ++ "mocp --play"))
