@@ -169,10 +169,11 @@ myStartupHook = do
         -- spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x282C34 --height 22 --iconspacing 0 --margin 682 &" -- Enable When Using Secondary Xmobar config
         spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x090D12 --height 22 --iconspacing 0 --margin 476 &"
         spawnOnce "/usr/lib/polkit-kde-authentication-agent-1 &"
-        spawnOnce "xfce4-power-manager"
-        spawnOnce "numlockx on"
+        spawnOnce "xfce4-power-manager &"
+        spawnOnce "numlockx on &"
         spawnOnce "/usr/bin/emacs --daemon &"
         spawnOnce "xscreensaver -no-splash &"
+        spawnOnce "caffeine &"
         -- spawn "/home/ybenel/.bin/ybl/jack_start"
         setWMName "LG3D"
 
@@ -238,7 +239,7 @@ treeselectAction a = TS.treeselectAction a
      ]
  , Node (TS.TSNode "+ Internet" "internet and web programs" (return ()))
      [ Node (TS.TSNode "Browser" "A Privacy Purpose Browser" (spawn "librewolf")) []
-     , Node (TS.TSNode "Discord" "Chat and video chat platform" (spawn "discord")) []
+     -- , Node (TS.TSNode "Discord" "Chat and video chat platform" (spawn "discord")) []
      , Node (TS.TSNode "Telegram" "Telegram Client" (spawn "telegram-desktop")) []
      , Node (TS.TSNode "Firefox" "Open source web browser" (spawn "firefox")) []
      , Node (TS.TSNode "IRssi" "Great IRC Client" (spawn (myTerminal ++ " -e irssi"))) []
@@ -589,8 +590,8 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
               , NS "irssi" spawnIrc findIrc manageIrc
               , NS "mocp" spawnMocp findMocp manageMocp
               , NS "Ncp" spawnNcp findNcp manageNcp
-              , NS "discord" spawnDiscord findDiscord manageDiscord
-              , NS "lightcord" spawnLcord findLcord manageLcord
+              -- , NS "discord" spawnDiscord findDiscord manageDiscord
+              -- , NS "lightcord" spawnLcord findLcord manageLcord
               , NS "qjackctl" spawnQjack findQjack manageQjack
               , NS "spotify" spawnSpot findSpot manageSpot
               ]
@@ -619,13 +620,13 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
               w = 0.96
               t = 0.5
               l = 0.5
-  spawnDiscord  = "discord"
-  findDiscord   = (className =? "discord")
-  manageDiscord = nonFloating
+  -- spawnDiscord  = "discord"
+  -- findDiscord   = (className =? "discord")
+  -- manageDiscord = nonFloating
 
-  spawnLcord  = "lightcord"
-  findLcord   = (className =? "lightcord")
-  manageLcord = nonFloating
+  -- spawnLcord  = "lightcord"
+  -- findLcord   = (className =? "lightcord")
+  -- manageLcord = nonFloating
 
   spawnQjack  = "qjackctl"
   findQjack   = (className =? "qjackctl")
@@ -873,8 +874,8 @@ myKeys =
       , ("M-C-c", namedScratchpadAction myScratchPads "mocp")
       , ("M-C-e", namedScratchpadAction myScratchPads "irssi")
       , ("M-C-a", namedScratchpadAction myScratchPads "Ncp")
-      , ("M-C-x", namedScratchpadAction myScratchPads "discord")
-      , ("M-C-z", namedScratchpadAction myScratchPads "lightcord")
+      -- , ("M-C-x", namedScratchpadAction myScratchPads "discord")
+      -- , ("M-C-z", namedScratchpadAction myScratchPads "lightcord")
       , ("M-C-p", namedScratchpadAction myScratchPads "qjackctl")
       , ("M-C-y", namedScratchpadAction myScratchPads "spotify")
 
