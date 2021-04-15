@@ -21,8 +21,8 @@ xfce4-power-manager &
 /usr/lib/polkit-kde-authentication-agent-1 &
 /usr/bin/emacs --daemon &
 xscreensaver -no-splash &
+caffeine &
 #~/.config/herbstluftwm/uminimize.sh &
-#/home/ybenel/.bin/ybl/jack_start &
 #jgmenu --hide-on-startup --config-file=~/.config/jgmenu/jgmenurc --csv-file=~/.config/jgmenu/menu.csv
 #xclickroot -r jgmenu_run
 
