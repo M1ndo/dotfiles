@@ -90,7 +90,7 @@ local modkey1      = "Control"
 
 -- personal variables
 --change these variables if you want
-local browser           = "librewolf"
+local browser           = "firefox"
 local editor            = os.getenv("EDITOR") or "nvim"
 local editorgui         = "xed"
 local filemanager       = "pcmanfm"
@@ -198,7 +198,7 @@ local myawesomemenu = {
 }
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    {"Browser", "librewolf", beautiful.browser_ico},
+                                    {"Browser", "firefox", beautiful.browser_ico},
                                     {"Stremio", "stremio", beautiful.stremio_ico},
                                     {"Lite", "lite", beautiful.atom_ico},
                                     {"Gimp","gimp", beautiful.gimp_ico},
@@ -282,6 +282,7 @@ root.buttons(my_table.join(
 globalkeys = my_table.join(
 
     -- {{{ Personal keybindings
+    --
     -- dmenu
     awful.key({ modkey, "Shift" }, "Return",
     function ()
@@ -301,8 +302,7 @@ globalkeys = my_table.join(
 	    beautiful.bg_normal, beautiful.fg_normal, beautiful.bg_focus, beautiful.fg_focus))
 	    end,
     {description = "show rofi", group = "hotkeys"}),
-    awful.key({ altkey, }, "e", function () awful.util.spawn( terminal .. " -e nvim" ) end,
-        {description = "Open Nvim" , group = "hotkeys" }),
+
     -- My dmenu scripts (Alt+Ctrl+Key)
     awful.key({ altkey, "Control" }, "e", function () awful.util.spawn( "./.dmenu/dmenu-edit-configs.sh" ) end,
         {description = "Shortcut Editing Config" , group = "Dmenu Scripts" }),
@@ -312,6 +312,10 @@ globalkeys = my_table.join(
         {description = "surfraw web search" , group = "Dmenu Scripts" }),
 
     -- My applications (Super+Alt+Key)
+    awful.key({ altkey, }, "e", function () awful.util.spawn( terminal .. " -e nvim" ) end,
+        {description = "Open Nvim" , group = "hotkeys" }),
+    awful.key({ modkey, }, "e", function () awful.util.spawn("emacsclient -c -a emacs") end,
+        {description = "Open Nvim" , group = "hotkeys" }),
     awful.key({ modkey, altkey  }, "c", function () awful.util.spawn( terminal.." -e mocp" ) end,
         {description = "mocp" , group = "terminal apps" }),
     awful.key({ modkey, altkey }, "e", function () awful.util.spawn( terminal.." -e irssi" ) end,
@@ -341,6 +345,15 @@ globalkeys = my_table.join(
         {description = "Moc Previous", group = "Moc"}),
     awful.key({ modkey, altkey}, "l", function () os.execute('mocp --next') end,
         {description = "Moc Next", group = "Moc"}),
+    -- Mpd Controls
+    awful.key({ modkey, altkey}, "x", function () os.execute('mpc toggle') end,
+        {description = "Mpd Toggle", group = "Mpd"}),
+    awful.key({ modkey, altkey}, "v", function () os.execute('mpc next') end,
+        {description = "Mpd Next", group = "Mpd"}),
+    awful.key({ modkey, altkey}, "b", function () os.execute('mpc prev') end,
+        {description = "Mpd Previous", group = "Mpd"}),
+    awful.key({ modkey, altkey}, "m", function () os.execute('mpc stop') end,
+        {description = "Mpd Stop", group = "Mpd"}),
 
     -- Hotkeys Awesome
 

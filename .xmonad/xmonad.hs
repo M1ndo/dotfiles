@@ -1,5 +1,5 @@
 -- Configured added / removed by ybenel (github.com/m1ndo)
--- Modification Date: 06/04/2021
+-- Modification Date: 06/14/2021
 -- Base
 import XMonad
 import System.IO (hPutStrLn)
@@ -39,6 +39,7 @@ import XMonad.Hooks.SetWMName
 import XMonad.Hooks.WorkspaceHistory
 import XMonad.Hooks.FadeWindows
   -- Layouts
+import XMonad.Layout.Accordion
 import XMonad.Layout.GridVariants (Grid(Grid))
 import XMonad.Layout.SimplestFloat
 import XMonad.Layout.Spiral
@@ -208,7 +209,7 @@ spawnSelected' lst = gridselect conf lst >>= flip whenJust spawn
                  }
 
 myAppGrid = [ ("Xterm", "xterm")
-               , ("Browser", "librewolf")
+               , ("Browser", "firefox")
                , ("Stremio", "stremio")
                , ("Lite", "lite")
                , ("Gimp", "gimp")
@@ -238,10 +239,9 @@ treeselectAction a = TS.treeselectAction a
      , Node (TS.TSNode "Kdenlive" "Another Video Editor" (spawn "kdenlive")) []
      ]
  , Node (TS.TSNode "+ Internet" "internet and web programs" (return ()))
-     [ Node (TS.TSNode "Browser" "A Privacy Purpose Browser" (spawn "librewolf")) []
-     -- , Node (TS.TSNode "Discord" "Chat and video chat platform" (spawn "discord")) []
+     [ Node (TS.TSNode "Browser" "Open source web browser" (spawn "firefox")) []
+     --, Node (TS.TSNode "Discord" "Chat and video chat platform" (spawn "discord")) []
      , Node (TS.TSNode "Telegram" "Telegram Client" (spawn "telegram-desktop")) []
-     , Node (TS.TSNode "Firefox" "Open source web browser" (spawn "firefox")) []
      , Node (TS.TSNode "IRssi" "Great IRC Client" (spawn (myTerminal ++ " -e irssi"))) []
      , Node (TS.TSNode "Qbittorrent" "Bittorrent client" (spawn "qbittorrent")) []
      ]
@@ -348,7 +348,6 @@ treeselectAction a = TS.treeselectAction a
          , Node (TS.TSNode "r/Vim" "Subreddit for vim" (spawn (myBrowser ++ "https://www.reddit.com/r/vim/"))) []
          , Node (TS.TSNode "Vi/m StackExchange" "Vi/m related questions" (spawn (myBrowser ++ "https://vi.stackexchange.com/"))) []
          ]
-     , Node (TS.TSNode "My Start Page" "Custom start page for browser" (spawn (myBrowser ++ "file:///home/ybenel/Downloads/StartPage/homepage.html"))) []
      ]
  , Node (TS.TSNode "+ Config Files" "config files that edit often" (return ()))
      [ Node (TS.TSNode "Xmonad" "the window manager you know!" (spawn (myEditor ++ "/home/ybenel/.xmonad/xmonad.hs"))) []
@@ -651,65 +650,61 @@ mySpacing' i = spacingRaw True (Border i i i i) True (Border i i i i) True
 
 -- Defining a bunch of layouts, many that I don't use.
 tall     = renamed [Replace "tall"]
-         $ windowNavigation
-         $ addTabs shrinkText myTabTheme
-         $ subLayout [] (smartBorders Simplest)
-         $ limitWindows 12
-         $ mySpacing 8
-         $ ResizableTall 1 (3/100) (1/2) []
+           $ smartBorders
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ limitWindows 12
+           $ mySpacing 8
+           $ ResizableTall 1 (3/100) (1/2) []
 magnify  = renamed [Replace "magnify"]
-         $ windowNavigation
-         $ addTabs shrinkText myTabTheme
-         $ subLayout [] (smartBorders Simplest)
-         $ magnifier
-         $ limitWindows 12
-         $ mySpacing 8
-         $ ResizableTall 1 (3/100) (1/2) []
+           $ smartBorders
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ magnifier
+           $ limitWindows 12
+           $ mySpacing 8
+           $ ResizableTall 1 (3/100) (1/2) []
 monocle  = renamed [Replace "monocle"]
-         $ windowNavigation
-         $ addTabs shrinkText myTabTheme
-         $ subLayout [] (smartBorders Simplest)
-         $ limitWindows 20 Full
+           $ smartBorders
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ limitWindows 20 Full
 floats   = renamed [Replace "floats"]
-         $ windowNavigation
-         $ addTabs shrinkText myTabTheme
-         $ subLayout [] (smartBorders Simplest)
-         $ limitWindows 20 simplestFloat
+           $ smartBorders
+           $ limitWindows 20 simplestFloat
 grid     = renamed [Replace "grid"]
-         $ windowNavigation
-         $ addTabs shrinkText myTabTheme
-         $ subLayout [] (smartBorders Simplest)
-         $ limitWindows 12
-         $ mySpacing 8
-         $ mkToggle (single MIRROR)
-         $ Grid (16/10)
+           $ smartBorders
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ limitWindows 12
+           $ mySpacing 8
+           $ mkToggle (single MIRROR)
+           $ Grid (16/10)
 spirals  = renamed [Replace "spirals"]
-         $ windowNavigation
-         $ addTabs shrinkText myTabTheme
-         $ subLayout [] (smartBorders Simplest)
-         $ mySpacing' 8
-         $ spiral (6/7)
+           $ smartBorders
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ mySpacing' 8
+           $ spiral (6/7)
 threeCol = renamed [Replace "threeCol"]
-         $ windowNavigation
-         $ addTabs shrinkText myTabTheme
-         $ subLayout [] (smartBorders Simplest)
-         $ limitWindows 7
-         $ mySpacing' 4
-         $ ThreeCol 1 (3/100) (1/2)
+           $ smartBorders
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ limitWindows 7
+           $ ThreeCol 1 (3/100) (1/2)
 threeRow = renamed [Replace "threeRow"]
-         $ windowNavigation
-         $ addTabs shrinkText myTabTheme
-         $ subLayout [] (smartBorders Simplest)
-         $ limitWindows 7
-         $ mySpacing' 4
-         -- Mirror takes a layout and rotates it by 90 degrees.
-         -- So we are applying Mirror to the ThreeCol layout.
-         $ Mirror
-         $ ThreeCol 1 (3/100) (1/2)
+           $ smartBorders
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ limitWindows 7
+           $ Mirror
+           $ ThreeCol 1 (3/100) (1/2)
 tabs     = renamed [Replace "tabs"]
-         -- I cannot add spacing to this layout because it will
-         -- add spacing between window and tabs which looks bad.
-         $ tabbed shrinkText myTabTheme
+           $ tabbed shrinkText myTabTheme
+tallAccordion  = renamed [Replace "tallAccordion"]
+           $ Accordion
+wideAccordion  = renamed [Replace "wideAccordion"]
+           $ Mirror Accordion
 
 myTabTheme = def { fontName            = myFont
                , activeColor         = "#46d9ff"
@@ -733,7 +728,7 @@ myShowWNameTheme = def
 myLayoutHook = avoidStruts . minimize $ mouseResize $ windowArrange $ T.toggleLayouts floats
              $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
            where
-            myDefaultLayout = tall ||| magnify ||| noBorders monocle ||| floats ||| noBorders tabs ||| grid ||| spirals ||| threeCol ||| threeRow
+            myDefaultLayout = tall ||| magnify ||| noBorders monocle ||| floats ||| noBorders tabs ||| grid ||| spirals ||| threeCol ||| threeRow ||| tallAccordion ||| wideAccordion
 
 myWorkspaces = [" B ", " T ", " E ", " G ", " M ", " C "]
 
@@ -757,7 +752,7 @@ myFadeHook = composeAll [className =? "lite" --> transparency 0.6
 myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
 myManageHook = composeAll
    -- using 'doShift ( myWorkspaces !! 3)' sends program to workspace 4!
-   [ title =? "LibreWolf"     --> doShift ( myWorkspaces !! 0 )
+   [ title =? "Firefox"     --> doShift ( myWorkspaces !! 0 )
    , className =? "mpv"     --> doShift ( myWorkspaces !! 4 )
    , className =? "lite"     --> doShift ( myWorkspaces !! 2 )
    , className =? "vlc"     --> doShift ( myWorkspaces !! 3 )
@@ -765,7 +760,13 @@ myManageHook = composeAll
    , className =? "Gimp"    --> doShift ( myWorkspaces !! 3 )
    , title =? "Oracle VM VirtualBox Manager"     --> doFloat
    , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 3 )
-   , (className =? "librewolf" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
+   , title =? "Oracle VM VirtualBox Manager"     --> doFloat
+   , className =? "file_progress"   --> doFloat
+   , className =? "dialog"          --> doFloat
+   , className =? "download"        --> doFloat
+   , className =? "error"           --> doFloat
+   , className =? "notification"    --> doFloat
+   , (className =? "firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
    ] <+> namedScratchpadManageHook myScratchPads
 
 myLogHook :: X ()
@@ -784,7 +785,7 @@ myKeys =
 
   -- Useful programs to have a keybinding for launch
       , ("M-<Return>", spawn myTerminal)
-      , ("M-b", spawn (myBrowser ++ " file:///home/ybenel/Downloads/StartPage/homepage.html"))
+      , ("M-b", spawn myBrowser)
       , ("M-M1-h", spawn (myTerminal ++ " -e htop"))
 
   -- Kill windows
@@ -889,7 +890,7 @@ myKeys =
       , ("M-u x", spawn "mpc toggle")
       , ("M-u v", spawn "mpc next")
       , ("M-u b", spawn "mpc prev")
-      , ("M-u m", spawn "mocp stop")
+      , ("M-u m", spawn "mpc stop")
   -- App Shortcuts
       , ("M-C-s", spawn "rofi -combi-modi run,drun -show combi -modi combi -show-icons -icon-theme 'Breeze' -display-combi 'ybenel: '")
       , ("M-M1-s", spawn "dmenu_run -c -bw 2 -l 10 -g 4 -p 'ybenel: ' -fn 'scientifica:size=12'")
@@ -909,15 +910,17 @@ myKeys =
       , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%- unmute")
       , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 5%+ unmute")
       , ("<XF86HomePage>", spawn "firefox")
-      , ("<XF86Search>", safeSpawn "librewolf" ["https://www.duckduckgo.com/"])
+      , ("<XF86Search>", safeSpawn "firefox" ["https://www.duckduckgo.com/"])
       , ("<XF86Mail>", runOrRaise "thunderbird" (resource =? "thunderbird"))
       , ("<XF86Calculator>", runOrRaise "gcalctool" (resource =? "gcalctool"))
       , ("<XF86Eject>", spawn "toggleeject")
       , ("<Print>", spawn "scrot")
+      , ("M-<F1>", spawn "sxiv -r -q -t -o ~/wallpapers/*")
+      , ("M-<F2>", spawn "/bin/ls ~/wallpapers | shuf -n 1 | xargs xwallpaper --stretch")
       ]
   -- Appending search engine prompts to keybindings list.
   -- Look at "search engines" section of this config for values for "k".
-      ++ [("M-s " ++ k,S.promptSearchBrowser ybXPConfig' "/usr/local/bin/librewolf" f) | (k,f) <- searchList ]
+      ++ [("M-s " ++ k,S.promptSearchBrowser ybXPConfig' "/usr/bin/firefox" f) | (k,f) <- searchList ]
       ++ [("M-S-s " ++ k, S.selectSearch f) | (k,f) <- searchList ]
   -- Appending some extra xprompts to keybindings list.
   -- Look at "xprompt settings" section this of config for values for "k".

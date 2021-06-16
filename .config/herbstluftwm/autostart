@@ -33,7 +33,7 @@ hc keyunbind --all
 Mod=Mod4                            # Use the super key as the main modifier
 myTerm=xterm                   # Set my preferred terminal
 myEditor="emacsclient -c -a emacs"  # Set my preferred editor
-myBrowser="/usr/local/bin/librewolf"
+myBrowser="firefox"
 myMusic="/usr/bin/mocp"
 myMMusic="ncmpcpp"
 MMControl="mpc"
@@ -67,7 +67,7 @@ hc keybind $Mod-Control-Return spawn $myTerm
 hc keybind $Mod-Control-x spawn discord
 hc keybind $Mod-Control-p spawn qjackctl
 hc keybind $Mod-Control-e spawn $myTerm -e torify irssi
-hc keybind $Mod-b spawn $myBrowser " file:///home/ybenel/Downloads/StartPage/homepage.html"
+hc keybind $Mod-b spawn $myBrowser
 
 
 # Controllers
@@ -252,6 +252,7 @@ herbstclient set tree_style '╾│ ├└╼─┐'
 # or simply:
 #hc detect_monitors
 hc set_monitors 1920x1080+0+0 #1920x1060+1920+22 1920x1060+3840+22
+#hc set_monitors 1366x768+0+0 #1920x1060+1920+22 1920x1060+3840+22
 
 # find the panel
 panel=~/.config/herbstluftwm/panel.sh
