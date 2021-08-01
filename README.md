@@ -1,48 +1,5 @@
-# My Awesome;Xmonad;HerbstluftWm Configuration
-**Awesome** And **Xmonad** And **HerbstluftWm** are highly configurable, All are tiling window managers for X. They are very fast, extensible and licensed under the GNU GPL 2&3 license.  **Awesome** is a perfect "first" tiling window manager for those who want to try out tiling, but the extreme customization that you can achieve with awesome makes it a power user's dream.  Awesome is written In Lua It's Pretty Easy to get in to it and in case you got issues with something there's always a great documentation that has almost anything, **Xmonad** Is Not That Hard but it's quiet challenging if you're not into the haskell programming language you might take alot of time configuring Xmonad And You might face issues ,but there's always documentation available and great community!.
-**HerbstluftWm** Is Magnificent , it's one of the best window managers out there and it has probably the best documentation explaining every phase , when it comes to configuring **HerbstluftWm** you can write the config in any language bash,python,haskel whatever (It's the best).
-
-# Dotfiles Are Used For:
-* AwesomeWM (Window Manager)
-* HerbstluftWM (Window Manager)
-* Xmonad (Window Manager)
-* Xmobar (Status Bar)
-* Polybar (Status Bar)
-* Picom (Compositor)
-* Emacs (A whole World)
-* Rofi (Window Switcher)
-* Dmenu (Dynamic Menu For X)
-* Xterm (Terminal)
-* st (Terminal)
-* vifm (Terminal File Manager)
-* neovim (Editor)
-* Nano (Editor)
-* mocp (Terminal Music Player)
-* lynx (Minimal Terminal Browser)
-* PulseAudio (Sound Server)
-* Alsa (Sound Driver/Module)
-* Jack (Audio Connection Kit)
-* Dunst (Notification Daemon)
-* Zsh (SHELL)
-* Bash (SHELL)
-* XscreenSaver (Screen Saver)
-* irssi (IRC Client)
-* Spicetify (Spotify Beautifier)
-* SpaceVim (Vim/Nvim PreConfigured ?)
-* mpd (Music Player Server)
-* ncmpcpp (Mpd Advanced Music Client)
-* qutebrowser (Minimale Browser)
-* That's All I Guess.
-
-# Features
-
-* Flexible for the power user.
-* Extremely customizable, maybe more so than any other window manager.
-* Configured in Lua, Haskell, C++.
-* A documented API to configure and define the behavior of your window manager.
-
+# My Awesome;Xmonad;HerbstluftWm,Qtile Configuration
 # My Keybindings For Awesome WM
-
 The MODKEY is set to the Super key (aka the Windows key).  I try to keep the
 keybindings consistent with all of my window managers.
 
@@ -106,27 +63,15 @@ keybindings consistent with all of my window managers.
 | `MODKEY + CTRL + n` | Restore Minimized Window |
 | `MODKEY + b` | Open Browser |
 
-*****Note** Read The Config File To See All Available Keybinding , You Don't Want To Miss The Great Features i've added to it :D
+**Note** Read The Config File To See All Available Keybinding , You Don't Want To Miss The Great Features i've added to it :D
 
 # Screenshots
 <img src="https://github.com/m1ndo/dotfiles/blob/master/screenshots/ybenel%4017-43-19-scrot.png" alt="Awesome" border="0">
 <img src="https://github.com/m1ndo/dotfiles/blob/master/screenshots/ybenel@03-25-04-scrot.png" alt="Xmonad" border="0">
 <img src="https://github.com/m1ndo/dotfiles/blob/master/screenshots/ybenel@21-26-36-scrot.png" alt="Herbstluftwm" border="0">
 
-## Getting Help With Awesome
-*Reporting issues*
-
-Please report any issues you have on [our bugtracker](https://github.com/m1ndo/dotfiles/issues).
-
-## Documentation For AwesomeWM,XmonadWM
-
-Online documentation for Awesome [here](https://awesomewm.org/apidoc/) for Xmonad [here](https://xmonad.org/documentation.html) for HerbstluftWM [here](https://herbstluftwm.org/herbstluftwm.html)
-##
-
 ## Written By Ybenel(m1ndo)
-
 ## License
-
 The project is licensed under GNU General Public License v2 or later.
 You can read it online at ([v2](http://www.gnu.org/licenses/gpl-2.0.html)
 or [v3](http://www.gnu.org/licenses/gpl.html)).
