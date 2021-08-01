@@ -1,0 +1,10 @@
+450780af7240427a42f0cbfe56dc3e6d  /home/ybenel/.Xresources
+7eadbca2904580975afcead10c4c1743  /home/ybenel/.bashrc
+f40ad5304d2e923143acfdbae67b2f3f  /home/ybenel/.dir_colors
+3b3443e774fc59a9701d9c95068c6653  /home/ybenel/.dmrc
+1b69ebf5387164ff6a17f322624eefe1  /home/ybenel/.face
+90c71a7ae41f4ffa46cd9ba05e68ab1d  /home/ybenel/.inputrc
+d0d99cbc69d3c1ef71fa7a6eb795b0e2  /home/ybenel/.screenrc
+f857c6614ddb79991d751647169336f0  /home/ybenel/.xinitrc
+1affe64984d090f391f3f2995e264d2b  /home/ybenel/.xscreensaver
+df9b1edc70ff1bbc1a6a2bfd0b21d6b1  /home/ybenel/.zshrc

@@ -1,0 +1,15 @@
+/home/ybenel/Documents/dotfiles/.SpaceVim.d/.netrwhist
+/home/ybenel/Documents/dotfiles/.Xresources
+/home/ybenel/Documents/dotfiles/.bashrc
+/home/ybenel/Documents/dotfiles/.config/nvim/.netrwhist
+/home/ybenel/Documents/dotfiles/.dir_colors
+/home/ybenel/Documents/dotfiles/.dmrc
+/home/ybenel/Documents/dotfiles/.face
+/home/ybenel/Documents/dotfiles/.gitconfig
+/home/ybenel/Documents/dotfiles/.inputrc
+/home/ybenel/Documents/dotfiles/.offlineimap.py
+/home/ybenel/Documents/dotfiles/.offlineimaprc
+/home/ybenel/Documents/dotfiles/.screenrc
+/home/ybenel/Documents/dotfiles/.xinitrc
+/home/ybenel/Documents/dotfiles/.xscreensaver
+/home/ybenel/Documents/dotfiles/.zshrc
