@@ -1,1 +1,1 @@
-away_hilight_notice.pl
+../away_hilight_notice.pl

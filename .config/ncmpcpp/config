@@ -22,7 +22,7 @@ statusbar_visibility = "yes"
 titles_visibility = "no"
 header_text_scrolling = "yes"
 cyclic_scrolling = "no"
-display_volume_level = "no"
+display_volume_level = "yes"
 display_bitrate = "yes"
 display_remaining_time = "no"
 

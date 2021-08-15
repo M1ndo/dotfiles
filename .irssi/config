@@ -1,218 +1,175 @@
 servers = (
   {
-    address = "chat.freenode.net";
-    chatnet = "Freenode";
-    port = "6697";
-    use_tls = "yes";
-    tls_verify = "yes";
-    autoconnect = "yes";
-  },
-  {
-    address = "10.10.10.9";
-    chatnet = "REDECATED";
-    port = "6697";
-    use_tls = "yes";
-    tls_verify = "yes";
-    autoconnect = "yes";
-  },
-  {
-    address = "eu.irc6.net";
+    #   WEBSITE: https://www.cloak.ircnet.ovh/
+    address = "open.ircnet.net";
     chatnet = "IRCnet";
     port = "6667";
-    use_tls = "yes";
+    family = "inet4";
+    autoconnect = "no";
   },
-  { address = "open.ircnet.net"; chatnet = "IRCnet"; port = "6667"; },
   {
-    address = "irc.ircsource.net";
-    chatnet = "IRCSource";
+    address = "eden.evilnet.org";
+    chatnet = "EvilNET";
     port = "6667";
+    family = "inet6";
+    autoconnect = "no";
+
   },
-  { 
-    address = "irc.quakenet.org";
-    chatnet = "QuakeNet";
+  {
+    address = "london.freshchat.org";
+    chatnet = "FreshChat";
     port = "6667";
+    family = "inet6";
+    autoconnect = "no";
+
   },
-  { address = "silc.silcnet.org"; chatnet = "SILC"; port = "706"; },
-  { 
-    address = "irc.undernet.org";
-    chatnet = "Undernet";
-    port = "6667";
+  {
+    address = "irc.libera.chat";
+    chatnet = "liberachat";
+    port = "6697";
+    use_tls = "yes";
+    tls_verify = "yes";
+    autoconnect = "yes";
   }
 );
 
 chatnets = {
-  Freenode = {
+  IRCnet = { type = "IRC"; };
+  UnderNET = { type = "IRC"; };
+  EvilNET = { type = "IRC"; };
+  FreshChat = { type = "IRC"; };
+  liberachat = {
     type = "IRC";
-    max_kicks = "1";
-    max_msgs = "4";
-    max_whois = "1";
     sasl_mechanism = "PLAIN";
-    sasl_username = "REDECATED";
-    sasl_password = "REDECATED";
-  };
-  REDECATED = {
-    type = "IRC";
-    max_kicks = "1";
-    max_msgs = "4";
-    max_whois = "1";
-    sasl_mechanism = "EXTERNAL";
-    sasl_username = "REDECATED";
-    sasl_password = "REDECATED";
-  };
-  IRCnet = { 
-    type = "IRC";
-    max_kicks = "1";
-    max_msgs = "1";
-    max_whois = "1";
-  };
-  IRCSource = {
-    type = "IRC";
-    max_kicks = "1";
-    max_msgs = "4";
-    max_whois = "1";
-  };
-  NetFuze = {
-    type = "IRC";
-    max_kicks = "1";
-    max_msgs = "1";
-    max_whois = "1";
-  };
-  OFTC = { type = "IRC"; max_kicks = "1"; max_msgs = "1"; max_whois = "1"; };
-  SILC = { type = "SILC"; };
-  Undernet = {
-    type = "IRC";
-    max_kicks = "1";
-    max_msgs = "1";
-    max_whois = "1";
+    sasl_username = "REDACTED";
+    sasl_password = "REDACTED";
   };
 };
 
-channels = (
-  { name = "#archlinux"; chatnet = "Freenode"; autojoin = "yes"; },
-  { name = "#ircsource"; chatnet = "IRCSource"; autojoin = "yes"; },
-  { name = "#netfuze"; chatnet = "NetFuze"; autojoin = "No"; },
-  { name = "#oftc"; chatnet = "OFTC"; autojoin = "No"; },
-  { name = "silc"; chatnet = "SILC"; autojoin = "No"; },
-  {
-    name = "#APTx1337";
-    chatnet = "REDECATED";
-    autojoin = "yes";
-    password = "REDECATED";
-  }
+Channels = (
+  { name = "#archlinux"; chatnet = "liberachat"; autojoin = "No"; }
+  { name = "#REDACTED"; chatnet = "liberachat"; autojoin = "yes"; password = "REDACTED"; }
 );
 
 aliases = {
-  ATAG = "WINDOW SERVER";
-  ADDALLCHANS = "SCRIPT EXEC foreach my \\$channel (Irssi::channels()) { Irssi::command(\"CHANNEL ADD -auto \\$channel->{name} \\$channel->{server}->{tag} \\$channel->{key}\")\\;}";
-  B = "BAN";
-  BACK = "AWAY";
-  BANS = "BAN";
-  BYE = "QUIT";
-  C = "CLEAR";
-  CALC = "EXEC - if command -v bc >/dev/null 2>&1\\; then printf '%s=' '$*'\\; echo '$*' | bc -l\\; else echo bc was not found\\; fi";
-  CHAT = "DCC CHAT";
-  DATE = "TIME";
-  DEHIGHLIGHT = "DEHILIGHT";
-  DESCRIBE = "ACTION";
-  DHL = "DEHILIGHT";
-  EXEMPTLIST = "MODE $C +e";
-  EXIT = "QUIT";
-  GOTO = "SCROLLBACK GOTO";
-  HIGHLIGHT = "HILIGHT";
-  HL = "HILIGHT";
-  HOST = "USERHOST";
-  INVITELIST = "MODE $C +I";
-  J = "JOIN";
-  K = "KICK";
-  KB = "KICKBAN";
-  KN = "KNOCKOUT";
-  LAST = "LASTLOG";
-  LEAVE = "PART";
-  M = "MSG";
-  MUB = "UNBAN *";
-  N = "NAMES";
-  NMSG = "^MSG";
-  P = "PART";
-  Q = "QUERY";
-  RESET = "SET -default";
+  J = "join";
+  WJOIN = "join -window";
+  WQUERY = "query -window";
+  LEAVE = "part";
+  BYE = "quit";
+  EXIT = "quit";
+  SIGNOFF = "quit";
+  DESCRIBE = "action";
+  DATE = "time";
+  HOST = "userhost";
+  LAST = "lastlog";
+  SAY = "msg *";
+  WI = "whois";
+  WII = "whois $0 $0";
+  WW = "whowas";
+  W = "who";
+  N = "names";
+  M = "msg";
+  T = "topic";
+  C = "clear";
+  CL = "clear";
+  K = "kick";
+  KB = "kickban";
+  KN = "knockout";
+  BANS = "ban";
+  B = "ban";
+  MUB = "unban *";
+  UB = "unban";
+  IG = "ignore";
+  UNIG = "unignore";
+  SB = "scrollback";
+  UMODE = "mode $N";
+  WC = "window close";
+  WN = "window new hide";
+  SV = "say Irssi $J (Mxl-Maxell) (Theme)";
+  GOTO = "sb goto";
+  CHAT = "dcc chat";
   RUN = "SCRIPT LOAD";
-  SAY = "MSG *";
-  SB = "SCROLLBACK";
+  UPTIME = "eval exec - expr `date +%s` - \\$F | awk '{print \"Irssi uptime: \"int(\\\\\\$1/3600/24)\"d \"int(\\\\\\$1/3600%24)\"h \"int(\\\\\\$1/60%60)\"m \"int(\\\\\\$1%60)\"s\" }'";
+  CALC = "exec - if which bc &>/dev/null\\; then echo '$*' | bc | awk '{print \"$*=\"$$1}'\\; else echo bc was not found\\; fi";
   SBAR = "STATUSBAR";
-  SIGNOFF = "QUIT";
-  T = "TOPIC";
-  UB = "UNBAN";
-  UMODE = "MODE $N";
-  UNSET = "SET -clear";
-  W = "WHO";
-  WC = "WINDOW CLOSE";
-  WG = "WINDOW GOTO";
-  WJOIN = "JOIN -window";
-  WI = "WHOIS";
-  WII = "WHOIS $0 $0";
-  WL = "WINDOW LIST";
-  WN = "WINDOW NEW HIDDEN";
-  WQUERY = "QUERY -window";
-  WW = "WHOWAS";
+  lagsens = "set lag_check_time 1s; set lag_min_show 0.01s; echo Lag meter set Ultra Sensitive";
+  lagnorm = "set lag_check_time 10s; set lag_min_show 1s; echo Lag meter set normal";
+  laglow = "set lag_check_time 30s; set lag_min_show 5s; echo Lag meter set lo w";
+  ahelp = "echo [\002irssi\002] Theme specific help; echo test2";
+  INVITELIST = "mode $C +I";
+  Q = "QUERY";
+  g = "window goto $0";
+  u = "window goto 36";
+  noa = "/window goto =noa";
+  followon = "script load follow";
+  followoff = "script unload follow";
+  saveall = "/layout save; /savefr; /save";
+  thx = "/say thanks :>";
+  figlet = "/exec -o - figlet $*";
+  bsay = "/exec -o - figlet $*";
+  nup = "nicklist scroll -25";
+  nd = "nicklist scroll 25";
+  s = "say =)";
+  sec = "say wait a sec... =)";
+  aw = "/away zZzZ ($Z); /say away $Z";
+  timestamp = "%W.:$*%W:.%n";
+  silent = "hide target add $0";
+  silence = "hide target add $0";
+  unsilence = "hide target remove $0";
+  gbc = "foreach window $*;echo BROADCAST: GLOBAL: $*";
+  output = "exec -o - $*;say output from: $*";
+  quit = "echo \002Fail-Safe\002: If you really mean it use //quit";
+  opers = "window goto #opers";
+  atw = "window goto #atw";
+  invited = "exec - echo $* >> ~/txt/invited.txt";
+  disconnect = "echo \002Fail-Safe\002: If you really mean it use //disconnect";
+  server = "server +$*;echo \002Multi-Server\002: Joining $*";
+  squit = "echo \002Fail-Safe\002: If you really mean it use //squit";
+  TELNET = "window new hidden;window name telnet;exec -name telnet -nosh -interactive -window telnet $-";
+  SSH = "window new hidden;window name ssh;exec -name ssh -nosh -interactive -window ssh $-";
 };
-
 statusbar = {
-
   items = {
-
     barstart = "{sbstart}";
     barend = "{sbend}";
-
     topicbarstart = "{topicsbstart}";
     topicbarend = "{topicsbend}";
+    time = "{sb %R$Z%n}";
+    #
+    user = "{sb %WN%wick:.:%R$cumode%w$N%W :.: %WS%wtatus {sbmode (%R+$usermode%n)}}";
+    window = "%W.: %n{sbmode %WS%wettings (%R+$M%n) :..: %WW%window: %R$winref }{sbaway $A}%W:.%n";
 
-    time = "{sb $Z}";
-    user = "{sb {sbnickmode $cumode}$N{sbmode $usermode}{sbaway $A}}";
 
-    window = "{sb $winref:$tag/$itemname{sbmode $M}}";
-    window_empty = "{sb $winref{sbservertag $tag}}";
-
-    prompt = "{prompt $[.15]itemname}";
-    prompt_empty = "{prompt $winname}";
-
-    topic = " $topic";
-    topic_empty = " This Is The Way It End :D";
-
-    lag = "{sb Lag: $0-}";
-    act = "{sb Act: $0-}";
-    more = "-- more --";
+    window_empty = "{sb %W>%K>%R> %WWELCOME TO THE NEW WORLD %R<%K<%W<%W Copyright(c) by Mxl";
+    prompt = "%w<%W$itemname%w>: ";
+    prompt_empty = "<%W$winname%n> ";
+    topic = "%WTopic%K:%W $topic";
+    topic_empty = " %WmIRSSI%n v$J - http://irssi.org";
+    lag = "{sb .:%WL%wagging:.%W: %R$0- }";
+    act = "{sb %WActive Channel%K: $0-}";
+    more = "%K-- %Wmore %K--";
   };
-
   default = {
-
     window = {
-
-      disabled = "no";
       type = "window";
       placement = "bottom";
-      position = "1";
+      position = "0";
       visible = "active";
-
       items = {
         barstart = { priority = "100"; };
-        time = { };
-        user = { };
-        window = { };
         window_empty = { };
-        lag = { priority = "-1"; };
-        act = { priority = "10"; };
         more = { priority = "-1"; alignment = "right"; };
         barend = { priority = "100"; alignment = "right"; };
+        usercount = { };
       };
+      disabled = "yes";
     };
-
     window_inact = {
-
       type = "window";
       placement = "bottom";
       position = "1";
       visible = "inactive";
-
       items = {
         barstart = { priority = "100"; };
         window = { };
@@ -221,28 +178,22 @@ statusbar = {
         barend = { priority = "100"; alignment = "right"; };
       };
     };
-
     prompt = {
-
       type = "root";
       placement = "bottom";
       position = "100";
-      visible = "always";
-
+      visible = "active";
       items = {
         prompt = { priority = "-1"; };
         prompt_empty = { priority = "-1"; };
         input = { priority = "10"; };
       };
     };
-
     topic = {
-
       type = "root";
       placement = "top";
       position = "1";
       visible = "always";
-
       items = {
         topicbarstart = { priority = "100"; };
         topic = { };
@@ -250,16 +201,81 @@ statusbar = {
         topicbarend = { priority = "100"; alignment = "right"; };
       };
     };
+    info1 = {
+      items = { user = { }; cmode = { }; rotator = { }; window = { }; };
+      position = "10";
+      placement = "bottom";
+    };
+    info2 = {
+      items = {
+        more = { };
+        upgradeinfo = { };
+        loadavg = { alignment = "right"; };
+        time = { };
+        act = { };
+        lag = { };
+      };
+      position = "0";
+    };
+    window2 = { items = { usercount = { }; window_empty = { }; }; };
+    info = { position = "0"; placement = "top"; disabled = "yes"; };
+    info3 = {
+      position = "0";
+      placement = "top";
+      items = { loadavg = { }; hitcount = { }; nact = { }; lag = { }; };
+      disabled = "yes";
+    };
+    add = { disabled = "yes"; };
+    window1 = { disabled = "yes"; };
   };
 };
 settings = {
   core = {
-    real_name = "REDECATED";
-    user_name = "REDECATED";
-    nick = "ybenel";
-    quit_message = "\"I Dunno,I need to relax a bit\"";
+    real_name = "REDACTED";
+    user_name = "REDACTED";
+    nick = "REDACTED";
+    quit_message = "\"DIE , JUST DIE.\"";
+    hostname = "";
+    timestamp_format = "%H:%M:%S";
   };
-  "fe-text" = { actlist_sort = "refnum"; };
-  "fe-common/core" = { theme = "revolutionary"; };
-  "perl/core/scripts" = { notify_icon = "face-smile-big"; };
+  "irc/core" = {
+    lag_check_time = "1s";
+    ctcp_version_reply = "";
+    skip_motd = "no";
+    lag_max_before_disconnect = "600";
+  };
+  "fe-common/core" = {
+    theme = "mxl.theme";
+    activity_hide_level = "            KICK MODE  TOPIC NICK  QUIT CLIENTNOTICE CLIENTCRAP SNOTICE JOIN PART CRAP CLIENTCRAP";
+    timestamps = "yes";
+    timestamp_level = "ALL";
+    hilight_color = "%M";
+    autolog = "yes";
+    autolog_path = "~/.irssi/logs/$tag/$0.log";
+    term_charset = "UTF-8";
+  };
+  "perl/core/scripts" = {
+    nicklist_prefix_mode_op = "\\e[0m@\\e[0m\\e[39m";
+    usercount_show_halfops = "no";
+    rotator_chars = "%K%W-%k________%k %k_%k%W-%k_______%k %k__%k%W-%k______%k %k___%k%W-%k_____ %k____%k%W-%k____%k %k_____%K%W-%k___%k %k______%k%W-%k__%k %k_______%k%W-%k_%k %k________%k%W-%k";
+    rotator_speed = "250";
+    friends_autosave = "yes";
+    loadavg_refresh = "30000";
+    hitcount_refresh = "3600";
+    nact_devices = "eth0";
+    autoaway_timeout = "300";
+    mh_iline_command_iline_test_host = "no";
+  };
+  "fe-text" = {
+    lag_min_show = "1s";
+    scrollback_lines = "2000";
+    paste_verify_line_count = "2";
+    term_force_colors = "yes";
+    colors = "yes";
+    actlist_sort = "refnum";
+  };
 };
+logs = { };
+keyboard = ( 
+  { key = "meta-[M"; id = "command"; data = "mouse_xterm "; }
+);

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # Configured added / modified by ybenel (github.com/m1ndo)
-# Modification Date: 07/18/2021
+# Modification Date: 08/13/2021
 import os
 import re
 import socket
@@ -67,12 +67,12 @@ keys = [
 ]
 
 
-group_names = [("", {'layout': 'monadtall'}),
-               ("", {'layout': 'monadtall'}),
-               ("", {'layout': 'monadtall'}),
-               ("", {'layout': 'monadtall'}),
-               ("", {'layout': 'monadtall'}),
-               ("", {'layout': 'monadtall'})]
+group_names = [("", {'layout': 'monadtall'}),
+               ("", {'layout': 'monadtall'}),
+               ("", {'layout': 'monadtall'}),
+               ("", {'layout': 'monadtall'}),
+               ("", {'layout': 'monadtall'}),
+               ("", {'layout': 'monadtall'})]
 
 groups = [Group(name, **kwargs) for name, kwargs in group_names]
 
@@ -155,8 +155,8 @@ def init_widgets_list():
                        background = colors[0]
                        ),
               widget.GroupBox(
-                       font = "Ubuntu Bold",
-                       fontsize = 9,
+                       font = "Font Awesome 5 Brands",
+                       fontsize = 12,
                        margin_y = 3,
                        margin_x = 0,
                        padding_y = 5,
@@ -251,6 +251,7 @@ def init_widgets_list():
                        fontsize = 14
                        ),
               widget.Memory(
+                       format = "Mem: {MemPercent:.0f}%",
                        foreground = colors[2],
                        background = colors[4],
                        padding = 5

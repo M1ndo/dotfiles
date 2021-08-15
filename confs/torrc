@@ -1,0 +1,20 @@
+User tor
+SocksPort 9050 # Default: Bind to localhost:9050 for local connections.
+MapAddress 172.168.8.10 dtlbunzs5b7s5sl775quwezleyeplxzicdoh3cnhm7feolxmkfd42nqd.onion  
+SocksPolicy accept 172.168.8.7
+SocksPolicy accept 172.168.1.9
+SocksPolicy accept 127.0.0.1
+SocksPolicy reject *
+Log notice syslog
+RunAsDaemon 0
+DataDirectory /var/lib/tor
+ControlPort 9051
+HashedControlPassword 16:7EF32549F6E2416D60BBF4EE0E91BA198A465CFDF60647D6BC5B8DFEDE
+Nickname JackTheRipper
+ExitPolicy accept *:6660-6667,reject *:* # allow irc ports but no more
+UseBridges 1
+ClientTransportPlugin obfs3 exec /usr/bin/obfsproxy managed
+ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy managed
+
+Bridge obfs4 203.118.152.146:5223 C1E2C85674133793CF675C868A568BD756D1B872 cert=fFMTfQskyIoXg36YsZGOIWoGwnrLiRPNGiizcK+5TEl4lAeWPj/lHPITMvNP5XngG5HUMg iat-mode=0
+Bridge obfs4 35.243.156.249:7695 888AA441785E0D47D940CE6BBDB6215ADB8DD3EA cert=AI7GcXcaDltEoEJ+fG0ZM/Calrd4geHDMpwAVJ2ymGWffa0M/43OjTrVrqy22Et2alnBeg iat-mode=0

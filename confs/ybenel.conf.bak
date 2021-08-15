@@ -1,0 +1,27 @@
+server {
+	#default_type  application/octet-stream;
+	#include       mime.types;
+	listen	80;
+	server_name ybenel.com;
+	root /var/www/ybenel;
+	location / {
+		index admin.php;	
+	} 
+	location ~ \.php$ {
+        	# 404
+	        try_files $fastcgi_script_name =404;
+        	# default fastcgi_params
+	        include fastcgi_params;
+        	# fastcgi settings
+	        fastcgi_pass   unix:/run/php-fpm/php-fpm.sock;
+	        fastcgi_index   admin.php;
+	        fastcgi_buffers   8 16k;
+	        fastcgi_buffer_size  32k;
+		fastcgi_read_timeout 600;
+        	# fastcgi params
+	        fastcgi_param DOCUMENT_ROOT $realpath_root;
+	        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        	#fastcgi_param PHP_ADMIN_VALUE "open_basedir=$base/:/usr/lib/php/:/tmp/";
+    	}
+
+}

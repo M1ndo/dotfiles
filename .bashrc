@@ -6,6 +6,9 @@ PATH="$HOME/.emacs.d/bin:$HOME/.local/bin:$PATH"
 # Setting Editor As NeoVim
 EDITOR="nvim"
 
+# Source Skey
+source $HOME/.bin/ybl/skey
+
 # Exporting Term Colors To Xterm 
 # Note: For Better Colors Change To "st-256color" if you have st installed
 export TERM="xterm-256color"
@@ -108,11 +111,9 @@ complete -cf sudo
 # it regains control.  #65623
 # http://cnswww.cns.cwru.edu/~chet/bash/FAQ (E11)
 shopt -s checkwinsize
-
 shopt -s expand_aliases
-
 shopt -s autocd
-
+shopt -s cdspell
 # export QT_SELECT=4
 
 # Enable history appending instead of overwriting.  #139609
@@ -148,7 +149,21 @@ function ipc () {
   curl ipinfo.io/$1
 }
 
-
+# Display True 16 million colors 
+function 16s() {
+    awk 'BEGIN{
+    s="/\\/\\/\\/\\/\\"; s=s s s s s s s s;
+    for (colnum = 0; colnum<77; colnum++) {
+        r = 255-(colnum*255/76);
+        g = (colnum*510/76);
+        b = (colnum*255/76);
+        if (g>255) g = 510-g;
+        printf "\033[48;2;%d;%d;%dm", r,g,b;
+        printf "\033[38;2;%d;%d;%dm", 255-r,255-g,255-b;
+        printf "%s\033[0m", substr(s,colnum+1,1);
+    }
+    printf "\n";}'
+}
 ### ALIASES ###
 
 # root privileges
@@ -274,5 +289,6 @@ $HOME/.bin/shuffle.py
 
 # PS1 Customization "~$ "
 export PS1="\[\e[1;49;32m\]\W \[\e[m\]\[\e[1;49;96m\]\\$\[\e[1;49;39m\] "
+16s
 #export PS1='\[\e[0m\]\[\e[48;5;236m\]\[\e[38;5;105m\]\u\[\e[38;5;105m\]@\[\e[38;5;105m\]\h\[\e[38;5;105m\] \[\e[38;5;221m\]\w\[\e[38;5;221m\]\[\e[38;5;105m\]\[\e[0m\]\[\e[38;5;236m\]\342\226\214\342\226\214\342\226\214\[\e[0m\]'
 #export PS1='\[\e[31;1;48;234m\]\u \[\e[38;5;240m\]on \[\e[1;38;5;28;48;234m\]\h \[\e[38;5;54m\]\d \@\[\e[0m\]\n\[\e[38;5;105m\][\W] \[\e[1m\]\$\e[0m\] '
