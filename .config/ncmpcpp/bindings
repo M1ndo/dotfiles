@@ -1,0 +1,4 @@
+def_key "ctrl-a"
+  volume_up
+def_key "ctrl-q"
+  volume_down

@@ -1,4 +1,10 @@
-period_size = 32
-periods = 4
-hrtf = true
-allow-moves = true
+[General]
+allow-moves=true
+ambi-format=ambix
+channels=surround61
+default-hrtf=Built-In HRTF
+frequency=44100
+hrtf=true
+hrtf-mode=full
+resampler=cubic
+stereo-mode=headphones

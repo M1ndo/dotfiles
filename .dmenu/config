@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2034
+# This issue is ignored because it is part of a larger file that calls upon all variables listed
+
+# Defined variables, modify anything in quotes to your prefered software
+
+DMENU="dmenu"
+# DMENU="rofi -dmenu"
+
+DMTERM="xterm -e"
+# DMTERM="alacritty -e"
+
+DMEDITOR="emacsclient -c -a emacs"
+# DMEDITOR="${DMTERM} vim"
+
+# dm-maim
+maim_dir="${HOME}/Pictures/Screenshots"
+maim_file_prefix="ybenel"
+
+_revision=13
+

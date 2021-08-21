@@ -1,0 +1,73 @@
+[/]
+enabled-applets=['panel1:left:0:menu@cinnamon.org:0', 'panel1:left:1:show-desktop@cinnamon.org:1', 'panel1:left:2:grouped-window-list@cinnamon.org:2', 'panel1:right:0:systray@cinnamon.org:3', 'panel1:right:1:xapp-status@cinnamon.org:4', 'panel1:right:2:notifications@cinnamon.org:5', 'panel1:right:3:printers@cinnamon.org:6', 'panel1:right:4:removable-drives@cinnamon.org:7', 'panel1:right:5:keyboard@cinnamon.org:8', 'panel1:right:6:favorites@cinnamon.org:9', 'panel1:right:7:network@cinnamon.org:10', 'panel1:right:8:sound@cinnamon.org:11', 'panel1:right:9:power@cinnamon.org:12', 'panel1:right:10:calendar@cinnamon.org:13']
+next-applet-id=14
+
+[desktop/background]
+picture-uri='file:///home/ybenel/Pictures/Backgrounds/Skull_GreyMono.jpg'
+
+[desktop/background/slideshow]
+delay=15
+image-source='directory:///home/ybenel/Pictures/Backgrounds'
+random-order=true
+slideshow-enabled=false
+
+[desktop/interface]
+cursor-blink-time=1200
+cursor-theme='macOSBigSur'
+gtk-theme='WhiteSur-dark'
+icon-theme='WhiteSur-purple-dark'
+scaling-factor=uint32 0
+
+[desktop/media-handling]
+autorun-x-content-ignore=@as []
+autorun-x-content-open-folder=@as []
+autorun-x-content-start-app=['x-content/unix-software']
+
+[desktop/sound]
+event-sounds=false
+maximum-volume=150
+volume-sound-enabled=true
+volume-sound-file='/usr/share/sounds/freedesktop/stereo/audio-volume-change.oga'
+
+[desktop/wm/preferences]
+theme='WhiteSur-dark'
+
+[muffin]
+tile-hud-threshold=25
+
+[settings-daemon/peripherals/keyboard]
+delay=uint32 500
+numlock-state='on'
+repeat-interval=uint32 30
+
+[settings-daemon/peripherals/touchpad]
+touchpad-enabled=true
+
+[sounds]
+close-enabled=true
+close-file='/usr/share/sounds/freedesktop/stereo/window-question.oga'
+login-enabled=true
+login-file='/usr/share/sounds/freedesktop/stereo/service-login.oga'
+logout-enabled=true
+logout-file='/usr/share/sounds/freedesktop/stereo/service-logout.oga'
+map-enabled=true
+map-file='/usr/share/sounds/freedesktop/stereo/window-attention.oga'
+maximize-enabled=true
+maximize-file='/usr/share/sounds/LinuxMint/stereo/button-toggle-on.ogg'
+minimize-enabled=true
+minimize-file='/usr/share/sounds/freedesktop/stereo/window-question.oga'
+notification-enabled=true
+notification-file='/usr/share/sounds/freedesktop/stereo/bell.oga'
+plug-enabled=true
+plug-file='/usr/share/sounds/freedesktop/stereo/device-added.oga'
+switch-enabled=true
+switch-file='/usr/share/sounds/freedesktop/stereo/window-attention.oga'
+tile-enabled=true
+tile-file='/usr/share/sounds/freedesktop/stereo/dialog-information.oga'
+unmaximize-enabled=true
+unmaximize-file='/usr/share/sounds/LinuxMint/stereo/button-toggle-on.ogg'
+unplug-enabled=true
+unplug-file='/usr/share/sounds/freedesktop/stereo/device-removed.oga'
+
+[theme]
+name='WhiteSur-dark'
