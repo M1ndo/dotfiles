@@ -1,0 +1,9 @@
+[submodule ".config/awesome/lib/rubato"]
+	path = .config/awesome/lib/rubato
+	url = https://github.com/andOrlando/rubato
+[submodule ".config/awesome/lib/bling"]
+	path = .config/awesome/lib/bling
+	url = https://github.com/blingcorp/bling
+[submodule ".config/awesome/awesome-leaved"]
+	path = .config/awesome/awesome-leaved
+	url = https://github.com/michaelbeaumont/awesome-leaved
