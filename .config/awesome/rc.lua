@@ -24,12 +24,15 @@ naughty.config.defaults['icon_size'] = 100
 
 local lain          = require("lain")
 local freedesktop   = require("freedesktop")
-
+-- Tabbed Layout
+local leaved = require "awesome-leaved"
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 local hotkeys_popup = require("awful.hotkeys_popup").widget
                       require("awful.hotkeys_popup.keys")
 local my_table      = awful.util.table or gears.table -- 4.{0,1} compatibility
+
+require("scratchpads")
 -- }}}
 
 
@@ -62,13 +65,13 @@ end
 
 
 -- {{{ Autostart windowless processes
-local function run_once(cmd_arr)
-    for _, cmd in ipairs(cmd_arr) do
-        awful.spawn.with_shell(string.format("pgrep -u $USER -fx '%s' > /dev/null || (%s)", cmd, cmd))
-    end
-end
+--local function run_once(cmd_arr)
+--    for _, cmd in ipairs(cmd_arr) do
+--        awful.spawn.with_shell(string.format("pgrep -u $USER -fx '%s' > /dev/null || (%s)", cmd, cmd))
+--    end
+--end
 
-run_once({ "unclutter -root" }) -- entries must be comma-separated
+-- run_once({ "unclutter -root" }) -- entries must be comma-separated
 -- }}}
 
 
@@ -83,6 +86,8 @@ local chosen_theme = themes[1]
 
 local theme_path = string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), chosen_theme)
 beautiful.init(theme_path)
+-- Include Bling 
+local bling = require("lib.bling")
 -- modkey or mod4 = super key
 local modkey       = "Mod4"
 local altkey       = "Mod1"
@@ -101,34 +106,20 @@ local terminal          = "xterm"
 local virtualmachine    = "virtualbox"
 
 -- awesome variables
+local l = awful.layout.suit
+local ll = leaved.layout.suit.tile
 awful.util.terminal = terminal
 awful.util.tagnames = { "", "", " ", "", " ", " "}
--- Use this : https://fontawesome.com/cheatsheet
---awful.util.tagnames = { "", "", "", "", "" }
-awful.layout.suit.tile.left.mirror = true
 awful.layout.layouts = {
-    awful.layout.suit.tile,
-    awful.layout.suit.floating,
-    awful.layout.suit.tile.left,
-    awful.layout.suit.tile.bottom,
-    awful.layout.suit.tile.top,
-    --awful.layout.suit.fair,
-    --awful.layout.suit.fair.horizontal,
-    awful.layout.suit.spiral,
-    awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max,
-    --awful.layout.suit.max.fullscreen,
-    awful.layout.suit.magnifier,
-    --awful.layout.suit.corner.nw,
-    --awful.layout.suit.corner.ne,
-    --awful.layout.suit.corner.sw,
-    --awful.layout.suit.corner.se,
-    -- lain.layout.cascade,
-    --lain.layout.cascade.tile,
-    --lain.layout.centerwork,
-    --lain.layout.centerwork.horizontal,
+    l.tile,
+    l.floating,
+    l.spiral,
+    bling.layout.mstab,
     lain.layout.termfair,
-    --lain.layout.termfair.center,
+    ll.right,
+    ll.left,
+    ll.bottom, 
+    ll.top,
 }
 
 awful.util.taglist_buttons = my_table.join(
@@ -192,18 +183,21 @@ beautiful.init(string.format(gears.filesystem.get_configuration_dir() .. "/theme
 local myawesomemenu = {
     { "hotkeys", function() return false, hotkeys_popup.show_help end },
     { "manual", terminal .. " -e 'man awesome'" },
-    { "edit config", terminal.." vim /home/ybenel/.config/awesome/rc.lua" },
+    { "edit config", terminal .. " -e nvim /home/ybenel/.config/awesome/rc.lua" },
     { "arandr", "arandr" },
     { "restart", awesome.restart },
 }
-
+beautiful.menu_font = "scientifica 9"
+beautiful.menu_border_color = "#002133"
+beautiful.menu_border_width = 2
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    {"Browser", "firefox", beautiful.browser_ico},
+                                    {"Browser", "chromium", beautiful.browser_ico},
                                     {"Stremio", "stremio", beautiful.stremio_ico},
+				                    {"Pcmanfm", "pcmanfm", beautiful.pcman_ico},
                                     {"Lite", "lite", beautiful.atom_ico},
                                     {"Gimp","gimp", beautiful.gimp_ico},
-                                    {"Discord", "discord", beautiful.discord_ico},
-                                    {"Telegram", "telegram-desktop", beautiful.telegram_ico},
+                                    --{"Discord", "discord", beautiful.discord_ico},
+                                    --{"Telegram", "telegram-desktop", beautiful.telegram_ico},
                                     { "Terminal", terminal, beautiful.terminal_ico},
                                     { "Log out", function() awesome.quit() end, beautiful.logout_ico},
                                     { "Sleep", "xscreensaver-command -lock", beautiful.sleep_ico},
@@ -213,38 +207,8 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
                                   }
                         })
 
-mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
-                                     menu = mymainmenu })
-
--- {{{ Menu
--- local myawesomemenu = {
---     { "hotkeys", function() return false, hotkeys_popup.show_help end },
---     { "manual", terminal .. " -e 'man awesome'" },
---     { "edit config", terminal.." vim /home/ybenel/.config/awesome/rc.lua" },
---     { "arandr", "arandr" },
---     { "restart", awesome.restart },
--- }
---
--- awful.util.mymainmenu = freedesktop.menu.build({
---     icon_size = beautiful.menu_height or 16,
---     -- beautiful.menu_font = 'scientifica',
---     before = {
---         { "Awesome", myawesomemenu, beautiful.awesome_icon },
---         --{ "Atom", "atom" },
---         -- other triads can be put here
---     },
---     after = {
---         { "Terminal", terminal },
---         { "Log out", function() awesome.quit() end },
---         { "Sleep", "xscreensaver-command -lock" },
---         { "Restart", "systemctl reboot" },
---         { "Exit", "shutdown now" },
---         -- other triads can be put here
---     }
--- })
---menubar.utils.terminal = terminal -- Set the Menubar terminal for applications that require it
--- }}}
-
+--mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
+ --                                    menu = mymainmenu })
 
 
 -- {{{ Screen
@@ -280,7 +244,6 @@ root.buttons(my_table.join(
 
 -- {{{ Key bindings
 globalkeys = my_table.join(
-
     -- {{{ Personal keybindings
     --
     -- dmenu
@@ -292,16 +255,38 @@ globalkeys = my_table.join(
     {description = "show dmenu", group = "hotkeys"}),
     awful.key({ modkey, altkey }, "s",
     function ()
-        awful.spawn(string.format("dmenu_run -c -bw 2 -l 10 -g 4 -p 'ybenel: ' -fn 'scientifica:size=12'",
+        awful.spawn(string.format("dmenu_run -c -l 10 -g 4 -b -p 'ybenel: ' -fn 'scientifica:size=12'",
         beautiful.bg_normal, beautiful.fg_normal, beautiful.bg_focus, beautiful.fg_focus))
 	end,
     {description = "show dmenu (Small)", group = "hotkeys"}),
-    awful.key({ modkey1, modkey  }, "s",
+    awful.key({ altkey,  }, "Return",
     function()
-	    awful.spawn(string.format("rofi -combi-modi run,drun -show combi -modi combi -show-icons -icon-theme 'Breeze' -display-combi 'ybenel: '",
+	    awful.spawn(string.format("rofi -show drun -show-icons",
 	    beautiful.bg_normal, beautiful.fg_normal, beautiful.bg_focus, beautiful.fg_focus))
 	    end,
     {description = "show rofi", group = "hotkeys"}),
+     
+    -- Restore Minimized
+    awful.key({ modkey, "Control" }, "n",
+        function ()
+            local c = awful.client.restore()
+            -- Focus restored client
+            if c then
+                client.focus = c
+                c:raise()
+            end
+        end,
+        {description = "Restore Minimized", group = "Client"}),
+    awful.key({ modkey, "Control", altkey }, "n",      
+        function ()
+            for _, cl in ipairs(mouse.screen.selected_tag:clients()) do
+                local c = cl
+                c:emit_signal(
+                    "request::activate", "key.unminimize", {raise = true}
+                )
+            end
+        end,
+        {description = "Restore all Minimized windows in current tag", group = "client"}),
 
     -- My dmenu scripts (Alt+Ctrl+Key)
     awful.key({ altkey, "Control" }, "e", function () awful.util.spawn( "./.dmenu/dmenu-edit-configs.sh" ) end,
@@ -309,15 +294,19 @@ globalkeys = my_table.join(
     awful.key({ altkey, "Control" }, "h", function () awful.util.spawn( "./.dmenu/dmenu-sysmon.sh" ) end,
         {description = "System Monitoring" , group = "Dmenu Scripts" }),
     awful.key({ altkey, "Control"  }, "s", function () awful.util.spawn( "./.dmenu/dmenu-scrot.sh" ) end,
-        {description = "surfraw web search" , group = "Dmenu Scripts" }),
+        {description = "Scrot Screen" , group = "Dmenu Scripts" }),
+    awful.key({ altkey, "Control"  }, "p", function () awful.util.spawn( "passmenu" ) end,
+        {description = "Passmenu" , group = "Dmenu Scripts" }),
 
     -- My applications (Super+Alt+Key)
     awful.key({ altkey, }, "e", function () awful.util.spawn( terminal .. " -e nvim" ) end,
         {description = "Open Nvim" , group = "hotkeys" }),
     awful.key({ modkey, }, "e", function () awful.util.spawn("emacsclient -c -a emacs") end,
-        {description = "Open Nvim" , group = "hotkeys" }),
+        {description = "Open Emacs" , group = "hotkeys" }),
     awful.key({ modkey, altkey  }, "c", function () awful.util.spawn( terminal.." -e mocp" ) end,
         {description = "mocp" , group = "terminal apps" }),
+    awful.key({ modkey, altkey  }, "z", function () awesome.emit_signal("scratch::music")end,
+        {description = "ncmpcpp" , group = "terminal apps" }),
     awful.key({ modkey, altkey }, "e", function () awful.util.spawn( terminal.." -e irssi" ) end,
         {description = "Irssi" , group = "terminal apps" }),
     awful.key({ modkey, altkey  }, "f", function () awful.util.spawn( terminal.." -e sh ./.config/vifm/scripts/vifmrun" ) end,
@@ -333,7 +322,7 @@ globalkeys = my_table.join(
     awful.key({ modkey1, "Shift"  }, "Print", function() awful.util.spawn("scrot -a $(slop -f '%x,%y,%w,%h') -d 2") end,
         {description = "Scrot Delayed Screen", group = "ScreenShots"}),
 
-    -- Personal keybindings}}}
+    -- Personal keybindings
 
     -- Moc Controls
 
@@ -385,82 +374,42 @@ globalkeys = my_table.join(
         {description = "Go Back", group = "Tag"}),
 
       -- Tag browsing alt + tab
-     awful.key({ altkey,           }, "Tab",   awful.tag.viewnext,
+    awful.key({ altkey,           }, "Tab",   awful.tag.viewnext,
          {description = "View Next", group = "Tag"}),
-     awful.key({ altkey, "Shift"   }, "Tab",  awful.tag.viewprev,
+    awful.key({ altkey, "Shift"   }, "Tab",  awful.tag.viewprev,
          {description = "View Previous", group = "Tag"}),
 
-      -- Tag browsing modkey + tab
-     awful.key({ modkey,           }, "Tab",   awful.tag.viewnext,
-         {description = "View Next", group = "Tag"}),
-     awful.key({ modkey, "Shift"   }, "Tab",  awful.tag.viewprev,
-         {description = "View Previous", group = "Tag"}),
+     
 
     -- By direction client focus with arrows (Modkey + <UP/Down/Right/Left>)
     awful.key({ modkey, }, "Down",
         function()
             awful.client.focus.global_bydirection("down")
+            bling.module.flash_focus.flashfocus(client.focus)
             if client.focus then client.focus:raise() end
         end,
         {description = "Focus Down", group = "Client"}),
     awful.key({ modkey, }, "Up",
         function()
             awful.client.focus.global_bydirection("up")
+            bling.module.flash_focus.flashfocus(client.focus)
             if client.focus then client.focus:raise() end
         end,
         {description = "Focus Up", group = "Client"}),
     awful.key({ modkey, }, "Left",
         function()
             awful.client.focus.global_bydirection("left")
+            bling.module.flash_focus.flashfocus(client.focus)
             if client.focus then client.focus:raise() end
         end,
         {description = "Focus Left", group = "Client"}),
     awful.key({ modkey, }, "Right",
         function()
             awful.client.focus.global_bydirection("right")
+            bling.module.flash_focus.flashfocus(client.focus)
             if client.focus then client.focus:raise() end
         end,
         {description = "Focus Right", group = "Client"}),
-
-    awful.key({ modkey }, "j",
-        function()
-            awful.client.focus.global_bydirection("down")
-            if client.focus then client.focus:raise() end
-        end,
-        {description = "Focus Down", group = "Client"}),
-    awful.key({ modkey }, "k",
-        function()
-            awful.client.focus.global_bydirection("up")
-            if client.focus then client.focus:raise() end
-        end,
-        {description = "Focus Up", group = "Client"}),
-    awful.key({ modkey }, "h",
-        function()
-            awful.client.focus.global_bydirection("left")
-            if client.focus then client.focus:raise() end
-        end,
-        {description = "Focus Left", group = "Client"}),
-    awful.key({ modkey }, "l",
-        function()
-            awful.client.focus.global_bydirection("right")
-            if client.focus then client.focus:raise() end
-        end,
-        {description = "Focus Right", group = "Client"}),
-
-        -- Default client focus
-    awful.key({ altkey,           }, "j",
-        function ()
-            awful.client.focus.byidx( 1)
-        end,
-        {description = "Focus Next By Index", group = "Client"}
-    ),
-    awful.key({ altkey,           }, "k",
-        function ()
-            awful.client.focus.byidx(-1)
-        end,
-        {description = "Focus Previous By Index", group = "Client"}
-    ),
-
 
     -- Non-empty tag browsing
     --awful.key({ modkey }, "Left", function () lain.util.tag_view_nonempty(-1) end,
@@ -511,38 +460,43 @@ globalkeys = my_table.join(
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "Launch Terminal", group = "Super"}),
-
-    awful.key({ altkey, "Shift"   }, "l",     function () awful.tag.incmwfact( 0.05)          end,
-              {description = "Increase Master Width Factor", group = "Layout"}),
-    awful.key({ altkey, "Shift"   }, "h",     function () awful.tag.incmwfact(-0.05)          end,
-              {description = "Decrease Master Width Factor", group = "Layout"}),
-    awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1, nil, true) end,
-              {description = "Increase The Number Of Master Clients", group = "Layout"}),
-    awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1, nil, true) end,
-              {description = "Decrease The Number Of Master Clients", group = "Layout"}),
-    awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1, nil, true)    end,
-              {description = "Increase The Number Of Columns", group = "Layout"}),
-    awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1, nil, true)    end,
-              {description = "Decrease The Number Of Columns", group = "Layout"}),
-    awful.key({ modkey,           }, "space", function () awful.layout.inc( 1)                end,
+    -- Leaved Layout 
+    awful.key({ modkey,           }, "s", leaved.keys.min_container,
+              {description = "Minimize Container Windows", group = "Client"}),
+    awful.key({ modkey, }, ";", leaved.keys.shiftOrder,
+              {description = "Minimize Container Windows", group = "Client"}),
+    awful.key({ modkey, }, "[", leaved.keys.splitH,
+              {description = "Split Wind Horiz(Leaved Layout)", group = "Client"}),
+    awful.key({ modkey, }, "]", leaved.keys.splitV,
+              {description = "Split Wind Virtical(Leaved Layout)", group = "Client"}),
+    awful.key({ modkey, }, "'", leaved.keys.shiftStyle,
+              {description = "Change Style(Leaved Layout)", group = "Client"}),
+    
+    -- Tabbed Layout (Bling)
+    awful.key({ altkey, }, "s", bling.module.tabbed.pick(),
+              {description = "Add Client To Tabbed", group = "Client"}),
+    awful.key({ altkey, }, ";", bling.module.tabbed.pop(),
+              {description = "Remove Focused Client From tabbed", group = "Client"}),
+    awful.key({ altkey, }, "Up", bling.module.tabbed.pick_by_direction("up") ,
+              {description = "Pick Client From Tabbed", group = "Client"}),
+    awful.key({ altkey, }, "Down", bling.module.tabbed.pick_by_direction("down"),
+              {description = "Pick Client From Tabbed", group = "Client"}),
+    awful.key({ altkey, }, "Left", bling.module.tabbed.pick_by_direction("left") ,
+              {description = "Pick Client From Tabbed", group = "Client"}),
+    awful.key({ altkey, }, "Right", bling.module.tabbed.pick_by_direction("right"),
+              {description = "Pick Client From Tabbed", group = "Client"}),          
+    awful.key({ altkey, }, "'", bling.module.tabbed.iter(),
+              {description = "Iterates Through Focused Tabbing Group", group = "Client"}),
+    
+    -- Layout Selection
+    awful.key({ modkey,           }, "Tab", function () awful.layout.inc( 1) end,
               {description = "Select Next", group = "Layout"}),
-    --awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1)                end,
-             -- {description = "select previous", group = "layout"}),
-
-    awful.key({ modkey, "Control" }, "n",
-              function ()
-                  local c = awful.client.restore()
-                  -- Focus restored client
-                  if c then
-                      client.focus = c
-                      c:raise()
-                  end
-              end,
-              {description = "Restore Minimized", group = "Client"}),
+    awful.key({ modkey, "Shift"   }, "Tab", function () awful.layout.inc(-1) end,
+              {description = "select previous", group = "layout"}),
 
     -- Dropdown application
     awful.key({ modkey, }, "z", function () awful.screen.focused().quake:toggle() end,
-              {description = "Dropdown Dpplication", group = "Super"}),
+              {description = "Dropdown Terminal", group = "Super"}),
 
     -- Widgets popups
 --     awful.key({ altkey, }, "n", function () lain.widget.cal.show(7)  end,
@@ -559,13 +513,11 @@ globalkeys = my_table.join(
               {description = "-10%", group = "Hotkeys"}),
 
     -- ALSA volume control
-    --awful.key({ modkey1 }, "Up",
     awful.key({ }, "XF86AudioRaiseVolume",
         function ()
             os.execute(string.format("amixer -q set %s 1%%+", beautiful.volume.channel))
             beautiful.volume.update()
         end),
-    --awful.key({ modkey1 }, "Down",
     awful.key({ }, "XF86AudioLowerVolume",
         function ()
             os.execute(string.format("amixer -q set %s 1%%-", beautiful.volume.channel))
@@ -593,61 +545,62 @@ globalkeys = my_table.join(
     awful.key({altkey }, "p",
         function()
             os.execute('playerctl pause')
-        end),
-
-    -- Copy primary to clipboard (terminals to gtk)
-    awful.key({ modkey }, "c", function () awful.spawn.with_shell("xsel | xsel -i -b") end,
-              {description = "Copy Terminal To Gtk", group = "Hotkeys"}),
-    -- Copy clipboard to primary (gtk to terminals)
-    awful.key({ modkey }, "v", function () awful.spawn.with_shell("xsel -b | xsel") end,
-              {description = "Copy Gtk To Terminal", group = "Hotkeys"}),
-
-
-    awful.key({ altkey, "Shift" }, "x",
-              function ()
-                  awful.prompt.run {
-                    prompt       = "Run Lua code: ",
-                    textbox      = awful.screen.focused().mypromptbox.widget,
-                    exe_callback = awful.util.eval,
-                    history_path = awful.util.get_cache_dir() .. "/history_eval"
-                  }
-              end,
-              {description = "Lua execute prompt", group = "Awesome"})
-    --]]
+        end)
 )
 
 clientkeys = my_table.join(
     awful.key({ altkey, "Shift"   }, "m",      lain.util.magnify_client,
               {description = "Magnify Client", group = "Client"}),
-    awful.key({ modkey,           }, "f",
-        function (c)
-            c.fullscreen = not c.fullscreen
-            c:raise()
-        end,
-        {description = "Toggle Fullscreen", group = "Client"}),
-    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
+    awful.key({ modkey,           }, "f", awful.client.floating.toggle,
+        {description = "Toggle Floating", group = "Client"}),
+ -- Kill Window 
+    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill() end,
               {description = "Close", group = "Hotkeys"}),
-    awful.key({ modkey,    }, "s",  awful.client.floating.toggle                     ,
-              {description = "Toggle Floating", group = "Client"}),
-    awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end,
-              {description = "Move To Master", group = "Client"}),
-    awful.key({ modkey,           }, "o",      function (c) c:move_to_screen()               end,
-              {description = "Move To Screen", group = "Client"}),
-    awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end,
-              {description = "Toggle To Keep On Top", group = "Client"}),
-    awful.key({ modkey,           }, "n",
+    awful.key({ modkey, "Shift"   }, "a",
         function (c)
-            -- The client currently has the input focus, so it cannot be
-            -- minimized, since minimized clients can't have the focus.
+            for _, c in ipairs(mouse.screen.selected_tag:clients())
+                do c:kill() 
+            end
+        end,
+        {description = "Close All Windows", group = "Hotkeys"}),
+        
+    --awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end,
+      --        {description = "Toggle To Keep On Top", group = "Client"}),
+    
+     -- Maximize / Fullscreen / Minimize Window
+     awful.key({ modkey, }, "n",
+        function (c)
             c.minimized = true
         end ,
         {description = "Minimize", group = "Client"}),
-    awful.key({ modkey,           }, "m",
+    
+    awful.key({ modkey, altkey}, "n",
+        function (c)
+            for _, c in ipairs(mouse.screen.selected_tag:clients())
+                do c.minimized = true
+            end
+        end ,
+        {description = "Minimize", group = "Client"}),
+              
+    awful.key({ modkey, }, "m",
         function (c)
             c.maximized = not c.maximized
             c:raise()
         end ,
-        {description = "Maximize", group = "Client"})
+        {description = "Maximize", group = "Client"}),
+
+    awful.key({ modkey, }, "space",
+        function (c)
+            c.maximized = not c.maximized
+            c:raise()
+        end ,
+        {description = "Maximize", group = "Client"}),
+    awful.key({ modkey, "Shift"   }, "space",
+        function (c)
+            c.fullscreen = not c.fullscreen
+            c:raise()
+        end,
+        {description = "Toggle Fullscreen", group = "Client"})
 )
 
 -- Bind all key numbers to tags.
@@ -751,17 +704,21 @@ awful.rules.rules = {
 
     -- Set applications to always map on the tag 1 on screen 1.
     -- find class or role via xprop command
-    { rule = { class = "Google Chrome" },
+    { rule = { name = "Google Chrome" },
       properties = { screen = 1, tag = awful.util.tagnames[1] } },
-
+      
+    { rule = { class = "Chromium" },
+      properties = { screen = 1, tag = awful.util.tagnames[1] } },
+  
+    { rule = { class = "Firefox" },
+      properties = { screen = 1, tag = awful.util.tagnames[1] } },
+      
     { rule = { class = "LibreWolf" },
       properties = { screen = 1, tag = awful.util.tagnames[1] } },
 
     { rule = { class = "mpv" },
         properties = { screen = 1, tag = awful.util.tagnames[4] } },
 
-    { rule = { class = "Geany" },
-        properties = { screen = 1, tag = awful.util.tagnames[3] } },
     { rule = { class = "lite" },
         properties = { screen = 1, tag = awful.util.tagnames[3] } },
 
@@ -820,7 +777,6 @@ awful.rules.rules = {
           "Galculator",
           "Gnome-font-viewer",
           "Gpick",
-	  "Firefox",
           "Imagewriter",
           "Font-manager",
           "Kruler",

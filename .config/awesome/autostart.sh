@@ -20,6 +20,7 @@ run "unclutter -root"
 run "volumeicon"
 run "nitrogen --restore"
 run "xscreensaver -no-splash"
+run "mpd"
 #run "buckle -f -g 40"
 
 #run applications from startup

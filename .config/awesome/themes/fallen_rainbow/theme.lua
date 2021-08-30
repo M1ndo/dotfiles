@@ -19,7 +19,7 @@ local theme                                     = {}
 theme.default_dir                               = require("awful.util").get_themes_dir() .. "default"
 theme.dir                                       = os.getenv("HOME") .. "/.config/awesome/themes/fallen_rainbow"
 theme.wallpaper                                 = theme.dir .. "/wall.png"
-theme.font                                      = "scientifica 9"
+theme.font                                      = "Ubuntu Mono 9"
 theme.font2                                     = "Mononoki Nerd Font 9"
 theme.fg_normal                                 = "#9E9E9E"
 theme.fg_focus                                  = "#EBEBFF"
@@ -46,18 +46,10 @@ theme.menu_submenu_icon                         = theme.dir .."/icons/submenu.pn
 theme.taglist_squares_sel                       = theme.dir .. "/icons/square_sel.png"
 theme.taglist_squares_unsel                     = theme.dir .. "/icons/square_unsel.png"
 theme.useless_gap                               = dpi(6)
-theme.layout_txt_tile                           = "[t]"
-theme.layout_txt_tileleft                       = "[l]"
-theme.layout_txt_tilebottom                     = "[b]"
-theme.layout_txt_tiletop                        = "[tt]"
-theme.layout_txt_fairv                          = "[fv]"
-theme.layout_txt_fairh                          = "[fh]"
-theme.layout_txt_spiral                         = "[s]"
-theme.layout_txt_dwindle                        = "[d]"
-theme.layout_txt_max                            = "[m]"
-theme.layout_txt_fullscreen                     = "[F]"
-theme.layout_txt_magnifier                      = "[M]"
-theme.layout_txt_floating                       = "[*]"
+theme.layout_txt_tile                               = "Tile"
+theme.layout_txt_spiral                             = "Spiral"
+theme.layout_txt_floating                           = "Floats"
+theme.layout_txt_termfair                           = "TermF"
 theme.widget_mem                                = theme.dir .. "/icons/mem.png"
 theme.widget_cpu                                = theme.dir .. "/icons/cpu.png"
 theme.widget_temp                               = theme.dir .. "/icons/temp.png"
@@ -84,6 +76,7 @@ theme.titlebar_maximized_button_focus_active    = theme.default_dir.."/titlebar/
 
 -- Menu Icons
 theme.browser_ico = theme.dir .. "/icons/browser.png"
+theme.pcman_ico = theme.dir .. "/icons/pcmanfm.png"
 theme.stremio_ico = theme.dir .. "/icons/stremio.png"
 theme.gimp_ico = theme.dir .. "/icons/gimp.png"
 theme.atom_ico = theme.dir .. "/icons/atom.png"
@@ -100,12 +93,37 @@ theme.hibernate_ico = theme.dir .. "/icons/hibernate.png"
 theme.ghost_on = theme.dir .. "icons/ghost.svg"
 theme.terex_off = theme.dir .. "icons/offside.svg"
 
--- lain related
-theme.layout_txt_cascade                        = "[cascade]"
-theme.layout_txt_cascadetile                    = "[cascadetile]"
-theme.layout_txt_centerwork                     = "[centerwork]"
-theme.layout_txt_termfair                       = "[termfair]"
-theme.layout_txt_centerfair                     = "[centerfair]"
+-- bling Related
+theme.flash_focus_step = 0.01 
+theme.flash_focus_start_opacity = 0.8
+-- Tabbed
+theme.tabbed_spawn_in_tab = false           -- whether a new client should spawn into the focused tabbing container
+
+-- For tabbar in general
+theme.tabbar_ontop  = false
+theme.tabbar_radius = 0                     -- border radius of the tabbar
+theme.tabbar_style = "default"              -- style of the tabbar ("default", "boxes" or "modern")
+theme.tabbar_font = "Ubuntu Mono 10"               -- font of the tabbar
+theme.tabbar_size = 40                      -- size of the tabbar
+theme.tabbar_position = "top"               -- position of the tabbar
+theme.tabbar_bg_normal = "#000000"          -- background color of the focused client on the tabbar
+theme.tabbar_fg_normal = "#ffffff"          -- foreground color of the focused client on the tabbar
+theme.tabbar_bg_focus  = "#1A2026"          -- background color of unfocused clients on the tabbar
+theme.tabbar_fg_focus  = "#ff0000"          -- foreground color of unfocused clients on the tabbar
+theme.tabbar_disable = false                -- disable the tab bar entirely
+
+-- the following variables are currently only for the "modern" tabbar style
+theme.tabbar_color_close = "#f9929b"        -- chnges the color of the close button
+theme.tabbar_color_min   = "#fbdf90"        -- chnges the color of the minimize button
+theme.tabbar_color_float = "#ccaced"        -- chnges the color of the float button
+
+-- Bling Layouts
+theme.layout_txt_leavedright                        = "LRight"
+theme.layout_txt_leavedleft                         = "LLeft"
+theme.layout_txt_leavedbottom                       = "LBott"
+theme.layout_txt_leavedtop                          = "LUp"
+theme.layout_txt_mstab                              = "Tabs"
+
 
 local markup = lain.util.markup
 local white  = theme.fg_focus
@@ -163,7 +181,7 @@ theme.mpd = lain.widget.mpd({
             artist = ""
             title  = ""
         end
-        widget:set_markup(markup.font(theme.font, markup(gray, artist) .. markup(white, title)))
+        widget:set_markup(markup.font(theme.font, markup("#ff006a", artist) .. markup("#00ffff", title)))
     end
 })
 
@@ -272,7 +290,7 @@ theme.spot = lain.widget.contrib.spot({
 -- end)))
 -- Weather
 theme.weather = lain.widget.weather({
-    city_id = 2643743, -- placeholder (London)
+    city_id = 2537406, -- placeholder (Settat)
     notification_preset = { font = theme.font, fg = white }
 })
 
@@ -325,13 +343,14 @@ function theme.at_screen_connect(s)
     gears.wallpaper.maximized(wallpaper, s, true)
 
     -- Tags
-    awful.tag(awful.util.tagnames, s, awful.layout.layouts)
+    awful.tag(awful.util.tagnames ,s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
 
     -- Textual layoutbox
-    s.mytxtlayoutbox = wibox.widget.textbox(theme["layout_txt_" .. awful.layout.getname(awful.layout.get(s))])
+    s.mytxtlayoutbox = wibox.widget.textbox(theme["layout_txt_" .. awful.layout.getname(awful.layout.get(s))]) -- Text Layout Box
+    --s.mylayoutbox = awful.widget.layoutbox(s) -- layout box (icons)
     awful.tag.attached_connect_signal(s, "property::selected", function () update_txt_layoutbox(s) end)
     awful.tag.attached_connect_signal(s, "property::layout", function () update_txt_layoutbox(s) end)
     s.mytxtlayoutbox:buttons(my_table.join(
@@ -357,15 +376,16 @@ function theme.at_screen_connect(s)
             layout = wibox.layout.fixed.horizontal,
             first,
             s.mytaglist,
+            s.mytxtlayoutbox,
+            --s.mylayoutbox,
             spr,
-            -- s.mytxtlayoutbox,
-            --spr,
             s.mypromptbox,
             spr,
-            love_mc,
-            theme.spot,
-            theme.moc,
-            prev_next_mc,
+	    theme.mpd,
+            --love_mc,
+            --theme.spot,
+            --theme.moc,
+            --prev_next_mc,
         },
         spr,
         -- s.mytasklist, -- Middle widget
