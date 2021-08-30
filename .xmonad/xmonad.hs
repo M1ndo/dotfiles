@@ -355,7 +355,7 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
               -- , NS "discord" spawnDiscord findDiscord manageDiscord
               -- , NS "lightcord" spawnLcord findLcord manageLcord
               , NS "qjackctl" spawnQjack findQjack manageQjack
-              , NS "spotify" spawnSpot findSpot manageSpot
+              --, NS "spotify" spawnSpot findSpot manageSpot
               ]
  where
   spawnTerm  = myTerminal ++ " -n scratchpad"
@@ -399,9 +399,9 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
               w = 0.96
               t = 0.5
               l = 0.5
-  spawnSpot  = "spot_load"
-  findSpot   = (className =? "spotify")
-  manageSpot = nonFloating
+  -- spawnSpot  = "spot_load"
+  -- findSpot   = (className =? "spotify")
+  -- manageSpot = nonFloating
 
 mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
 mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True
@@ -641,7 +641,7 @@ myKeys =
       -- , ("M-C-x", namedScratchpadAction myScratchPads "discord")
       -- , ("M-C-z", namedScratchpadAction myScratchPads "lightcord")
       , ("M-C-p", namedScratchpadAction myScratchPads "qjackctl")
-      , ("M-C-y", namedScratchpadAction myScratchPads "spotify")
+      --, ("M-C-y", namedScratchpadAction myScratchPads "spotify")
 
   -- Controls for mocp music player (SUPER-u followed by a key)
       , ("M-u p", spawn "mocp --play")
@@ -655,8 +655,8 @@ myKeys =
       , ("M-u b", spawn "mpc prev")
       , ("M-u m", spawn "mpc stop")
   -- App Shortcuts
-      , ("M-C-s", spawn "rofi -combi-modi run,drun -show combi -modi combi -show-icons -icon-theme 'Breeze' -display-combi 'ybenel: '")
-      , ("M-M1-s", spawn "dmenu_run -c -bw 2 -l 10 -g 4 -p 'ybenel: ' -fn 'scientifica:size=12'")
+      , ("M1-<Return>", spawn "rofi -show drun -show-icons")
+      , ("M-M1-s", spawn "dmenu_run -c -b -l 10 -g 4 -p 'ybenel: ' -fn 'scientifica:size=12'")
       , ("M-M1-e", spawn (myTerminal ++ " -e irssi"))
       , ("M-M1-c", spawn (myTerminal ++ " -e /usr/bin/mocp"))
       , ("M-e", spawn myEmacs)

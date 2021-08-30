@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # Configured added / modified by ybenel (github.com/m1ndo)
-# Modification Date: 08/13/2021
+# Modification Date: 08/30/2021
 import os
 import re
 import socket
@@ -40,10 +40,10 @@ keys = [
 	EzKey("M-b",lazy.hide_show_bar("top"), desc='Toggle Top Bar'),
 	EzKey("M-n",lazy.window.toggle_minimize(), desc='Toggle Minimize'),
 	# Applications
-	EzKey("M-e",lazy.spawn("emacsclient -c -a emacs"),desc="Spawn Emacs"),
+	EzKey("A-<Return>",lazy.spawn("emacsclient -c -a emacs"),desc="Spawn Emacs"),
 	EzKey("M-A-z", lazy.spawn(myTerm + " -e ncmpcpp")),
-	EzKey("M-C-s", lazy.spawn("rofi -combi-modi run,drun -show combi -modi combi -show-icons -icon-theme 'Breeze' -display-combi 'ybenel: '")),
-	EzKey("M-A-s", lazy.spawn("dmenu_run -c -bw 2 -l 10 -g 4 -p 'ybenel: ' -fn 'scientifica:size=12'")),
+	EzKey("M-C-s", lazy.spawn("rofi -show drun -show-icons")),
+	EzKey("M-A-s", lazy.spawn("dmenu_run -c -b -l 10 -g 4 -p 'ybenel: ' -fn 'scientifica:size=12'")),
 	EzKey("M-A-e", lazy.spawn(myTerm + " -e irssi")),
 	EzKey("M-A-c", lazy.spawn(myTerm + " -e mocp")),
 	EzKey("A-C-s", lazy.spawn("./.dmenu/dmenu-scrot.sh")),

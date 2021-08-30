@@ -1,3 +1,12 @@
 configuration {
-	theme: "/home/ybenel/.config/rofi/themes/onedark.rasi";
+	theme: "./themes/spotlight.rasi";
+	modi: "drun,run";
+	location: 2;
+	fixed-num-lines: false;
+	show-icons: true;
+	icon-theme: "WhiteSur-purple-dark";
+	display-window: "缾";
+	display-run: "";
+	display-drun: "";
+    display-emoji: "";
 }

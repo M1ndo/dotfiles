@@ -10,18 +10,19 @@ hc() {
 }
 
 hc emit_hook reload
-xsetroot -solid '#313330'
 picom &
 $HOME/.config/herbstluftwm/start.sh
 nm-applet &
 nitrogen --restore &
 numlockx on &
-dunst -conf ~/.config/dunst/dunstrc &
 xfce4-power-manager &
 /usr/lib/polkit-kde-authentication-agent-1 &
 /usr/bin/emacs --daemon &
 xscreensaver -no-splash &
 caffeine &
+unclutter -root &
+volumeicon &
+mpd &
 #~/.config/herbstluftwm/uminimize.sh &
 #jgmenu --hide-on-startup --config-file=~/.config/jgmenu/jgmenurc --csv-file=~/.config/jgmenu/menu.csv
 #xclickroot -r jgmenu_run
@@ -33,7 +34,7 @@ hc keyunbind --all
 Mod=Mod4                            # Use the super key as the main modifier
 myTerm=xterm                   # Set my preferred terminal
 myEditor="emacsclient -c -a emacs"  # Set my preferred editor
-myBrowser="firefox"
+myBrowser="chromium"
 myMusic="/usr/bin/mocp"
 myMMusic="ncmpcpp"
 MMControl="mpc"
@@ -44,7 +45,7 @@ hc keybind $Mod-Return spawn $myTerm
 hc keybind $Mod-e spawn $myEditor
 # Dmenu launcher
 hc keybind $Mod-Shift-Return spawn dmenu_run -fn 'scientifica:size=11' -nb '#212D32' -nf '#bbc5ff' -sb '#E37673' -sf '#292d3e' -p 'Ybenel:'
-hc keybind $Mod-Mod1-s spawn dmenu_run -c -bw 2 -l 10 -g 4 -p 'ybenel: ' -fn 'scientifica:size=11'
+hc keybind $Mod-Mod1-s spawn dmenu_run -c -b -l 10 -g 4 -p 'ybenel: ' -fn 'scientifica:size=11'
 
 # My dmenu scripts (Alt+Ctrl+Key)
 hc keybind Mod1-Control-e spawn ./.dmenu/dmenu-edit-configs.sh
