@@ -1,6 +1,6 @@
 -- My Personall Config File
 -- Customized by ybenel
--- Date: 10/02/2021
+-- Date: 01/09/2021
 -- {{{  libraries
 local awesome, client, mouse, screen, tag = awesome, client, mouse, screen, tag
 local ipairs, string, os, table, tostring, tonumber, type = ipairs, string, os, table, tostring, tonumber, type
@@ -32,7 +32,6 @@ local hotkeys_popup = require("awful.hotkeys_popup").widget
                       require("awful.hotkeys_popup.keys")
 local my_table      = awful.util.table or gears.table -- 4.{0,1} compatibility
 
-require("scratchpads")
 -- }}}
 
 
@@ -88,6 +87,7 @@ local theme_path = string.format("%s/.config/awesome/themes/%s/theme.lua", os.ge
 beautiful.init(theme_path)
 -- Include Bling 
 local bling = require("lib.bling")
+require("scratchpads")
 -- modkey or mod4 = super key
 local modkey       = "Mod4"
 local altkey       = "Mod1"
@@ -173,7 +173,6 @@ lain.layout.cascade.tile.extra_padding = 5
 lain.layout.cascade.tile.nmaster       = 5
 lain.layout.cascade.tile.ncol          = 2
 
-beautiful.init(string.format(gears.filesystem.get_configuration_dir() .. "/themes/%s/theme.lua", chosen_theme))
 -- }}}
 
 
@@ -473,19 +472,13 @@ globalkeys = my_table.join(
               {description = "Change Style(Leaved Layout)", group = "Client"}),
     
     -- Tabbed Layout (Bling)
-    awful.key({ altkey, }, "s", bling.module.tabbed.pick(),
-              {description = "Add Client To Tabbed", group = "Client"}),
-    awful.key({ altkey, }, ";", bling.module.tabbed.pop(),
+    awful.key({ altkey, }, ";", function() bling.module.tabbed.pop() end,
               {description = "Remove Focused Client From tabbed", group = "Client"}),
-    awful.key({ altkey, }, "Up", bling.module.tabbed.pick_by_direction("up") ,
+    awful.key({ altkey, }, "Left", function() bling.module.tabbed.iter(-1) end,
               {description = "Pick Client From Tabbed", group = "Client"}),
-    awful.key({ altkey, }, "Down", bling.module.tabbed.pick_by_direction("down"),
-              {description = "Pick Client From Tabbed", group = "Client"}),
-    awful.key({ altkey, }, "Left", bling.module.tabbed.pick_by_direction("left") ,
-              {description = "Pick Client From Tabbed", group = "Client"}),
-    awful.key({ altkey, }, "Right", bling.module.tabbed.pick_by_direction("right"),
+    awful.key({ altkey, }, "Right", function() bling.module.tabbed.iter(1) end,
               {description = "Pick Client From Tabbed", group = "Client"}),          
-    awful.key({ altkey, }, "'", bling.module.tabbed.iter(),
+    awful.key({ altkey, }, "'", function() bling.module.tabbed.pick_with_dmenu() end,
               {description = "Iterates Through Focused Tabbing Group", group = "Client"}),
     
     -- Layout Selection

@@ -96,26 +96,21 @@ theme.terex_off = theme.dir .. "icons/offside.svg"
 -- bling Related
 theme.flash_focus_step = 0.01 
 theme.flash_focus_start_opacity = 0.8
+
 -- Tabbed
-theme.tabbed_spawn_in_tab = false           -- whether a new client should spawn into the focused tabbing container
-
--- For tabbar in general
-theme.tabbar_ontop  = false
-theme.tabbar_radius = 0                     -- border radius of the tabbar
-theme.tabbar_style = "default"              -- style of the tabbar ("default", "boxes" or "modern")
-theme.tabbar_font = "Ubuntu Mono 10"               -- font of the tabbar
-theme.tabbar_size = 40                      -- size of the tabbar
-theme.tabbar_position = "top"               -- position of the tabbar
-theme.tabbar_bg_normal = "#000000"          -- background color of the focused client on the tabbar
-theme.tabbar_fg_normal = "#ffffff"          -- foreground color of the focused client on the tabbar
-theme.tabbar_bg_focus  = "#1A2026"          -- background color of unfocused clients on the tabbar
-theme.tabbar_fg_focus  = "#ff0000"          -- foreground color of unfocused clients on the tabbar
-theme.tabbar_disable = false                -- disable the tab bar entirely
-
--- the following variables are currently only for the "modern" tabbar style
-theme.tabbar_color_close = "#f9929b"        -- chnges the color of the close button
-theme.tabbar_color_min   = "#fbdf90"        -- chnges the color of the minimize button
-theme.tabbar_color_float = "#ccaced"        -- chnges the color of the float button
+theme.mstab_bar_height = dpi(60)
+theme.mstab_bar_padding = dpi(0)
+theme.mstab_border_radius = dpi(6)
+theme.tabbar_style = "boxes"
+theme.tabbar_bg_focus = theme.bg_focus
+theme.tabbar_bg_normal = theme.bg_normal
+theme.tabbar_fg_focus = theme.fg_focus
+theme.tabbar_fg_normal = theme.fg_normal
+theme.tabbar_position = "top"
+theme.tabbar_AA_radius = 0
+theme.tabbar_size = 30
+theme.mstab_bar_ontop = true
+theme.tabbar_font = "scientifica 10"
 
 -- Bling Layouts
 theme.layout_txt_leavedright                        = "LRight"
