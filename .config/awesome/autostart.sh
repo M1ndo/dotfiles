@@ -1,31 +1,21 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-function run {
-  if ! pgrep $1 ;
-  then
-    $@&
-  fi
+function run { 
+    CMD=$(echo $1 | awk '{print $1}')
+    if [[ -z $(pgrep $CMD) ]]; then
+        echo "This doesn't have sxhkd";
+        $1 &
+    fi
 }
-#run "xrandr --output VGA-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal"
-#run "xrandr --output HDMI2 --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output VIRTUAL1 --off"
 run "picom"
 run "nm-applet"
-run "caffeine"
+run "nitrogen --restore"
+run "numlockx on"
 run "xfce4-power-manager"
-run "blueberry-tray"
 run "/usr/lib/polkit-kde-authentication-agent-1"
 run "/usr/bin/emacs --daemon"
-run "numlockx on"
+run "xscreensaver -no-splash"
+run "caffeine"
 run "unclutter -root"
 run "volumeicon"
-run "nitrogen --restore"
-run "xscreensaver -no-splash"
 run "mpd"
-#run "buckle -f -g 40"
-
-#run applications from startup
-#run "firefox"
-#run "atom"
-#run "dropbox"
-#run "insync start"
-#run "spotify"

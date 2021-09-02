@@ -97,6 +97,22 @@ xterm*on3Clicks: regex ([[:alpha:]]+://)?([[:alnum:]!#+,./=?@_~-]|(%[[:xdigit:]]
 !! Set a default font and font size as below:
 ! *.font: mononoki Nerd Font:size=8
 
+!! Xscreensaver Options
+xscreensaver.newLoginCommand: dm-tool switch-to-greeter
+!xscreensaver.installColormap: True
+!xscreensaver.pointerPollTime: 0:00:05
+!xscreensaver.pointerHysteresis: 10
+!xscreensaver.initialDelay: 0:00:00
+!xscreensaver.windowCreationTimeout: 0:00:30
+!xscreensaver.bourneShell: /bin/sh
+XScreenSaver.Dialog.headingFont:        -*-dejavu sans-bold-r-*-*-*-160-*-*-*-*-*-*
+XScreenSaver.Dialog.bodyFont:           -*-dejavu sans-bold-r-*-*-*-120-*-*-*-*-*-*
+XScreenSaver.Dialog.labelFont:          -*-dejavu sans-bold-r-*-*-*-120-*-*-*-*-*-*
+XScreenSaver.Dialog.unameFont:          -*-dejavu sans-bold-r-*-*-*-80-*-*-*-*-*-*
+XScreenSaver.Dialog.buttonFont:         -*-dejavu sans-bold-r-*-*-*-120-*-*-*-*-*-*
+XScreenSaver.Dialog.dateFont:           -*-dejavu sans-medium-r-*-*-*-80-*-*-*-*-*-*
+XScreenSaver.Dialog.passwdFont:         -*-dejavu sans mono-medium-r-*-*-*-85-*-*-*-*-*-*
+
 /* name		dark	light */
 /* black	0	8 */
 /* red		1	9 */
@@ -319,23 +335,66 @@ xterm*on3Clicks: regex ([[:alpha:]]+://)?([[:alnum:]!#+,./=?@_~-]|(%[[:xdigit:]]
 
 ! /* ! Argonaut */
 ! *.background:  #401D32
-*.background:  #0e1019
-*.foreground:  #fffaf4
-*.cursorColor: #ff0018
-*.color0:      #232323
-*.color8:      #444444
-*.color1:      #ff000f
-*.color9:      #ff2740
-*.color2:      #8ce10b
-*.color10:     #abe15b
-*.color3:      #ffb900
-*.color11:     #ffd242
-*.color4:      #008df8
-*.color12:     #0092ff
-*.color5:      #6d43a6
-*.color13:     #9a5feb
-*.color6:      #00d8eb
-*.color14:     #67fff0
-*.color7:      #ffffff
-*.color15:     #ffffff
-*.colorBD:     #9e9c9a
+! *.background:  #0e1019
+! *.foreground:  #fffaf4
+! *.cursorColor: #ff0018
+! *.color0:      #232323
+! *.color8:      #444444
+! *.color1:      #ff000f
+! *.color9:      #ff2740
+! *.color2:      #8ce10b
+! *.color10:     #abe15b
+! *.color3:      #ffb900
+! *.color11:     #ffd242
+! *.color4:      #008df8
+! *.color12:     #0092ff
+! *.color5:      #6d43a6
+! *.color13:     #9a5feb
+! *.color6:      #00d8eb
+! *.color14:     #67fff0
+! *.color7:      #ffffff
+! *.color15:     #ffffff
+! *.colorBD:     #9e9c9a
+
+
+! special
+*.foreground:   #ababab
+*.background:   #000000
+*.cursorColor:  #ababab
+*.color0:       #000000
+*.color8:       #343434
+*.color1:       #e92f2f
+*.color9:       #e92f2f
+*.color2:       #0ed839
+*.color10:      #0ed839
+*.color3:       #dddd13
+*.color11:      #dddd13
+*.color4:       #3b48e3
+*.color12:      #3b48e3
+*.color5:       #f996e2
+*.color13:      #f996e2
+*.color6:       #23edda
+*.color14:      #23edda
+*.color7:       #ababab
+*.color15:      #f9f9f9
+
+! Gotham
+! *.foreground:   #98d1ce
+! *.background:   #0a0f14
+! *.cursorColor:  #98d1ce
+! *.color0:       #0a0f14
+! *.color8:       #10151b
+! *.color1:       #c33027
+! *.color9:       #d26939
+! *.color2:       #26a98b
+! *.color10:      #081f2d
+! *.color3:       #edb54b
+! *.color11:      #245361
+! *.color4:       #195465
+! *.color12:      #093748
+! *.color5:       #4e5165
+! *.color13:      #888ba5
+! *.color6:       #33859d
+! *.color14:      #599caa
+! *.color7:       #98d1ce
+! *.color15:      #d3ebe9

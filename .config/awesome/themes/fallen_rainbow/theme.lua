@@ -119,6 +119,21 @@ theme.layout_txt_leavedbottom                       = "LBott"
 theme.layout_txt_leavedtop                          = "LUp"
 theme.layout_txt_mstab                              = "Tabs"
 
+-- notification
+theme.notification_font          = theme.font
+theme.notification_bg            = "#1A2026"
+theme.notification_fg            = theme.fg_focus
+theme.notification_border_width  = theme.border_width
+theme.notification_border_color  = "#526170"
+theme.notification_position      = "top_right"
+theme.notification_shape         = function(cr, width, height) gears.shape.rounded_rect(cr, width, height, 10) end
+theme.notification_margin        = 5
+theme.notification_max_width     = 700
+theme.notification_max_height    = 500
+theme.notification_icon_size     = 50
+
+-- Icons
+theme.temp_icon = "/usr/share/icons/WhiteSur-purple-dark/status/symbolic/sensors-temperature-symbolic.svg"
 
 local markup = lain.util.markup
 local white  = theme.fg_focus

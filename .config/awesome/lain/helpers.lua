@@ -8,6 +8,7 @@
 local spawn      = require("awful.spawn")
 local timer      = require("gears.timer")
 local debug      = require("debug")
+local gears      = require("gears")
 local io         = { lines = io.lines,
                      open  = io.open }
 local pairs      = pairs
@@ -58,6 +59,21 @@ function helpers.lines_match(regexp, path)
         end
     end
     return lines
+end
+
+helpers.rrect = function(radius)
+    return function(cr, width, height)
+        gears.shape.rounded_rect(cr, width, height, radius)
+    end
+end
+
+helpers.colorize_text = function(text, color)
+   if not text then return '' end
+    if color then
+        return "<span foreground='"..color.."'>"..text.."</span>"
+    else
+        return "<span foreground='".."#ffffff".."'>"..text.."</span>"
+      end
 end
 
 -- get first line of a file

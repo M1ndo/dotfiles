@@ -1,6 +1,6 @@
 -- My Personall Config File
 -- Customized by ybenel
--- Date: 01/09/2021
+-- Date: 10/02/2021
 -- {{{  libraries
 local awesome, client, mouse, screen, tag = awesome, client, mouse, screen, tag
 local ipairs, string, os, table, tostring, tonumber, type = ipairs, string, os, table, tostring, tonumber, type
@@ -31,7 +31,6 @@ local leaved = require "awesome-leaved"
 local hotkeys_popup = require("awful.hotkeys_popup").widget
                       require("awful.hotkeys_popup.keys")
 local my_table      = awful.util.table or gears.table -- 4.{0,1} compatibility
-
 -- }}}
 
 
@@ -88,6 +87,21 @@ beautiful.init(theme_path)
 -- Include Bling 
 local bling = require("lib.bling")
 require("scratchpads")
+require("vol_pop")
+require("temp")
+
+-- Warn If Temperature
+awesome.connect_signal("evil::temp", function(temp)
+    if temp > 65 then
+        naughty.notify {title="[!] CPU is getting hot",
+                        text="Currently at " .. tostring(temp) .. "°C",icon=beautiful.temp_icon,fg="#b3ff1a"}
+    end
+    if temp > 79 then
+        naughty.notify {title="[!] CPU is on fire",
+                        text="Currently at " .. tostring(temp) .. "°C",icon=beautiful.temp_icon,bg="#ff0000"}
+    end
+end)
+
 -- modkey or mod4 = super key
 local modkey       = "Mod4"
 local altkey       = "Mod1"
@@ -292,9 +306,9 @@ globalkeys = my_table.join(
         {description = "Shortcut Editing Config" , group = "Dmenu Scripts" }),
     awful.key({ altkey, "Control" }, "h", function () awful.util.spawn( "./.dmenu/dmenu-sysmon.sh" ) end,
         {description = "System Monitoring" , group = "Dmenu Scripts" }),
-    awful.key({ altkey, "Control"  }, "s", function () awful.util.spawn( "./.dmenu/dmenu-scrot.sh" ) end,
+    awful.key({ altkey, "Control" }, "s", function () awful.util.spawn( "./.dmenu/dmenu-scrot.sh" ) end,
         {description = "Scrot Screen" , group = "Dmenu Scripts" }),
-    awful.key({ altkey, "Control"  }, "p", function () awful.util.spawn( "passmenu" ) end,
+    awful.key({ altkey, "Control" }, "p", function () awful.util.spawn( "passmenu" ) end,
         {description = "Passmenu" , group = "Dmenu Scripts" }),
 
     -- My applications (Super+Alt+Key)
@@ -302,13 +316,11 @@ globalkeys = my_table.join(
         {description = "Open Nvim" , group = "hotkeys" }),
     awful.key({ modkey, }, "e", function () awful.util.spawn("emacsclient -c -a emacs") end,
         {description = "Open Emacs" , group = "hotkeys" }),
-    awful.key({ modkey, altkey  }, "c", function () awful.util.spawn( terminal.." -e mocp" ) end,
+    awful.key({ modkey, altkey }, "c", function () awful.util.spawn( terminal.." -e mocp" ) end,
         {description = "mocp" , group = "terminal apps" }),
-    awful.key({ modkey, altkey  }, "z", function () awesome.emit_signal("scratch::music")end,
-        {description = "ncmpcpp" , group = "terminal apps" }),
     awful.key({ modkey, altkey }, "e", function () awful.util.spawn( terminal.." -e irssi" ) end,
         {description = "Irssi" , group = "terminal apps" }),
-    awful.key({ modkey, altkey  }, "f", function () awful.util.spawn( terminal.." -e sh ./.config/vifm/scripts/vifmrun" ) end,
+    awful.key({ modkey, altkey }, "f", function () awful.util.spawn( terminal.." -e sh ./.config/vifm/scripts/vifmrun" ) end,
         {description = "vifm" , group = "terminal apps" }),
     awful.key({ modkey, altkey }, "l", function () awful.util.spawn( terminal.." -e lynx --cfg=~/.lynx/lynx.cfg --lss=~/.lynx/lynx.lss -vikeys https://ybenel.cf" ) end,
         {description = "lynx cli browser" , group = "terminal apps" }),
@@ -318,36 +330,50 @@ globalkeys = my_table.join(
     -- screenshots
     awful.key({ }, "Print", function () awful.util.spawn("scrot 'Ybenel_D-%Y-%m-%d_$wx$h.jpg' -e 'mv $f $$(xdg-user-dir PICTURES)'") end,
         {description = "Scrot FullScreen", group = "ScreenShots"}),
-    awful.key({ modkey1, "Shift"  }, "Print", function() awful.util.spawn("scrot -a $(slop -f '%x,%y,%w,%h') -d 2") end,
+    awful.key({ modkey1, "Shift" }, "Print", function() awful.util.spawn("scrot -a $(slop -f '%x,%y,%w,%h') -d 2") end,
         {description = "Scrot Delayed Screen", group = "ScreenShots"}),
 
     -- Personal keybindings
 
-    -- Moc Controls
-
-    awful.key({ modkey, altkey}, "b", function () os.execute('mocp --toggle-pause') end,
+    -- Scratchpads
+    awful.key({ modkey, altkey }, "z", function () awesome.emit_signal("scratch::music") end,
+        {description = "ncmpcpp" , group = "Scratchpad" }),
+    awful.key({ }, "XF86Tools", function () awesome.emit_signal("scratch::spot") end,
+        {description = "Spotify" , group = "Scratchpad" }),
+    awful.key({ }, "XF86HomePage", function () awesome.emit_signal("scratch::brows") end,
+        {description = "Chromium" , group = "Scratchpad" }),
+    awful.key({ }, "XF86Mail", function () awesome.emit_signal("scratch::filem") end,
+        {description = "File_Manager (Pcmanfm)" , group = "Scratchpad" }),
+    awful.key({ modkey, }, "F1", function () awesome.emit_signal("scratch::disco") end,
+        {description = "Discord" , group = "Scratchpad" }),
+    awful.key({ modkey, }, "F12", function () awesome.emit_signal("scratch::turn_off") end,
+        {description = "Turn Off Scratch Visibily" , group = "Scratchpad" }),
+    awful.key({ modkey, }, "F9", function () awesome.emit_signal("scratch::turn_on") end,
+        {description = "Turn On Scratch Visibily" , group = "Scratchpad" }),
+    -- Mocp Controls    
+    awful.key({ modkey, altkey }, "b", function () os.execute('mocp --toggle-pause') end,
         {description = "Moc Pause/Resume", group = "Moc"}),
-    awful.key({ modkey, altkey}, "p", function () os.execute('mocp --play') end,
+    awful.key({ modkey, altkey }, "p", function () os.execute('mocp --play') end,
         {description = "Moc Play", group = "Moc"}),
-    awful.key({ modkey, altkey}, "h", function () os.execute('mocp --previous') end,
+    awful.key({ modkey, altkey }, "h", function () os.execute('mocp --previous') end,
         {description = "Moc Previous", group = "Moc"}),
-    awful.key({ modkey, altkey}, "l", function () os.execute('mocp --next') end,
+    awful.key({ modkey, altkey }, "l", function () os.execute('mocp --next') end,
         {description = "Moc Next", group = "Moc"}),
     -- Mpd Controls
-    awful.key({ modkey, altkey}, "x", function () os.execute('mpc toggle') end,
+    awful.key({ modkey, altkey }, "x", function () os.execute('mpc toggle') end,
         {description = "Mpd Toggle", group = "Mpd"}),
-    awful.key({ modkey, altkey}, "v", function () os.execute('mpc next') end,
+    awful.key({ modkey, altkey }, "v", function () os.execute('mpc next') end,
         {description = "Mpd Next", group = "Mpd"}),
-    awful.key({ modkey, altkey}, "b", function () os.execute('mpc prev') end,
+    awful.key({ modkey, altkey }, "b", function () os.execute('mpc prev') end,
         {description = "Mpd Previous", group = "Mpd"}),
-    awful.key({ modkey, altkey}, "m", function () os.execute('mpc stop') end,
+    awful.key({ modkey, altkey }, "m", function () os.execute('mpc stop') end,
         {description = "Mpd Stop", group = "Mpd"}),
 
     -- Hotkeys Awesome
 
-    awful.key({ modkey, "Shift"   }, "s",      hotkeys_popup.show_help,
+    awful.key({ modkey, "Shift" }, "s",      hotkeys_popup.show_help,
         {description = "show help", group="Awesome"}),
-    awful.key({ modkey,           }, "w", function () mymainmenu:toggle() end,
+    awful.key({ modkey, }, "w", function () mymainmenu:toggle() end,
         {description = "show main menu", group = "awesome"}),
     -- Show/Hide Wibox
     awful.key({ modkey }, "b", function ()
@@ -362,20 +388,20 @@ globalkeys = my_table.join(
     -- Reload And Quit Awesome
     awful.key({ modkey, "Shift" }, "r", awesome.restart,
               {description = "Reload Awesome", group = "Awesome"}),
-    awful.key({ modkey, "Shift"   }, "q",  function () awesome.quit() end,
+    awful.key({ modkey, "Shift" }, "q",  function () awesome.quit() end,
               {description = "Quit Awesome", group = "Awesome"}),
     -- Tag browsing with modkey
-    awful.key({ modkey, modkey1         }, "Left",   awful.tag.viewprev,
+    awful.key({ modkey, modkey1 }, "Left",   awful.tag.viewprev,
         {description = "View Previous", group = "Tag"}),
-    awful.key({ modkey, modkey1         }, "Right",  awful.tag.viewnext,
+    awful.key({ modkey, modkey1 }, "Right",  awful.tag.viewnext,
         {description = "View Next", group = "Tag"}),
-    awful.key({ altkey, modkey1         }, "Tab", awful.tag.history.restore,
+    awful.key({ altkey, modkey1 }, "Tab", awful.tag.history.restore,
         {description = "Go Back", group = "Tag"}),
 
       -- Tag browsing alt + tab
-    awful.key({ altkey,           }, "Tab",   awful.tag.viewnext,
+    awful.key({ altkey, }, "Tab",   awful.tag.viewnext,
          {description = "View Next", group = "Tag"}),
-    awful.key({ altkey, "Shift"   }, "Tab",  awful.tag.viewprev,
+    awful.key({ altkey, "Shift" }, "Tab",  awful.tag.viewprev,
          {description = "View Previous", group = "Tag"}),
 
      
@@ -418,17 +444,17 @@ globalkeys = my_table.join(
 
 
     -- Layout manipulation
-    awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
+    awful.key({ modkey, "Shift" }, "j", function () awful.client.swap.byidx(  1)    end,
               {description = "Swap With Next Client By Index", group = "Client"}),
-    awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end,
+    awful.key({ modkey, "Shift" }, "k", function () awful.client.swap.byidx( -1)    end,
               {description = "Swap With Previous Client By Index", group = "Client"}),
-    awful.key({ modkey }, ".", function () awful.screen.focus_relative( 1) end,
+    awful.key({ modkey, }, ".", function () awful.screen.focus_relative( 1) end,
               {description = "Focus The pext Screen", group = "Screen"}),
-    awful.key({ modkey }, ",", function () awful.screen.focus_relative(-1) end,
+    awful.key({ modkey, }, ",", function () awful.screen.focus_relative(-1) end,
               {description = "Focus The previous Screen", group = "Screen"}),
-    awful.key({ modkey,           }, "u", awful.client.urgent.jumpto,
+    awful.key({ modkey, }, "u", awful.client.urgent.jumpto,
               {description = "Jump To Urgent Client", group = "Client"}),
-    awful.key({ modkey1,           }, "Tab",
+    awful.key({ modkey1, }, "Tab",
         function ()
             awful.client.focus.history.previous()
             if client.focus then
@@ -457,10 +483,10 @@ globalkeys = my_table.join(
               {description = "Delete Tag", group = "Tag"}),
 
     -- Standard program
-    awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
+    awful.key({ modkey, }, "Return", function () awful.spawn(terminal) end,
               {description = "Launch Terminal", group = "Super"}),
     -- Leaved Layout 
-    awful.key({ modkey,           }, "s", leaved.keys.min_container,
+    awful.key({ modkey, }, "s", leaved.keys.min_container,
               {description = "Minimize Container Windows", group = "Client"}),
     awful.key({ modkey, }, ";", leaved.keys.shiftOrder,
               {description = "Minimize Container Windows", group = "Client"}),
@@ -470,7 +496,10 @@ globalkeys = my_table.join(
               {description = "Split Wind Virtical(Leaved Layout)", group = "Client"}),
     awful.key({ modkey, }, "'", leaved.keys.shiftStyle,
               {description = "Change Style(Leaved Layout)", group = "Client"}),
-    
+     --- Pop Ups
+    awful.key({ altkey, }, "i", function () awesome.emit_signal("evil::volume") end,
+              {description = "Volume Pop Up", group = "Pop Ups"}),
+
     -- Tabbed Layout (Bling)
     awful.key({ altkey, }, ";", function() bling.module.tabbed.pop() end,
               {description = "Remove Focused Client From tabbed", group = "Client"}),
@@ -482,9 +511,9 @@ globalkeys = my_table.join(
               {description = "Iterates Through Focused Tabbing Group", group = "Client"}),
     
     -- Layout Selection
-    awful.key({ modkey,           }, "Tab", function () awful.layout.inc( 1) end,
+    awful.key({ modkey, }, "Tab", function () awful.layout.inc( 1) end,
               {description = "Select Next", group = "Layout"}),
-    awful.key({ modkey, "Shift"   }, "Tab", function () awful.layout.inc(-1) end,
+    awful.key({ modkey, "Shift" }, "Tab", function () awful.layout.inc(-1) end,
               {description = "select previous", group = "layout"}),
 
     -- Dropdown application
