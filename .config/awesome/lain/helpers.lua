@@ -9,6 +9,7 @@ local spawn      = require("awful.spawn")
 local timer      = require("gears.timer")
 local debug      = require("debug")
 local gears      = require("gears")
+local wibox      = require("wibox")
 local io         = { lines = io.lines,
                      open  = io.open }
 local pairs      = pairs
@@ -65,6 +66,26 @@ helpers.rrect = function(radius)
     return function(cr, width, height)
         gears.shape.rounded_rect(cr, width, height, radius)
     end
+end
+
+helpers.prrect = function(radius, tl, tr, br, bl)
+    return function(cr, width, height)
+        gears.shape.partially_rounded_rect(cr, width, height, tl, tr, br, bl, radius)
+    end
+end
+
+function helpers.vertical_pad(height)
+    return wibox.widget{
+        forced_height = height,
+        layout = wibox.layout.fixed.vertical
+    }
+end
+
+function helpers.horizontal_pad(width)
+    return wibox.widget{
+        forced_width = width,
+        layout = wibox.layout.fixed.horizontal
+    }
 end
 
 helpers.colorize_text = function(text, color)

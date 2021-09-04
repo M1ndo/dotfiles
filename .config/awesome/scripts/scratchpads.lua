@@ -38,7 +38,7 @@ local file_manager = bling.module.scratchpad { command = "pcmanfm",
                                       --rubato = {x = anim_x, y = anim_y} 
 }
 local discord = bling.module.scratchpad { command = "discord",
-                                      rule = { class = "Discord" },                 
+                                      rule = { class = "discord" },                 
                                       sticky = false, autoclose = true,                              
                                       floating = false, geometry = {x = 0 , y = 0},
                                       reapply = true, dont_focus_before_close  = false,

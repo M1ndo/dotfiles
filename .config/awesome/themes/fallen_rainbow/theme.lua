@@ -135,6 +135,14 @@ theme.notification_icon_size     = 50
 -- Icons
 theme.temp_icon = "/usr/share/icons/WhiteSur-purple-dark/status/symbolic/sensors-temperature-symbolic.svg"
 
+-- Platerctl 
+theme.playerctl_backend = "playerctl_cli"
+theme.playerctl_ignore = {"firefox","chromium"}
+theme.playerctl_player = {"%any"}
+theme.playerctl_update_on_activity = true
+theme.playerctl_position_update_interval = 10
+
+
 local markup = lain.util.markup
 local white  = theme.fg_focus
 local gray   = theme.fg_normal

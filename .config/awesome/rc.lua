@@ -31,6 +31,8 @@ local leaved = require "awesome-leaved"
 local hotkeys_popup = require("awful.hotkeys_popup").widget
                       require("awful.hotkeys_popup.keys")
 local my_table      = awful.util.table or gears.table -- 4.{0,1} compatibility
+local helpers       = require("lain.helpers")
+local dpi   = require("beautiful").xresources.apply_dpi
 -- }}}
 
 
@@ -86,9 +88,12 @@ local theme_path = string.format("%s/.config/awesome/themes/%s/theme.lua", os.ge
 beautiful.init(theme_path)
 -- Include Bling 
 local bling = require("lib.bling")
-require("scratchpads")
-require("vol_pop")
-require("temp")
+require("scripts.scratchpads")
+require("scripts.vol_pop")
+require("scripts.temp")
+bling.signal.playerctl.enable()
+require("scripts.play_ctl")
+require("scripts.ctl_pop")
 
 -- Warn If Temperature
 awesome.connect_signal("evil::temp", function(temp)
@@ -499,7 +504,43 @@ globalkeys = my_table.join(
      --- Pop Ups
     awful.key({ altkey, }, "i", function () awesome.emit_signal("evil::volume") end,
               {description = "Volume Pop Up", group = "Pop Ups"}),
-
+    awful.key({ altkey, }, "j", function () awesome.emit_signal("evil::plyctl") end,
+              {description = "Volume Pop Up", group = "Pop Ups"}),
+    -- awful.key({ altkey, }, "j", function () awesome.emit_signal("bling::playerctl::title_artist_album") end,
+    --           {description = "Volume Pop Up", group = "Pop Ups"}),
+    awful.key({ modkey, }, "p", 
+        function () 
+            local last_notify = {}
+            awesome.connect_signal("bling::playerctl::title_artist_album", function(title, artist, album)
+            last_notify = naughty.notify {
+                title=tostring(title),
+                text=tostring(artist),
+                icon = gears.surface.load_uncached_silently(album),
+                timeout=2,
+                replaces_id=last_notify.id,
+            }
+            end)
+        end,
+        {description = "PlayerCtl Pop Up", group = "Pop Ups"}),
+    awful.key({ modkey, }, "p", 
+        function () 
+            local album_art = wibox.widget.imagebox()
+            local music = album_art
+            music.visible = true
+            local musictooltip = awful.tooltip {}
+            musictooltip.shape = helpers.prrect(dpi(6) - 3, false, true, true, false)
+            musictooltip.preferred_alignments = {"middle", "front", "back"}
+            musictooltip.mode = "outside"
+            musictooltip:add_to_object(music)
+            musictooltip.text = "Not updated"
+            awesome.connect_signal("bling::playerctl::title_artist_album", function(title, artist, album_path)
+                musictooltip.markup = tostring(title) .. " - " .. tostring(artist)
+                music.visible = true
+                album_art:set_image(gears.surface.load_uncached_silently(album_path))
+                album_art:emit_signal("widget::redraw_needed")
+            end)
+        end,
+        {description = "PlayerCtl Pop Up", group = "Pop Ups"}),      
     -- Tabbed Layout (Bling)
     awful.key({ altkey, }, ";", function() bling.module.tabbed.pop() end,
               {description = "Remove Focused Client From tabbed", group = "Client"}),
