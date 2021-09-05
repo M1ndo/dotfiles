@@ -63,10 +63,10 @@ keybindings consistent with all of my window managers.
 | `MODKEY + CTRL + n` | Restore Minimized Window |
 | `MODKEY + b` | Open Browser |
 
-**Note** Read The Config File To See All Available Keybinding , You Don't Want To Miss The Great Features i've added to it :D
+**Note** Full Keybinding Documentation Is Available [Here](https://docs.darkos.cf/bindings/) 
 
 # Screenshots
-<img src="https://github.com/m1ndo/dotfiles/blob/master/screenshots/ybenel%4017-43-19-scrot.png" alt="Awesome" border="0">
+<img src="https://github.com/m1ndo/dotfiles/blob/master/screenshots/ybenel-full-20210905-220622.png" alt="Awesome" border="0">
 <img src="https://github.com/m1ndo/dotfiles/blob/master/screenshots/ybenel@03-25-04-scrot.png" alt="Xmonad" border="0">
 <img src="https://github.com/m1ndo/dotfiles/blob/master/screenshots/ybenel@21-26-36-scrot.png" alt="Herbstluftwm" border="0">
 
