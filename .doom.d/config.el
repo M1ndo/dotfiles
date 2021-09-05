@@ -9,16 +9,33 @@
 
 (use-package doom-themes
   :config
+  ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   (load-theme 'doom-moonlight t)
+
+  ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
+
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
   (doom-themes-neotree-config)
+  ;; or for treemacs users
   (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
   (doom-themes-treemacs-config)
+
+  ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
+;;(setq doom-theme 'doom-ephemeral)
+
+;; If you use `org' and don't want your org files in the default location below,
+;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
+
+;; This determines the style of line numbers in effect. If set to `nil', line
+;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
+
+;; Sets transparency for focuses and unfocused frames.
 (set-frame-parameter (selected-frame) 'alpha '(95 . 80))
 (add-to-list 'default-frame-alist '(alpha . (95 . 80)))
 
@@ -32,50 +49,88 @@
         :desc "List bookmarks" "L" #'list-bookmarks
         :desc "Save current bookmarks to bookmark file" "w" #'bookmark-save))
 
-(setq fancy-splash-image "~/.doom.d/blackholed.png")
+
+;; Set Image to be the banner
+;; (setq fancy-splash-image "~/.doom.d/blackhole.png")
+
+;; Call splashcii to get the banne and output it .
+
+(defvar +fl/splashcii-query ""
+  "The query to search on asciiur.com")
+
+(defun +fl/splashcii ()
+  (split-string (with-output-to-string
+                  (call-process "splashcii" nil standard-output nil +fl/splashcii-query))
+                "\n" t))
+
+(defun +fl/doom-banner ()
+  (let ((point (point)))
+    (mapc (lambda (line)
+            (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
+                                'face 'doom-dashboard-banner) " ")
+            (insert "\n"))
+          (+fl/splashcii))
+    (insert (make-string (or (cdr +doom-dashboard-banner-padding) 0) ?\n))))
+
+;; override the first doom dashboard function
+(setcar (nthcdr 0 +doom-dashboard-functions) #'+fl/doom-banner)
+
+(setq +fl/splashcii-query "space")
 
 
-;; (defvar +fl/splashcii-query ""
-;;   "The query to search on asciiur.com")
+;; Setup Org-Roam template
+(use-package org-roam
+  :ensure t
+  :init
+  (setq org-roam-v2-ack t)
+  :custom
+  (org-roam-directory "~/org/Boxes")
+  (org-roam-completion-everywhere t)
+  (org-roam-capture-templates
+   '(("d" "default" plain
+      "%?"
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+      :unnarrowed t)
+   ("b" "Box Notes" plain
+      (file "~/org/Templates/Boxes.org")
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+      :unnarrowed t)))
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n i" . org-roam-node-insert)
+         :map org-mode-map
+         ("C-M-i" . completion-at-point))
+  :config
+  (org-roam-setup))
 
-;; (defun +fl/splashcii ()
-;;   (split-string (with-output-to-string
-;;                   (call-process "splashcii" nil standard-output nil +fl/splashcii-query))
-;;                 "\n" t))
+;; Setting the indent guides to show a pipe character.
+(def-package! highlight-indent-guides
+ :commands highlight-indent-guides-mode
+ :hook (prog-mode . highlight-indent-guides-mode)
+ :confi
+(setq highlight-indent-guides-method 'character
+       highlight-indent-guides-character ?\|
+      highlight-indent-guides-delay 0.01
+       highlight-indent-guides-responsive 'top
+       highlight-indent-guides-auto-enabled nil))
 
-;; (defun +fl/doom-banner ()
-;;   (let ((point (point)))
-;;     (mapc (lambda (line)
-;;             (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
-;;                                 'face 'doom-dashboard-banner) " ")
-;;             (insert "\n"))
-;;           (+fl/splashcii))
-;;     (insert (make-string (or (cdr +doom-dashboard-banner-padding) 0) ?\n))))
-
-;; ;; override the first doom dashboard function
-;; (setcar (nthcdr 0 +doom-dashboard-functions) #'+fl/doom-banner)
-
-;; (setq +fl/splashcii-query "space")
-
-
-;;(def-package! highlight-indent-guides
-;;  :commands highlight-indent-guides-mode
-;;  :hook (prog-mode . highlight-indent-guides-mode)
-;;  :confi
-;; (setq highlight-indent-guides-method 'character
-;;        highlight-indent-guides-character ?\|
-;;       highlight-indent-guides-delay 0.01
-;;        highlight-indent-guides-responsive 'top
-;;        highlight-indent-guides-auto-enabled nil))
+;; Email Setup
 
 ;;(require 'mu4e)
 
+;; use mu4e for e-mail in emacs
 ;;(setq mail-user-agent 'mu4e-user-agent)
 ;;
 ;;(setq mu4e-drafts-folder "/Draft")
 ;;(setq mu4e-trash-folder  "/Trash")
 ;;
+;;;; don't save message to Sent Messages, Gmail/IMAP takes care of this
 ;;(setq mu4e-sent-messages-behavior 'delete)
+;;;; setup some handy shortcuts
+;;;; you can quickly switch to your Inbox -- press ``ji''
+;;;; then, when you want archive some messages, move them to
+;;;; the 'All Mail' folder by pressing ``ma''.
+;;
 ;;(setq mu4e-maildir-shortcuts
 ;;    '( (:maildir "/INBOX"       :key ?i)
 ;;       (:maildir "/Sent"        :key ?s)
