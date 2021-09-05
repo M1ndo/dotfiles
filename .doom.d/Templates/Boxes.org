@@ -1,0 +1,38 @@
+#+PLATFORM: %^{Platform}
+#+DATE: %^{DATE}
+
+* Slim To None
+** User Enumeration
+*** Open Ports
+- %?
+-
+-
+*** Initial Enum
+-
+-
+-
+*** Usernames And Passwords
+-
+-
+-
+*** Interesting Finds
+-
+-
+-
+*** Vulnerabilities And Exploitation
+-
+-
+-
+** Privilege Escalation
+*** Interesting Findings
+-
+-
+-
+*** Possible Paths
+-
+-
+-
+*** Vulnerabities Exploitation
+-
+-
+-
