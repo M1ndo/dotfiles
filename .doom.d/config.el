@@ -58,25 +58,18 @@
 (defvar +fl/splashcii-query ""
   "The query to search on asciiur.com")
 
-(defun +fl/splashcii ()
-  (split-string (with-output-to-string
-                  (call-process "splashcii" nil standard-output nil +fl/splashcii-query))
-                "\n" t))
+(defun +fl/splashcii-banner ()
+  (mapc (lambda (line)
+          (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
+                              'face 'doom-dashboard-banner) " ")
+          (insert "\n"))
+        (split-string (with-output-to-string
+                        (call-process "splashcii" nil standard-output nil +fl/splashcii-query))
+                      "\n" t)))
 
-(defun +fl/doom-banner ()
-  (let ((point (point)))
-    (mapc (lambda (line)
-            (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
-                                'face 'doom-dashboard-banner) " ")
-            (insert "\n"))
-          (+fl/splashcii))
-    (insert (make-string (or (cdr +doom-dashboard-banner-padding) 0) ?\n))))
-
-;; override the first doom dashboard function
-(setcar (nthcdr 0 +doom-dashboard-functions) #'+fl/doom-banner)
+(setq +doom-dashboard-ascii-banner-fn #'+fl/splashcii-banner)
 
 (setq +fl/splashcii-query "space")
-
 
 ;; Setup Org-Roam template
 (use-package org-roam
@@ -104,15 +97,21 @@
   (org-roam-setup))
 
 ;; Setting the indent guides to show a pipe character.
-(def-package! highlight-indent-guides
- :commands highlight-indent-guides-mode
- :hook (prog-mode . highlight-indent-guides-mode)
- :confi
+(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
 (setq highlight-indent-guides-method 'character
-       highlight-indent-guides-character ?\|
-      highlight-indent-guides-delay 0.01
-       highlight-indent-guides-responsive 'top
-       highlight-indent-guides-auto-enabled nil))
+       highlight-indent-guides-delay 0
+       highlight-indent-guides-responsive 'stack
+       highlight-indent-guides-auto-enabled nil)
+
+; Autoload Lua-mode;;Rainbow-Mode
+(load-file "~/.emacs.d/.local/elpa/lua-mode-20210809.1320/lua-mode.el")
+(load-file "~/.emacs.d/.local/elpa/rainbow-mode-1.0.5/rainbow-mode.el")
+
+; Neotree
+(use-package "neotree"
+  :bind(("C-c C-f" . neotree-toggle))
+  :config
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
 
 ;; Email Setup
 
