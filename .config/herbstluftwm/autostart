@@ -10,22 +10,8 @@ hc() {
 }
 
 hc emit_hook reload
-picom &
+# Autostart 
 $HOME/.config/herbstluftwm/start.sh
-nm-applet &
-nitrogen --restore &
-numlockx on &
-xfce4-power-manager &
-/usr/lib/polkit-kde-authentication-agent-1 &
-/usr/bin/emacs --daemon &
-xscreensaver -no-splash &
-caffeine &
-unclutter -root &
-volumeicon &
-mpd &
-#~/.config/herbstluftwm/uminimize.sh &
-#jgmenu --hide-on-startup --config-file=~/.config/jgmenu/jgmenurc --csv-file=~/.config/jgmenu/menu.csv
-#xclickroot -r jgmenu_run
 
 # remove all existing keybindings
 hc keyunbind --all
@@ -46,27 +32,23 @@ hc keybind $Mod-e spawn $myEditor
 # Dmenu launcher
 hc keybind $Mod-Shift-Return spawn dmenu_run -fn 'scientifica:size=11' -nb '#212D32' -nf '#bbc5ff' -sb '#E37673' -sf '#292d3e' -p 'Ybenel:'
 hc keybind $Mod-Mod1-s spawn dmenu_run -c -b -l 10 -g 4 -p 'ybenel: ' -fn 'scientifica:size=11'
+hc keybind Mod1-Return spawn rofi -show drun -show-icons
 
 # My dmenu scripts (Alt+Ctrl+Key)
 hc keybind Mod1-Control-e spawn ./.dmenu/dmenu-edit-configs.sh
 hc keybind Mod1-Control-h spawn ./.dmenu/dmenu-sysmon.sh
 hc keybind Mod1-Control-s spawn ./.dmenu/dmenu-scrot.sh
 hc keybind Mod1-Control-p spawn passmenu
-hc keybind $Mod-Control-s spawn rofi -combi-modi run,drun -show combi -modi combi -show-icons -icon-theme 'Adwaita' -display-combi 'ybenel: '
 
 # My applications (Super+Alt+Key)
-hc keybind $Mod-Mod1-n spawn librewolf
 hc keybind $Mod-Mod1-l spawn $myTerm -e lynx --cfg=~/.lynx/lynx.cfg --lss=~/.lynx/lynx.lss -vikeys https://music.ybenel.cf
 hc keybind $Mod-Mod1-e spawn $myTerm -e irssi
 hc keybind $Mod-Mod1-f spawn $myTerm -e ~/.config/vifm/scripts/vifmrun
 hc keybind $Mod-Mod1-c spawn $myTerm -e $myMusic
 hc keybind $Mod-Mod1-z spawn $myTerm -e $myMMusic
-hc keybind $Mod-Mod1-h spawn $myTerm -e htop
 
 # My Secondary Applications
 hc keybind $Mod-Control-Return spawn $myTerm
-hc keybind $Mod-Control-x spawn discord
-hc keybind $Mod-Control-p spawn qjackctl
 hc keybind $Mod-Control-e spawn $myTerm -e torify irssi
 hc keybind $Mod-b spawn $myBrowser
 
@@ -94,7 +76,7 @@ hc keybind $Mod-l             focus right
 # minimize current window
 herbstclient keybind $Mod-n spawn ~/.config/herbstluftwm/minimize.sh
 # unminimize last window of a tag
-herbstclient keybind $Mod-Shift-n mktemp string MINCLIENT mktemp int LASTIDATT chain \
+herbstclient keybind $Mod-Control-n mktemp string MINCLIENT mktemp int LASTIDATT chain \
   . set_attr LASTIDATT 0 \
   . foreach CLIENT clients. and \
     , sprintf MINATT "%c.minimized" CLIENT \
@@ -143,7 +125,7 @@ hc keybind $Mod-Control-Up     resize up +$resizestep
 hc keybind $Mod-Control-Right  resize right +$resizestep
 
 # tags
-tag_names=("" "" "" "" "" "")
+tag_names=("ﮊ" "ﮈ" "ﰌ" "" "" "")
 tag_keys=( {1..6} 0 )
 
 hc rename default "${tag_names[0]}" || true
@@ -157,18 +139,18 @@ for i in ${!tag_names[@]} ; do
 done
 
 # cycle through tags
-hc keybind $Mod-period use_index +1 --skip-visible
-hc keybind $Mod-comma  use_index -1 --skip-visible
+hc keybind Mod1-Tab use_index +1 --skip-visible
+hc keybind Mod1-Shift-Tab use_index -1 --skip-visible
 
 # layouting
 hc keybind $Mod-r remove
-hc keybind $Mod-s floating toggle
-hc keybind $Mod-m fullscreen toggle
+hc keybind $Mod-f floating toggle
+hc keybind $Mod-space fullscreen toggle
 hc keybind $Mod-p pseudotile toggle
 # The following cycles through the available layouts within a frame, but skips
 # layouts, if the layout change wouldn't affect the actual window positions.
 # I.e. if there are two windows within a frame, the grid layout is skipped.
-hc keybind $Mod-space                                                           \
+hc keybind $Mod-Tab                                                           \
             or , and . compare tags.focus.curframe_wcount = 2                   \
                      . cycle_layout +1 vertical horizontal max vertical grid    \
                , cycle_layout +1
@@ -181,18 +163,18 @@ hc mousebind $Mod-Button3 resize
 
 # focus
 hc keybind $Mod-BackSpace   cycle_monitor
-hc keybind $Mod-Tab         cycle_all +1
-hc keybind $Mod-Shift-Tab   cycle_all -1
+hc keybind Control-Tab         cycle_all +1
+hc keybind Control-Shift-Tab   cycle_all -1
 hc keybind $Mod-c cycle
 hc keybind $Mod-i jumpto urgent
 
 # theme
 hc attr theme.tiling.reset 1
 hc attr theme.floating.reset 1
-hc set frame_border_active_color '#222222'
-hc set frame_border_normal_color '#101010'
-hc set frame_bg_normal_color '#565656'
-hc set frame_bg_active_color '#345F0C'
+hc set frame_border_active_color '#00ced1'
+hc set frame_border_normal_color '#8a2be2'
+hc set frame_bg_normal_color '#912cee'
+hc set frame_bg_active_color '#3a5fcd'
 hc set frame_border_width 1
 hc set always_show_frame 0
 hc set frame_bg_transparent 1
@@ -200,8 +182,8 @@ hc set frame_transparent_width 0
 hc set frame_padding 0
 hc set focus_follows_mouse 1
 
-hc attr theme.active.color '#222222'
-hc attr theme.normal.color '#454545'
+hc attr theme.active.color '#00ced1'
+hc attr theme.normal.color '#8a2be2'
 hc attr theme.urgent.color white
 hc attr theme.inner_width 0
 hc attr theme.inner_color black
@@ -209,9 +191,9 @@ hc attr theme.border_width 1
 hc attr theme.floating.border_width 4
 hc attr theme.floating.outer_width 1
 hc attr theme.floating.outer_color black
-hc attr theme.active.inner_color '#222222'
-hc attr theme.active.outer_color '#222222'
-hc attr theme.background_color '#141414'
+hc attr theme.active.inner_color '#00ced1'
+hc attr theme.active.outer_color '#8a2be2'
+hc attr theme.background_color '#7a67ee'
 
 hc set window_gap 3
 hc set smart_window_surroundings 0
@@ -223,8 +205,10 @@ hc set swap_monitors_to_get_tag 1
 # rules 
 ## Tag == workspace
 hc unrule -F
-hc rule class="google-chrome" tag=1 # move all browser to tag 1
 hc rule class="LibreWolf" tag=1 # move browser to tag 1
+hc rule class="Chrome" tag=1 # move all browser to tag 1
+hc rule class="Chromium" tag=1 # move all browser to tag 1
+hc rule class="Firefox" tag=1 # move all browser to tag 1
 hc rule class="mpv" tag=4 # move all browser to tag 1
 hc rule class="atom" tag=3 # move all browser to tag 1
 hc rule class="vlc" tag=3 # move all browser to tag 1
@@ -252,8 +236,8 @@ herbstclient set tree_style '╾│ ├└╼─┐'
 # hc set_monitors 1280x1024+0+0 1504x846+0+0
 # or simply:
 #hc detect_monitors
-hc set_monitors 1920x1080+0+0 #1920x1060+1920+22 1920x1060+3840+22
-#hc set_monitors 1366x768+0+0 #1920x1060+1920+22 1920x1060+3840+22
+#hc set_monitors 1920x1080+0+0 #1920x1060+1920+22 1920x1060+3840+22
+hc set_monitors 1366x768+0+0 #1920x1060+1920+22 1920x1060+3840+22
 
 # find the panel
 panel=~/.config/herbstluftwm/panel.sh
