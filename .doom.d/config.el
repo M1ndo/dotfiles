@@ -96,16 +96,19 @@
   :config
   (org-roam-setup))
 
+; Autoload Lua-mode;;Rainbow-Mode
+;; (load-file "~/.emacs.d/.local/elpa/lua-mode-20210809.1320/lua-mode.el")
+;; (load-file "~/.emacs.d/.local/elpa/rainbow-mode-1.0.5/rainbow-mode.el")
+;; (load-file "~/.emacs.d/.local/elpa/highlight-indent-guides-20200820.2328/highlight-indent-guides.el")
+
 ;; Setting the indent guides to show a pipe character.
-(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-(setq highlight-indent-guides-method 'character
+(use-package highlight-indent-guides
+  :init
+  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+  (setq highlight-indent-guides-method 'character
        highlight-indent-guides-delay 0
        highlight-indent-guides-responsive 'stack
-       highlight-indent-guides-auto-enabled nil)
-
-; Autoload Lua-mode;;Rainbow-Mode
-(load-file "~/.emacs.d/.local/elpa/lua-mode-20210809.1320/lua-mode.el")
-(load-file "~/.emacs.d/.local/elpa/rainbow-mode-1.0.5/rainbow-mode.el")
+       highlight-indent-guides-auto-enabled nil))
 
 ; Neotree
 (use-package "neotree"
@@ -113,8 +116,27 @@
   :config
   (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
 
-;; Email Setup
+;; Code Highlight
+(require 'ox-latex)
+(setq org-latex-listings 'minted)
+(with-eval-after-load 'ox-latex
+(add-to-list 'org-latex-classes
+             '("org-plain-latex"
+               "\\documentclass{article}
+           [NO-DEFAULT-PACKAGES]
+           [PACKAGES]
+           [EXTRA]"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
+;; Set Org-Superstar
+(require 'org-superstar)
+(add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
+
+;; Email Setup
 ;;(require 'mu4e)
 
 ;; use mu4e for e-mail in emacs

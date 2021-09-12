@@ -1,38 +1,41 @@
-#+PLATFORM: %^{Platform}
-#+DATE: %^{DATE}
+#+TITLE: %^{Title} - %^{Plat}
+#+SUBTITLE: %^{Subt}
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [letterpaper]
+#+LATEX_HEADER: \usepackage{minted}
+#+LATEX_HEADER: \usepackage{charter}
+#+LATEX_HEADER: \usepackage[colorlinks]{hyperref}
+#+LATEX_HEADER: \hypersetup{colorlinks, linkcolor=blue, urlcolor=red}
+#+LATEX_HEADER: \usepackage{titling}
+#+LATEX_HEADER: \setlength{\droptitle}{-14em}
+#+LATEX_HEADER: \pagenumbering{gobble}
+#+LATEX_HEADER: \usepackage[explicit]{titlesec}
+#+LATEX_HEADER: \pretitle{\begin{center}\fontsize{20pt}{20pt}\selectfont}
+#+LATEX_HEADER: \posttitle{\par\end{center}}
+#+LATEX_HEADER: \preauthor{\begin{center}\vspace{5bp}\fontsize{14pt}{14pt}\selectfont}
+#+LATEX_HEADER: \postauthor{\par\end{center}\vspace{-6bp}}
+#+LATEX_HEADER: \predate{\begin{center}\fontsize{12pt}{12pt}\selectfont}
+#+LATEX_HEADER: \postdate{\par\end{center}\vspace{0em}}
+#+LATEX_HEADER: \titlespacing\section{0pt}{5pt}{4pt}
+#+LATEX_HEADER: \titlespacing\subsection{0pt}{5pt}{4pt}
+#+LATEX_HEADER: \titlespacing\subsubsection{0pt}{5pt}{4pt}
+#+OPTIONS: toc:t
 
 * Slim To None
 ** User Enumeration
 *** Open Ports
-- %?
--
--
+%?
 *** Initial Enum
--
--
--
+
 *** Usernames And Passwords
--
--
--
-*** Interesting Finds
--
--
--
+
+*** Interesting Discoveries
+
 *** Vulnerabilities And Exploitation
--
--
--
+
 ** Privilege Escalation
-*** Interesting Findings
--
--
--
+*** Interesting Discoveries
+
 *** Possible Paths
--
--
--
+
 *** Vulnerabities Exploitation
--
--
--
