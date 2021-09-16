@@ -1,8 +1,5 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-(setq user-full-name "ybenel"
-      user-mail-address "ybenel@pm.me")
-
 (setq doom-font (font-spec :family "Fira Code" :size 15)
       doom-variable-pitch-font (font-spec :family "Ubuntu" :size 15)
       doom-big-font (font-spec :family "Fira Code" :size 24))
@@ -12,20 +9,20 @@
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-moonlight t)
+  (load-theme 'doom-dracula t)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
 
   ;; Enable custom neotree theme (all-the-icons must be installed!)
   (doom-themes-neotree-config)
-  ;; or for treemacs users
-  (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
-  (doom-themes-treemacs-config)
 
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
 ;;(setq doom-theme 'doom-ephemeral)
+;;
+;; Solaire-Mode To Add Dark Background unreal buffers
+(solaire-global-mode +1)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -84,7 +81,7 @@
       "%?"
       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
       :unnarrowed t)
-   ("b" "Box Notes" plain
+     ("b" "Box Notes" plain
       (file "~/org/Templates/Boxes.org")
       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
       :unnarrowed t)))
@@ -96,19 +93,19 @@
   :config
   (org-roam-setup))
 
-; Autoload Lua-mode;;Rainbow-Mode
-;; (load-file "~/.emacs.d/.local/elpa/lua-mode-20210809.1320/lua-mode.el")
-;; (load-file "~/.emacs.d/.local/elpa/rainbow-mode-1.0.5/rainbow-mode.el")
-;; (load-file "~/.emacs.d/.local/elpa/highlight-indent-guides-20200820.2328/highlight-indent-guides.el")
+;; Enable Aggressive Indent
+(use-package aggressive-indent
+  :init
+  (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode))
 
 ;; Setting the indent guides to show a pipe character.
 (use-package highlight-indent-guides
   :init
   (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
   (setq highlight-indent-guides-method 'character
-       highlight-indent-guides-delay 0
-       highlight-indent-guides-responsive 'stack
-       highlight-indent-guides-auto-enabled nil))
+        highlight-indent-guides-delay 0
+        highlight-indent-guides-responsive 'stack
+        highlight-indent-guides-auto-enabled nil))
 
 ; Neotree
 (use-package "neotree"
@@ -117,53 +114,166 @@
   (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
 
 ;; Code Highlight
-(require 'ox-latex)
-(setq org-latex-listings 'minted)
 (with-eval-after-load 'ox-latex
-(add-to-list 'org-latex-classes
-             '("org-plain-latex"
-               "\\documentclass{article}
+  (add-to-list 'org-latex-packages-alist '("" "minted"))
+  (setq org-latex-listings 'minted)
+  (setq org-latex-pdf-process
+        '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+  (add-to-list 'org-latex-classes
+               '("org-plain-latex"
+                 "\\documentclass{article}
            [NO-DEFAULT-PACKAGES]
            [PACKAGES]
            [EXTRA]"
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
 ;; Set Org-Superstar
 (require 'org-superstar)
 (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
 
 ;; Email Setup
-;;(require 'mu4e)
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
+(with-eval-after-load 'mu4e
+  (setq mu4e-context-policy 'ask-if-none
+        mu4e-compose-context-policy 'pick-first)
+  (setq mu4e-change-filenames-when-moving t)
+  ;; refresh mail using isync every 10 minutes
+  (setq mu4e-update-interval (* 10 60))
+  (setq mu4e-get-mail-command "mbsync -a")
+  (setq mu4e-root-maildir "~/Mail")
+  (bind-key "C-c C-m" 'mu4e)
 
-;; use mu4e for e-mail in emacs
-;;(setq mail-user-agent 'mu4e-user-agent)
-;;
-;;(setq mu4e-drafts-folder "/Draft")
-;;(setq mu4e-trash-folder  "/Trash")
-;;
-;;;; don't save message to Sent Messages, Gmail/IMAP takes care of this
-;;(setq mu4e-sent-messages-behavior 'delete)
-;;;; setup some handy shortcuts
-;;;; you can quickly switch to your Inbox -- press ``ji''
-;;;; then, when you want archive some messages, move them to
-;;;; the 'All Mail' folder by pressing ``ma''.
-;;
-;;(setq mu4e-maildir-shortcuts
-;;    '( (:maildir "/INBOX"       :key ?i)
-;;       (:maildir "/Sent"        :key ?s)
-;;       (:maildir "/Trash"       :key ?t)
-;;       (:maildir "/Draft"       :key ?d)))
-;;
-;;(setq mu4e-get-mail-command "offlineimap"
-;;      mu4e-update-interval  300)
-;;(setq
-;;   user-mail-address "USERMAIL@gmail.com"
-;;   user-full-name  "Younes Ben El"
-;;   mu4e-compose-signature)
+  (set-email-account! "Personal"
+                      '((mu4e-sent-folder          . "/Gmail/[Gmail]/Sent Mail")
+                        (mu4e-drafts-folder        . "/Gmail/[Gmail]/Drafts")
+                        (mu4e-refile-folder        . "/Gmail/[Gmail]/All Mail")
+                        (mu4e-trash-folder         . "/Gmail/[Gmail]/Trash")
+                        (user-mail-address         . "REDACTED@gmail.com")
+                        (user-full-name            . "Mandolorian")
+                        (mu4e-compose-signature    . "Signed By Mando")
+                        (smtpmail-smtp-user        . "REDACTED@gmail.com")
+                        (smtpmail-smtp-server      . "smtp.gmail.com")
+                        (smtpmail-stream-type      . ssl)
+                        (smtpmail-smtp-service     . 465))
+                      t)
+
+  (setq mu4e-maildir-shortcuts
+        '(("/Gmail/inbox"             . ?i)
+          ("/Gmail/[Gmail]/Sent Mail" . ?s)
+          ("/Gmail/[Gmail]/Trash"     . ?t)
+          ("/Gmail/[Gmail]/Drafts"    . ?d)
+          ("/Gmail/[Gmail]/All Mail"  . ?a))))
+
+
+(use-package! mu4e-alert
+  :after mu4e
+  :config
+  (setq doom-modeline-mu4e t)
+
+  (mu4e-alert-enable-mode-line-display)
+  (mu4e-alert-enable-notifications)
+
+  (mu4e-alert-set-default-style 'libnotify)
+  (map! :leader
+        (:prefix ("d". "mu4e")
+         :desc "Disable Mu4e Modeline Alert" "d" #'mu4e-alert-disable-mode-line-display
+         :desc "Enable Mu4e Modeline Alert" "i" #'mu4e-alert-enable-mode-line-display))
+
+  (defvar +mu4e-alert-bell-cmd '("paplay" . "/usr/share/sounds/freedesktop/stereo/message.oga")
+    "Cons list with command to play a sound, and the sound file to play.
+Disabled when set to nil.")
+
+  (setq mu4e-alert-email-notification-types '(subjects))
+  (defun +mu4e-alert-grouped-mail-notification-formatter-with-bell (mail-group _all-mails)
+    "Default function to format MAIL-GROUP for notification.
+ALL-MAILS are the all the unread emails"
+    (when +mu4e-alert-bell-cmd
+      (start-process (car +mu4e-alert-bell-cmd) (cdr +mu4e-alert-bell-cmd)))
+    (if (> (length mail-group) 1)
+        (let* ((mail-count (length mail-group))
+               (first-mail (car mail-group))
+               (title-prefix (format "You have %d unread emails"
+                                     mail-count))
+               (field-value (mu4e-alert--get-group first-mail))
+               (title-suffix (format (pcase mu4e-alert-group-by
+                                       (`:from "from %s:")
+                                       (`:to "to %s:")
+                                       (`:maildir "in %s:")
+                                       (`:priority "with %s priority:")
+                                       (`:flags "with %s flags:"))
+                                     field-value))
+               (title (format "%s %s" title-prefix title-suffix)))
+          (list :title title
+                :body (s-join "\n"
+                              (mapcar (lambda (mail)
+                                        (format "%s<b>%s</b> • %s"
+                                                (cond
+                                                 ((plist-get mail :in-reply-to) "⮩ ")
+                                                 ((string-match-p "\\`Fwd:"
+                                                                  (plist-get mail :subject)) " ⮯ ")
+                                                 (t "  "))
+                                                (truncate-string-to-width (caar (plist-get mail :from))
+                                                                          20 nil nil t)
+                                                (truncate-string-to-width
+                                                 (replace-regexp-in-string "\\`Re: \\|\\`Fwd: " ""
+                                                                           (plist-get mail :subject))
+                                                 40 nil nil t)))
+                                      mail-group))))
+      (let* ((new-mail (car mail-group))
+             (subject (plist-get new-mail :subject))
+             (sender (caar (plist-get new-mail :from))))
+        (list :title sender :body subject))))
+  (setq mu4e-alert-grouped-mail-notification-formatter #'+mu4e-alert-grouped-mail-notification-formatter-with-bell))
+
+;;   Setup Org-Mime For mu4e
+(use-package org-mime
+  :ensure t
+  :config
+  (setq org-mime-export-options '(:section-numbers nil
+                                  :with-author nil
+                                  :with-toc nil))
+  (add-hook 'org-mime-html-hook
+            (lambda ()
+              (org-mime-change-element-style
+               "pre" (format "color: %s; background-color: %s; padding: 0.5em;"
+                             "#E6E1DC" "#232323"))))
+  (add-hook 'message-send-hook 'org-mime-htmlize))
+
+;; Discord Rich
+(require 'elcord)
+(elcord-mode)
+
+;; Hide Doom-modeline
+(map! :leader
+      (:prefix ("d". "modeline")
+       :desc "Hide Doom Modeline" "b" #'hide-mode-line-mode))
+
+;; (require 'org-msg)
+;;  (setq org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t"
+;; 	org-msg-startup "hidestars indent inlineimages"
+;; 	org-msg-greeting-fmt "\nHi%s,\n\n"
+;; 	org-msg-recipient-names '(("REDACTED@gmail.com" . "Mando"))
+;; 	org-msg-greeting-name-limit 3
+;; 	org-msg-default-alternatives '((new		. (text html))
+;; 				       (reply-to-html	. (text html))
+;; 				       (reply-to-text	. (text)))
+;; 	org-msg-convert-citation t
+;; 	org-msg-signature "
+;;  Regards,
+
+;;  #+begin_signature
+;;  --
+;;  *Signed By Mando*
+;;  /One Emacs to rule them all/
+;;  #+end_signature")
+;;  (org-msg-mode)
+
 ;;(require 'smtpmail)
 ;;(setq message-send-mail-function 'smtpmail-send-it
 ;;   starttls-use-gnutls t

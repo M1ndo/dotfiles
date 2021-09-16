@@ -1,5 +1,5 @@
-#+TITLE: %^{Title} - %^{Plat}
-#+SUBTITLE: %^{Subt}
+#+SUBTITLE: %^{SUBTITLE}
+#+AUTHOR: %^{AUTHOR}
 #+LATEX_CLASS: article
 #+LATEX_CLASS_OPTIONS: [letterpaper]
 #+LATEX_HEADER: \usepackage{minted}
