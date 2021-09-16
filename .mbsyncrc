@@ -1,0 +1,21 @@
+IMAPAccount gmail
+Host imap.gmail.com
+User myemail@gmail.com
+PassCmd "gpg -q --for-your-eyes-only --no-tty -d ~/.password-store/gmail_app.gpg"
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore gmail-remote
+Account gmail
+
+MaildirStore gmail-local
+Subfolders Verbatim
+Path ~/Mail/Gmail/
+Inbox ~/Mail/Gmail/Inbox
+
+Channel gmail
+Far :gmail-remote:
+Near :gmail-local:
+Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/All Mail"
+Create Both
+SyncState *
