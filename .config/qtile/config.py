@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-# Configured added / modified by ybenel (github.com/m1ndo)
-# Modification Date: 08/30/2021
 import os
 import re
 import socket
@@ -40,9 +38,9 @@ keys = [
 	EzKey("M-b",lazy.hide_show_bar("top"), desc='Toggle Top Bar'),
 	EzKey("M-n",lazy.window.toggle_minimize(), desc='Toggle Minimize'),
 	# Applications
-	EzKey("A-<Return>",lazy.spawn("emacsclient -c -a emacs"),desc="Spawn Emacs"),
+	EzKey("M-e",lazy.spawn("emacsclient -c -a emacs"),desc="Spawn Emacs"),
 	EzKey("M-A-z", lazy.spawn(myTerm + " -e ncmpcpp")),
-	EzKey("M-C-s", lazy.spawn("rofi -show drun -show-icons")),
+	EzKey("A-<Return>", lazy.spawn("rofi -show drun -show-icons")),
 	EzKey("M-A-s", lazy.spawn("dmenu_run -c -b -l 10 -g 4 -p 'ybenel: ' -fn 'scientifica:size=12'")),
 	EzKey("M-A-e", lazy.spawn(myTerm + " -e irssi")),
 	EzKey("M-A-c", lazy.spawn(myTerm + " -e mocp")),
@@ -67,18 +65,38 @@ keys = [
 ]
 
 
-group_names = [("", {'layout': 'monadtall'}),
-               ("", {'layout': 'monadtall'}),
-               ("", {'layout': 'monadtall'}),
-               ("", {'layout': 'monadtall'}),
-               ("", {'layout': 'monadtall'}),
-               ("", {'layout': 'monadtall'})]
+# group_names = [("", {'layout': 'monadtall'}),
+#                ("", {'layout': 'monadtall'}),
+#                ("", {'layout': 'monadtall'}),
+#                ("", {'layout': 'monadtall'}),
+#                ("", {'layout': 'monadtall'}),
+#                ("", {'layout': 'monadtall'})]
 
-groups = [Group(name, **kwargs) for name, kwargs in group_names]
+# groups = [Group(name, **kwargs) for name, kwargs in group_names]
 
-for i, (name, kwargs) in enumerate(group_names, 1):
-	keys.append(EzKey("M-"+str(i),lazy.group[name].toscreen()))
-	keys.append(EzKey("M-S-"+str(i),lazy.window.togroup(name)))
+# for i, (name, kwargs) in enumerate(group_names, 1):
+# 	keys.append(EzKey("M-"+str(i),lazy.group[name].toscreen()))
+# 	keys.append(EzKey("M-S-"+str(i),lazy.window.togroup(name)))
+
+
+workspaces = [
+    {"name": "", "key": "1", "matches": [Match(wm_class='Chromium'),Match(wm_class='Firefox'),Match(wm_class='Chrome')]},
+    {"name": "הּ", "key": "2", "matches": [Match(wm_class='pcmanfm')]},
+    {"name": "", "key": "3", "matches": [Match(wm_class='emacs')]},
+    {"name": "", "key": "4", "matches": [Match(wm_class='stremio'), Match(wm_class='mpv'), Match(wm_class='vlc')]},
+    {"name": "鷺", "key": "5", "matches": [Match(wm_class='Discord'),Match(title='irssi')]},
+    {"name": "", "key": "6", "matches": [Match(wm_class='spotify'),Match(title='ncmpcpp')]},
+]
+
+groups = []
+for workspace in workspaces:
+    matches = workspace["matches"] if "matches" in workspace else None
+    groups.append(Group(workspace["name"], matches=matches, layout="monadtall"))
+    keys.append(EzKey("M-"+str(workspace['key']),lazy.group[workspace["name"]].toscreen()))
+    keys.append(EzKey("M-S-"+str(workspace['key']),lazy.window.togroup(workspace["name"])))
+    # keys.append(Key([mod], workspace["key"], lazy.group[workspace["name"]].toscreen()))
+    # keys.append(Key([mod, "shift"], workspace["key"], lazy.window.togroup(workspace["name"])))
+
 
 layout_theme = {"border_width": 2,
                 "margin": 8,
@@ -114,14 +132,14 @@ layouts = [
     layout.Floating(**layout_theme)
 ]
 
-colors = [["#220b40", "#220b40"], # panel background
+colors = [["#292929", "#292929"], # panel background
           ["#3d3f4b", "#434758"], # background for current screen tab
           ["#ffffff", "#ffffff"], # font color for group names
-          ["#ff5555", "#ff5555"], # border line color for current tab
-          ["#1d2d59", "#1d2d59"], # border line color for 'other tabs' and color for 'odd widgets'
-          ["#568054", "#568054"], # color for the 'even widgets'
-          ["#e1acff", "#e1acff"], # window name
-          ["#ecbbfb", "#ecbbfb"]] # backbround for inactive screens
+          ["#912cee", "#912cee"], # border line color for current tab
+          ["#8ee5ee", "#8ee5ee"], # border line color for 'other tabs' and color for 'odd widgets'
+          ["#4eee94", "#4eee94"], # color for the 'even widgets'
+          ["#f08080", "#f08080"], # window name
+          ["#e066ff", "#e066ff"]] # backbround for inactive screens
 
 prompt = "{0}@{1}: ".format(os.environ["USER"], socket.gethostname())
 
@@ -136,43 +154,48 @@ extension_defaults = widget_defaults.copy()
 
 def init_widgets_list():
     widgets_list = [
-              widget.Sep(
-                       linewidth = 0,
-                       padding = 6,
-                       foreground = colors[2],
-                       background = colors[0]
-                       ),
-              widget.Image(
-                       filename = "~/.config/qtile/icons/face-devilish.png",
-                       scale = "False",
-                       background = colors[0],
-                       mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm)}
-                       ),
+              # widget.Sep(
+              #          linewidth = 0,
+              #          padding = 6,
+              #          foreground = colors[2],
+              #          background = colors[0]
+              #          ),
+              # widget.Image(
+              #          filename = "~/.config/qtile/icons/face-devilish.png",
+              #          scale = "False",
+              #          background = colors[0],
+              #          mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm)}
+              #          ),
              widget.Sep(
                        linewidth = 0,
-                       padding = 6,
+                       padding = 4,
                        foreground = colors[2],
                        background = colors[0]
                        ),
               widget.GroupBox(
-                       font = "Font Awesome 5 Brands",
-                       fontsize = 12,
+                       font = "FiraCode Nerd Font Mono",
+                       fontsize = 19,
                        margin_y = 3,
                        margin_x = 0,
                        padding_y = 5,
                        padding_x = 3,
-                       borderwidth = 3,
+                       borderwidth = 2,
                        active = colors[2],
                        inactive = colors[7],
                        rounded = False,
                        highlight_color = colors[1],
                        highlight_method = "line",
                        this_current_screen_border = colors[6],
-                       this_screen_border = colors [4],
+                       this_screen_border = colors[4],
                        other_current_screen_border = colors[6],
                        other_screen_border = colors[4],
                        foreground = colors[2],
                        background = colors[0]
+                       ),
+              widget.CurrentLayout(
+                       foreground = colors[6],
+                       background = colors[0],
+                       padding = 5
                        ),
               widget.Prompt(
                        prompt = prompt,
@@ -181,23 +204,25 @@ def init_widgets_list():
                        foreground = colors[3],
                        background = colors[1]
                        ),
-              widget.Sep(
-                       linewidth = 0,
-                       padding = 14,
-                       foreground = colors[2],
-                       background = colors[0]
-                       ),
+              # widget.Spacer(length=10,background=colors[0]),
               widget.WindowName(
                        foreground = colors[6],
                        background = colors[0],
                        padding = 0
                        ),
-              widget.Sep(
-											linewidth = 0,
-											padding = 10,
-											foreground = colors[2],
-											background = colors[0]
-											),
+							widget.Systray(
+                       background = colors[0],
+                       padding = 5
+                       ),
+							widget.Spacer(length=6,background=colors[0]),
+							widget.TextBox(
+											 font = "FiraCode Nerd Font Mono",
+                       text = "",
+                       padding = 2,
+                       foreground = "#96cdcd",
+                       background = colors[0],
+                       fontsize = 17
+                       ),
 							widget.Mpd2(
 											background = colors[0],
 											foreground = colors[2],
@@ -206,104 +231,60 @@ def init_widgets_list():
 											status_format = "{artist} - {title}",
 											update_interval = 0.5
 											),
-              widget.Systray(
-                       background = colors[0],
-                       padding = 5
-                       ),
-              widget.Sep(
-                       linewidth = 0,
-                       padding = 6,
-                       foreground = colors[0],
-                       background = colors[0]
-                       ),
+              widget.Spacer(length=6,background=colors[0]),
               widget.TextBox(
-                       text = '',
-                       background = colors[0],
-                       foreground = colors[5],
-                       padding = 0,
-                       fontsize = 37
-                       ),
-              widget.TextBox(
-                       text = "🌡",
+											 font = "FiraCode Nerd Font Mono",
+                       text = "﨎",
                        padding = 2,
-                       foreground = colors[2],
-                       background = colors[5],
-                       fontsize = 11
+                       foreground = "#8470ff",
+                       background = colors[0],
+                       fontsize = 13
                        ),
               widget.ThermalSensor(
                        foreground = colors[2],
-                       background = colors[5],
+                       background = colors[0],
                        threshold = 90,
                        padding = 5
                        ),
               widget.TextBox(
-                       text='',
-                       background = colors[5],
-                       foreground = colors[4],
+                       text = "",
+                       foreground = "#20b2aa",
+                       background = colors[0],
                        padding = 0,
-                       fontsize = 37
-                       ),
-              widget.TextBox(
-                       text = " 🖬",
-                       foreground = colors[2],
-                       background = colors[4],
-                       padding = 0,
-                       fontsize = 14
+                       font = "FiraCode Nerd Font Mono",
+                       fontsize = 17
                        ),
               widget.Memory(
-                       format = "Mem: {MemPercent:.0f}%",
+                       format = "{MemPercent:.0f}%",
                        foreground = colors[2],
-                       background = colors[4],
+                       background = colors[0],
                        padding = 5
                        ),
               widget.TextBox(
-                       text = '',
-                       background = colors[4],
-                       foreground = colors[5],
-                       padding = 0,
-                       fontsize = 37
-                       ),
-              widget.TextBox(
-                      text = " Vol:",
-                       foreground = colors[2],
-                       background = colors[5],
+											 font = "FiraCode Nerd Font Mono",
+											 fontsize = 17,
+                       text = "",
+                       foreground = "#32cd32",
+                       background = colors[0],
                        padding = 0
                        ),
               widget.Volume(
                        foreground = colors[2],
-                       background = colors[5],
+                       background = colors[0],
                        padding = 5
                        ),
-              widget.TextBox(
-                       text = '',
-                       background = colors[5],
-                       foreground = colors[4],
-                       padding = 0,
-                       fontsize = 37
+               widget.TextBox(
+											 font = "FiraCode Nerd Font Mono",
+											 fontsize = 17,
+                       text = "",
+                       foreground = "#ff6347",
+                       background = colors[0],
+                       padding = 2
                        ),
-              widget.CurrentLayoutIcon(
-                       custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],
-                       foreground = colors[0],
-                       background = colors[4],
-                       padding = 0,
-                       scale = 0.7
-                       ),
-              widget.CurrentLayout(
+							widget.Clock(
                        foreground = colors[2],
-                       background = colors[4],
-                       padding = 5
-                       ),
-              widget.TextBox(
-                       text = '',
-                       background = colors[4],
-                       foreground = colors[5],
-                       padding = 0,
-                       fontsize = 37
-                       ),
-              widget.Clock(
-                       foreground = colors[2],
-                       background = colors[5],
-                       format = "%A, %B %d - %H:%M "
+                       background = colors[0],
+                       format = "%B %d - %H:%M "
                        ),
               ]
     return widgets_list
@@ -313,7 +294,7 @@ def init_widgets_screen():
     return widgets_screen2      
 
 def init_screens():
-    return [Screen(top=bar.Bar(widgets=init_widgets_screen(), opacity=1.0, size=20))]
+    return [Screen(top=bar.Bar(widgets=init_widgets_screen(), opacity=1, size=20,margin=[10, 16, 0, 16]))]
 
 if __name__ in ["config", "__main__"]:
     screens = init_screens()
