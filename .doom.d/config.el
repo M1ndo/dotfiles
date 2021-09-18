@@ -1,8 +1,8 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-(setq doom-font (font-spec :family "Fira Code" :size 15)
-      doom-variable-pitch-font (font-spec :family "Ubuntu" :size 15)
-      doom-big-font (font-spec :family "Fira Code" :size 24))
+(setq doom-font (font-spec :family "Caskaydia Cove" :size 15)
+      doom-variable-pitch-font (font-spec :family "Caskaydia Cove" :size 15)
+      doom-big-font (font-spec :family "Caskaydia Cove" :size 24))
 
 (use-package doom-themes
   :config
@@ -68,30 +68,8 @@
 
 (setq +fl/splashcii-query "space")
 
-;; Setup Org-Roam template
-(use-package org-roam
-  :ensure t
-  :init
-  (setq org-roam-v2-ack t)
-  :custom
-  (org-roam-directory "~/org/Boxes")
-  (org-roam-completion-everywhere t)
-  (org-roam-capture-templates
-   '(("d" "default" plain
-      "%?"
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-      :unnarrowed t)
-     ("b" "Box Notes" plain
-      (file "~/org/Templates/Boxes.org")
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-      :unnarrowed t)))
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-         ("C-c n i" . org-roam-node-insert)
-         :map org-mode-map
-         ("C-M-i" . completion-at-point))
-  :config
-  (org-roam-setup))
+;; Load Org-Roam Config
+(load-file "~/.doom.d/roam.el")
 
 ;; Enable Aggressive Indent
 (use-package aggressive-indent
@@ -124,9 +102,9 @@
   (add-to-list 'org-latex-classes
                '("org-plain-latex"
                  "\\documentclass{article}
-           [NO-DEFAULT-PACKAGES]
-           [PACKAGES]
-           [EXTRA]"
+                 [NO-DEFAULT-PACKAGES]
+                 [PACKAGES]
+                 [EXTRA]"
                  ("\\section{%s}" . "\\section*{%s}")
                  ("\\subsection{%s}" . "\\subsection*{%s}")
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
@@ -187,12 +165,12 @@
 
   (defvar +mu4e-alert-bell-cmd '("paplay" . "/usr/share/sounds/freedesktop/stereo/message.oga")
     "Cons list with command to play a sound, and the sound file to play.
-Disabled when set to nil.")
+                 Disabled when set to nil.")
 
   (setq mu4e-alert-email-notification-types '(subjects))
   (defun +mu4e-alert-grouped-mail-notification-formatter-with-bell (mail-group _all-mails)
     "Default function to format MAIL-GROUP for notification.
-ALL-MAILS are the all the unread emails"
+                 ALL-MAILS are the all the unread emails"
     (when +mu4e-alert-bell-cmd
       (start-process (car +mu4e-alert-bell-cmd) (cdr +mu4e-alert-bell-cmd)))
     (if (> (length mail-group) 1)
@@ -242,7 +220,7 @@ ALL-MAILS are the all the unread emails"
             (lambda ()
               (org-mime-change-element-style
                "pre" (format "color: %s; background-color: %s; padding: 0.5em;"
-                             "#E6E1DC" "#232323"))))
+                 "#E6E1DC" "#232323"))))
   (add-hook 'message-send-hook 'org-mime-htmlize))
 
 ;; Discord Rich
@@ -253,6 +231,14 @@ ALL-MAILS are the all the unread emails"
 (map! :leader
       (:prefix ("d". "modeline")
        :desc "Hide Doom Modeline" "b" #'hide-mode-line-mode))
+
+
+;; Add Lua,Nya,And Add Hook Rainbow-Mode
+(require 'lua-mode)
+(require 'nyan-mode)
+(use-package rainbow-mode
+  :init
+  (add-hook 'prog-mode-hook 'rainbow-mode))
 
 ;; (require 'org-msg)
 ;;  (setq org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t"
