@@ -28,7 +28,7 @@ keybindings consistent with all of my window managers.
 | `MODKEY + comma` | switch focus to prev monitor |
 | `MODKEY + SHIFT + s` | show all available keybindings |
 
-# My Keybindings For HerbstluftWm Are The Same As Awesome
+# My Keybindings For HerbstluftWm - Qtile Are The Same As Awesome
 # My Keybindings For Xmonad Are Similar To Awesome
 
 The MODKEY is set to the Super key (aka the Windows key).  I try to keep the
