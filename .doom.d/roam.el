@@ -56,6 +56,9 @@
   (interactive)
   (setq org-agenda-files
         (append
+         (list "~/org/agenda.org"
+               "~/org/notes.org"
+               "~/org/todo.org")
          (my/org-roam-list-notes-by-tag "Projects")
          (my/org-roam-list-notes-by-tag "Boxes")
          (my/org-roam-list-notes-by-tag "Life"))))
