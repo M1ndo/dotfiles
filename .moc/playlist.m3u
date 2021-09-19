@@ -76,11 +76,11 @@
 /home/ybenel/Music/Electro/Extrawelt/Minilogue - The Leopard - Extrawelt Remix.mp3
 #EXTINF:377,French 79 - Drop (BPM Artist, Vol. 4)
 /home/ybenel/Music/Electro/French79/Drop.mp3
-#EXTINF:425,Alter K - French 79 - 1979
+#EXTINF:425,French 79 - French 79 - 1979
 /home/ybenel/Music/Electro/French79/French 79 - 1979.mp3
-#EXTINF:328,Alter K - French 79 - After Party
+#EXTINF:328,French 79 - French 79 - After Party
 /home/ybenel/Music/Electro/French79/French 79 - After Party.mp3
-#EXTINF:318,Alter K - French 79 - Between the Buttons
+#EXTINF:318,French 69 - French 79 - Between the Buttons
 /home/ybenel/Music/Electro/French79/French 79 - Between the Buttons.mp3
 #EXTINF:202,French 79 - French 79 - Code Zero
 /home/ybenel/Music/Electro/French79/French 79 - Code Zero.mp3
@@ -88,13 +88,13 @@
 /home/ybenel/Music/Electro/French79/French 79 - Hold On.mp3
 #EXTINF:317,French 79 - French 79 - Hometown [Official Video]
 /home/ybenel/Music/Electro/French79/French 79 - Hometown.mp3
-#EXTINF:237,Alter K - French 79 - Je parle français
+#EXTINF:237,French 79 - French 79 - Je parle français
 /home/ybenel/Music/Electro/French79/French 79 - Je parle français.mp3
-#EXTINF:370,Alter K - French 79 - Pantheon Neon
+#EXTINF:370,French 79 - French 79 - Pantheon Neon
 /home/ybenel/Music/Electro/French79/French 79 - Pantheon Neon.mp3
-#EXTINF:429,Alter K - French 79 - The Year After
+#EXTINF:429,French 79 - French 79 - The Year After
 /home/ybenel/Music/Electro/French79/French 79 - The Year After.mp3
-#EXTINF:291,Alter K - French 79 - Vertigo Valley
+#EXTINF:291,French 79 - French 79 - Vertigo Valley
 /home/ybenel/Music/Electro/French79/French 79 - Vertigo Valley.mp3
 #EXTINF:335,12 Jan Blomqvist - 404 Not Found (Disconnected)
 /home/ybenel/Music/Electro/Jan Blomqvist/404 Not Found.mp3
@@ -222,7 +222,7 @@
 /home/ybenel/Music/Electro/Soul Capsule/Lady Science.mp3
 #EXTINF:256,Stereoclip - Airplane Lesson (Airplane Lesson)
 /home/ybenel/Music/Electro/Stereoclip/Stereoclip - Airplane Lesson.mp3
-#EXTINF:187,Carott - Anything (Polytone (Deluxe Edition))
+#EXTINF:187,Teho - Anything (Polytone (Deluxe Edition))
 /home/ybenel/Music/Electro/Teho/Anything.mp3
 #EXTINF:375,Teho - Arena (Polytone (Deluxe Edition))
 /home/ybenel/Music/Electro/Teho/Arena.mp3
@@ -276,19 +276,19 @@
 /home/ybenel/Music/Electro/Worakls/Porto.mp3
 #EXTINF:436,Worakls - Salzburg (Hungry 5)
 /home/ybenel/Music/Electro/Worakls/Salzburg.mp3
-#EXTINF:497,D1gitalSound - Worakls - Souvenir (N'to Remix)
+#EXTINF:497,Worakls - Worakls - Souvenir (N'to Remix)
 /home/ybenel/Music/Electro/Worakls/Souvenir (N'to Remix).mp3
 #EXTINF:428,Worakls - Toi (Hungry)
 /home/ybenel/Music/Electro/Worakls/Toi.mp3
-#EXTINF:600,N'to - Trauma (Worakls Remix) (Hungry 5)
+#EXTINF:600,N'to, Worakls - Trauma (Worakls Remix) (Hungry 5)
 /home/ybenel/Music/Electro/Worakls/Trauma (Worakls Remix).mp3
-#EXTINF:238,1 r2dr0dn - 3310 - INSTRU (Mix_Achive_1)
+#EXTINF:238,1 ybenel - 3310 - INSTRU (Mix_Achive_1)
 /home/ybenel/Music/Electro/Ybenel/3310.mp3
 #EXTINF:152,/home/ybenel/Music/Electro/Ybenel/8000.mp3
 /home/ybenel/Music/Electro/Ybenel/8000.mp3
-#EXTINF:252,3 r2dr0dn - A Little Further (Response)
+#EXTINF:252,3 ybenel - A Little Further (Response)
 /home/ybenel/Music/Electro/Ybenel/A Little Further.mp3
-#EXTINF:228,2 r2dr0dn - AyamZaman (Wa9tZman)
+#EXTINF:228,2 ybenel - AyamZaman (Wa9tZman)
 /home/ybenel/Music/Electro/Ybenel/AyamZaman.mp3
 #EXTINF:481,/home/ybenel/Music/Electro/Ybenel/Lonely.mp3
 /home/ybenel/Music/Electro/Ybenel/Lonely.mp3
@@ -404,5 +404,23 @@
 /home/ybenel/Music/Special/The Mandalorian.mp3
 #EXTINF:186,3 The Empire Strikes Back - The Imperial March (John Williams)
 /home/ybenel/Music/Special/The_Imperial_March.mp3
-#EXTINF:136,/home/ybenel/Music/Special/Harpy.flac
+#EXTINF:136,90 unfa - Stop The Panic
 /home/ybenel/Music/Special/Harpy.flac
+#EXTINF:401,10 Extrawelt - 8000 (Extrawelt Hits)
+/home/ybenel/Music/Electro/Extrawelt/Extrawelt - 8000 (Extrawelt Hits).mp3
+#EXTINF:348,4 Extrawelt - Die Welt Ist Nicht Genug (Extrawelt Hits)
+/home/ybenel/Music/Electro/Extrawelt/Extrawelt - Die Welt Ist Nicht Genug.mp3
+#EXTINF:443,13 Extrawelt - Drehfehler (Extrawelt Hits)
+/home/ybenel/Music/Electro/Extrawelt/Extrawelt - Drehfehler.mp3
+#EXTINF:356,1 Extrawelt - Fernweh (Extrawelt Hits)
+/home/ybenel/Music/Electro/Extrawelt/Extrawelt - FernWeh.mp3
+#EXTINF:478,Extrawelt - Heracid (Heracid / Madjafala)
+/home/ybenel/Music/Electro/Extrawelt/Extrawelt - Heracid.mp3
+#EXTINF:300,8 Extrawelt - Herzstuck (Extrawelt Hits)
+/home/ybenel/Music/Electro/Extrawelt/Extrawelt - Herzstuck.mp3
+#EXTINF:396,Extrawelt - Madjafala (Heracid / Madjafala)
+/home/ybenel/Music/Electro/Extrawelt/Extrawelt - Madjafala.mp3
+#EXTINF:273,Extrawelt - Extrawelt - Ungerade
+/home/ybenel/Music/Electro/Extrawelt/Extrawelt - Ungerade.mp3
+#EXTINF:376,15 Extrawelt - Zu Fuss (Extrawelt Hits)
+/home/ybenel/Music/Electro/Extrawelt/Extrawelt - Zu Fuss.mp3

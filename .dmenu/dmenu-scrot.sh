@@ -72,10 +72,11 @@ main() {
   case "$target" in
     'Fullscreen')
       _file_type="full"
+      _maim_args="-d 2"
     ;;
     'Active window')
       active_window=$(xdotool getactivewindow)
-      _maim_args="-i ${active_window}"
+      _maim_args="-i ${active_window} -d 2"
       _file_type="window"
     ;;
     'Selected region')
@@ -103,7 +104,7 @@ main() {
     ;;
     'Clipboard')
       # shellcheck disable=SC2086
-      echo maim ${_maim_args} | xclip -selection clipboard -t image/png
+      maim ${_maim_args} | xclip -selection clipboard -t image/png
       notify-send "Saved Screenshot" "Clipboard"
     ;;
     'Both')

@@ -17,7 +17,7 @@
     idle_threshold = 120
 
     ### Text ###
-    font = Scientifica 8
+    font = Ubuntu Mono 12
     line_height = 0
     markup = full
     format = "<b>%s</b>\n%b"
@@ -35,7 +35,7 @@
     icon_position = left
     min_icon_size = 0
     max_icon_size = 64
-    icon_path = /usr/share/icons/Papirus/16x16/status/:/usr/share/icons/Papirus/16x16/devices/
+    icon_path = /usr/share/icons/WhiteSur-dark/status/16:/usr/share/icons/WhiteSur-dark/devices/16
 
     ### History ###
     sticky_history = yes
@@ -43,13 +43,13 @@
 
     ### Misc/Advanced ###
     dmenu = /usr/bin/dmenu -p dunst:
-    browser = /usr/bin/google-chrome-stable
+    browser = /usr/bin/chromium
     always_run_script = true
     title = Dunst
     class = Dunst
     startup_notification = false
     verbosity = mesg
-    corner_radius = 0
+    corner_radius = 2
     ignore_dbusclose = false
 
     ### Legacy
@@ -70,17 +70,17 @@
     context = ctrl+shift+period
 
 [urgency_low]
-    background = "#222222"
-    foreground = "#888888"
+    background = "#f08080"
+    foreground = "#ffffff"
     timeout = 10
 
 [urgency_normal]
-    background = "#285577"
+    background = "#436eee"
     foreground = "#ffffff"
     timeout = 10
 
 [urgency_critical]
-    background = "#900000"
+    background = "#d40b04"
     foreground = "#ffffff"
     frame_color = "#ff0000"
-    timeout = 0
+    timeout = 10
