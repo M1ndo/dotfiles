@@ -126,6 +126,8 @@
   (setq mu4e-get-mail-command "mbsync -a")
   (setq mu4e-root-maildir "~/Mail")
   (bind-key "C-c C-m" 'mu4e)
+  (setq mu4e-html2text-command "w3m -dump -T text/html -o display_link_number=true")
+  ;; (setq mu4e-html2text-command "html2markdown | grep -v '&nbsp_place_holder;'")
 
   (set-email-account! "Personal"
                       '((mu4e-sent-folder          . "/Gmail/[Gmail]/Sent Mail")
@@ -233,40 +235,92 @@
        :desc "Hide Doom Modeline" "b" #'hide-mode-line-mode))
 
 
-;; Add Lua,Nya,And Add Hook Rainbow-Mode
+;; Add Lua,Nya,And Add Hook Rainbow-Mode,0x0
 (require 'lua-mode)
+
 (require 'nyan-mode)
+
+(require 'mpdmacs)
+(mpdmacs-mode)
+
+(require '0x0)
+(map! :leader
+      (:prefix-map ("d" . "Doom")
+       (:prefix ("x" . "0x0")
+        :desc "Yank Buffer/Region To 0x0" "1" #'0x0-upload-text
+        :desc "Upload File To 0x0" "0" #'0x0-upload-file)))
+
 (use-package rainbow-mode
   :init
   (add-hook 'prog-mode-hook 'rainbow-mode))
 
-;; (require 'org-msg)
-;;  (setq org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t"
-;; 	org-msg-startup "hidestars indent inlineimages"
-;; 	org-msg-greeting-fmt "\nHi%s,\n\n"
-;; 	org-msg-recipient-names '(("REDACTED@gmail.com" . "Mando"))
-;; 	org-msg-greeting-name-limit 3
-;; 	org-msg-default-alternatives '((new		. (text html))
-;; 				       (reply-to-html	. (text html))
-;; 				       (reply-to-text	. (text)))
-;; 	org-msg-convert-citation t
-;; 	org-msg-signature "
-;;  Regards,
+;; Remove History Duplicates
+(setq history-delete-duplicates t)
 
-;;  #+begin_signature
-;;  --
-;;  *Signed By Mando*
-;;  /One Emacs to rule them all/
-;;  #+end_signature")
-;;  (org-msg-mode)
+;; Add Flyspell Checker
+(require 'flyspell)
+(map! :leader
+      (:prefix-map ("d" . "Doom")
+       (:prefix ("s". "spell")
+        :desc "Run Spell Check On Region" "r" #'flyspell-region
+        :desc "Correct Next Word" "n" #'flyspell-correct-next
+        :desc "Correct Previous Word" "p" #'flyspell-correct-previous)))
 
-;;(require 'smtpmail)
-;;(setq message-send-mail-function 'smtpmail-send-it
-;;   starttls-use-gnutls t
-;;   smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
-;;   smtpmail-auth-credentials
-;;     '(("smtp.gmail.com" 587 "USERMAIL@gmail.com" nil))
-;;   smtpmail-default-smtp-server "smtp.gmail.com"
-;;   smtpmail-smtp-server "smtp.gmail.com"
-;;   smtpmail-smtp-service 587)
-;;(setq message-kill-buffer-on-exit t)
+;; Set Screenshot
+(package! screenshot :recipe (:local-repo "~/.doom.d/lisp/screenshot"))
+(use-package! screenshot
+  :defer t
+  :config (setq screenshot-upload-fn "~/.local/bin/0x0 %s 2>/dev/null"))
+
+;; Set Screencast
+(use-package! gif-screencast
+  :commands gif-screencast-mode
+  :config
+  (map! :map gif-screencast-mode-map
+        :g "<f8>" #'gif-screencast-toggle-pause
+        :g "<f9>" #'gif-screencast-stop)
+  (setq gif-screencast-program "maim"
+        gif-screencast-args `("--quality" "3" "-i" ,(string-trim-right
+                                                     (shell-command-to-string
+                                                      "xdotool getactivewindow")))
+        gif-screencast-optimize-args '("--batch" "--optimize=3" "--usecolormap=/tmp/doom-color-theme"))
+  (defun gif-screencast-write-colormap ()
+    (f-write-text
+     (replace-regexp-in-string
+      "\n+" "\n"
+      (mapconcat (lambda (c) (if (listp (cdr c))
+                                 (cadr c))) doom-themes--colors "\n"))
+     'utf-8
+     "/tmp/doom-color-theme" ))
+  (gif-screencast-write-colormap)
+  (add-hook 'doom-load-theme-hook #'gif-screencast-write-colormap))
+
+;; Enable Org Pretty Table
+(progn
+  (add-to-list 'load-path "~/.doom.d/lisp/org-pretty-table")
+  (require 'org-pretty-table)
+  (add-hook 'org-mode-hook (lambda () (org-pretty-table-mode))))
+
+;; Enable Org Appear
+(progn
+  (add-to-list 'load-path "~/.doom.d/lisp/org-appear")
+  (require 'org-appear)
+  (add-hook 'org-mode-hook (lambda () (org-appear-mode))))
+
+;; Enable sublimity For smooth scrolling and minimap
+(add-to-list 'load-path "~/.emacs.d/.local/elpa/sublimity-20200905.1730/")
+(require 'sublimity)
+;; ;; Smooth  Scroll (Not Really Prefer The Builtin Feel feel to try it tho)
+;; (use-package sublimity-scroll
+;;   :config
+;;   (setq sublimity-scroll-weight 5
+;;         sublimity-scroll-vertical-frame-delay 0.01
+;;         sublimity-scroll-drift-length 15))
+
+;; Minimap
+(use-package sublimity-map
+  :config
+  (sublimity-map-set-delay 3)
+  (setq sublimity-map-size 20)
+  (setq sublimity-map-fraction 0.9)
+  (setq sublimity-map-text-scale -9))
