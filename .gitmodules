@@ -7,3 +7,9 @@
 [submodule ".config/awesome/awesome-leaved"]
 	path = .config/awesome/awesome-leaved
 	url = https://github.com/michaelbeaumont/awesome-leaved
+[submodule ".doom.d/lisp/screenshot"]
+	path = .doom.d/lisp/screenshot
+	url = https://github.com/tecosaur/screenshot
+[submodule ".doom.d/lisp/posframe"]
+	path = .doom.d/lisp/posframe
+	url = https://github.com/tumashu/posframe
