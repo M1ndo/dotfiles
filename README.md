@@ -69,7 +69,7 @@ keybindings consistent with all of my window managers.
 <img src="https://github.com/m1ndo/dotfiles/blob/master/screenshots/ybenel-full-20210905-220622.png" alt="Awesome" border="0">
 <img src="https://github.com/m1ndo/dotfiles/blob/master/screenshots/ybenel@03-25-04-scrot.png" alt="Xmonad" border="0">
 <img src="https://github.com/m1ndo/dotfiles/blob/master/screenshots/ybenel-full-20210911-133036.png" alt="Herbstluftwm" border="0">
-
+<img src="https://github.com/m1ndo/dotfiles/blob/master/screenshots/ybenel-full-20210914-160339.png" alt="Qtile" border="0">
 ## Written By Ybenel(m1ndo)
 ## License
 The project is licensed under GNU General Public License v2 or later.
