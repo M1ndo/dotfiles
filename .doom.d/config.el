@@ -161,7 +161,7 @@
 
   (mu4e-alert-set-default-style 'libnotify)
   (map! :leader
-        (:prefix ("d". "mu4e")
+        (:prefix-map ("d". "Doom")
          :desc "Disable Mu4e Modeline Alert" "d" #'mu4e-alert-disable-mode-line-display
          :desc "Enable Mu4e Modeline Alert" "i" #'mu4e-alert-enable-mode-line-display))
 
@@ -231,7 +231,7 @@
 
 ;; Hide Doom-modeline
 (map! :leader
-      (:prefix ("d". "modeline")
+      (:prefix-map ("d" . "Doom")
        :desc "Hide Doom Modeline" "b" #'hide-mode-line-mode))
 
 
@@ -267,7 +267,6 @@
         :desc "Correct Previous Word" "p" #'flyspell-correct-previous)))
 
 ;; Set Screenshot
-(package! screenshot :recipe (:local-repo "~/.doom.d/lisp/screenshot"))
 (use-package! screenshot
   :defer t
   :config (setq screenshot-upload-fn "~/.local/bin/0x0 %s 2>/dev/null"))
@@ -307,6 +306,8 @@
   (require 'org-appear)
   (add-hook 'org-mode-hook (lambda () (org-appear-mode))))
 
+;; Enable emojy
+(require 'emojify)
 ;; Enable sublimity For smooth scrolling and minimap
 (add-to-list 'load-path "~/.emacs.d/.local/elpa/sublimity-20200905.1730/")
 (require 'sublimity)
@@ -324,3 +325,18 @@
   (setq sublimity-map-size 20)
   (setq sublimity-map-fraction 0.9)
   (setq sublimity-map-text-scale -9))
+
+;; Highlighting
+;; (package! ov-highlight :recipe (:local-repo "~/.doom.d/lisp/ov-highlight/ov-highlight.el"))
+;; (load-file "~/.doom.d/lisp/ov-highlight/ov-highlight.el")
+;; (require 'ov-highlight)
+;; (map! :leader
+;;       (:prefix-map ("d" . "Doom")
+;;        (:prefix ("h" . "Highlight")
+;;         :desc "Highlight Foreground Red" "r" #'ov-highlight-red-fg
+;;         :desc "Highlight With Pink" "g" #'ov-highlight-green
+;;         :desc "Highlight With Pink" "p" #'ov-highlight-pink
+;;         :desc "Highlight Clear" "c" #'ov-highlight-clear)))
+
+;; Load scimax-bookmark
+(org-babel-load-file "~/.doom.d/lisp/scimax-editmarks.org")

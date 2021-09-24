@@ -10,11 +10,11 @@
   (org-roam-capture-templates
    '(("d" "default" plain
       "%?"
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n")
       :unnarrowed t)
      ("b" "Box Notes" plain
       (file "~/org/Templates/Boxes.org")
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n")
       :unnarrowed t)))
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
@@ -91,14 +91,14 @@ capture was not aborted."
                        (org-roam-node-tags node)))
    :templates
    '(("p" "project" plain "* Goals\n\n%?\n\n* Tasks\n\n** TODO Add initial tasks\n\n* Dates\n\n"
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Project")
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Project")
       :unnarrowed t)
      ("b" "Boxes" plain
       (file "~/org/Templates/Boxes.org")
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+category: Boxes\n#+filetags: Boxes")
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: Boxes\n#+filetags: Boxes")
       :unnarrowed t)
      ("l" "Life" plain "* Goals\n\n%?\n\n* Tasks\n\n** TODO Add initial tasks\n\n* Dates\n\n"
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Life")
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Life")
       :unnarrowed t))))
 
 (defun my/org-roam-capture-inbox ()
@@ -117,7 +117,7 @@ capture was not aborted."
                             nil
                             (my/org-roam-filter-by-tag "Project"))
                      :templates '(("p" "project" plain "** TODO %?"
-                                   :if-new (file+head+olp "%<%Y%m%d%H%M%S>-${slug}.org"
+                                   :if-new (file+head+olp "${slug}.org"
                                                           "#+title: ${title}\n#+category: ${title}\n#+filetags: Project"
                                                           ("Tasks"))))))
 
