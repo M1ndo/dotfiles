@@ -60,7 +60,6 @@
                "~/org/notes.org"
                "~/org/todo.org")
          (my/org-roam-list-notes-by-tag "Projects")
-         (my/org-roam-list-notes-by-tag "Boxes")
          (my/org-roam-list-notes-by-tag "Life"))))
 
 ;; Build the agenda list the first time for the session
@@ -90,14 +89,16 @@ capture was not aborted."
      (seq-intersection '("Project" "Life" "Boxes")
                        (org-roam-node-tags node)))
    :templates
-   '(("p" "project" plain "* Goals\n\n%?\n\n* Tasks\n\n** TODO Add initial tasks\n\n* Dates\n\n"
+   '(("p" "project" plain
+      (file "~/org/Templates/Projects.org")
       :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Project")
       :unnarrowed t)
      ("b" "Boxes" plain
       (file "~/org/Templates/Boxes.org")
       :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: Boxes\n#+filetags: Boxes")
       :unnarrowed t)
-     ("l" "Life" plain "* Goals\n\n%?\n\n* Tasks\n\n** TODO Add initial tasks\n\n* Dates\n\n"
+     ("l" "Life" plain
+      (file "~/org/Templates/Life.org")
       :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Life")
       :unnarrowed t))))
 

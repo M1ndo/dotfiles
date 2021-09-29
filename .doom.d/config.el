@@ -1,10 +1,18 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
+;; Load Personal File
+(let* ((personal-file (concat doom-private-dir "personal.el.gpg"))
+       (personal-file-bc (concat personal-file ".elc")))
+  (unless (file-exists-p personal-file-bc)
+    (epa-file-enable)
+    (byte-compile-file personal-file)))
+(load-library "personal.el.gpg")
+
 (setq doom-font (font-spec :family "Caskaydia Cove" :size 15)
       doom-variable-pitch-font (font-spec :family "Caskaydia Cove" :size 15)
       doom-big-font (font-spec :family "Caskaydia Cove" :size 24))
 
-(use-package doom-themes
+(use-package! doom-themes
   :config
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
@@ -38,46 +46,46 @@
 
 (map! :leader
       (:prefix ("c". "code")
-        :desc "Comment Line(s)" "[" #'comment-region
-        :desc "Uncomment Line(s)" "]" #'uncomment-region))
+       :desc "Comment Line(s)" "[" #'comment-region
+       :desc "Uncomment Line(s)" "]" #'uncomment-region))
 
 (map! :leader
       (:prefix ("b". "buffer")
-        :desc "List bookmarks" "L" #'list-bookmarks
-        :desc "Save current bookmarks to bookmark file" "w" #'bookmark-save))
+       :desc "List bookmarks" "L" #'list-bookmarks
+       :desc "Save current bookmarks to bookmark file" "w" #'bookmark-save))
 
 
 ;; Set Image to be the banner
-;; (setq fancy-splash-image "~/.doom.d/blackhole.png")
+(setq fancy-splash-image "~/.doom.d/img/emacs.png")
 
 ;; Call splashcii to get the banne and output it .
 
-(defvar +fl/splashcii-query ""
-  "The query to search on asciiur.com")
+;; (defvar +fl/splashcii-query ""
+;;   "The query to search on asciiur.com")
 
-(defun +fl/splashcii-banner ()
-  (mapc (lambda (line)
-          (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
-                              'face 'doom-dashboard-banner) " ")
-          (insert "\n"))
-        (split-string (with-output-to-string
-                        (call-process "splashcii" nil standard-output nil +fl/splashcii-query))
-                      "\n" t)))
+;; (defun +fl/splashcii-banner ()
+;;   (mapc (lambda (line)
+;;           (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
+;;                               'face 'doom-dashboard-banner) " ")
+;;           (insert "\n"))
+;;         (split-string (with-output-to-string
+;;                         (call-process "splashcii" nil standard-output nil +fl/splashcii-query))
+;;                       "\n" t)))
 
-(setq +doom-dashboard-ascii-banner-fn #'+fl/splashcii-banner)
+;; (setq +doom-dashboard-ascii-banner-fn #'+fl/splashcii-banner)
 
-(setq +fl/splashcii-query "space")
+;; (setq +fl/splashcii-query "space")
 
 ;; Load Org-Roam Config
 (load-file "~/.doom.d/roam.el")
 
 ;; Enable Aggressive Indent
-(use-package aggressive-indent
+(use-package! aggressive-indent
   :init
   (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode))
 
 ;; Setting the indent guides to show a pipe character.
-(use-package highlight-indent-guides
+(use-package! highlight-indent-guides
   :init
   (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
   (setq highlight-indent-guides-method 'character
@@ -86,7 +94,7 @@
         highlight-indent-guides-auto-enabled nil))
 
 ; Neotree
-(use-package "neotree"
+(use-package! "neotree"
   :bind(("C-c C-f" . neotree-toggle))
   :config
   (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
@@ -123,6 +131,7 @@
   (setq mu4e-change-filenames-when-moving t)
   ;; refresh mail using isync every 10 minutes
   (setq mu4e-update-interval (* 10 60))
+  (setq mu4e-mu-binary "~/Downloads/mu-1.6.6/mu/mu")
   (setq mu4e-get-mail-command "mbsync -a")
   (setq mu4e-root-maildir "~/Mail")
   (bind-key "C-c C-m" 'mu4e)
@@ -134,10 +143,10 @@
                         (mu4e-drafts-folder        . "/Gmail/[Gmail]/Drafts")
                         (mu4e-refile-folder        . "/Gmail/[Gmail]/All Mail")
                         (mu4e-trash-folder         . "/Gmail/[Gmail]/Trash")
-                        (user-mail-address         . "REDACTED@gmail.com")
-                        (user-full-name            . "Mandolorian")
-                        (mu4e-compose-signature    . "Signed By Mando")
-                        (smtpmail-smtp-user        . "REDACTED@gmail.com")
+                        (user-mail-address         . my_email)
+                        (user-full-name            . my_name)
+                        (mu4e-compose-signature    . my_signature)
+                        (smtpmail-smtp-user        . my_email)
                         (smtpmail-smtp-server      . "smtp.gmail.com")
                         (smtpmail-stream-type      . ssl)
                         (smtpmail-smtp-service     . 465))
@@ -212,7 +221,7 @@
   (setq mu4e-alert-grouped-mail-notification-formatter #'+mu4e-alert-grouped-mail-notification-formatter-with-bell))
 
 ;;   Setup Org-Mime For mu4e
-(use-package org-mime
+(use-package! org-mime
   :ensure t
   :config
   (setq org-mime-export-options '(:section-numbers nil
@@ -222,7 +231,7 @@
             (lambda ()
               (org-mime-change-element-style
                "pre" (format "color: %s; background-color: %s; padding: 0.5em;"
-                 "#E6E1DC" "#232323"))))
+                             "#E6E1DC" "#232323"))))
   (add-hook 'message-send-hook 'org-mime-htmlize))
 
 ;; Discord Rich
@@ -250,7 +259,7 @@
         :desc "Yank Buffer/Region To 0x0" "1" #'0x0-upload-text
         :desc "Upload File To 0x0" "0" #'0x0-upload-file)))
 
-(use-package rainbow-mode
+(use-package! rainbow-mode
   :init
   (add-hook 'prog-mode-hook 'rainbow-mode))
 
@@ -267,32 +276,33 @@
         :desc "Correct Previous Word" "p" #'flyspell-correct-previous)))
 
 ;; Set Screenshot
+(load-file "~/.doom.d/lisp/screenshot/screenshot.el")
 (use-package! screenshot
   :defer t
   :config (setq screenshot-upload-fn "~/.local/bin/0x0 %s 2>/dev/null"))
 
 ;; Set Screencast
-(use-package! gif-screencast
-  :commands gif-screencast-mode
-  :config
-  (map! :map gif-screencast-mode-map
-        :g "<f8>" #'gif-screencast-toggle-pause
-        :g "<f9>" #'gif-screencast-stop)
-  (setq gif-screencast-program "maim"
-        gif-screencast-args `("--quality" "3" "-i" ,(string-trim-right
-                                                     (shell-command-to-string
-                                                      "xdotool getactivewindow")))
-        gif-screencast-optimize-args '("--batch" "--optimize=3" "--usecolormap=/tmp/doom-color-theme"))
-  (defun gif-screencast-write-colormap ()
-    (f-write-text
-     (replace-regexp-in-string
-      "\n+" "\n"
-      (mapconcat (lambda (c) (if (listp (cdr c))
-                                 (cadr c))) doom-themes--colors "\n"))
-     'utf-8
-     "/tmp/doom-color-theme" ))
-  (gif-screencast-write-colormap)
-  (add-hook 'doom-load-theme-hook #'gif-screencast-write-colormap))
+;; (use-package! gif-screencast
+;;   :commands gif-screencast-mode
+;;   :config
+;;   (map! :map gif-screencast-mode-map
+;;         :g "<f8>" #'gif-screencast-toggle-pause
+;;         :g "<f9>" #'gif-screencast-stop)
+;;   (setq gif-screencast-program "maim"
+;;         gif-screencast-args `("--quality" "3" "-i" ,(string-trim-right
+;;                                                      (shell-command-to-string
+;;                                                       "xdotool getactivewindow")))
+;;         gif-screencast-optimize-args '("--batch" "--optimize=3" "--usecolormap=/tmp/doom-color-theme"))
+;;   (defun gif-screencast-write-colormap ()
+;;     (f-write-text
+;;      (replace-regexp-in-string
+;;       "\n+" "\n"
+;;       (mapconcat (lambda (c) (if (listp (cdr c))
+;;                                  (cadr c))) doom-themes--colors "\n"))
+;;      'utf-8
+;;      "/tmp/doom-color-theme" ))
+;;   (gif-screencast-write-colormap)
+;;   (add-hook 'doom-load-theme-hook #'gif-screencast-write-colormap))
 
 ;; Enable Org Pretty Table
 (progn
@@ -319,12 +329,144 @@
 ;;         sublimity-scroll-drift-length 15))
 
 ;; Minimap
-(use-package sublimity-map
+(use-package! sublimity-map
   :config
   (sublimity-map-set-delay 3)
   (setq sublimity-map-size 20)
   (setq sublimity-map-fraction 0.9)
   (setq sublimity-map-text-scale -9))
+
+;; Set Keybinding for vterm
+(with-eval-after-load 'vterm
+  (define-key vterm-mode-map (kbd "<C-left>") 'vterm-send-M-b)
+  (define-key vterm-mode-map (kbd "<C-right>") 'vterm-send-M-e)
+  (define-key vterm-mode-map (kbd "<C-backspace>")
+    '(lambda () (interactive) (vterm-send-key (kbd "C-w")))))
+
+
+;; Map Window
+(global-set-key (kbd "S-<left>") 'evil-window-left)
+(global-set-key (kbd "S-<right>") 'evil-window-right)
+(global-set-key (kbd "S-<up>") 'evil-window-up)
+(global-set-key (kbd "S-<down>") 'evil-window-down)
+
+;; Consult-dir
+(use-package! consult-dir
+  :bind (("C-x C-d" . consult-dir)
+         :map minibuffer-local-completion-map
+         ("C-x C-d" . consult-dir)
+         ("C-x C-j" . consult-dir-jump-file)))
+
+
+;; Org-Super-agenda
+(use-package! org-super-agenda
+  :after org-agenda
+  :init
+  (setq org-agenda-skip-scheduled-if-done t)
+  (setq org-agenda-skip-deadline-if-done t)
+  (setq org-agenda-custom-commands
+        '(("t" "Today view"
+           ((agenda "" ((org-agenda-overriding-header "")
+                        (org-agenda-span 'day)
+                        (org-agenda-start-day nil)
+                        ;; always show timelines!
+                        (org-agenda-time-grid '((daily today) (800 1000 1200 1400 1600 1800 2000) "" "----------------"))
+                        (org-agenda-prefix-format '((agenda . " %i %?-12t%-6e% s")))
+                        (org-super-agenda-groups
+                         '((:name "Scheduled Today"
+                            :time-grid t
+                            :date today
+                            :order 1)
+                           (:name "Habits"
+                            :habit t
+                            :date today
+                            :order 2)
+                           (:name "Overdue"
+                            :deadline past
+                            :order 3)
+                           (:name "Ongoing"
+                            :scheduled past
+                            :order 4
+                            )
+                           (:discard (:anything t)))
+                         )
+                        )
+                    )
+            (alltodo "" ((org-agenda-overriding-header "")
+                         (org-agenda-prefix-format '((agenda . " %i %?-12t%-6e% s")
+                                                     (todo . " %i %-6e")
+                                                     (tags . " %i %-12:c")
+                                                     (search . " %i")))
+                         (org-super-agenda-groups
+                          '((:discard (:scheduled today))
+                            (:name "Low Effort (<= 15 min)"
+                             :and (:effort< "0:16")
+                             :order 1)
+                            (:name "Next Tasks"
+                             :todo "NEXT"
+                             :order 2)
+                            (:discard (:anything t))))))))
+          ("w" "Week view"
+           ((agenda "" ((org-agenda-overriding-header "Week view")
+                        (org-agenda-span 'week)
+                        (org-agenda-start-on-weekday 1)
+                        (org-agenda-time-grid '(nil (800 1000 1200 1400 1600 1800 2000) "" "----------------"))
+                        (org-agenda-prefix-format '((agenda . " %i %?-12t%-6e% s")))
+                        )
+                    )
+            (alltodo "" ((org-agenda-overriding-header "")
+                         (org-super-agenda-groups
+                          '((:name "Overdue (past scheduled/deadline)"
+                             :deadline past
+                             :scheduled past
+                             :order 1
+                             )
+                            (:name "Individual Tasks"
+                             :file-path "task"
+                             :order 2
+                             )
+                            (:name "Next tasks"
+                             :todo "NEXT"
+                             :order 3)
+                            (:discard (:anything t))
+                            )
+                          )
+                         )
+                     )
+            )
+           )
+          ("p" . "Planning")
+          ("pm" "Month view"
+           (
+            (tags-todo "+Goal" ((org-agenda-overriding-header "Goals")
+                                )
+                       )
+            (agenda "" ((org-agenda-span 'month)
+                        (org-agenda-start-day "01")
+                        (org-super-agenda-groups
+                         '((:discard (:todo "GOAL"))
+                           (:discard (:todo "RECUR"))
+                           (:scheduled t))
+                         )
+                        )
+                    )
+            (todo "" ((org-agenda-overriding-header "Things to schedule")
+                      (org-super-agenda-groups
+                       '((:name "Individual tasks"
+                          :file-path "task"
+                          )
+                         (:name "Next tasks"
+                          :todo "NEXT"
+                          )
+                         (:discard (:anything t)))
+                       )
+                      )
+                  )
+            ))
+          ))
+  :config
+  (org-super-agenda-mode))
+
 
 ;; Highlighting
 ;; (package! ov-highlight :recipe (:local-repo "~/.doom.d/lisp/ov-highlight/ov-highlight.el"))
@@ -340,3 +482,4 @@
 
 ;; Load scimax-bookmark
 (org-babel-load-file "~/.doom.d/lisp/scimax-editmarks.org")
+
