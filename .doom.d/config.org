@@ -1,0 +1,541 @@
+#+TITLE: Doom Emacs Configuration
+#+AUTHOR: Ybenel <ybenel@pm.me>
+#+subtitle: My Personal Doom Emacs Configuration
+#+startup: fold
+
+* Basic Startup
+Set lexical binding to make this file run faster
+#+begin_src emacs-lisp
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+#+end_src
+** Load Personal File
+Load this personal file that contains sensitive information
+use epa-file to decrypt our *GPG* encrypt personal.el then load it.
+#+begin_src emacs-lisp
+(let* ((personal-file (concat doom-private-dir "personal.el.gpg")))
+  (unless (file-exists-p! personal-file)
+    (epa-file-enable)))
+(load (concat doom-private-dir "personal.el"))
+#+end_src
+** Set Doom Font
+I'm using [[github:eliheuer/caskaydia-cove][Caskaydia Cove]] which is a fork of [[github:microsoft/cascadia-code][Cascadia Code]]
+#+begin_src emacs-lisp
+(setq doom-font (font-spec :family "Caskaydia Cove" :size 15)
+      doom-variable-pitch-font (font-spec :family "Caskaydia Cove" :size 15)
+      doom-big-font (font-spec :family "Caskaydia Cove" :size 24))
+#+end_src
+** Set Doom Theme
+Doom-themes are fantastic, there's alot of variants you could choose from.
+Right here I'm using doom-dracula , there's also [[github:dracula/emacs][Dracula]] theme which is little more bold
+#+begin_src emacs-lisp
+(use-package! doom-themes
+  :config
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-dracula t) ;; set dracula theme
+  (doom-themes-visual-bell-config)   ;; Enable flashing mode-line on errors
+  (doom-themes-neotree-config)   ;; Enable custom neotree theme
+  (doom-themes-org-config))  ;; Corrects (and improves) org-mode's native fontification.
+#+end_src
+** Background for non-real buffer
+Using Solaire-mode to add the dark background in unreal buffers
+#+begin_src emacs-lisp
+(solaire-global-mode +1)
+#+end_src
+** Display Line Numbers
+Setting style of line numbers in effect, there's options (nil,t,visual,relative)
+I'm using the absolute line numbers
+#+begin_src emacs-lisp
+(setq display-line-numbers-type t)
+#+end_src
+** Set Frame Transparency
+Enabling Frame Transparency For Focused And Unfocused Frames
+#+begin_src emacs-lisp
+(set-frame-parameter (selected-frame) 'alpha '(95 . 80))
+(add-to-list 'default-frame-alist '(alpha . (95 . 80)))
+#+end_src
+** Remove history dups
+#+begin_src emacs-lisp
+(setq history-delete-duplicates t)
+#+end_src
+** Splash Screen
+What's more fun than adding emacs logo in splash screen of doom dashboard.
+There's also a tool called [[github:folke/splashcii][Splashcii]] that downloads ascii arts and place it in our doom-dashboard
+but i have it commented out .
+#+begin_src emacs-lisp
+(setq fancy-splash-image "~/.doom.d/img/emacs.png")
+;; Call splashcii to get the banne and output it .
+;; (defvar +fl/splashcii-query ""
+;;   "The query to search on asciiur.com")
+;; (defun +fl/splashcii-banner ()
+;;   (mapc (lambda (line)
+;;           (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
+;;                               'face 'doom-dashboard-banner) " ")
+;;           (insert "\n"))
+;;         (split-string (with-output-to-string
+;;                         (call-process "splashcii" nil standard-output nil +fl/splashcii-query))
+;;                       "\n" t)))
+;; (setq +doom-dashboard-ascii-banner-fn #'+fl/splashcii-banner)
+;; (setq +fl/splashcii-query "space")
+#+end_src
+** Key Mapping
+there's alot of ways to map keys in emacs, we use ~map!~ in doom emacs to make new keys
+#+begin_src emacs-lisp
+(map! :leader
+      (:prefix ("c". "code")
+       :desc "Comment Line(s)" "[" #'comment-region
+       :desc "Uncomment Line(s)" "]" #'uncomment-region))
+
+(map! :leader
+      (:prefix ("b". "buffer")
+       :desc "List bookmarks" "L" #'list-bookmarks
+       :desc "Save current bookmarks to bookmark file" "w" #'bookmark-save))
+
+(map! :leader
+      (:prefix-map ("d" . "Doom")
+       :desc "Hide Doom Modeline" "b" #'hide-mode-line-mode))
+
+(global-set-key (kbd "S-<left>") 'evil-window-left)
+(global-set-key (kbd "S-<right>") 'evil-window-right)
+(global-set-key (kbd "S-<up>") 'evil-window-up)
+(global-set-key (kbd "S-<down>") 'evil-window-down)
+#+end_src
+** Org
+*** Set Org Directory
+Setting custom org directory and enabling org logging, so each time a task is finishing it sets a date.
+#+begin_src emacs-lisp
+(setq org-directory "~/org/")
+(setq org-log-done 'time)
+#+end_src
+*** Org Roam
+I use org-roam to manage my org files and organize my life.
+#+begin_src emacs-lisp
+(load-file (concat doom-private-dir "/lisp/roam.el"))
+#+end_src
+*** Latex Syntax Highlighting
+Using [[https://orgmode.org/worg/exporters/ox-overview.html][Ox-latex]] export framework to export from org to latex to pdf
+#+begin_src emacs-lisp
+(with-eval-after-load 'ox-latex
+  (add-to-list 'org-latex-packages-alist '("" "minted"))
+  (setq org-latex-listings 'minted)
+  (setq org-latex-pdf-process
+        '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+  (add-to-list 'org-latex-classes
+               '("org-plain-latex"
+                 "\\documentclass{article}
+                 [NO-DEFAULT-PACKAGES]
+                 [PACKAGES]
+                 [EXTRA]"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+#+end_src
+*** Org Agenda
+What's more better than organizing your life with org *super* agenda.
+#+begin_src emacs-lisp
+(use-package! org-super-agenda
+  :after org-agenda
+  :init
+  (setq org-agenda-skip-scheduled-if-done t)
+  (setq org-agenda-skip-deadline-if-done t)
+  (setq org-agenda-custom-commands
+        '(("t" "Today view"
+           ((agenda "" ((org-agenda-overriding-header "")
+                        (org-agenda-span 'day)
+                        (org-agenda-start-day nil)
+                        ;; always show timelines!
+                        (org-agenda-time-grid '((daily today) (800 1000 1200 1400 1600 1800 2000) "" "----------------"))
+                        (org-agenda-prefix-format '((agenda . " %i %?-12t%-6e% s")))
+                        (org-super-agenda-groups
+                         '((:name "Scheduled Today"
+                            :time-grid t
+                            :date today
+                            :order 1)
+                           (:name "Habits"
+                            :habit t
+                            :date today
+                            :order 2)
+                           (:name "Overdue"
+                            :deadline past
+                            :order 3)
+                           (:name "Ongoing"
+                            :scheduled past
+                            :order 4
+                            )
+                           (:discard (:anything t)))
+                         )
+                        )
+                    )
+            (alltodo "" ((org-agenda-overriding-header "")
+                         (org-agenda-prefix-format '((agenda . " %i %?-12t%-6e% s")
+                                                     (todo . " %i %-6e")
+                                                     (tags . " %i %-12:c")
+                                                     (search . " %i")))
+                         (org-super-agenda-groups
+                          '((:discard (:scheduled today))
+                            (:name "Low Effort (<= 15 min)"
+                             :and (:effort< "0:16")
+                             :order 1)
+                            (:name "Next Tasks"
+                             :todo "NEXT"
+                             :order 2)
+                            (:discard (:anything t))))))))
+          ("w" "Week view"
+           ((agenda "" ((org-agenda-overriding-header "Week view")
+                        (org-agenda-span 'week)
+                        (org-agenda-start-on-weekday 1)
+                        (org-agenda-time-grid '(nil (800 1000 1200 1400 1600 1800 2000) "" "----------------"))
+                        (org-agenda-prefix-format '((agenda . " %i %?-12t%-6e% s")))
+                        )
+                    )
+            (alltodo "" ((org-agenda-overriding-header "")
+                         (org-super-agenda-groups
+                          '((:name "Overdue (past scheduled/deadline)"
+                             :deadline past
+                             :scheduled past
+                             :order 1
+                             )
+                            (:name "Individual Tasks"
+                             :file-path "task"
+                             :order 2
+                             )
+                            (:name "Next tasks"
+                             :todo "NEXT"
+                             :order 3)
+                            (:discard (:anything t))
+                            )
+                          )
+                         )
+                     )
+            )
+           )
+          ("p" . "Planning")
+          ("pm" "Month view"
+           (
+            (tags-todo "+Goal" ((org-agenda-overriding-header "Goals")
+                                )
+                       )
+            (agenda "" ((org-agenda-span 'month)
+                        (org-agenda-start-day "01")
+                        (org-super-agenda-groups
+                         '((:discard (:todo "GOAL"))
+                           (:discard (:todo "RECUR"))
+                           (:scheduled t))
+                         )
+                        )
+                    )
+            (todo "" ((org-agenda-overriding-header "Things to schedule")
+                      (org-super-agenda-groups
+                       '((:name "Individual tasks"
+                          :file-path "task"
+                          )
+                         (:name "Next tasks"
+                          :todo "NEXT"
+                          )
+                         (:discard (:anything t)))
+                       )
+                      )
+                  )
+            ))
+          ))
+  :config
+  (org-super-agenda-mode))
+#+end_src
+*** Org Superstar
+#+begin_src emacs-lisp
+(require 'org-superstar)
+(add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
+#+end_src
+*** Org Pretty Table
+#+begin_src emacs-lisp
+(progn
+  (add-to-list 'load-path "~/.doom.d/lisp/org-pretty-table")
+  (require 'org-pretty-table)
+  (add-hook 'org-mode-hook (lambda () (org-pretty-table-mode))))
+#+end_src
+*** Org Appear
+#+begin_src emacs-lisp
+(progn
+  (add-to-list 'load-path "~/.doom.d/lisp/org-appear")
+  (require 'org-appear)
+  (add-hook 'org-mode-hook (lambda () (org-appear-mode))))
+#+end_src
+** Mail In Emacs
+*** Mu4e
+There's variety of Mail client in Emacs such as the builtin one, however i'd prefer to use something better like mu4e, there's others like notmuch which is also cool
+#  LocalWords:  mu4e
+#+begin_src emacs-lisp
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
+(with-eval-after-load 'mu4e
+  (setq mu4e-context-policy 'ask-if-none
+        mu4e-compose-context-policy 'pick-first)
+  (setq mu4e-change-filenames-when-moving t)
+  ;; refresh mail using isync every 10 minutes
+  (setq mu4e-update-interval (* 10 60))
+  (setq mu4e-mu-binary "~/Downloads/mu-1.6.6/mu/mu")
+  (setq mu4e-get-mail-command "mbsync -a")
+  (setq mu4e-root-maildir "~/Mail")
+  (bind-key "C-c C-m" 'mu4e)
+  (setq mu4e-html2text-command "w3m -dump -T text/html -o display_link_number=true")
+  ;; (setq mu4e-html2text-command "html2markdown | grep -v '&nbsp_place_holder;'")
+
+  (set-email-account! "Personal"
+                      `((mu4e-sent-folder          . "/Gmail/[Gmail]/Sent Mail")
+                        (mu4e-drafts-folder        . "/Gmail/[Gmail]/Drafts")
+                        (mu4e-refile-folder        . "/Gmail/[Gmail]/All Mail")
+                        (mu4e-trash-folder         . "/Gmail/[Gmail]/Trash")
+                        (user-mail-address         . ,my_email)
+                        (user-full-name            . ,my_name)
+                        (mu4e-compose-signature    . ,my_signature)
+                        (smtpmail-smtp-user        . ,my_email)
+                        (smtpmail-smtp-server      . "smtp.gmail.com")
+                        (smtpmail-stream-type      . ssl)
+                        (smtpmail-smtp-service     . 465))
+                      t)
+
+  (setq mu4e-maildir-shortcuts
+        '(("/Gmail/inbox"             . ?i)
+          ("/Gmail/[Gmail]/Sent Mail" . ?s)
+          ("/Gmail/[Gmail]/Trash"     . ?t)
+          ("/Gmail/[Gmail]/Drafts"    . ?d)
+          ("/Gmail/[Gmail]/All Mail"  . ?a))))
+#+end_src
+~NOTICE:~ Since I'm using experimental mu4e __1.7.0__ Remove ~add-to-list ...~ this will load installed mu and mu4e stable __1.6*__
+*** Mu4e-alert
+Since I'm using Mu4e 1.7.0 which is unstable , obviously there's fewer bugs and this one is related mu4e-alert.
+This piece of configuration is totally not needed in Doom Emacs Since it's already there if you enable it .
+#+begin_src emacs-lisp
+(use-package! mu4e-alert
+  :after mu4e
+  :config
+  (setq doom-modeline-mu4e t)
+
+  (mu4e-alert-enable-mode-line-display)
+  (mu4e-alert-enable-notifications)
+
+  (mu4e-alert-set-default-style 'libnotify)
+  (map! :leader
+        (:prefix-map ("d". "Doom")
+         :desc "Disable Mu4e Modeline Alert" "d" #'mu4e-alert-disable-mode-line-display
+         :desc "Enable Mu4e Modeline Alert" "i" #'mu4e-alert-enable-mode-line-display))
+
+  (defvar +mu4e-alert-bell-cmd '("paplay" . "/usr/share/sounds/freedesktop/stereo/message.oga")
+    "Cons list with command to play a sound, and the sound file to play.
+                 Disabled when set to nil.")
+
+  (setq mu4e-alert-email-notification-types '(subjects))
+  (defun +mu4e-alert-grouped-mail-notification-formatter-with-bell (mail-group _all-mails)
+    "Default function to format MAIL-GROUP for notification.
+                 ALL-MAILS are the all the unread emails"
+    (when +mu4e-alert-bell-cmd
+      (start-process (car +mu4e-alert-bell-cmd) (cdr +mu4e-alert-bell-cmd)))
+    (if (> (length mail-group) 1)
+        (let* ((mail-count (length mail-group))
+               (first-mail (car mail-group))
+               (title-prefix (format "You have %d unread emails"
+                                     mail-count))
+               (field-value (mu4e-alert--get-group first-mail))
+               (title-suffix (format (pcase mu4e-alert-group-by
+                                       (`:from "from %s:")
+                                       (`:to "to %s:")
+                                       (`:maildir "in %s:")
+                                       (`:priority "with %s priority:")
+                                       (`:flags "with %s flags:"))
+                                     field-value))
+               (title (format "%s %s" title-prefix title-suffix)))
+          (list :title title
+                :body (s-join "\n"
+                              (mapcar (lambda (mail)
+                                        (format "%s<b>%s</b> • %s"
+                                                (cond
+                                                 ((plist-get mail :in-reply-to) "⮩ ")
+                                                 ((string-match-p "\\`Fwd:"
+                                                                  (plist-get mail :subject)) " ⮯ ")
+                                                 (t "  "))
+                                                (truncate-string-to-width (caar (plist-get mail :from))
+                                                                          20 nil nil t)
+                                                (truncate-string-to-width
+                                                 (replace-regexp-in-string "\\`Re: \\|\\`Fwd: " ""
+                                                                           (plist-get mail :subject))
+                                                 40 nil nil t)))
+                                      mail-group))))
+      (let* ((new-mail (car mail-group))
+             (subject (plist-get new-mail :subject))
+             (sender (caar (plist-get new-mail :from))))
+        (list :title sender :body subject))))
+  (setq mu4e-alert-grouped-mail-notification-formatter #'+mu4e-alert-grouped-mail-notification-formatter-with-bell))
+#+end_src
+*** Org Mime
+org-mime is another cool packages , that allows us to turn org syntax into html when composing mail, since few mail providers do not supports plain-text SMH
+#+begin_src emacs-lisp
+(use-package! org-mime
+  :ensure t
+  :config
+  (setq org-mime-export-options '(:section-numbers nil
+                                  :with-author nil
+                                  :with-toc nil))
+  (add-hook 'org-mime-html-hook
+            (lambda ()
+              (org-mime-change-element-style
+               "pre" (format "color: %s; background-color: %s; padding: 0.5em;"
+                             "#E6E1DC" "#232323"))))
+  (add-hook 'message-send-hook 'org-mime-htmlize))
+#+end_src
+** Neotree
+#+begin_src emacs-lisp
+(use-package! "neotree"
+  :bind(("C-c C-f" . neotree-toggle))
+  :config
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
+#+end_src
+** Vterm
+#+begin_src emacs-lisp
+(with-eval-after-load 'vterm
+  (define-key vterm-mode-map (kbd "<C-left>") 'vterm-send-M-b)
+  (define-key vterm-mode-map (kbd "<C-right>") 'vterm-send-M-e)
+  (define-key vterm-mode-map (kbd "<C-backspace>")
+    '(lambda () (interactive) (vterm-send-key (kbd "C-w")))))
+#+end_src
+** Editing
+*** Aggressive Indent
+Indent blocks very useful then editing lisp code,also other stuff
+#+begin_src emacs-lisp
+(use-package! aggressive-indent
+  :init
+  (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode))
+#+end_src
+*** Highlight Indent Guides
+This packages highlights indent guides, which is really useful when writing code.
+#+begin_src emacs-lisp
+(use-package! highlight-indent-guides
+  :init
+  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+  (setq highlight-indent-guides-method 'character
+        highlight-indent-guides-delay 0
+        highlight-indent-guides-responsive 'stack
+        highlight-indent-guides-auto-enabled nil))
+#+end_src
+*** Spell
+Using the built-in flyspell in emacs, fantastic.
+#+begin_src emacs-lisp
+(require 'flyspell)
+(map! :leader
+      (:prefix-map ("d" . "Doom")
+       (:prefix ("s". "spell")
+        :desc "Run Spell Check On Region" "r" #'flyspell-region
+        :desc "Correct Next Word" "n" #'flyspell-correct-next
+        :desc "Correct Previous Word" "p" #'flyspell-correct-previous)))
+#+end_src
+*** Minimap
+Sublimity Packages is another cool one that gives us minimap similar to whats like in sublime
+#+begin_src emacs-lisp
+(require 'sublimity)
+;; ;; Smooth  Scroll (Not Really Prefer The Builtin Feel feel to try it tho)
+;; (use-package sublimity-scroll
+;;   :config
+;;   (setq sublimity-scroll-weight 5
+;;         sublimity-scroll-vertical-frame-delay 0.01
+;;         sublimity-scroll-drift-length 15))
+
+;; Minimap
+(use-package! sublimity-map
+  :config
+  (sublimity-map-set-delay 3)
+  (setq sublimity-map-size 20)
+  (setq sublimity-map-fraction 0.9)
+  (setq sublimity-map-text-scale -9))
+#+end_src
+*** Lua Mode
+Enable Lua-mode
+#+begin_src emacs-lisp
+(require 'lua-mode)
+#+end_src
+*** Consult-dir
+Select Recent Viewed Dir Or Bookmark,Projects..
+#+begin_src emacs-lisp
+(use-package! consult-dir
+  :bind (("C-x C-d" . consult-dir)
+         :map minibuffer-local-completion-map
+         ("C-x C-d" . consult-dir)
+         ("C-x C-j" . consult-dir-jump-file)))
+#+end_src
+** Screenshot And Screencast
+*** Screenshot
+Using this awesome package called [[https://github.com/tecosaur/screenshot][Screenshot]] take takes cool screenshots like this one.
+[[file:img/screenshot.png]]
+#+begin_src emacs-lisp
+(use-package! screenshot
+  :defer t
+  :config (setq screenshot-upload-fn "~/.local/bin/0x0 %s 2>/dev/null"))
+#+end_src
+*** Screencast
+For capturing emacs frames i use gif-screencast which does the job.
+#+begin_src emacs-lisp
+;; (use-package! gif-screencast
+;;   :commands gif-screencast-mode
+;;   :config
+;;   (map! :map gif-screencast-mode-map
+;;         :g "<f8>" #'gif-screencast-toggle-pause
+;;         :g "<f9>" #'gif-screencast-stop)
+;;   (setq gif-screencast-program "maim"
+;;         gif-screencast-args `("--quality" "3" "-i" ,(string-trim-right
+;;                                                      (shell-command-to-string
+;;                                                       "xdotool getactivewindow")))
+;;         gif-screencast-optimize-args '("--batch" "--optimize=3" "--usecolormap=/tmp/doom-color-theme"))
+;;   (defun gif-screencast-write-colormap ()
+;;     (f-write-text
+;;      (replace-regexp-in-string
+;;       "\n+" "\n"
+;;       (mapconcat (lambda (c) (if (listp (cdr c))
+;;                                  (cadr c))) doom-themes--colors "\n"))
+;;      'utf-8
+;;      "/tmp/doom-color-theme" ))
+;;   (gif-screencast-write-colormap)
+;;   (add-hook 'doom-load-theme-hook #'gif-screencast-write-colormap))
+#+end_src
+** Fun Packages
+*** Elcord
+A Lot of us Emacs users love to show the world we are using emacs thats where elcord comes in,
+Share what file u editing right now on discord, what u doing what buffer ...
+#+begin_src emacs-lisp
+(require 'elcord)
+(elcord-mode)
+#+end_src
+*** Nyan Mode
+The Dancing Rainbow Cat
+#+begin_src emacs-lisp
+(require 'nyan-mode)
+#+end_src
+*** Mpd
+Mpdmacs is a cool wrapper around mpd for emacs to control mpd and display the current,
+playing song on the modeline
+#+begin_src emacs-lisp
+(require 'mpdmacs)
+(mpdmacs-mode)
+#+end_src
+*** 0x0
+0x0 is a cool package to upload code snippets to 0x0.st
+#+begin_src emacs-lisp
+(require '0x0)
+(map! :leader
+      (:prefix-map ("d" . "Doom")
+       (:prefix ("x" . "0x0")
+        :desc "Yank Buffer/Region To 0x0" "1" #'0x0-upload-text
+        :desc "Upload File To 0x0" "0" #'0x0-upload-file)))
+#+end_src
+*** Rainbow Mode
+Display hex colors
+#+begin_src emacs-lisp
+(use-package! rainbow-mode
+  :init
+  (add-hook 'prog-mode-hook 'rainbow-mode))
+#+end_src
+** Scimax Bookmard
+scimax-bookmarks from [[https://github.com/jkitchin/scimax][Scimax]] is a cool snippet, that highlights a specific word/sentence also does other cool things.
+#+begin_src emacs-lisp
+(org-babel-load-file "~/.doom.d/lisp/scimax-editmarks.org")
+#+end_src
