@@ -28,7 +28,7 @@ theme.bg_focus                                  = "#242424"
 theme.fg_urgent                                 = "#000000"
 theme.bg_urgent                                 = "#FFFFFF"
 theme.border_width                              = dpi(1)
-theme.border_normal                             = "#242424"
+theme.border_normal                             = "#6959cd"
 theme.border_focus                              = "#EBEBFF"
 theme.taglist_fg_focus                          = "#8DC702"
 theme.taglist_bg_focus                          = "#242424"
@@ -188,14 +188,15 @@ theme.mail = lain.widget.imap({
 theme.mpd = lain.widget.mpd({
     settings = function()
         mpd_notification_preset.fg = white
-
         artist = mpd_now.artist .. " "
         title  = mpd_now.title  .. " "
-
         if mpd_now.state == "pause" then
-            artist = "mpd "
-            title  = "paused "
+            artist = "Mpd "
+            title  = "Paused "
         elseif mpd_now.state == "stop" then
+            artist = "Mpd "
+            title  = "Stopped"
+        elseif mpd_now.state == "N/A" then
             artist = ""
             title  = ""
         end
@@ -253,37 +254,37 @@ local volumewidget = wibox.container.margin(volumebg, dpi(7), dpi(7), dpi(5), dp
 
 
 -- MOC
-local love_mc = wibox.widget.textbox(markup.font(theme.font2, markup("#ff006a",'♥ ')))
-local prev_next_mc = wibox.widget.textbox(markup.font(theme.font2, markup('#00ffff', '  ')))
+-- local love_mc = wibox.widget.textbox(markup.font(theme.font2, markup("#ff006a",'♥ ')))
+-- local prev_next_mc = wibox.widget.textbox(markup.font(theme.font2, markup('#00ffff', '  ')))
 
-theme.moc = lain.widget.contrib.moc({
-  settings = function()
-    moc_notification_preset.fg = white
-    artist = moc_now.artist .. " "
-    title = moc_now.title .. ""
-    if moc_now.state == "PAUSE" then
-      artist = "Moc "
-      title  = "Paused"
-    elseif moc_now.state == "STOP" then
-      artist = ""
-      title = "Nothing To Play"
-    elseif moc_now.state == "N/A" then 
-      artist = ""
-      title = ""
-    end
-    widget:set_markup(markup.font(theme.font, markup(gray, artist) .. markup(white, title)))
-  end
-})
-love_mc:buttons(my_table.join(awful.button({ }, 2,
-function ()
-  os.execute('mocp -G ; sp next')
-  theme.moc.update()
-end)))
-prev_next_mc:buttons(my_table.join(awful.button({}, 1,
-function ()
-  os.execute('mocp -f ; sp prev')
-  theme.moc.update()
-end)))
+-- theme.moc = lain.widget.contrib.moc({
+--   settings = function()
+--     moc_notification_preset.fg = white
+--     artist = moc_now.artist .. " "
+--     title = moc_now.title .. ""
+--     if moc_now.state == "PAUSE" then
+--       artist = "Moc "
+--       title  = "Paused"
+--     elseif moc_now.state == "STOP" then
+--       artist = ""
+--       title = "Nothing To Play"
+--     elseif moc_now.state == "N/A" then
+--       artist = ""
+--       title = ""
+--     end
+--     widget:set_markup(markup.font(theme.font, markup(gray, artist) .. markup(white, title)))
+--   end
+-- })
+-- love_mc:buttons(my_table.join(awful.button({ }, 2,
+-- function ()
+--   os.execute('mocp -G ; sp next')
+--   theme.moc.update()
+-- end)))
+-- prev_next_mc:buttons(my_table.join(awful.button({}, 1,
+-- function ()
+--   os.execute('mocp -f ; sp prev')
+--   theme.moc.update()
+-- end)))
 
 theme.spot = lain.widget.contrib.spot({
   settings = function()
@@ -385,43 +386,130 @@ function theme.at_screen_connect(s)
     s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, awful.util.tasklist_buttons)
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s, height = dpi(18), bg = theme.bg_normal, fg = theme.fg_normal, opacity = 0.86 })
+    -- s.mywibox = awful.wibar({position = "top", screen = s, height = 18, bg = theme.bg_normal, fg = theme.fg_normal, opacity = 0.86})
+    custom_shape = function(cr, width, height)
+        gears.shape.rounded_rect(cr, width, height, 6)
+    end
+    s.mywibox = wibox({
+        position = "top",
+        screen = s,
+        shape = custom_shape,
+        width = 165,
+        height = dpi(18),
+        bg = theme.bg_normal,
+        border_width = dpi(1),
+        border_color = theme.border_normal,
+    })
+    s.mywiboxmiddle = awful.wibar({
+        position = "top",
+        shape = custom_shape,
+        screen = s,
+        width = 909,
+        height = dpi(18),
+        bg = theme.bg_normal,
+        border_width = dpi(1),
+        border_color = theme.border_normal,
+    })
+    s.mywiboxright = wibox({
+        position = "top",
+        shape = custom_shape,
+        screen = s,
+        width = 258,
+        height = dpi(18),
+        bg = theme.bg_normal,
+        border_width = dpi(1),
+        border_color = theme.border_normal,
+    })
 
-    -- Add widgets to the wibox
+    s.mywibox.x = 8
+    s.mywibox.y = 4
+    s.mywibox.visible = true
+
+    s.mywiboxmiddle.x = 182
+    s.mywiboxmiddle.y = 4
+
+    s.mywiboxright.x = 1100
+    s.mywiboxright.y = 4
+    s.mywiboxright.visible = true
+
+    -- s.padding = {
+    --     left = 4,
+    --     right = 4,
+    --     bottom = 8,
+    -- }
+
+
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
-        { -- Left widgets
+        {
             layout = wibox.layout.fixed.horizontal,
             first,
             s.mytaglist,
             s.mytxtlayoutbox,
-            --s.mylayoutbox,
-            spr,
+        }
+    }
+
+    s.mywiboxmiddle:setup {
+        layout = wibox.layout.align.horizontal,
+        expand = "none",
+        {
+            layout = wibox.layout.fixed.horizontal,
             s.mypromptbox,
-            spr,
-	    theme.mpd,
-            --love_mc,
-            --theme.spot,
-            --theme.moc,
-            --prev_next_mc,
+            theme.mpd,
+            theme.spot,
         },
-        spr,
-        -- s.mytasklist, -- Middle widget
-        { -- Right widgets
+        mytextclock,
+        {
             layout = wibox.layout.fixed.horizontal,
             wibox.widget.systray(),
-            spr,
-            --theme.mpd.widget,
-            --theme.mail.widget,
-            -- theme.fs.widget,
+        }
+
+    }
+    s.mywiboxright:setup {
+        layout = wibox.layout.align.horizontal,
+        {
+            layout = wibox.layout.fixed.horizontal,
             cpu_wid,
             mem_wid,
             temp_wid,
             volum,
             volumewidget,
-            mytextclock,
-        },
+        }
     }
+    -- s.mywibox:setup {
+    --     layout = wibox.layout.align.horizontal,
+    --     { -- Left widgets
+    --         layout = wibox.layout.fixed.horizontal,
+    --         first,
+    --         s.mytaglist,
+    --         s.mytxtlayoutbox,
+    --         --s.mylayoutbox,
+    --         spr,
+    --         s.mypromptbox,
+    --         spr,
+	--     theme.mpd,
+    --         --love_mc,
+    --         --theme.spot,
+    --         --theme.moc,
+    --         --prev_next_mc,
+    --     },
+    --     spr,
+    --     -- s.mytasklist, -- Middle widget
+    --     { -- Right widgets
+    --         layout = wibox.layout.fixed.horizontal,
+    --         wibox.widget.systray(),
+    --         spr,
+    --         --theme.mpd.widget,
+    --         --theme.mail.widget,
+    --         -- theme.fs.widget,
+    --         cpu_wid,
+    --         mem_wid,
+    --         temp_wid,
+    --         volum,
+    --         volumewidget,
+    --         mytextclock,
+    --     },
+    -- }
 end
 
 return theme

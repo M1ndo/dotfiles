@@ -96,16 +96,16 @@ require("scripts.play_ctl")
 require("scripts.ctl_pop")
 
 -- Warn If Temperature
-awesome.connect_signal("evil::temp", function(temp)
-    if temp > 65 then
-        naughty.notify {title="[!] CPU is getting hot",
-                        text="Currently at " .. tostring(temp) .. "°C",icon=beautiful.temp_icon,fg="#b3ff1a"}
-    end
-    if temp > 79 then
-        naughty.notify {title="[!] CPU is on fire",
-                        text="Currently at " .. tostring(temp) .. "°C",icon=beautiful.temp_icon,bg="#ff0000"}
-    end
-end)
+--awesome.connect_signal("evil::temp", function(temp)
+--    if temp > 65 then
+--        naughty.notify {title="[!] CPU is getting hot",
+--                        text="Currently at " .. tostring(temp) .. "°C",icon=beautiful.temp_icon,fg="#b3ff1a"}
+--    end
+--    if temp > 79 then
+--        naughty.notify {title="[!] CPU is on fire",
+--                        text="Currently at " .. tostring(temp) .. "°C",icon=beautiful.temp_icon,bg="#ff0000"}
+--    end
+--end)
 
 -- modkey or mod4 = super key
 local modkey       = "Mod4"
@@ -601,13 +601,13 @@ globalkeys = my_table.join(
             os.execute(string.format("amixer -q set %s 0%%", beautiful.volume.channel))
             beautiful.volume.update()
         end),
-    awful.key({altkey }, "l",
-        function()
-            os.execute('playerctl play')
-        end),
     awful.key({altkey }, "p",
         function()
-            os.execute('playerctl pause')
+            os.execute('playerctl -p spotify play-pause')
+        end),
+    awful.key({altkey }, "l",
+        function()
+            os.execute('playerctl play-pause')
         end)
 )
 
@@ -779,6 +779,9 @@ awful.rules.rules = {
     { rule = { class = "LibreWolf" },
       properties = { screen = 1, tag = awful.util.tagnames[1] } },
 
+    { rule = { class = "Emacs" },
+        properties = { screen = 1, tag = awful.util.tagnames[3] } },
+
     { rule = { class = "mpv" },
         properties = { screen = 1, tag = awful.util.tagnames[4] } },
 
@@ -792,7 +795,13 @@ awful.rules.rules = {
         properties = { screen = 1, tag = awful.util.tagnames[4] } },
     
     { rule = { class = "stremio" },
-        properties = { screen = 1, tag = awful.util.tagnames[4] } },
+        properties = { screen = 1, tag = awful.util.tagnames[2] } },
+
+    { rule = { class = "Spotify" },
+        properties = { screen = 1, tag = awful.util.tagnames[6] } },
+
+    { rule = { class = "ncmpcpp" },
+        properties = { screen = 1, tag = awful.util.tagnames[6] } },
 
     { rule = { class = "Vmware" },
         properties = { screen = 1, tag = awful.util.tagnames[4] } },
@@ -805,13 +814,7 @@ awful.rules.rules = {
     { rule = { class = "Gimp*", role = "gimp-image-window" },
           properties = { maximized = true } },
 
-    { rule = { class = "inkscape" },
-          properties = { maximized = true } },
-
     { rule = { class = mediaplayer },
-          properties = { maximized = true } },
-
-    { rule = { class = "Vlc" },
           properties = { maximized = true } },
 
     { rule = { class = "VirtualBox Manager" },
@@ -821,7 +824,7 @@ awful.rules.rules = {
           properties = { maximized = true } },
           
     { rule = { class = "Vmware" },
-          properties = { maximized = true } }, 
+          properties = { maximized = false } },
 
     { rule = { class = "Xfce4-settings-manager" },
           properties = { floating = false } },
@@ -842,17 +845,15 @@ awful.rules.rules = {
           "Gpick",
           "Imagewriter",
           "Font-manager",
-          "Kruler",
           "MessageWin",  -- kalarm.
-          "Oblogout",
           "Peek",
-          "Skype",
           "System-config-printer.py",
           "Sxiv",
+          "feh",
+          "qeh",
           "Unetbootin.elf",
           "Wpa_gui",
           "pinentry",
-          "veromix",
           "xtightvncviewer"},
 
         name = {
