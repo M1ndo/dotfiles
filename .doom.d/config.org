@@ -316,8 +316,7 @@ Using prettify symbols modes to add replace traditional ligatures with custom un
             (":properties:" . ?)
             (":logbook:" . ?)
             ("->" . ?→)
-            ("<-" . ?←)
-            ())))
+            ("<-" . ?←))))
   (prettify-symbols-mode 1))
 #+end_src
 ** Mail In Emacs
