@@ -63,7 +63,7 @@ What's more fun than adding emacs logo in splash screen of doom dashboard.
 There's also a tool called [[github:folke/splashcii][Splashcii]] that downloads ascii arts and place it in our doom-dashboard
 but i have it commented out .
 #+begin_src emacs-lisp
-(setq fancy-splash-image "~/.doom.d/img/emacs.png")
+(setq fancy-splash-image "~/.doom.d/img/doom-emacs.png")
 ;; Call splashcii to get the banne and output it .
 ;; (defvar +fl/splashcii-query ""
 ;;   "The query to search on asciiur.com")
@@ -94,11 +94,11 @@ there's alot of ways to map keys in emacs, we use ~map!~ in doom emacs to make n
 (map! :leader
       (:prefix-map ("d" . "Doom")
        :desc "Hide Doom Modeline" "b" #'hide-mode-line-mode))
-
-(global-set-key (kbd "S-<left>") 'evil-window-left)
-(global-set-key (kbd "S-<right>") 'evil-window-right)
-(global-set-key (kbd "S-<up>") 'evil-window-up)
-(global-set-key (kbd "S-<down>") 'evil-window-down)
+(map! :leader
+      :desc "Switch To Left Window" "<left>" #'evil-window-left
+      :desc "Switch To Right Window" "<right>" #'evil-window-right
+      :desc "Switch To Up Window" "<up>" #'evil-window-up
+      :desc "Switch To Down Window" "<down>" #'evil-window-down)
 #+end_src
 ** Org
 *** Set Org Directory
@@ -248,7 +248,21 @@ What's more better than organizing your life with org *super* agenda.
 *** Org Superstar
 #+begin_src emacs-lisp
 (require 'org-superstar)
-(add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
+(after! org-superstar
+  (setq org-superstar-headline-bullets-list '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
+        org-superstar-prettify-item-bullets t )
+  (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
+
+(setq org-ellipsis " ▾ "
+      org-hide-leading-stars t
+      org-priority-highest ?A
+      org-priority-lowest ?E
+      org-priority-faces
+      '((?A . 'all-the-icons-red)
+        (?B . 'all-the-icons-orange)
+        (?C . 'all-the-icons-yellow)
+        (?D . 'all-the-icons-green)
+        (?E . 'all-the-icons-blue)))
 #+end_src
 *** Org Pretty Table
 #+begin_src emacs-lisp
@@ -263,6 +277,48 @@ What's more better than organizing your life with org *super* agenda.
   (add-to-list 'load-path "~/.doom.d/lisp/org-appear")
   (require 'org-appear)
   (add-hook 'org-mode-hook (lambda () (org-appear-mode))))
+#+end_src
+*** Key Mapp
+Set Shortcuts To Open Agenda,Todo,Notes.
+#+begin_src emacs-lisp
+(map! :leader
+      (:prefix ("-" . "Open File")
+       :desc "Open Agenda" "a" #'(lambda () (interactive) (find-file "~/org/agenda.org"))
+       :desc "Open Todo" "t" #'(lambda () (interactive) (find-file "~/org/todo.org"))
+       :desc "Open Notes" "n" #'(lambda () (interactive) (find-file "~/org/notes.org"))
+       :desc "Open Config" "c" #'(lambda () (interactive) (find-file "~/.doom.d/config.org"))))
+#+end_src
+*** Prettify Symbols
+Using prettify symbols modes to add replace traditional ligatures with custom unicode
+#+begin_src emacs-lisp
+(defun my/org-mode/load-prettify-symbols () "Prettify org mode keywords"
+  (interactive)
+  (setq-default prettify-symbols-alist
+    (mapcan (lambda (x) (list x (cons (upcase (car x)) (cdr x))))
+          '(("#+begin_src" . ?)
+            ("#+end_src" . ?)
+            ("#+begin_example" . ?)
+            ("#+end_example" . ?)
+            ("#+begin_quote" . ?❝)
+            ("#+end_quote" . ?❞)
+            ("#+title:" . ?𝙏)
+            ("#+:subtitle" . ?𝙩)
+            ("#+DATE:" . ?𝘿)
+            ("#+AUTHOR:" . ?𝘼)
+            ("[ ]" .  ?☐)
+            ("[X]" . ?☑ )
+            ("[-]" . ?❍ )
+            ("lambda" . ?λ)
+            ("#+header:" . ?)
+            ("#+name:" . ?﮸)
+            ("#+results:" . ?)
+            ("#+call:" . ?)
+            (":properties:" . ?)
+            (":logbook:" . ?)
+            ("->" . ?→)
+            ("<-" . ?←)
+            ())))
+  (prettify-symbols-mode 1))
 #+end_src
 ** Mail In Emacs
 *** Mu4e
@@ -462,6 +518,11 @@ Select Recent Viewed Dir Or Bookmark,Projects..
          :map minibuffer-local-completion-map
          ("C-x C-d" . consult-dir)
          ("C-x C-j" . consult-dir-jump-file)))
+#+end_src
+*** Undo-Redo
+Do Not Delete The Whole Block Instead steps are determined according to Emacs heuristics
+#+begin_src emacs-lisp
+(setq evil-want-fine-undo t)
 #+end_src
 ** Screenshot And Screencast
 *** Screenshot
