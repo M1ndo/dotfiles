@@ -302,7 +302,7 @@ Using prettify symbols modes to add replace traditional ligatures with custom un
             ("#+begin_quote" . ?❝)
             ("#+end_quote" . ?❞)
             ("#+title:" . ?𝙏)
-            ("#+:subtitle" . ?𝙩)
+            ("#+subtitle" . ?𝙩)
             ("#+DATE:" . ?𝘿)
             ("#+AUTHOR:" . ?𝘼)
             ("[ ]" .  ?☐)
@@ -364,65 +364,65 @@ There's variety of Mail client in Emacs such as the builtin one, however i'd pre
 Since I'm using Mu4e 1.7.0 which is unstable , obviously there's fewer bugs and this one is related mu4e-alert.
 This piece of configuration is totally not needed in Doom Emacs Since it's already there if you enable it .
 #+begin_src emacs-lisp
-(use-package! mu4e-alert
-  :after mu4e
-  :config
-  (setq doom-modeline-mu4e t)
+;; (use-package! mu4e-alert
+;;   :after mu4e
+;;   :config
+;;   (setq doom-modeline-mu4e t)
 
-  (mu4e-alert-enable-mode-line-display)
-  (mu4e-alert-enable-notifications)
+;;   (mu4e-alert-enable-mode-line-display)
+;;   (mu4e-alert-enable-notifications)
 
-  (mu4e-alert-set-default-style 'libnotify)
-  (map! :leader
-        (:prefix-map ("d". "Doom")
-         :desc "Disable Mu4e Modeline Alert" "d" #'mu4e-alert-disable-mode-line-display
-         :desc "Enable Mu4e Modeline Alert" "i" #'mu4e-alert-enable-mode-line-display))
+;;   (mu4e-alert-set-default-style 'libnotify)
+;;   (map! :leader
+;;         (:prefix-map ("d". "Doom")
+;;          :desc "Disable Mu4e Modeline Alert" "d" #'mu4e-alert-disable-mode-line-display
+;;          :desc "Enable Mu4e Modeline Alert" "i" #'mu4e-alert-enable-mode-line-display))
 
-  (defvar +mu4e-alert-bell-cmd '("paplay" . "/usr/share/sounds/freedesktop/stereo/message.oga")
-    "Cons list with command to play a sound, and the sound file to play.
-                 Disabled when set to nil.")
+;;   (defvar +mu4e-alert-bell-cmd '("paplay" . "/usr/share/sounds/freedesktop/stereo/message.oga")
+;;     "Cons list with command to play a sound, and the sound file to play.
+;;                  Disabled when set to nil.")
 
-  (setq mu4e-alert-email-notification-types '(subjects))
-  (defun +mu4e-alert-grouped-mail-notification-formatter-with-bell (mail-group _all-mails)
-    "Default function to format MAIL-GROUP for notification.
-                 ALL-MAILS are the all the unread emails"
-    (when +mu4e-alert-bell-cmd
-      (start-process (car +mu4e-alert-bell-cmd) (cdr +mu4e-alert-bell-cmd)))
-    (if (> (length mail-group) 1)
-        (let* ((mail-count (length mail-group))
-               (first-mail (car mail-group))
-               (title-prefix (format "You have %d unread emails"
-                                     mail-count))
-               (field-value (mu4e-alert--get-group first-mail))
-               (title-suffix (format (pcase mu4e-alert-group-by
-                                       (`:from "from %s:")
-                                       (`:to "to %s:")
-                                       (`:maildir "in %s:")
-                                       (`:priority "with %s priority:")
-                                       (`:flags "with %s flags:"))
-                                     field-value))
-               (title (format "%s %s" title-prefix title-suffix)))
-          (list :title title
-                :body (s-join "\n"
-                              (mapcar (lambda (mail)
-                                        (format "%s<b>%s</b> • %s"
-                                                (cond
-                                                 ((plist-get mail :in-reply-to) "⮩ ")
-                                                 ((string-match-p "\\`Fwd:"
-                                                                  (plist-get mail :subject)) " ⮯ ")
-                                                 (t "  "))
-                                                (truncate-string-to-width (caar (plist-get mail :from))
-                                                                          20 nil nil t)
-                                                (truncate-string-to-width
-                                                 (replace-regexp-in-string "\\`Re: \\|\\`Fwd: " ""
-                                                                           (plist-get mail :subject))
-                                                 40 nil nil t)))
-                                      mail-group))))
-      (let* ((new-mail (car mail-group))
-             (subject (plist-get new-mail :subject))
-             (sender (caar (plist-get new-mail :from))))
-        (list :title sender :body subject))))
-  (setq mu4e-alert-grouped-mail-notification-formatter #'+mu4e-alert-grouped-mail-notification-formatter-with-bell))
+;;   (setq mu4e-alert-email-notification-types '(subjects))
+;;   (defun +mu4e-alert-grouped-mail-notification-formatter-with-bell (mail-group _all-mails)
+;;     "Default function to format MAIL-GROUP for notification.
+;;                  ALL-MAILS are the all the unread emails"
+;;     (when +mu4e-alert-bell-cmd
+;;       (start-process (car +mu4e-alert-bell-cmd) (cdr +mu4e-alert-bell-cmd)))
+;;     (if (> (length mail-group) 1)
+;;         (let* ((mail-count (length mail-group))
+;;                (first-mail (car mail-group))
+;;                (title-prefix (format "You have %d unread emails"
+;;                                      mail-count))
+;;                (field-value (mu4e-alert--get-group first-mail))
+;;                (title-suffix (format (pcase mu4e-alert-group-by
+;;                                        (`:from "from %s:")
+;;                                        (`:to "to %s:")
+;;                                        (`:maildir "in %s:")
+;;                                        (`:priority "with %s priority:")
+;;                                        (`:flags "with %s flags:"))
+;;                                      field-value))
+;;                (title (format "%s %s" title-prefix title-suffix)))
+;;           (list :title title
+;;                 :body (s-join "\n"
+;;                               (mapcar (lambda (mail)
+;;                                         (format "%s<b>%s</b> • %s"
+;;                                                 (cond
+;;                                                  ((plist-get mail :in-reply-to) "⮩ ")
+;;                                                  ((string-match-p "\\`Fwd:"
+;;                                                                   (plist-get mail :subject)) " ⮯ ")
+;;                                                  (t "  "))
+;;                                                 (truncate-string-to-width (caar (plist-get mail :from))
+;;                                                                           20 nil nil t)
+;;                                                 (truncate-string-to-width
+;;                                                  (replace-regexp-in-string "\\`Re: \\|\\`Fwd: " ""
+;;                                                                            (plist-get mail :subject))
+;;                                                  40 nil nil t)))
+;;                                       mail-group))))
+;;       (let* ((new-mail (car mail-group))
+;;              (subject (plist-get new-mail :subject))
+;;              (sender (caar (plist-get new-mail :from))))
+;;         (list :title sender :body subject))))
+;;   (setq mu4e-alert-grouped-mail-notification-formatter #'+mu4e-alert-grouped-mail-notification-formatter-with-bell))
 #+end_src
 *** Org Mime
 org-mime is another cool packages , that allows us to turn org syntax into html when composing mail, since few mail providers do not supports plain-text SMH
