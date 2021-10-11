@@ -35,8 +35,6 @@ local helpers       = require("lain.helpers")
 local dpi   = require("beautiful").xresources.apply_dpi
 -- }}}
 
-
-
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -86,7 +84,7 @@ local chosen_theme = themes[1]
 
 local theme_path = string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), chosen_theme)
 beautiful.init(theme_path)
--- Include Bling 
+-- Include Bling
 local bling = require("lib.bling")
 require("scripts.scratchpads")
 require("scripts.vol_pop")
@@ -114,9 +112,9 @@ local modkey1      = "Control"
 
 -- personal variables
 --change these variables if you want
-local browser           = "firefox"
+local browser           = "chromium"
 local editor            = os.getenv("EDITOR") or "nvim"
-local editorgui         = "xed"
+local editorgui         = "emacs"
 local filemanager       = "pcmanfm"
 local mailclient        = "evolution"
 local mediaplayer       = "vlc"
@@ -128,7 +126,7 @@ local virtualmachine    = "virtualbox"
 local l = awful.layout.suit
 local ll = leaved.layout.suit.tile
 awful.util.terminal = terminal
-awful.util.tagnames = { "", "", " ", "", " ", " "}
+awful.util.tagnames = {"", "הּ", "", "", "鷺", ""}
 awful.layout.layouts = {
     l.tile,
     l.floating,
@@ -304,7 +302,7 @@ globalkeys = my_table.join(
                 )
             end
         end,
-        {description = "Restore all Minimized windows in current tag", group = "client"}),
+        {description = "Restore all Minimized windows in current tag", group = "Client"}),
 
     -- My dmenu scripts (Alt+Ctrl+Key)
     awful.key({ altkey, "Control" }, "e", function () awful.util.spawn( "./.dmenu/dmenu-edit-configs.sh" ) end,
@@ -379,7 +377,7 @@ globalkeys = my_table.join(
     awful.key({ modkey, "Shift" }, "s",      hotkeys_popup.show_help,
         {description = "show help", group="Awesome"}),
     awful.key({ modkey, }, "w", function () mymainmenu:toggle() end,
-        {description = "show main menu", group = "awesome"}),
+        {description = "show main menu", group = "Awesome"}),
     -- Show/Hide Wibox
     awful.key({ modkey }, "b", function ()
             for s in screen do
@@ -555,7 +553,7 @@ globalkeys = my_table.join(
     awful.key({ modkey, }, "Tab", function () awful.layout.inc( 1) end,
               {description = "Select Next", group = "Layout"}),
     awful.key({ modkey, "Shift" }, "Tab", function () awful.layout.inc(-1) end,
-              {description = "select previous", group = "layout"}),
+              {description = "select previous", group = "Layout"}),
 
     -- Dropdown application
     awful.key({ modkey, }, "z", function () awful.screen.focused().quake:toggle() end,
@@ -742,132 +740,8 @@ clientbuttons = gears.table.join(
 root.keys(globalkeys)
 -- }}}
 
-
-
 -- {{{ Rules
--- Rules to apply to new clients (through the "manage" signal).
-awful.rules.rules = {
-    -- All clients will match this rule.
-    { rule = { },
-      properties = { border_width = beautiful.border_width,
-                     border_color = beautiful.border_normal,
-                     focus = awful.client.focus.filter,
-                     raise = true,
-                     keys = clientkeys,
-                     buttons = clientbuttons,
-                     screen = awful.screen.preferred,
-                     placement = awful.placement.no_overlap+awful.placement.no_offscreen,
-                     size_hints_honor = false
-     }
-    },
-
-    -- Titlebars
-    { rule_any = { type = { "dialog", "normal" } },
-      properties = { titlebars_enabled = false } },
-
-    -- Set applications to always map on the tag 1 on screen 1.
-    -- find class or role via xprop command
-    { rule = { name = "Google Chrome" },
-      properties = { screen = 1, tag = awful.util.tagnames[1] } },
-      
-    { rule = { class = "Chromium" },
-      properties = { screen = 1, tag = awful.util.tagnames[1] } },
-  
-    { rule = { class = "Firefox" },
-      properties = { screen = 1, tag = awful.util.tagnames[1] } },
-      
-    { rule = { class = "LibreWolf" },
-      properties = { screen = 1, tag = awful.util.tagnames[1] } },
-
-    { rule = { class = "Emacs" },
-        properties = { screen = 1, tag = awful.util.tagnames[3] } },
-
-    { rule = { class = "mpv" },
-        properties = { screen = 1, tag = awful.util.tagnames[4] } },
-
-    { rule = { class = "lite" },
-        properties = { screen = 1, tag = awful.util.tagnames[3] } },
-
-    { rule = { class = "vlc" },
-        properties = { screen = 1, tag = awful.util.tagnames[4] } },
-
-    { rule = { class = "Gimp" },
-        properties = { screen = 1, tag = awful.util.tagnames[4] } },
-    
-    { rule = { class = "stremio" },
-        properties = { screen = 1, tag = awful.util.tagnames[2] } },
-
-    { rule = { class = "Spotify" },
-        properties = { screen = 1, tag = awful.util.tagnames[6] } },
-
-    { rule = { class = "ncmpcpp" },
-        properties = { screen = 1, tag = awful.util.tagnames[6] } },
-
-    { rule = { class = "Vmware" },
-        properties = { screen = 1, tag = awful.util.tagnames[4] } },
-    -- Set applications to be maximized at startup.
-    -- find class or role via xprop command
-
-    { rule = { class = editorgui },
-          properties = { maximized = true } },
-
-    { rule = { class = "Gimp*", role = "gimp-image-window" },
-          properties = { maximized = true } },
-
-    { rule = { class = mediaplayer },
-          properties = { maximized = true } },
-
-    { rule = { class = "VirtualBox Manager" },
-          properties = { maximized = true } },
-
-    { rule = { class = "VirtualBox Machine" },
-          properties = { maximized = true } },
-          
-    { rule = { class = "Vmware" },
-          properties = { maximized = false } },
-
-    { rule = { class = "Xfce4-settings-manager" },
-          properties = { floating = false } },
-
-
-
-    -- Floating clients.
-    { rule_any = {
-        instance = {
-          "DTA",  -- Firefox addon DownThemAll.
-          "copyq",  -- Includes session name in class.
-        },
-        class = {
-          "Arandr",
-          "Blueberry",
-          "Galculator",
-          "Gnome-font-viewer",
-          "Gpick",
-          "Imagewriter",
-          "Font-manager",
-          "MessageWin",  -- kalarm.
-          "Peek",
-          "System-config-printer.py",
-          "Sxiv",
-          "feh",
-          "qeh",
-          "Unetbootin.elf",
-          "Wpa_gui",
-          "pinentry",
-          "xtightvncviewer"},
-
-        name = {
-          "Event Tester",  -- xev.
-        },
-        role = {
-          "AlarmWindow",  -- Thunderbird's calendar.
-          "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
-          "Preferences",
-          "setup",
-        }
-      }, properties = { floating = true }},
-
-}
+require("configs.ruled")
 -- }}}
 
 -- {{{ Signals

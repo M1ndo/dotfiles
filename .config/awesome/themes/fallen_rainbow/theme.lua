@@ -19,8 +19,6 @@ local theme                                     = {}
 theme.default_dir                               = require("awful.util").get_themes_dir() .. "default"
 theme.dir                                       = os.getenv("HOME") .. "/.config/awesome/themes/fallen_rainbow"
 theme.wallpaper                                 = theme.dir .. "/wall.png"
-theme.font                                      = "Ubuntu Mono 9"
-theme.font2                                     = "Mononoki Nerd Font 9"
 theme.fg_normal                                 = "#9E9E9E"
 theme.fg_focus                                  = "#EBEBFF"
 theme.bg_normal                                 = "#282C34"
@@ -142,6 +140,13 @@ theme.playerctl_player = {"%any"}
 theme.playerctl_update_on_activity = true
 theme.playerctl_position_update_interval = 10
 
+-- Taglist
+theme.taglist_shape = gears.shape.rounded_rect
+theme.taglist_fg_focus = "#43cd80"
+theme.taglist_fg_occupied = "#436eee"
+theme.taglist_fg_empty = "#9a32cd"
+theme.taglist_fg_urgent = "#ff7256"
+theme.taglist_shape_border_color = "#ff7256"
 
 local markup = lain.util.markup
 local white  = theme.fg_focus
@@ -341,7 +346,7 @@ local cpu_wid = wibox.container.margin(wibox.widget {cpu.widget, layout = wibox.
 local temp_wid = wibox.container.margin(wibox.widget {temp.widget, layout = wibox.layout.align.horizontal }, 4, 4), "#7197E7"
 local volum = wibox.widget.textbox(markup.font(theme.font2, markup("#9517b5",' ')))
 -- Separators
-local first = wibox.widget.textbox(markup.font("Terminus 4", " "))
+local first = wibox.widget.textbox(markup.font("FiraCode Nerd Font Mono", " "))
 local spr   = wibox.widget.textbox(' ')
 
 local function update_txt_layoutbox(s)
@@ -390,34 +395,57 @@ function theme.at_screen_connect(s)
     custom_shape = function(cr, width, height)
         gears.shape.rounded_rect(cr, width, height, 6)
     end
+    if s.geometry.width == 1366 then
+        theme.taglist_font = "FiraCode Nerd Font Mono 15"
+        theme.font                                      = "Ubuntu Mono 9"
+        theme.font2                                     = "Mononoki Nerd Font 9"
+        width1 = 165
+        width2 = 909
+        width3 = 258
+        middlex = 182
+        rightx = 1100
+        bar_height = dpi(18)
+        border_width = dpi(1)
+    elseif s.geometry.width == 1920 then
+        theme.taglist_font = "FiraCode Nerd Font Mono 19"
+        theme.font                                      = "Caskaydia Cove 10"
+        theme.font2                                     = "Caskaydia Cove 10"
+        width1 = 180
+        width2 = 1400
+        width3 = 280
+        middlex = 210
+        rightx = 1629
+        bar_height = dpi(20)
+        border_width = dpi(2)
+    end
     s.mywibox = wibox({
         position = "top",
         screen = s,
         shape = custom_shape,
-        width = 165,
-        height = dpi(18),
+        width = width1,
+        height = bar_height,
         bg = theme.bg_normal,
-        border_width = dpi(1),
+        border_width = border_width,
         border_color = theme.border_normal,
     })
     s.mywiboxmiddle = awful.wibar({
         position = "top",
         shape = custom_shape,
         screen = s,
-        width = 909,
-        height = dpi(18),
+        width = width2,
+        height = bar_height,
         bg = theme.bg_normal,
-        border_width = dpi(1),
+        border_width = border_width,
         border_color = theme.border_normal,
     })
     s.mywiboxright = wibox({
         position = "top",
         shape = custom_shape,
         screen = s,
-        width = 258,
-        height = dpi(18),
+        width = width3,
+        height = bar_height,
         bg = theme.bg_normal,
-        border_width = dpi(1),
+        border_width = border_width,
         border_color = theme.border_normal,
     })
 
@@ -425,10 +453,10 @@ function theme.at_screen_connect(s)
     s.mywibox.y = 4
     s.mywibox.visible = true
 
-    s.mywiboxmiddle.x = 182
+    s.mywiboxmiddle.x = middlex
     s.mywiboxmiddle.y = 4
 
-    s.mywiboxright.x = 1100
+    s.mywiboxright.x = rightx
     s.mywiboxright.y = 4
     s.mywiboxright.visible = true
 
