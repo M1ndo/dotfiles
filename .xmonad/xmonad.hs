@@ -1,5 +1,5 @@
 -- Configured added / removed by ybenel (github.com/m1ndo)
--- Modification Date: 06/14/2021
+-- Modification Date: 10/24/2021
 -- Base
 import XMonad
 import System.IO (hPutStrLn)
@@ -24,7 +24,7 @@ import XMonad.Actions.Navigation2D
   -- Data
 import Data.Char (isSpace, toUpper)
 import Data.Monoid
-import Data.Maybe (isJust)
+import Data.Maybe (isJust,fromJust)
 import Data.Tree
 import qualified Data.Map as M
 
@@ -82,12 +82,10 @@ import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run (runProcessWithInput, safeSpawn, spawnPipe)
 import XMonad.Util.SpawnOnce
 
-
-
 main :: IO ()
 main = do
   -- Launching One Instance Of xmobar.
-  xmproc0 <- spawnPipe "xmobar -x 0 /home/ybenel/.config/xmobar/xmobarrc"
+  xmproc0 <- spawnPipe "xmobar -x 0 $HOME/.config/xmobar/xmobarrc"
   -- the xmonad, ya know...what the WM is named after!
   xmonad $ navigation2D
           def
@@ -105,22 +103,33 @@ main = do
       , terminal           = myTerminal
       , startupHook        = myStartupHook
       , layoutHook         = myLayoutHook -- Add showWName' myShowWNameTheme $ If you want to print the current workspace in the screen
-      , workspaces         = myClickableWorkspaces
+      , workspaces         = myWorkspaces
       , borderWidth        = myBorderWidth
       , normalBorderColor  = myNormColor
       , focusedBorderColor = myFocusColor
       , logHook = workspaceHistoryHook <+> myLogHook <+> fadeWindowsLogHook myFadeHook <+> dynamicLogWithPP xmobarPP
-                      { ppOutput = \x -> hPutStrLn xmproc0 x
-                      , ppCurrent = xmobarColor "#98be65" "" . wrap "[" "]" -- Current workspace in xmobar
-                      , ppVisible = xmobarColor "#98be65" ""                -- Visible but not current workspace
-                      , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" ""   -- Hidden workspaces in xmobar
-                      , ppHiddenNoWindows = xmobarColor "#c792ea" ""        -- Hidden workspaces (no windows)
-                      , ppTitle = xmobarColor "#b3afc2" "" . shorten 60     -- Title of active window in xmobar
-                      , ppSep =  "<fc=#666666> <fn=2>|</fn> </fc>"          -- Separators in xmobar
-                      , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"  -- Urgent workspace
-                      , ppExtras  = [windowCount]                           -- # of windows current workspace
-                      , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
-                      }
+              { ppOutput = \x -> hPutStrLn xmproc0 x
+              , ppCurrent = xmobarColor "#c792ea" "" . wrap "<box type=Bottom width=2 mb=2 color=#c792ea>" "</box>"
+              , ppVisible = xmobarColor "#c792ea" "" . myClickableWorkspaces
+              , ppHidden = xmobarColor "#82AAFF" "" . wrap "<box type=Top width=2 mt=2 color=#82AAFF>" "</box>" . myClickableWorkspaces
+              , ppHiddenNoWindows = xmobarColor "#82AAFF" "" . myClickableWorkspaces
+              , ppTitle = xmobarColor "#b3afc2" "" . shorten 60
+              , ppSep =  "<fc=#666666> <fn=1>|</fn> </fc>"
+              , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"
+              , ppExtras  = [windowCount]
+              , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
+              }
+              -- { ppOutput = \x -> hPutStrLn xmproc0 x
+              -- , ppCurrent = xmobarColor "#98be65" "" . wrap "[" "]"
+              -- , ppVisible = xmobarColor "#98be65" ""
+              -- , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" ""
+              -- , ppHiddenNoWindows = xmobarColor "#c792ea" ""
+              -- , ppTitle = xmobarColor "#b3afc2" "" . shorten 60
+              -- , ppSep =  "<fc=#666666> <fn=2>|</fn> </fc>"
+              -- , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"
+              -- , ppExtras  = [windowCount]
+              -- , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
+              -- }
       } `additionalKeysP` myKeys
 
 myFont :: String
@@ -133,10 +142,10 @@ myTerminal :: String
 myTerminal = "xterm"   -- Sets default terminal to the favorite (xterm)
 
 myBrowser :: String
-myBrowser = "librewolf "               -- Moved To A better Browser .
+myBrowser = "firefox "               -- Moved To A better Browser .
 
 myEditor :: String
-myEditor = "nvim "  -- Sets nvim as editor for tree select
+myEditor = "emacsclient -c -a emacs"  -- Sets nvim as editor for tree select
 -- myEditor = myTerminal ++ " -e vim "    -- Sets vim as editor for tree select
 
 -- Setup A Emacs Client
@@ -168,11 +177,12 @@ myStartupHook = do
         spawnOnce "nm-applet &"
         spawnOnce "volumeicon &"
         -- spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x282C34 --height 22 --iconspacing 0 --margin 682 &" -- Enable When Using Secondary Xmobar config
-        spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x090D12 --height 22 --iconspacing 0 --margin 476 &"
+        spawnOnce "trayer --edge top --align right --widthtype request --padding 2 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x282C34 --height 22 --iconspacing 0 --margin 449 --distance 9 &"
+        -- spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x090D12 --height 22 --iconspacing 0 --margin 476 &"
         spawnOnce "/usr/lib/polkit-kde-authentication-agent-1 &"
         spawnOnce "xfce4-power-manager &"
         spawnOnce "numlockx on &"
-        spawnOnce "/usr/bin/emacs --daemon &"
+        -- spawnOnce "/usr/bin/emacs --daemon &"
         spawnOnce "xscreensaver -no-splash &"
         spawnOnce "caffeine &"
         -- spawn "/home/ybenel/.bin/ybl/jack_start"
@@ -399,9 +409,9 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
               w = 0.96
               t = 0.5
               l = 0.5
-  -- spawnSpot  = "spot_load"
-  -- findSpot   = (className =? "spotify")
-  -- manageSpot = nonFloating
+  spawnSpot  = "spot_load"
+  findSpot   = (className =? "spotify")
+  manageSpot = nonFloating
 
 mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
 mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True
@@ -493,7 +503,7 @@ myLayoutHook = avoidStruts . minimize $ mouseResize $ windowArrange $ T.toggleLa
            where
             myDefaultLayout = tall ||| magnify ||| noBorders monocle ||| floats ||| noBorders tabs ||| grid ||| spirals ||| threeCol ||| threeRow ||| tallAccordion ||| wideAccordion
 
-myWorkspaces = [" B ", " T ", " E ", " G ", " M ", " C "]
+myWorkspaces = [" B ", " T ", " E ", " S ", " C ", " M "]
 
 xmobarEscape :: String -> String
 xmobarEscape = concatMap doubleLts
@@ -501,13 +511,18 @@ xmobarEscape = concatMap doubleLts
       doubleLts '<' = "<<"
       doubleLts x   = [x]
 
-myClickableWorkspaces :: [String]
-myClickableWorkspaces = clickable . (map xmobarEscape)
-             $ [" B ", " T ", " E ", " G ", " M ", " C "]
-  where
-      clickable l = [ "<action=xdotool key super+" ++ show (n) ++ ">" ++ ws ++ "</action>" |
-                    (i,ws) <- zip [1..6] l,
-                    let n = i ]
+myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
+
+myClickableWorkspaces ws = "<action=xdotool key super+"++show i++">"++ws++"</action>"
+    where i = fromJust $ M.lookup ws myWorkspaceIndices
+
+-- myClickableWorkspaces :: [String]
+-- myClickableWorkspaces = clickable . (map xmobarEscape)
+--              $ [" B ", " T ", " E ", " S ", " C ", " M "]
+--   where
+--       clickable l = [ "<action=xdotool key super+" ++ show (n) ++ ">" ++ ws ++ "</action>" |
+--                     (i,ws) <- zip [1..6] l,
+--                     let n = i ]
 
 myFadeHook = composeAll [className =? "lite" --> transparency 0.6
                         ,                opaque
@@ -515,11 +530,12 @@ myFadeHook = composeAll [className =? "lite" --> transparency 0.6
 myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
 myManageHook = composeAll
    -- using 'doShift ( myWorkspaces !! 3)' sends program to workspace 4!
-   [ title =? "Firefox"     --> doShift ( myWorkspaces !! 0 )
+   [ className =? "firefox"     --> doShift ( myWorkspaces !! 0 )
    , className =? "mpv"     --> doShift ( myWorkspaces !! 4 )
    , className =? "lite"     --> doShift ( myWorkspaces !! 2 )
    , className =? "vlc"     --> doShift ( myWorkspaces !! 3 )
    , className =? "stremio"     --> doShift ( myWorkspaces !! 3 )
+   , className =? "spotify"     --> doShift ( myWorkspaces !! 5 )
    , className =? "Gimp"    --> doShift ( myWorkspaces !! 3 )
    , title =? "Oracle VM VirtualBox Manager"     --> doFloat
    , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 3 )
@@ -641,7 +657,7 @@ myKeys =
       -- , ("M-C-x", namedScratchpadAction myScratchPads "discord")
       -- , ("M-C-z", namedScratchpadAction myScratchPads "lightcord")
       , ("M-C-p", namedScratchpadAction myScratchPads "qjackctl")
-      --, ("M-C-y", namedScratchpadAction myScratchPads "spotify")
+      , ("M-C-y", namedScratchpadAction myScratchPads "spotify")
 
   -- Controls for mocp music player (SUPER-u followed by a key)
       , ("M-u p", spawn "mocp --play")

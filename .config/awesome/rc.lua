@@ -126,7 +126,7 @@ local virtualmachine    = "virtualbox"
 local l = awful.layout.suit
 local ll = leaved.layout.suit.tile
 awful.util.terminal = terminal
-awful.util.tagnames = {"", "הּ", "", "", "鷺", ""}
+awful.util.tagnames = {"", "הּ", "", "", "", "ﲤ"}
 awful.layout.layouts = {
     l.tile,
     l.floating,
