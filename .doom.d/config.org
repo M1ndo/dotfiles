@@ -78,6 +78,32 @@ but i have it commented out .
 ;; (setq +doom-dashboard-ascii-banner-fn #'+fl/splashcii-banner)
 ;; (setq +fl/splashcii-query "space")
 #+end_src
+** Tabs
+Using centaur-tabs to adds tabs in to our emacs with customizations
+#+begin_src emacs-lisp
+(use-package! centaur-tabs
+  :hook (doom-first-file . centaur-tabs-mode)
+  :init
+  (setq centaur-tabs-set-icons t
+        centaur-tabs-gray-out-icons 'buffer
+        centaur-tabs-set-bar 'tabs
+        centaur-tabs-set-modified-marker t
+        centaur-tabs-close-button "✕"
+        centaur-tabs-modified-marker "•"
+        ;; Scrolling (with the mouse wheel) past the end of the tab list
+        ;; replaces the tab list with that of another Doom workspace. This
+        ;; prevents that.
+        centaur-tabs-cycle-scope 'tabs)
+  :bind
+  ("C-1" . centaur-tabs-backward)
+  ("C-2" . centaur-tabs-forward)
+  :config
+  (add-hook! '(+doom-dashboard-mode-hook +popup-buffer-mode-hook)
+    (defun +tabs-disable-centaur-tabs-mode-maybe-h ()
+      "Disable `centaur-tabs-mode' in current buffer."
+      (when (centaur-tabs-mode-on-p)
+        (centaur-tabs-local-mode)))))
+#+end_src
 ** Key Mapping
 there's alot of ways to map keys in emacs, we use ~map!~ in doom emacs to make new keys
 #+begin_src emacs-lisp
@@ -115,13 +141,18 @@ I use org-roam to manage my org files and organize my life.
 *** Latex Syntax Highlighting
 Using [[https://orgmode.org/worg/exporters/ox-overview.html][Ox-latex]] export framework to export from org to latex to pdf
 #+begin_src emacs-lisp
+(setq-default TeX-engine 'xetex
+              TeX-PDF-mode t)
 (with-eval-after-load 'ox-latex
   (add-to-list 'org-latex-packages-alist '("" "minted"))
   (setq org-latex-listings 'minted)
   (setq org-latex-pdf-process
-        '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+        '("xelatex -shell-escape -interaction nonstopmode %f"
+          "xelatex -shell-escape -interaction nonstopmode %f"))
+  ;; (setq org-latex-pdf-process
+  ;;       '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+  ;;         "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+  ;;         "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
   (add-to-list 'org-latex-classes
                '("org-plain-latex"
                  "\\documentclass{article}
@@ -557,13 +588,144 @@ For capturing emacs frames i use gif-screencast which does the job.
 ;;   (gif-screencast-write-colormap)
 ;;   (add-hook 'doom-load-theme-hook #'gif-screencast-write-colormap))
 #+end_src
+** Twitter-Mode
+Twittering-Mode , To View status and stuff
+#+begin_src emacs-lisp
+(with-eval-after-load 'twittering-mode
+  (setq twittering-allow-insecure-server-cert t)
+  (setq twittering-use-master-password t)
+  (defun *twittering-generate-format-table (status-sym prefix-sym)
+    `(("%" . "%")
+      ("}" . "}")
+      ("#" . (cdr (assq 'id ,status-sym)))
+      ("'" . (when (cdr (assq 'truncated ,status-sym))
+               "..."))
+      ("c" .
+       (let ((system-time-locale "C"))
+         (format-time-string "%a %b %d %H:%M:%S %z %Y"
+                             (cdr (assq 'created-at ,status-sym)))))
+      ("d" . (cdr (assq 'user-description ,status-sym)))
+      ("f" .
+       (twittering-make-string-with-source-property
+        (cdr (assq 'source ,status-sym)) ,status-sym))
+      ("i" .
+       (when (and twittering-icon-mode window-system)
+         (let ((url
+                (cond
+                 ((and twittering-use-profile-image-api
+                       (eq twittering-service-method 'twitter)
+                       (or (null twittering-convert-fix-size)
+                           (member twittering-convert-fix-size '(48 73))))
+                  (let ((user (cdr (assq 'user-screen-name ,status-sym)))
+                        (size
+                         (if (or (null twittering-convert-fix-size)
+                                 (= 48 twittering-convert-fix-size))
+                             "normal"
+                           "bigger")))
+                    (format "http://%s/%s/%s.xml?size=%s" twittering-api-host
+                            (twittering-api-path "users/profile_image") user size)))
+                 (t
+                  (cdr (assq 'user-profile-image-url ,status-sym))))))
+           (twittering-make-icon-string nil nil url))))
+      ("I" .
+       (let* ((entities (cdr (assq 'entity ,status-sym)))
+              text)
+         (mapc (lambda (url-info)
+                 (setq text (or (cdr (assq 'media-url url-info)) "")))
+               (cdr (assq 'media entities)))
+         (if (string-equal "" text)
+             text
+           (let ((twittering-convert-fix-size 360))
+             (twittering-make-icon-string nil nil text)))))
+      ("j" . (cdr (assq 'user-id ,status-sym)))
+      ("L" .
+       (let ((location (or (cdr (assq 'user-location ,status-sym)) "")))
+         (unless (string= "" location)
+           (concat " [" location "]"))))
+      ("l" . (cdr (assq 'user-location ,status-sym)))
+      ("p" . (when (cdr (assq 'user-protected ,status-sym))
+               "[x]"))
+      ("r" .
+       (let ((reply-id (or (cdr (assq 'in-reply-to-status-id ,status-sym)) ""))
+             (reply-name (or (cdr (assq 'in-reply-to-screen-name ,status-sym))
+                             ""))
+             (recipient-screen-name
+              (cdr (assq 'recipient-screen-name ,status-sym))))
+         (let* ((pair
+                 (cond
+                  (recipient-screen-name
+                   (cons (format "sent to %s" recipient-screen-name)
+                         (twittering-get-status-url recipient-screen-name)))
+                  ((and (not (string= "" reply-id))
+                        (not (string= "" reply-name)))
+                   (cons (format "in reply to %s" reply-name)
+                         (twittering-get-status-url reply-name reply-id)))
+                  (t nil)))
+                (str (car pair))
+                (url (cdr pair))
+                (properties
+                 (list 'mouse-face 'highlight 'face 'twittering-uri-face
+                       'keymap twittering-mode-on-uri-map
+                       'uri url
+                       'front-sticky nil
+                       'rear-nonsticky t)))
+           (when (and str url)
+             (concat " " (apply 'propertize str properties))))))
+      ("R" .
+       (let ((retweeted-by
+              (or (cdr (assq 'retweeting-user-screen-name ,status-sym)) "")))
+         (unless (string= "" retweeted-by)
+           (concat " (retweeted by " retweeted-by ")"))))
+      ("S" .
+       (twittering-make-string-with-user-name-property
+        (cdr (assq 'user-name ,status-sym)) ,status-sym))
+      ("s" .
+       (twittering-make-string-with-user-name-property
+        (cdr (assq 'user-screen-name ,status-sym)) ,status-sym))
+      ("U" .
+       (twittering-make-fontified-tweet-unwound ,status-sym))
+      ;; ("D" .
+      ;;  (twittering-make-fontified-tweet-unwound ,status-sym))
+      ("T" .
+       ,(twittering-make-fontified-tweet-text
+         `(twittering-make-fontified-tweet-text-with-entity ,status-sym)
+         twittering-regexp-hash twittering-regexp-atmark))
+      ("t" .
+       ,(twittering-make-fontified-tweet-text
+         `(twittering-make-fontified-tweet-text-with-entity ,status-sym)
+         twittering-regexp-hash twittering-regexp-atmark))
+      ("u" . (cdr (assq 'user-url ,status-sym)))))
+  (advice-add #'twittering-generate-format-table :override #'*twittering-generate-format-table)
+  (defface twitter-divider
+    `((t (:underline (:color "grey"))))
+    "The vertical divider between tweets."
+    :group 'twittering-mode)
+  (setq twittering-icon-mode t
+        twittering-use-icon-storage t
+        twittering-convert-fix-size 40
+        twittering-status-format "
+  %i  %FACE[font-lock-function-name-face]{  @%s}  %FACE[italic]{%@}  %FACE[error]{%FIELD-IF-NONZERO[❤ %d]{favorite_count}}  %FACE[warning]{%FIELD-IF-NONZERO[↺ %d]{retweet_count}}
+
+%FOLD[   ]{%FILL{%t}
+%QT{
+%FOLD[   ]{%FACE[font-lock-function-name-face]{@%s}\t%FACE[shadow]{%@}
+%FOLD[ ]{%FILL{%t}}
+}}}
+
+    %I
+
+%FACE[twitter-divider]{                                                                                                                                                                                  }
+"))
+#+end_src
 ** Fun Packages
 *** Elcord
 A Lot of us Emacs users love to show the world we are using emacs thats where elcord comes in,
 Share what file u editing right now on discord, what u doing what buffer ...
 #+begin_src emacs-lisp
-(require 'elcord)
-(elcord-mode)
+(use-package! elcord
+  :commands elcord-mode
+  :config
+  (setq elcord-use-major-mode-as-main-icon t))
 #+end_src
 *** Nyan Mode
 The Dancing Rainbow Cat
