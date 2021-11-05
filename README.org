@@ -5,7 +5,7 @@ the keybindings consistent with all of my window managers. Full
 Keybinding Documentation Is Available [[https://docs.darkos.cf/bindings/][Here]]
 
 ** Doom Emacs Installation.
-Follow This [[https://ybenel.cf/Install-Emacs.md][Article]] To Install
+Follow This [[https://ybenel.cf/files/Install-Emacs.pdf][Article]] To Install
 Doom Emacs On Linux (Arch/Debian) - Windows (WSL/XServer)
 
 ** Screenshots
