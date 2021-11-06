@@ -2,6 +2,8 @@
 #+AUTHOR: Ybenel <ybenel@pm.me>
 #+subtitle: My Personal Doom Emacs Configuration
 #+startup: fold
+#+SETUPFILE: ~/org/Templates/latex.setup
+#+OPTIONS: toc:t
 
 * Basic Startup
 Set lexical binding to make this file run faster
@@ -20,9 +22,9 @@ use epa-file to decrypt our *GPG* encrypt personal.el then load it.
 ** Set Doom Font
 I'm using [[github:eliheuer/caskaydia-cove][Caskaydia Cove]] which is a fork of [[github:microsoft/cascadia-code][Cascadia Code]]
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "Caskaydia Cove" :size 15)
-      doom-variable-pitch-font (font-spec :family "Caskaydia Cove" :size 15)
-      doom-big-font (font-spec :family "Caskaydia Cove" :size 24))
+(setq doom-font (font-spec :family "Cascadia Code" :weight 'SemiBold :size 15)
+      doom-variable-pitch-font (font-spec :family "Cascadia Code" :weight 'SemiBold :size 15)
+      doom-big-font (font-spec :family "Cascadia Code" :weight 'SemiBold :size 24))
 #+end_src
 ** Set Doom Theme
 Doom-themes are fantastic, there's alot of variants you could choose from.

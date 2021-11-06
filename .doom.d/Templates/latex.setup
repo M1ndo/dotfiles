@@ -3,10 +3,10 @@
 
 #+LATEX_HEADER: \usepackage[T1]{fontenc}
 #+LATEX_HEADER: \usepackage{fontspec}
-#+LATEX_HEADER: \setmainfont{Caskaydia Cove}
-#+LATEX_HEADER: \newfontfamily\itali{Cascadia Code Italic}
-#+LATEX_HEADER: \newfontfamily\myfont{texgyreheroscn-bold.otf}
-#+LATEX_HEADER: \newfontfamily\tocfoc{texgyreheroscn-bold.otf}
+#+LATEX_HEADER: \setmainfont[Path=/home/ybenel/org/fonts/static/, ItalicFont=CascadiaCode-Italic.otf, BoldFont=CascadiaCode-Bold.otf, BoldItalicFont=CascadiaCode-BoldItalic.otf]{CascadiaCode-Regular.otf}
+%#+LATEX_HEADER: \newfontfamily\itali{Cascadia Code Italic}
+%#+LATEX_HEADER: \newfontfamily\myfont{texgyreheroscn-bold.otf}
+%#+LATEX_HEADER: \newfontfamily\tocfoc{texgyreheroscn-bold.otf}
 #+LATEX_HEADER: \usepackage{graphicx}
 #+LATEX_HEADER: \usepackage{amsmath, amsthm, amssymb}
 #+LATEX_HEADER: \usepackage[table, xcdraw]{xcolor}

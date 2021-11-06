@@ -1,0 +1,21 @@
+#+SUBTITLE: @@latex: \itali{\emph{%^{SUBTITLE}}}@@
+#+AUTHOR: %^{AUTHOR}
+#+SETUPFILE: ~/org/Templates/latex.setup
+#+OPTIONS: toc:t
+
+* Big Changes
+** Change 1
+A)
+B)
+C)
+* Minor Changes
+** Change 2
+A)
+B)
+C)
+* Difference
+ 1.
+ 2.
+ 3.
+ 4.
+ 5.

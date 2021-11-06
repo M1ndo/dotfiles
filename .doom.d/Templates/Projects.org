@@ -1,0 +1,16 @@
+#+SUBTITLE: @@latex: \itali{\emph{%^{SUBTITLE}}}@@
+#+AUTHOR: %^{AUTHOR}
+#+SETUPFILE: ~/org/Templates/latex.setup
+#+OPTIONS: toc:t
+
+* Projects (General)
+** Project
+- [ ]
+
+* Projects (DevOs)
+** Project
+- [ ]
+
+* Project (IRL)
+** Project
+- [ ]
