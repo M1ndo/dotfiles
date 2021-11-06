@@ -1,0 +1,23 @@
+* My Awesome;Xmonad;HerbstluftWm,Qtile Configuration
+** My Keybindings For Awesome WM/HerbstluftWm/Xmonad/Qtile
+The MODKEY is set to the /Super key/ (aka the *Windows* key). I try to keep
+the keybindings consistent with all of my window managers. Full
+Keybinding Documentation Is Available [[https://docs.darkos.cf/bindings/][Here]]
+
+** Doom Emacs Installation.
+Follow This [[https://ybenel.cf/files/Install-Emacs.pdf][Article]] To Install
+Doom Emacs On Linux (Arch/Debian) - Windows (WSL/XServer)
+
+** Screenshots
+*** Awesome WM
+[[file:screenshots/ybenel-full-20210905-220622.png]]
+*** Xmonad
+[[file:screenshots/ybenel-full-20211027-170226.png]]
+*** Herbstluftwm
+[[file:screenshots/ybenel-full-20210911-133036.png]]
+*** Qtile
+[[file:screenshots/ybenel-full-20210914-160339.png]]
+** License
+Written By Ybenel [[https://github.com/m1ndo][(m1ndo)]]
+The project is licensed under GNU General Public License v2 or
+later. You can read it online at ([[http://www.gnu.org/licenses/gpl-2.0.html][v2]] or [[http://www.gnu.org/licenses/gpl.html][v3]]).
