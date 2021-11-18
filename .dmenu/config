@@ -4,8 +4,8 @@
 
 # Defined variables, modify anything in quotes to your prefered software
 
-DMENU="dmenu"
-# DMENU="rofi -dmenu"
+#DMENU="dmenu"
+DMENU="rofi -dmenu"
 
 DMTERM="xterm -e"
 # DMTERM="alacritty -e"
@@ -16,6 +16,8 @@ DMEDITOR="emacsclient -c -a emacs"
 # dm-maim
 maim_dir="${HOME}/Pictures/Screenshots"
 maim_file_prefix="ybenel"
-
+# Dm-Setbg
+setbg_dir="${HOME}/Pictures/Backgrounds"
+use_imv=0
 _revision=13
 

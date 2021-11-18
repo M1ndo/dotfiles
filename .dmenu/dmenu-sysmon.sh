@@ -1,5 +1,25 @@
 #!/bin/bash
 
+function get_config() {
+  local loaded=0
+  declare -a config_dirs=(
+  "${HOME}/.dmenu/config"
+  "/etc/dmenu/config"
+  )
+  for conf in "${config_dirs[@]}"; do
+    if [[ -f ${conf} ]]; then
+      echo "${conf}"
+      loaded=1
+      break
+    fi
+  done
+  [[ ${loaded} -eq 0 ]] && echo "No config found" ; exit 1
+}
+
+# script will not hit this if there is no config-file to load
+# shellcheck disable=SC1090
+source "$(get_config)"
+# Defining our config location
 # Dmenu script for launching system monitoring programs.
 declare -a options=("htop
 glances
@@ -11,7 +31,7 @@ nmon
 s-tui
 quit")
 
-choice=$(echo -e "${options[@]}" | dmenu -l -i -p 'System monitors: ')
+choice=$(echo -e "${options[@]}" | ${DMENU} -i -l 20 -p 'System monitors: ')
 
 case $choice in
 	quit)
@@ -22,12 +42,12 @@ case $choice in
 	gtop| \
 	nmon| \
 	s-tui)
-        exec st -e $choice
+        exec xterm -e $choice
 	;;
 	iftop| \
 	iotop| \
 	iptraf-ng)
-        exec st -e gksu $choice
+        exec xterm -e gksu $choice
 	;;
 	*)
 		exit 1

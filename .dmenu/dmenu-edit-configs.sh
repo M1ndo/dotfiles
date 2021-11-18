@@ -1,5 +1,27 @@
 #!/bin/bash
+
 # Dmenu script for editing some of my more frequently edited config files.
+function get_config() {
+  local loaded=0
+  declare -a config_dirs=(
+  "${HOME}/.dmenu/config"
+  "/etc/dmenu/config"
+  )
+  for conf in "${config_dirs[@]}"; do
+    if [[ -f ${conf} ]]; then
+      echo "${conf}"
+      loaded=1
+      break
+    fi
+  done
+  [[ ${loaded} -eq 0 ]] && echo "No config found" ; exit 1
+}
+
+# script will not hit this if there is no config-file to load
+# shellcheck disable=SC1090
+source "$(get_config)"
+# Defining our config location
+
 declare options=("awesome
 bash
 herbstluftwm
@@ -15,7 +37,7 @@ xmonad
 xresources
 quit")
 
-choice=$(echo -e "${options[@]}" | dmenu -i -p 'Edit config file: ')
+choice=$(echo -e "${options[@]}" | ${DMENU} -i -l 20 -p 'Edit config file: ')
 
 case "$choice" in
 	quit)
