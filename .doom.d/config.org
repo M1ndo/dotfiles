@@ -3,7 +3,7 @@
 #+subtitle: My Personal Doom Emacs Configuration
 #+startup: fold
 #+SETUPFILE: ~/org/Templates/latex.setup
-#+OPTIONS: toc:t
+#+OPTIONS: toc:nil
 
 * Basic Startup
 Set lexical binding to make this file run faster
@@ -25,6 +25,9 @@ I'm using [[github:eliheuer/caskaydia-cove][Caskaydia Cove]] which is a fork of 
 (setq doom-font (font-spec :family "Cascadia Code" :weight 'SemiBold :size 15)
       doom-variable-pitch-font (font-spec :family "Cascadia Code" :weight 'SemiBold :size 15)
       doom-big-font (font-spec :family "Cascadia Code" :weight 'SemiBold :size 24))
+(custom-set-faces!
+  '(font-lock-comment-face :slant italic)
+  '(font-lock-keyword-face :slant italic))
 #+end_src
 ** Set Doom Theme
 Doom-themes are fantastic, there's alot of variants you could choose from.
@@ -85,26 +88,25 @@ Using centaur-tabs to adds tabs in to our emacs with customizations
 #+begin_src emacs-lisp
 (use-package! centaur-tabs
   :hook (doom-first-file . centaur-tabs-mode)
-  :init
-  (setq centaur-tabs-set-icons t
-        centaur-tabs-gray-out-icons 'buffer
-        centaur-tabs-set-bar 'tabs
-        centaur-tabs-set-modified-marker t
-        centaur-tabs-close-button "✕"
-        centaur-tabs-modified-marker "•"
-        ;; Scrolling (with the mouse wheel) past the end of the tab list
-        ;; replaces the tab list with that of another Doom workspace. This
-        ;; prevents that.
-        centaur-tabs-cycle-scope 'tabs)
   :bind
   ("C-1" . centaur-tabs-backward)
   ("C-2" . centaur-tabs-forward)
+  ("C-3" . centaur-tabs-forward-group)
+  ("C-4" . centaur-tabs-backward-group)
+  ("C-0" . centaur-tabs-local-mode)
   :config
   (add-hook! '(+doom-dashboard-mode-hook +popup-buffer-mode-hook)
     (defun +tabs-disable-centaur-tabs-mode-maybe-h ()
       "Disable `centaur-tabs-mode' in current buffer."
       (when (centaur-tabs-mode-on-p)
         (centaur-tabs-local-mode)))))
+(setq centaur-tabs-set-icons t
+    centaur-tabs-gray-out-icons 'buffer
+    centaur-tabs-set-bar 'tabs
+    centaur-tabs-set-modified-marker t
+    centaur-tabs-close-button "✕"
+    centaur-tabs-modified-marker "•"
+    centaur-tabs-cycle-scope 'tabs)
 #+end_src
 ** Key Mapping
 there's alot of ways to map keys in emacs, we use ~map!~ in doom emacs to make new keys
@@ -122,11 +124,20 @@ there's alot of ways to map keys in emacs, we use ~map!~ in doom emacs to make n
 (map! :leader
       (:prefix-map ("d" . "Doom")
        :desc "Hide Doom Modeline" "b" #'hide-mode-line-mode))
+
 (map! :leader
       :desc "Switch To Left Window" "<left>" #'evil-window-left
       :desc "Switch To Right Window" "<right>" #'evil-window-right
       :desc "Switch To Up Window" "<up>" #'evil-window-up
       :desc "Switch To Down Window" "<down>" #'evil-window-down)
+
+(map! :leader
+      (:prefix ("e". "evaluate/EWW")
+       :desc "Evaluate elisp in buffer" "b" #'eval-buffer
+       :desc "Evaluate defun" "d" #'eval-defun
+       :desc "Evaluate elisp expression" "e" #'eval-expression
+       :desc "Evaluate last sexpression" "l" #'eval-last-sexp
+       :desc "Evaluate elisp in region" "r" #'eval-region))
 #+end_src
 ** Org
 *** Set Org Directory
@@ -561,9 +572,15 @@ Do Not Delete The Whole Block Instead steps are determined according to Emacs he
 Using this awesome package called [[https://github.com/tecosaur/screenshot][Screenshot]] take takes cool screenshots like this one.
 [[file:img/screenshot.png]]
 #+begin_src emacs-lisp
-(use-package! screenshot
-  :defer t
-  :config (setq screenshot-upload-fn "~/.local/bin/0x0 %s 2>/dev/null"))
+(progn
+  (add-to-list 'load-path "~/.doom.d/lisp/screenshot")
+  (require 'screenshot)
+  (setq screenshot-upload-fn "~/.local/bin/0x0 %s 2>/dev/null")
+  )
+;; (use-package screenshot
+;;   :load-path "~/.doom.d/lisp/screenshot"
+;;   :demand t
+;;   :config (setq screenshot-upload-fn "~/.local/bin/0x0 %s 2>/dev/null"))
 #+end_src
 *** Screencast
 For capturing emacs frames i use gif-screencast which does the job.
