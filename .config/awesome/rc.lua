@@ -112,7 +112,7 @@ local modkey1      = "Control"
 
 -- personal variables
 --change these variables if you want
-local browser           = "chromium"
+local browser           = "firefox"
 local editor            = os.getenv("EDITOR") or "nvim"
 local editorgui         = "emacs"
 local filemanager       = "pcmanfm"
@@ -199,7 +199,7 @@ lain.layout.cascade.tile.ncol          = 2
 local myawesomemenu = {
     { "hotkeys", function() return false, hotkeys_popup.show_help end },
     { "manual", terminal .. " -e 'man awesome'" },
-    { "edit config", terminal .. " -e nvim /home/ybenel/.config/awesome/rc.lua" },
+    { "edit config", terminal .. " -e nvim $HOME/.config/awesome/rc.lua" },
     { "arandr", "arandr" },
     { "restart", awesome.restart },
 }
@@ -207,7 +207,7 @@ beautiful.menu_font = "scientifica 9"
 beautiful.menu_border_color = "#002133"
 beautiful.menu_border_width = 2
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    {"Browser", "chromium", beautiful.browser_ico},
+                                    {"Browser", "firefox", beautiful.browser_ico},
                                     {"Stremio", "stremio", beautiful.stremio_ico},
 				                    {"Pcmanfm", "pcmanfm", beautiful.pcman_ico},
                                     {"Lite", "lite", beautiful.atom_ico},
