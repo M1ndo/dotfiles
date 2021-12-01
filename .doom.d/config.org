@@ -1,6 +1,7 @@
 #+TITLE: Doom Emacs Configuration
-#+AUTHOR: Ybenel <ybenel@pm.me>
+#+AUTHOR: YBenel (ybenel@pm.me)
 #+subtitle: My Personal Doom Emacs Configuration
+#+EMAIL: ybenel@pm.me
 #+startup: fold
 #+SETUPFILE: ~/org/Templates/latex.setup
 #+OPTIONS: toc:nil
@@ -68,6 +69,8 @@ What's more fun than adding emacs logo in splash screen of doom dashboard.
 There's also a tool called [[github:folke/splashcii][Splashcii]] that downloads ascii arts and place it in our doom-dashboard
 but i have it commented out .
 #+begin_src emacs-lisp
+(setq doom-fallback-buffer-name "► Doom"
+      +doom-dashboard-name "► Doom")
 (setq fancy-splash-image "~/.doom.d/img/doom-emacs.png")
 ;; Call splashcii to get the banne and output it .
 ;; (defvar +fl/splashcii-query ""
@@ -128,8 +131,12 @@ there's alot of ways to map keys in emacs, we use ~map!~ in doom emacs to make n
 (map! :leader
       :desc "Switch To Left Window" "<left>" #'evil-window-left
       :desc "Switch To Right Window" "<right>" #'evil-window-right
-      :desc "Switch To Up Window" "<up>" #'evil-window-up
-      :desc "Switch To Down Window" "<down>" #'evil-window-down)
+      :desc "Switch To Up Window" "<up>"     #'evil-window-up
+      :desc "Switch To Down Window" "<down>" #'evil-window-down
+      :desc "Move Window Left" "C-<left>"    #'+evil/window-move-left
+      :desc "Move Window Down" "C-<down>"    #'+evil/window-move-down
+      :desc "Move Window Up" "C-<up>"        #'+evil/window-move-up
+      :desc "Move Window Right" "C-<right>"  #'+evil/window-move-right)
 
 (map! :leader
       (:prefix ("e". "evaluate/EWW")
@@ -166,6 +173,39 @@ Using [[https://orgmode.org/worg/exporters/ox-overview.html][Ox-latex]] export f
   ;;       '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
   ;;         "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
   ;;         "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+  (add-to-list 'org-latex-classes
+    '("book"
+    "\\documentclass{book}
+    [NO-DEFAULT-PACKAGES]
+    [PACKAGES]
+    [EXTRA]"
+    ("\\part{%s}" . "\\part*{%s}")
+    ("\\chapter{%s}" . "\\chapter*{%s}")
+    ("\\section{%s}" . "\\section*{%s}")
+    ("\\subsection{%s}" . "\\subsection*{%s}")
+    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+  (add-to-list 'org-latex-classes
+    '("koma-article"
+    "\\documentclass{scrartcl}
+    [NO-DEFAULT-PACKAGES]
+    [PACKAGES]
+    [EXTRA]"
+    ("\\part{%s}" . "\\part*{%s}")
+    ("\\chapter{%s}" . "\\chapter*{%s}")
+    ("\\section{%s}" . "\\section*{%s}")
+    ("\\subsection{%s}" . "\\subsection*{%s}")
+    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+  (add-to-list 'org-latex-classes
+    '("koma-article"
+    "\\documentclass{scrbook}
+    [NO-DEFAULT-PACKAGES]
+    [PACKAGES]
+    [EXTRA]"
+    ("\\part{%s}" . "\\part*{%s}")
+    ("\\chapter{%s}" . "\\chapter*{%s}")
+    ("\\section{%s}" . "\\section*{%s}")
+    ("\\subsection{%s}" . "\\subsection*{%s}")
+    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
   (add-to-list 'org-latex-classes
                '("org-plain-latex"
                  "\\documentclass{article}
@@ -298,6 +338,7 @@ What's more better than organizing your life with org *super* agenda.
   (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
 
 (setq org-ellipsis " ▾ "
+      org-hide-emphasis-markers t
       org-hide-leading-stars t
       org-priority-highest ?A
       org-priority-lowest ?E
@@ -331,6 +372,13 @@ Set Shortcuts To Open Agenda,Todo,Notes.
        :desc "Open Todo" "t" #'(lambda () (interactive) (find-file "~/org/todo.org"))
        :desc "Open Notes" "n" #'(lambda () (interactive) (find-file "~/org/notes.org"))
        :desc "Open Config" "c" #'(lambda () (interactive) (find-file "~/.doom.d/config.org"))))
+
+(map! :map evil-org-mode-map
+      :after evil-org
+      :n "g <up>" #'org-backward-heading-same-level
+      :n "g <down>" #'org-forward-heading-same-level
+      :n "g <left>" #'org-up-element
+      :n "g <right>" #'org-down-element)
 #+end_src
 *** Prettify Symbols
 Using prettify symbols modes to add replace traditional ligatures with custom unicode
@@ -362,6 +410,60 @@ Using prettify symbols modes to add replace traditional ligatures with custom un
             ("->" . ?→)
             ("<-" . ?←))))
   (prettify-symbols-mode 1))
+
+(add-hook 'org-mode-hook #'my/org-mode/load-prettify-symbols)
+#+end_src
+*** Org Templates
+Adding a bunch of templates to make it easier instead of typing manually.
+#+begin_src emacs-lisp
+(with-eval-after-load 'org
+  (require 'org-tempo)
+
+  (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+  (add-to-list 'org-structure-template-alist '("py" . "src python")))
+#+end_src
+*** Org Header
+Beautifying Headers And Enabling Org-Pretty-Mode With Custom Faces
+#+begin_src emacs-lisp
+(font-lock-add-keywords 'org-mode
+                        '(("^ *\\([-]\\) "
+                            (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+(add-hook 'org-mode-hook #'+org-pretty-mode)
+
+(custom-set-faces!
+  '(outline-1 :weight regular :height 1.2)
+  '(outline-2 :weight bold :height 1.1)
+  '(outline-3 :weight bold :height 0.9)
+  '(outline-4 :weight semibold :height 0.9)
+  '(outline-5 :weight semibold :height 0.7)
+  '(outline-6 :weight semibold)
+  '(outline-8 :weight semibold)
+  '(outline-9 :weight semibold))
+;; Org Document Title Make It Bigger
+(custom-set-faces!
+  '(org-document-title :height 1.7))
+;; Using Error Face In Deadlines
+(setq org-agenda-deadline-faces
+      '((1.001 . error)
+        (1.0 . org-warning)
+        (0.5 . org-upcoming-deadline)
+        (0.0 . org-upcoming-distant-deadline)))
+;; Custom Faces For Org Elements
+(custom-theme-set-faces
+   'user
+   '(org-link ((t (:foreground "SpringGreen2" :underline t))))
+   '(org-table ((t (:inherit fixed-pitch :foreground "#83a598")))))
+;; Adding Italic To Quote BLocks
+(setq org-fontify-quote-and-verse-blocks t)
+;; Editing Large Files Can Be Fucked up For that reason adding little delay in fontification.
+(defun locally-defer-font-lock ()
+  "Set jit-lock defer and stealth, when buffer is over a certain size."
+  (when (> (buffer-size) 50000)
+    (setq-local jit-lock-defer-time 0.05
+                jit-lock-stealth-time 1)))
+
+(add-hook 'org-mode-hook #'locally-defer-font-lock)
 #+end_src
 ** Mail In Emacs
 *** Mu4e
