@@ -4,7 +4,7 @@
 PATH="$HOME/.emacs.d/bin:$HOME/.local/bin:$PATH"
 
 # Setting Editor As NeoVim
-EDITOR="nvim"
+EDITOR="emacsclient -a -c 'emacs'"
 
 # Source Skey
 source $HOME/.bin/ybl/skey
@@ -164,6 +164,43 @@ function 16s() {
     }
     printf "\n";}'
 }
+
+function gradient_cols () {
+    preset=$(shuffle ~/.bin/preset_list | head -1)
+    gradient -p $preset -H1 -W75
+}
+
+## Open file in dired
+vterm_printf() {
+    if [ -n "$TMUX" ] && ([ "${TERM%%-*}" = "tmux" ] || [ "${TERM%%-*}" = "screen" ] ); then
+        # Tell tmux to pass the escape sequences through
+        printf "\ePtmux;\e\e]%s\007\e\\" "$1"
+    elif [ "${TERM%%-*}" = "screen" ]; then
+        # GNU screen (screen, screen-256color, screen-256color-bce)
+        printf "\eP\e]%s\007\e\\" "$1"
+    else
+        printf "\e]%s\e\\" "$1"
+    fi
+}
+
+vterm_cmd() {
+    local vterm_elisp
+    vterm_elisp=""
+    while [ $# -gt 0 ]; do
+        vterm_elisp="$vterm_elisp""$(printf '"%s" ' "$(printf "%s" "$1" | sed -e 's|\\|\\\\|g' -e 's|"|\\"|g')")"
+        shift
+    done
+    vterm_printf "51;E$vterm_elisp"
+}
+
+open() {
+    vterm_cmd find-file "$(realpath "${@:-.}")"
+}
+
+say() {
+    vterm_cmd message "%s" "$*"
+}
+
 ### ALIASES ###
 
 # root privileges
@@ -203,6 +240,7 @@ alias rms='yay -R'
 alias pcsrc='pacman -Ss'
 alias pcin='sudo pacman -S'
 alias pcr='sudo pacman -R'
+alias pcrn='sudo pacman -Rscu'
 alias sy='sudo pacman -Sy'
 alias syu='sudo pacman -Syu'
 alias syy='sudo pacman -Syy'
@@ -213,6 +251,15 @@ alias pg='ping'   # Extra
 # Overwrite .Xresources To take effect of the new settings
 alias xd='xrdb ~/.Xresources'
 
+# DarkOs Aliases
+alias darksrc="cd ~/DarkOs/Full/Builds/repo_src"
+alias darkpkg="cd ~/DarkOs/Full/Builds/pkg_builds"
+alias darkrep="cd ~/DarkOS/Full/DarkOs-Repo/"
+alias darkope="cd ~/DarkOS/Full/Operating_System/"
+DARKREP="/home/ybenel/DarkOs/Full/DarkOs-Repo/x86_64/"
+
+# Tlmgr
+alias tlmgr='/usr/share/texmf-dist/scripts/texlive/tlmgr.pl  --usermode'
 
 # Doom Emacs
 
@@ -224,6 +271,13 @@ setsid emacs
 exit
 '
 
+# Mpv Alias
+alias plhd="mpv --ytdl-format='bestvideo[height<=?720]+bestaudio/best'"
+alias plhd+="mpv --ytdl-format='bestvideo[height<=?1080]+bestaudio/best'"
+
+# Res
+alias revp="xrandr --output LVDS1 --mode 1366x768 --panning 1920x1080 --scale 1.40556369x1.40625"
+alias revpo="xrandr --output LVDS1 --mode 1366x768 --panning 1366x768 --scale 1x1"
 # Add A Special Env For My Laptop
 alias scv='LIBGL_ALWAYS_SOFTWARE=1'
 # adding flags
@@ -237,7 +291,8 @@ alias vifm='./.config/vifm/scripts/vifmrun'
 # More Aliases 
 alias doc='cd ~/Documents'
 alias dow='cd ~/Downloads'
-alias ips="curl -s ifconfig.co | grep 'IP</span>:'| cut -d '<' -f 4 | sed 's/\/span>://'"
+#alias ips="curl -s ifconfig.co | grep 'IP</span>:'| cut -d '<' -f 4 | sed 's/\/span>://'"
+alias ips="curl -s ifconfig.co" 
 alias fxr="./.bin/ybl/resolution"
 alias fxr2="./.bin/ybl/resolution2"
 
@@ -245,8 +300,8 @@ alias fxr2="./.bin/ybl/resolution2"
 alias searchsploit='/opt/exploitdb/searchsploit'
 alias conx="dow && cd conx && sudo openvpn ybenel.ovpn"
 alias conx2="dow && cd conx && sudo openvpn Thm.ovpn"
-alias htb='doc && cd Sec/htb/'
-alias thm='doc && cd Sec/thm'
+alias htb='doc && cd Boxes/htb/'
+alias thm='doc && cd Boxes/THM'
 
 # Awesome Screen Locker
 alias bls="betterlockscreen -w ~/Pictures/Backgrounds/Skull_GreyMono.jpg -l -t 'Victory Is Mine !'"
@@ -288,7 +343,9 @@ fi
 $HOME/.bin/shuffle.py
 
 # PS1 Customization "~$ "
-export PS1="\[\e[1;49;32m\]\W \[\e[m\]\[\e[1;49;96m\]\\$\[\e[1;49;39m\] "
-16s
-#export PS1='\[\e[0m\]\[\e[48;5;236m\]\[\e[38;5;105m\]\u\[\e[38;5;105m\]@\[\e[38;5;105m\]\h\[\e[38;5;105m\] \[\e[38;5;221m\]\w\[\e[38;5;221m\]\[\e[38;5;105m\]\[\e[0m\]\[\e[38;5;236m\]\342\226\214\342\226\214\342\226\214\[\e[0m\]'
+#export PS1="\[\e[1;49;32m\]\W \[\e[m\]\[\e[1;49;96m\]\\$\[\e[1;49;39m\] "
+#16s
+gradient_cols
+export PS1='\[\e[0m\]\[\e[48;5;236m\]\[\e[38;5;105m\]\u\[\e[38;5;105m\]@\[\e[38;5;105m\]\h\[\e[38;5;105m\] \[\e[38;5;221m\]\w\[\e[38;5;221m\]\[\e[38;5;105m\]\[\e[0m\]\[\e[38;5;236m\]\342\226\214\342\226\214\342\226\214\[\e[0m\]'
 #export PS1='\[\e[31;1;48;234m\]\u \[\e[38;5;240m\]on \[\e[1;38;5;28;48;234m\]\h \[\e[38;5;54m\]\d \@\[\e[0m\]\n\[\e[38;5;105m\][\W] \[\e[1m\]\$\e[0m\] '
+eval "$(starship init bash)"

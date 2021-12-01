@@ -677,6 +677,7 @@ myKeys =
       , ("M-M1-c", spawn (myTerminal ++ " -e /usr/bin/mocp"))
       , ("M-e", spawn myEmacs)
       , ("M1-C-s", spawn "./.dmenu/dmenu-scrot.sh")
+      , ("M1-C-b", spawn "./.dmenu/dmenu-setbg.sh")
       , ("M1-C-h", spawn "./.dmenu/dmenu-sysmon.sh")
       , ("M1-C-e", spawn "./.dmenu/dmenu-edit-configs.sh")
       , ("M-M1-z", spawn (myTerminal ++ " -e ncmpcpp"))
