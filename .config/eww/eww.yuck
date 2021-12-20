@@ -1,0 +1,98 @@
+;; Eww Configuration
+;; Written by ybenel (ybenel@pm.me)
+;; Date: 2021-12-15
+
+
+;; Music Variables
+
+(defpoll TITLE :interval "5s" "~/.config/eww/scripts/getmusic --title")
+(defpoll COVER :interval "5s" "~/.config/eww/scripts/getmusic --art")
+(defpoll MUSICSTAT :interval "5s" "~/.config/eww/scripts/getmusic --status")
+(defpoll ARTIST :interval "5s" "~/.config/eww/scripts/getmusic --artist")
+;; TIme
+(defpoll HOUR :interval "30m" "date '+%H'")
+(defpoll MIN :interval "10s" "date '+%M'")
+(defpoll DAY :interval "15h" "date '+%A'")
+(defpoll DAYY :interval "15h" "date '+%d/%m'")
+;; Quote
+(defpoll QUOTE :interval "10m" "~/.config/eww/scripts/getquote --quote")
+(defpoll QUOTE_AUTHOR :interval "10m" "~/.config/eww/scripts/getquote --author")
+;; Weather
+
+(defpoll ICON :interval "15m"  "~/.config/eww/scripts/weather_info --icon")
+(defpoll STAT :interval "15m"  "~/.config/eww/scripts/weather_info --stat")
+(defpoll TEMP :interval "15m"  "~/.config/eww/scripts/weather_info --temp")
+(defpoll HEX :interval "15m"  "~/.config/eww/scripts/weather_info --hex")
+(defpoll QUOTE_WEATHER :interval "15m"  "~/.config/eww/scripts/weather_info --quote")
+(defpoll QUOTE2_WEATHER :interval "15m"  "~/.config/eww/scripts/weather_info --quote2")
+
+(defwidget music []
+  (box :class "player_side" :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false"
+       (image :path "${COVER}" :height 100 :image-width 150 :image-height 150)
+       (box :class "musicstuff-side" :orientation "v" :spacing 10 :space-evenly "false" :vexpand "false" :hexpand "false"
+            (label :class "musicinfo-side" :halign "center" :wrap "true" :limit-width 20 :text TITLE)
+            (box :class "musicbtn-side" :orientation "h" :spacing 10 :halign "center" :space-evenly "false" :vexpand "false" :hexpand "false"
+                 (button :class "btn-previous" :onclick "~/.config/eww/scripts/getmusic --prev" "")
+                 (button :class "pause-play-side" :onclick "~/.config/eww/scripts/getmusic --toggle" MUSICSTAT)
+                 (button :class "btn-next" :onclick "~/.config/eww/scripts/getmusic --next" ""))
+            (label :class "musicinfo" :halign "center" :wrap "true" :text ARTIST))))
+
+
+(defwidget time []
+  (box :class "time-side" :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false"
+       (label :class "hour-side" :wrap "true" :limit-width 20 :text "${HOUR}:")
+       (label :class "minute-side" :wrap "true" :limit-width 20 :text "${MIN}")
+       (label :class "day-side" :wrap "true" :limit-width 20 :text "${DAY}")
+       (label :class "dayy-side" :wrap "true" :limit-width 20 :text "${DAYY}")))
+
+
+(defwidget quote []
+  (box :class "quote" :orientation "v" :space-evenly "false" :vexpand "false" :hexpand "false"
+       (label :class "quote_s" :halign "fill" :wrap "true" :text QUOTE)
+       (box :class "quote-box" :orientation "v" :space-evenly "false" :vexpand "false" :hexpand "false"
+       (label :class "quote_author" :valign "centre" :halign "centre":wrap "true" :text QUOTE_AUTHOR))))
+
+(defwidget weather []
+  (box :class "weather" :orientation "v" :spacing 10 :space-evenly "false" :vexpand "false" :hexpand "false"
+       (box :orientation "h" :vexpand "false" :hexpand "false"
+       (label :class "weaticon" :halign "start" :style "color: ${HEX};" :text ICON)
+       (label :class "label_temp" :halign "end" :text TEMP))
+       (box :orientation "v" :spacing 10 :halign "center" :space-evenly "false" :vexpand "false" :hexpand "false"
+            (label :class "label_stat" :text STAT)
+            (label :class "label_quote" :text QUOTE_WEATHER)
+            (label :class "label_quote" :text QUOTE2_WEATHER))))
+
+;; Player-side widget top-left for 1366x768 && 1920x1080
+;; (defwindow player_side :stacking "fg" :focusable "false" :screen 1
+;;   :geometry (geometry :x 10 :y 50 :width 300 :height 135)
+;;                 (music))
+
+;; Quote Widget
+(defwindow quote :stacking "fg" :focusable "false" :screen 1
+  :geometry (geometry :x 10 :y 45 :width 600 :height 100)
+                (quote))
+
+;; Weather Widget
+(defwindow weather :stacking "fg" :focusable "false" :screen 1
+  :geometry (geometry :x 1009 :y 155 :width 350 :height 250)
+                (weather))
+
+;; Player-side widget for 1366x768
+(defwindow player_side :stacking "fg" :focusable "false" :screen 1
+  :geometry (geometry :x 530 :y 590 :width 200 :height 100)
+                (music))
+
+;; Player-side Widget for 1920x1080
+;; (defwindow player_side :stacking "fg" :focusable "false" :screen 1
+;;   :geometry (geometry :x 800 :y 900 :width 200 :height 135)
+;;                 (music))
+
+;; Time-side Widget for 1366x768
+(defwindow time-side :stacking "fg" :focusable "false" :screen 1
+  :geometry (geometry :x 1210 :y 45 :width 150 :height 100)
+                (time))
+
+;; Time-side Widget for 1920x1080
+;; (defwindow time-side :stacking "fg" :focusable "false" :screen 1
+;;   :geometry (geometry :x 1760 :y 45 :width 150 :height 100)
+;;                 (time))

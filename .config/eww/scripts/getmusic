@@ -1,0 +1,154 @@
+#!/usr/bin/env bash
+
+# A script that interacts with eww widget (player-side) to get information about (spotify||mpd)
+
+# Get Current Running Player.
+if ps -C spotify > /dev/null; then
+    status=$(playerctl -p spotify status)
+    if [ "$status" = "Playing" ] || [ "$status" = "Paused" ]; then
+        PLAYER="spotify"
+    fi
+fi
+if ps -C mpd > /dev/null; then
+    status=$(mpc status | grep playing > /dev/null)
+    exit_code=$?
+    if [ $exit_code -eq 0 ]; then
+        if [ -z $PLAYER ]; then
+            PLAYER="mpd"
+        fi
+    fi
+    status=$(mpc status | grep paused > /dev/null)
+    exit_code=$?
+    if [ $exit_code -eq 0 ]; then
+        if [ -z $PLAYER ]; then
+            PLAYER="mpd"
+        fi
+    fi
+fi
+get_title() {
+    if  [ "$PLAYER" = "spotify" ]; then
+        TITLE=$(playerctl -p spotify metadata --format '{{title}}')
+        echo $TITLE
+    elif [ "$PLAYER" = "mpd" ]; then
+        TITLE=$(mpc -f %title% current)
+        echo $TITLE
+    else
+        echo "Offline"
+    fi
+}
+get_artist() {
+    if  [ "$PLAYER" = "spotify" ]; then
+        TITLE=$(playerctl -p spotify metadata --format '{{artist}}')
+        echo $TITLE
+    elif [ "$PLAYER" = "mpd" ]; then
+        TITLE=$(mpc -f %artist% current)
+        echo $TITLE
+    else
+        echo "Player"
+    fi
+}
+get_status() {
+    if  [ "$PLAYER" = "spotify" ]; then
+        STATUS=$(playerctl -p spotify status)
+        if [ "$STATUS" = "Playing" ]; then
+            STATUS=""
+        else
+            STATUS=""
+        fi
+        printf "$STATUS"
+    elif [ "$PLAYER" = "mpd" ]; then
+        STATUS=$(mpc status | grep playing > /dev/null)
+        exit_code=$?
+        if [ $exit_code -eq 0 ]; then
+            STATUS=""
+        else
+            STATUS=""
+        fi
+        printf "$STATUS"
+    else
+        printf ""
+    fi
+}
+
+cp_ranimg() {
+    DIR_IMG="$HOME/.config/eww/imgs/"
+    FILE=$(find "$DIR_IMG" -type f | shuf -n 1)
+    if [ "$PLAYER" = "spotify" ]; then
+        cp $FILE /tmp/spotify_cover.png
+    elif [ "$PLAYER" = "mpd" ]; then
+        cp $FILE /tmp/mpd_cover.png
+    else
+        echo $FILE
+    fi
+}
+
+get_art() {
+    if  [ "$PLAYER" = "spotify" ]; then
+        ARTLINK=$(playerctl metadata mpris:artUrl | sed -e 's/open.spotify.com/i.scdn.co/g')
+        if [ $(playerctl metadata mpris:artUrl) ]; then
+            curl -s $ARTLINK --output "/tmp/spotify_cover.png"
+        else
+            cp_ranimg
+        fi
+        echo "/tmp/spotify_cover.png"
+    elif [ "$PLAYER" = "mpd" ]; then
+        MUSIC_DIR="$HOME/Music"
+        FFMPEG=$(ffmpeg -i "${MUSIC_DIR}/$(mpc current -f %file%)" "/tmp/mpd_cover.png" -y &> /dev/null)
+        exit_code=$?
+        [ "$exit_code" -eq 1 ] && cp_ranimg
+        echo "/tmp/mpd_cover.png"
+    else
+        cp_ranimg
+    fi
+}
+
+
+pause_play() {
+    if [ "$PLAYER" = "spotify" ]; then
+        playerctl -p spotify play-pause
+    elif [ "$PLAYER" = "mpd" ]; then
+        mpc toggle
+    fi
+}
+
+play_prev() {
+    if [ "$PLAYER" = "spotify" ]; then
+        playerctl -p spotify previous
+    elif [ "$PLAYER" = "mpd" ]; then
+        mpc prev
+    fi
+}
+
+play_next() {
+    if [ "$PLAYER" = "spotify" ]; then
+        playerctl -p spotify next
+    elif [ "$PLAYER" = "mpd" ]; then
+        mpc next
+    fi
+}
+
+player_stop() {
+    if [ "$PLAYER" = "spotify" ]; then
+        playerctl -p spotify stop
+    elif [ "$PLAYER" = "mpd" ]; then
+        mpc stop
+    fi
+}
+
+if [[ "$1" == "--art" ]]; then
+    get_art
+elif [[ "$1" == "--artist" ]]; then
+    get_artist
+elif [[ "$1" == "--title" ]]; then
+    get_title
+elif [[ "$1" == "--status" ]]; then
+    get_status
+elif [[ "$1" == "--toggle" ]]; then
+    pause_play
+elif [[ "$1" == "--next" ]]; then
+    play_next
+elif [[ "$1" == "--prev" ]]; then
+    play_prev
+elif [[ "$1" == "--stop" ]]; then
+    player_stop
+fi

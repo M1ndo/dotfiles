@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# Script to fetch random quote from quotes file
+num=$(echo $((1 + $RANDOM % 500)))
+
+cat ~/.config/eww/scripts/quotes.json | jq --arg num "$num" ".[$num]" | jq -r ".text" > /tmp/quote
+cat ~/.config/eww/scripts/quotes.json | jq --arg num "$num" ".[$num]" | jq -r ".author" > /tmp/quote_author
+quote=$(cat /tmp/quote)
+qc=$(cat /tmp/quote_author | wc -c)
+rm /tmp/quote
+rm /tmp/quote-tail
+if [ "$qc" -le 58 ]; then
+        echo "$quote" > /tmp/quote
+        echo "" > /tmp/quote-tail
+else
+        printf '%s\n' "${quote:0:${#quote}/2}" > /tmp/quote
+        printf '%s\n' "${quote:${#quote}/2}" > /tmp/quote-tail
+fi
+
+if [[ "$1" == "--quote" ]]; then
+    cat /tmp/quote
+elif [[ "$1" == "--author" ]]; then
+    cat /tmp/quote_author
+fi

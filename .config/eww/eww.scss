@@ -1,0 +1,110 @@
+// Eww scss configuration
+// General
+* {
+  all: unset;
+}
+
+window {
+  // background-color: #121212;
+    background-color: #282C34;
+/*  background-color: #000000; */
+	color: #ffd5cd;
+  // font-family: Museo Sans;
+  font-family: Scientifica;
+}
+
+// Music
+.musicinfo-side {
+  font-size: 15px;
+  margin-top: 40px;
+  margin-left: 5px;
+  font-weight: bold;
+  // margin: 20px;
+  border-radius: 10px;
+  // border: 1px solid white;
+  min-width: 40px;
+}
+.musicbtn-side {
+  padding-left: 29px;
+  padding-top: 8px;
+  padding-bottom: 5px;
+}
+.musicbtn-side button {
+  font-size: 16px;
+  padding-right: 30px;
+}
+
+.musicbtn-side button:hover {
+  color: #D35D6E;
+}
+.pause-play-side {
+  color: #D35D6E;
+}
+.pause-play-side:hover {
+  color: #ffd5cd;
+}
+// Time
+.time-side {
+  margin: 0px 0px 15px 0px;
+  // padding-left: 45px;
+  padding-left: 20px;
+  font-size: 50px;
+}
+.minute-side {
+  color: #D35D6E;
+}
+.mer-side {
+    padding-bottom: 20px;
+}
+.day-side {
+  font-size: 16px;
+  margin: 20px 5px -36px -159px;
+  font-weight: bold;
+  color: #90c861;
+}
+
+.dayy-side {
+  font-size: 16px;
+  margin: 20px 5px -36px -45px;
+  font-weight: bold;
+  color: #84afdb;
+}
+
+.quote {
+    font-size: 16px;
+    margin: 20px 0px 15px 0px;
+    color: #84afdb;
+    font-family: Cascadia Code;
+    font-style: italic;
+}
+.quote_author {
+    margin: 0px 0px -15px 450px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #D35D6E;
+}
+
+// Weather
+.weaticon {
+	font-family: Iosevka Nerd Font;
+	font-size : 120px;
+	font-weight : normal;
+	margin : 15px 0px 0px 30px;
+}
+
+.label_temp {
+	color : #A6D1DD;
+	font-size : 80px;
+	font-weight : bold;
+	margin : -15px 30px 0px 0px;
+}
+
+.label_stat {
+	color : #BF616A;
+	font-weight : bold;
+}
+
+.label_quote {
+	color : #E5E5E5;
+	font-weight : normal;
+}
