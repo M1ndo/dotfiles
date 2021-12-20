@@ -4,13 +4,26 @@ The MODKEY is set to the /Super key/ (aka the *Windows* key). I try to keep
 the keybindings consistent with all of my window managers. Full
 Keybinding Documentation Is Available [[https://docs.darkos.cf/bindings/][Here]]
 
+** [[https://github.com/elkowar/eww][Eww Widgets]]
+Eww widgets are compatible with *1920x1080* // *1366x768* resolutions
+ + To Change Resolution to 1366x768 change [[https://github.com/m1ndo/dotfiles/blob/master/.config/eww/eww.yuck][Eww.yuck]] and un-comment 1366x768 widgets
+   + Make sure to comment out 1920x1080 widgets
+*** Widgets Supported
++ Player Widget ( Spotify / Mpd )
++ Time Widget
++ Quotes Widget
++ Weather Widget
+  + Get your API_KEY from [[https://openweathermap.org/api][OpenWeather]] and add it to [[https://github.com/m1ndo/dotfiles/blob/master/.config/eww/scripts/weather_info][Weather_Info]]
+*** Screenshot (Xmonad With Eww)
+[[file:screenshots/ybenel-full-20211219-211935.png]]
+
 ** Doom Emacs Installation.
 Follow This [[https://ybenel.cf/files/Install-Emacs.pdf][Article]] To Install
 Doom Emacs On Linux (Arch/Debian) - Windows (WSL/XServer)
 
 ** Screenshots
 *** Awesome WM
-[[file:screenshots/ybenel-full-20210905-220622.png]]
+[[file:screenshots/ybenel-full-20211012-212709.png]]
 *** Xmonad
 [[file:screenshots/ybenel-full-20211027-170226.png]]
 *** Herbstluftwm
