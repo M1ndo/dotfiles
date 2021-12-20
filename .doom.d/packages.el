@@ -26,3 +26,9 @@
 (package! aggressive-indent)
 (package! 0x0)
 (package! centaur-tabs :pin "b4249c40581368faf7bb8e06f86b9eee199c3c6")
+(package! vlf :recipe (:host github :repo "m00natic/vlfi" :files ("*.el"))
+  :pin "cc02f2533782d6b9b628cec7e2dcf25b2d05a27c")
+(package! dashboard :disable t)
+(package! org-pretty-tags :pin "5c7521651b35ae9a7d3add4a66ae8cc176ae1c76")
+(package! marginalia)
+

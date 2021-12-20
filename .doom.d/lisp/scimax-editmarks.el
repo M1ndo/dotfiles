@@ -1,165 +1,3 @@
-#+title: Scimax-editmarks
-#+PROPERTY: header-args :tangle yes
-
-This library provides a editmarks for editing documents, and functions to interact with the editmarks, e.g. inserting them, accepting/rejecting them, listing them, generating them from reference documents, and converting them to other formats.
-
-There are some related libraries.
-
-1. [[https://github.com/joostkremers/criticmarkup-emacs][criticmark-emacs]] is the closest in spirit. The markup for the editmarks I use here is inspired by the markup in criticmarks, and it only differs to avoid some clashes with org syntax. The track changes code in this library is built from ideas in this package. I had created several additions to this in scimax/cm-mods.el that are mostly incorporated here. This library leverages text properties to make some things easier, e.g. adding keymaps, export functions, etc.
-2. scimax/org-editmarks.el was written by me to use links for editmarks. This had the benefit of builtin export capability, but the link syntax was ultimately limited to one line changes.
-3. scimax/ov-highlights.el was written by me to use overlays for annotations. This approach is fragile and easy to break.
-
-scimax-editmarks was written to address the limitations above, and hopefully finally have something like track changes, and editmarks for text-based markup languages (although it was written with org-mode in mind).
-
-`scimax-editmarks' is written in a literate programming style. Load it like this in your init files.
-
-#+BEGIN_SRC emacs-lisp :tangle no
-(org-babel-load-file "scimax-editmarks.org")
-#+END_SRC
-
-#+RESULTS:
-: Loaded /Users/jkitchin/vc/jkitchin-github/scimax/scimax-editmarks.el
-
-After you load it, you can turn on `sem-mode' to fontify the markups.
-
-You should avoid:
-1. Nesting editmarks.
-2. Having editmark cross org-elements, e.g. do not put editmarks across one boundary of a src-block, a table, over a headline, etc. That is sure to mess up something.
-
-The editmarks are supposed to support multiline markup. This is hard to do right in Emacs, so things are likely to work better if you stick  to single line editmarks. I like `visual-line-mode' for that purpose.
-
-This document is the manual and the source..
-
-* Known issues and limitations
-
-There are things to do. Check them out here: [[elisp:(org-agenda nil "t" "<")]]
-
-** TODO Residual text properties sometimes when editmarks are removed?
-
-I have some concerns about using text properties exclusively for this project. It is appealing because they are stored where the changes should be. As long as font-lock manages the properties correctly it seems like it should work. Searching by property change is a little tricky sometimes though. The alternative is a regexp based search. I don't currently store the regexps though, and on an edit mark would need a regexp based way to identify what kind of editmark you are on.
-
-This note is about the fact that sometimes it seems like there are residual properties that mess up the fontification and addition of subsequent editmarks.
-
-** TODO Need to disable editmark keymaps when in track change mode? It limits what you can type. Or, I need a prefix on all of them so that we don't collide with typing.
-
-** TODO Nested editmarks are not allowed
-
-This would require a more sophisticated parser. If you need this, you should probably look at a sexp based syntax, e.g. (@-insert "some text"), or a special block.
-
-** TODO disable flyspell/check in at least the typo editmarks.
-
-
-* Features I would like to implement one day
-
-** DONE Metadata in editmarks
-   CLOSED: [2021-06-04 Fri 19:39]
-
-It would be nice to have some metadata e.g. a timestamp, or who should be responsible for a task, for example. This is most likely to look like a sexp plist. E.g. like this:
-
-{>*Some task to be done :due-date [2019-06-16 Sun] :assigned-to user*<}
-
-This should be general so it works with all editmarks.
-
-Note this is a partial feature in the file and audio editmarks. This is basically done. Here is how the item above is parsed.
-
-
-#+BEGIN_SRC emacs-lisp :results code :tangle no
-(sem-editmark-plist-from-string "Some task to be done :due-date [2019-06-16 Sun] :assigned-to user ")
-#+END_SRC
-
-#+RESULTS:
-#+begin_src emacs-lisp :tangle no
-("Some \"task\" to be done" :due-date "[2019-06-16 Sun]" :assigned-to "user")
-#+end_src
-
-It is not super robust because the parsing is simple, and no quotes are required.
-
-* Examples
-  :PROPERTIES:
-  :tangle:   no
-  :END:
-** Insertions
-
- {>+insert one line+<}
-
-{>+insert
-multiple
-lines+<}
-
-{>+ @johnkitchin insert with author+<}
-
-** Deletions
-
-delete one line
-
-{>-delete
-multiple
-lines-<}
-
-** Comments
-
-{>~one line  comment~<}
-
-{>~multi
-line
-comment <<}
-
-{>~ @author comment~<}
-
-** Replys
-
-{r> @replier A reply<r}
-
-** Task
-
-{>* This is something you should do. *<}
-
-** Typos
-
-{>.tpyo.<} Type 4 on the open marker to spell check and replace this.
-
-- sem-editmark-spellcheck-typo :: to spell check and fix the typo.
-
-** Highlights
-
-These don't really do anything but provide visual, persistent highlighting.
-
-{b>blue highlight<b}
-{g>green highlight<g}
-{y>yellow highlight<y}
-{p>pink highlight<p}
-
-
-** File
-
-This is a variation of the notebook link in scimax-notebook.el. It allows you to link to files in projects, as well as to lines and columns in the file.
-
-{>|:file scimax-editmarks.org :project scimax :line 113 :column 0 |<}
-
-A tooltip should tell you how to open the editmark.
-
-- sem-store-file-editmark :: saves information about where the point is.
-- sem-insert-file-editmark :: inserts an editmark from the last stored file
-
-This editmark has some limitations:
-1. If it points to a location, and if you change the file, the location will not be the same as it was when you saved the link.
-
-** Audio
-
-This is an audio annotation. {a> :file 2021-06-04-19-48-38.mp3 <a} It relies on http://sox.sourceforge.net/ to record and play the file.
-
-- sem-audio-insert :: will start a recording and insert the editmark when you are done. A local file will be saved as an mp3.
-- sem-audio-listen :: will play the editmark.
-
-This code was inspired by and adapted from https://gnu.support/gnu-emacs/emacs-lisp/Emacs-Lisp-Record-voice-notes-within-GNU-Emacs.html.
-
-** Contact
-
-This is mostly an experiment: {@>John Kitchin :email jkitchin@andrew.cmu.edu <@}
-
-* The code
-
-#+BEGIN_SRC emacs-lisp
 ;;; scimax-editmarks.el --- Editmarks for scimax
 
 ;;; Commentary:
@@ -170,15 +8,6 @@ This is mostly an experiment: {@>John Kitchin :email jkitchin@andrew.cmu.edu <@}
 (require 'color)
 (require 'easymenu)
 
-#+END_SRC
-
-#+RESULTS:
-
-** Menu and keymaps
-
-We create a popup menu and keymaps for the markers and content here.
-
- #+BEGIN_SRC emacs-lisp
 (defcustom sem-menu-items
   '(["accept" sem-accept-editmark t]
     ["reject" sem-reject-editmark t]
@@ -220,16 +49,6 @@ We create a popup menu and keymaps for the markers and content here.
     map)
   "Map for actions on editmark content.")
 
-
-#+END_SRC
-
-#+RESULTS:
-: sem-editmark-content-map
-
-# An editmark supports speedkeys on the markers, enabling you to press a single key to make something happen.  We define these keys here.
-I thought having speed keys was a nice idea, but in track-change mode, it interferes, e.g. when you want to insert things at the beginning of an editmark. I think the hydra is sufficient, so I am taking this out for now. Note that since the sem-editmark-content-map is all prefixed, there is not an issue.
-
-#+BEGIN_SRC emacs-lisp
 ;; This is less useful than I thought.
 
 ;; (defvar sem-speed-map
@@ -257,20 +76,6 @@ I thought having speed keys was a nice idea, but in track-change mode, it interf
 ;;   (interactive)
 ;;   (describe-keymap sem-speed-map))
 
-
- #+END_SRC
-
-
-* The editmarks
-    :PROPERTIES:
-    :ID:       6ABCE6EF-7106-4E80-AEA7-66B1F3CDB5DD
-    :END:
-
-To define an editmark we need to define open and close markers, and the faces for the markers and the content between them. You can additionally define keymaps, and functions that define what happens when an editmark is accepted or rejected.
-
-Export functions should take one argument, the backend as a symbol, and they are responsible for replacing the editmark with the new markup suitable for the backend. Example functions are in [[id:53446467-2C90-49B5-B0E2-09FB347B2B21][Export functions]].
-
- #+BEGIN_SRC emacs-lisp
 (defvar sem-editmarks
   `((delete :open-marker "{>-" :close-marker "-<}"
 	    :marker-face (:foreground "red" :weight ultra-light :strike-through t)
@@ -379,16 +184,6 @@ Export functions should take one argument, the backend as a symbol, and they are
 
   "The default editmarks")
 
-
- #+END_SRC
-
- #+RESULTS:
- : sem-editmarks
-
-Some editmarks can have a plist in them containing metadata. Here we define how to read these. For now we assume that the content of an editmark is all a plist.
-
-
-#+BEGIN_SRC emacs-lisp
 (defun sem-editmark-plist-from-string (content)
   "Convert CONTENT into a plist.
 We split the string into words, and reassemble it into a plist.
@@ -445,15 +240,6 @@ plist, this may not do what you want."
 			   (car content-bounds) (cdr content-bounds)))))
     (sem-editmark-plist-from-string content)))
 
-
-#+END_SRC
-
-
-** audio editmark functions
-
-This editmark points to an audio file.
-
-#+BEGIN_SRC emacs-lisp
 (defvar sem-editmark-audio-map
   (let ((map (copy-keymap org-mode-map)))
     (define-key map (kbd "M-o") 'sem-audio-listen)
@@ -499,22 +285,6 @@ This editmark points to an audio file.
 			 (insert (format "{a> :file %s <a}" fname))))
     (recursive-edit)))
 
-
-#+END_SRC
-
-#+RESULTS:
-: sem-audio-insert
-
-
-** file editmark functions
-
-File editmarks are a different way to link to a file than an org-link. There is a finer resolution in these, where you can store the line and column number.
-
-One day maybe I will try storing some context, e.g. for org files. There is a placeholder now, but it isn't great, just the characters around the point.
-
-Another potential idea is an md5 hash, so you can tell if the file has changed since the link was made.
-
-#+BEGIN_SRC emacs-lisp
 (defvar sem-saved-file nil
   "plist for saved files.")
 
@@ -597,22 +367,6 @@ Another potential idea is an md5 hash, so you can tell if the file has changed s
 		    (plist-get plist :file)
 		    (file-name-nondirectory (plist-get plist :file))))))))
 
-
-#+END_SRC
-
-#+RESULTS:
-: sem-file-export
-
-** Export functions
-   :PROPERTIES:
-   :ID:       53446467-2C90-49B5-B0E2-09FB347B2B21
-   :END:
-
-The export functions replace the current editmarks with alternate syntax. You should define different behaviors for different backends. Here we support LaTeX and html. If you don't define an export function a default function is used.
-
-For LaTeX, I rely on https://ctan.org/pkg/todonotes?lang=en for comments and tasks.
-
-#+BEGIN_SRC emacs-lisp
 (defun sem-export-insert (backend)
   "Exporter for insert editmarks."
   (let ((bounds (sem-editmark-bounds))
@@ -710,15 +464,6 @@ For LaTeX, I rely on https://ctan.org/pkg/todonotes?lang=en for comments and tas
 							   (cdr content-bounds)))
 	     "@@html:<br>@@"))))))
 
-
-#+END_SRC
-
-#+RESULTS:
-: sem-export-task
-
-For markups with no exporter, we use a default function. This tries to be fancy and approximately represent the colors you see in org-mode.
-
-#+BEGIN_SRC emacs-lisp
 (defun sem-export-default (backend)
   "Default exporter for editmarks.
 We wrap this something that approximates the appearance. If there
@@ -772,25 +517,6 @@ we go with the font color."
 							   (cdr content-bounds)))
 	     "@@html:<br>@@"))))))
 
-
-#+END_SRC
-
-#+RESULTS:
-: sem-export-default
-
-** Font-lock
-
-The workhorse for fontification and property setting of editmarks is the font-lock engine.
-
- [[info:elisp#Search-based%20Fontification][info:elisp#Search-based Fontification]]
- [[info:elisp#Customizing%20Keywords][info:elisp#Customizing Keywords]]
- [[info:elisp#Special%20Properties][info:elisp#Special Properties]]
-
- [[info:elisp#Multiline%20Font%20Lock][info:elisp#Multiline Font Lock]]
-
-The standard font-lock uses regexps for font-locking. We construct the regexp and font-lock keywords for each type in `sem-editmarks' in a function that is used in the minor mode to turn fontification on and off.
-
-#+BEGIN_SRC emacs-lisp
 ;; these should get removed when a region is unfontified.
 (add-to-list 'font-lock-extra-managed-props 'sem-content)
 (add-to-list 'font-lock-extra-managed-props 'sem-marker)
@@ -841,17 +567,6 @@ The standard font-lock uses regexps for font-locking. We construct the regexp an
 	     )))
    sem-editmarks))
 
-
- #+END_SRC
-
- #+RESULTS:
- : sem-font-lock-keywords
-
-** Create new editmarks
-
-You can create your own editmarks.
-
-#+BEGIN_SRC emacs-lisp
 (defun sem-set-editmark-parameters (type &rest parameters)
   "Add or update an editmark.
 TYPE is a symbol for the name of the editmark
@@ -866,15 +581,6 @@ PARAMETERS is a set of keyword value pairs
       (font-lock-remove-keywords nil (sem-font-lock-keywords))
       (font-lock-add-keywords nil (sem-font-lock-keywords)))))
 
-
-#+END_SRC
-
-#+RESULTS:
-: sem-set-editmark-parameters
-
-*** Creating a contact editmark.
-
-#+BEGIN_SRC emacs-lisp
 (defvar sem-editmark-contact-map
   (let ((map (copy-keymap org-mode-map)))
     (define-key map (kbd "<return>") 'sem-contact/body)
@@ -1010,22 +716,7 @@ This uses org-db-contacts, not editmark contacts right now."
   ("r" sem-contact-related "Related documents")
   ("t" sem-contact-email-to "Open emails to contact")
   ("f" sem-contact-email-from "Open emails from contact"))
-#+END_SRC
 
-#+RESULTS:
-: sem-contact/body
-
-*** TODO Needed features
-
-- [ ] a display function so we don't have to see the whole thing if we don't want to.
-- [ ] a validation function to tell you if it is ok, e.g. has required info
-- [ ] a video editmark
-
-** Minor-mode for editmarks
-
-A minor mode is an easy way to turn font-locking on and off. All we do here is turn fontification on and off. Note that if the editmarks conflict with pdf export (usually because of the color package), you can turn off sem-mode to prevent the export.
-
- #+BEGIN_SRC emacs-lisp
 (define-minor-mode sem-mode
   "A minor mode for editmarks."
   :lighter " sem"
@@ -1041,27 +732,8 @@ A minor mode is an easy way to turn font-locking on and off. All we do here is t
     (add-hook 'org-export-before-processing-hook 'sem-editmarks-to-org nil t))
   (font-lock-ensure))
 
-
- #+END_SRC
-
- #+RESULTS:
-
-** Scimax menu
-
-This adds a menu to scimax for the editmarks.
-
-#+BEGIN_SRC emacs-lisp
 (easy-menu-change '("Scimax") "editmarks" sem-menu-items "Update scimax")
-#+END_SRC
 
-#+RESULTS:
-
-** Convenience functions
-*** Utilities
-
- Two utilities that will be helpful are to get the bounds of the current editmark, and the bounds of the content in an editmark. These will be used later for acting on them. This code is surprisingly complex to me, it handles a number of corner cases that seem to result from using property changes to delineate boundaries. One day it might be a good idea to simplify this if it is possible.
-
- #+BEGIN_SRC emacs-lisp
 (defun sem-content-bounds ()
   "Return a cons cell of (start . end) of editmark content."
   (cond
@@ -1115,15 +787,6 @@ Return nil if not on an editmark."
       (cons (or (previous-single-property-change (point) 'sem-editmark) (point))
 	    (or (next-single-property-change (point) 'sem-editmark) (point)))))))
 
-
- #+END_SRC
-
- #+RESULTS:
- : sem-editmark-bounds
-
- It is also helpful to see information about an editmark. This is mostly for debugging purposes to make sure the bounds are found correctly.
-
- #+BEGIN_SRC emacs-lisp
 (defun sem-editmark-info ()
   "Give a message with some details."
   (interactive)
@@ -1146,27 +809,6 @@ content: ${content}"
 			(cons "content-start" (car cbounds))
 			(cons "content-end" (cdr cbounds)))))))
 
-
- #+END_SRC
-
- #+RESULTS:
- : sem-editmark-info
-
-*** Inserting editmarks
-
- This generates the insert commands. This trys to be a dwim type of command.
-
-If you are on a blank space, insert the markers and put the cursor in the middle.
-
-If you are on a word, wrap the word in markers
-
-If you have selected a region, wrap the region in markers.
-
-The functions try to be smart and not allow you to nest markups, or create new markups that cross existing markups.
-
-It is not so smart that it will prevent you from messing up a code block, or crossing org boundaries like headlines, blocks or tables. This would be pretty difficult to prevent.
-
-#+BEGIN_SRC emacs-lisp
 (defun sem-author ()
   "Return an author string"
   (format "@%s" (s-join "" (mapcar (lambda (s)
@@ -1174,15 +816,6 @@ It is not so smart that it will prevent you from messing up a code block, or cro
 				      (substring s 0 1)))
 				   (split-string (or (user-full-name) "Not a name"))))))
 
-
-#+END_SRC
-
-#+RESULTS:
-: sem-author
-
-Here is a generic insert function. It offers completion on the types to insert.
-
-#+BEGIN_SRC emacs-lisp
 (defun sem-insert (type)
   "Insert an editmark of TYPE.
 TYPE should be a symbol corresponding to the car of an entry in `sem-editmarks'."
@@ -1290,26 +923,6 @@ TYPE should be a symbol corresponding to the car of an entry in `sem-editmarks'.
     (save-excursion
       (add-file-local-variable 'eval '(sem-mode)))))
 
-
-#+END_SRC
-
-#+RESULTS:
-: sem-insert
-
-*** Delete/Clear a editmark
-
-These two functions will probably meet most accept/reject needs. I think most of the time you either want to delete the editmark completely, e.g. you have resolved it, or you want to just clear the markers, e.g. to accept the change, or reject the deletion.
-
- |         | accept                       | reject                       |
- |---------+------------------------------+------------------------------|
- | insert  | delete markers, keep content | delete editmark              |
- | delete  | delete editmark              | delete markers, keep content |
- | comment | delete editmark              |                              |
-
-For other editmarks, e.g. typo, or highlights, it is less clear what the right thing to do is.
-
-
- #+BEGIN_SRC emacs-lisp
 (defun sem-delete-editmark ()
   "Remove the editmark, markers and content."
   (interactive)
@@ -1347,15 +960,6 @@ For other editmarks, e.g. typo, or highlights, it is less clear what the right t
 	    (buffer-substring-no-properties (car content-bounds) (cdr content-bounds))))
     (sem-next-editmark)))
 
-
- #+END_SRC
-
- #+RESULTS:
- : sem-clear-and-next-editmark
-
-For convenience, we create functions to clear or delete all marks in the buffer.
-
- #+BEGIN_SRC emacs-lisp
 (defun sem-clear-all-editmarks ()
   "Clear all editmarks in the buffer."
   (interactive)
@@ -1373,23 +977,6 @@ For convenience, we create functions to clear or delete all marks in the buffer.
     (while (sem-next-editmark)
       (sem-delete-editmark))))
 
-
- #+END_SRC
-
- #+RESULTS:
- : sem-delete-all-editmarks
-
-*** Accept/reject individual editmarks
-
- These functions look up the functions to call from `sem-editmarks' and then call them.
-
-**** Accept functions
-
-You can "accept" an editmark, which means you agree with its intention and want to modify it so that the text reflects it. For example accepting an insertion means remove the markers and keep the content, whereas accepting a deletion means remove the whole editmark.
-
-Other editmarks can have other meanings for accept, you just have to define the functions to do the modifications you want.
-
- #+BEGIN_SRC emacs-lisp
 (defun sem-accept-editmark ()
   "Accept the current editmark."
   (interactive)
@@ -1415,19 +1002,6 @@ Other editmarks can have other meanings for accept, you just have to define the 
     (while (sem-next-editmark)
       (sem-accept-editmark))))
 
-
- #+END_SRC
-
- #+RESULTS:
- : sem-accept-all-editmarks
-
-**** Reject functions
-
-You can also reject an editmark. For an insertion this means delete the markers and the content. For a deletion, rejection means delete the markers and keep the content.
-
-Other editmarks may have other meanings for reject, you just have to define the functions to do the desired modifications.
-
- #+BEGIN_SRC emacs-lisp
 (defun sem-reject-editmark ()
   "Reject the current editmark."
   (interactive)
@@ -1453,17 +1027,6 @@ Other editmarks may have other meanings for reject, you just have to define the 
     (while (sem-next-editmark)
       (sem-reject-editmark))))
 
-
- #+END_SRC
-
- #+RESULTS:
- : sem-reject-all-editmarks
-
-*** Navigation
-
- These make it easy to go back and forth on the editmarks.
-
- #+BEGIN_SRC emacs-lisp
 (defun sem-next-editmark ()
   "Move point to the next editmark."
   (interactive)
@@ -1487,15 +1050,6 @@ Other editmarks may have other meanings for reject, you just have to define the 
       (goto-char previous-em)
       previous-em)))
 
-
- #+END_SRC
-
- #+RESULTS:
- : sem-previous-editmark
-
-Another nice way to move around to visible editmarks is with avy.
-
-#+BEGIN_SRC emacs-lisp
 (defun sem-jump-to-visible-editmark ()
   "Use avy to jump to a visible editmark."
   (interactive)
@@ -1512,15 +1066,6 @@ Another nice way to move around to visible editmarks is with avy.
 	 (reverse editmarks)))
      (avy--style-fn avy-style))))
 
-
-#+END_SRC
-
-#+RESULTS:
-: sem-jump-to-visible-editmark
-
-Finally, you might want to jump to any editmark in the buffer using completion for selection.
-
-#+BEGIN_SRC emacs-lisp
 (defun sem-jump-to-editmark ()
   "Jump to an editmark with completion."
   (interactive)
@@ -1538,17 +1083,6 @@ Finally, you might want to jump to any editmark in the buffer using completion f
     (setq candidate (completing-read "editmark: " (reverse candidates)))
     (goto-char (cdr (assoc candidate candidates)))))
 
-
-#+END_SRC
-
-#+RESULTS:
-: sem-jump-to-editmark
-
-*** List editmarks
-
-It is helpful to have an overview of all the editmarks in a tabular list form. Here we make that possible.  First, we need a function that gets all the editmarks.
-
- #+BEGIN_SRC emacs-lisp
 (defun sem-get-editmarks ()
   "Return a list of the editmarks in the buffer.
 Each element of the list is (type (start . end) editmark).
@@ -1575,15 +1109,6 @@ editmark is the full text including the markers."
 	      editmarks))
       editmarks)))
 
-
- #+END_SRC
-
- #+RESULTS:
- | delete | scimax-editmarks.org | (10941 . 16068) |
-
-Next, we define a tabulated list view. There are a lot of moving parts here. We store the source buffer so we can get back to it. This is a little clunky, and probably won't work right if you look at multiple buffers with editmarks in them.
-
- #+BEGIN_SRC emacs-lisp
 (defvar sem-editmark-source nil
   "Holds source buffer that the editmarks came from.")
 
@@ -1634,15 +1159,6 @@ Next, we define a tabulated list view. There are a lot of moving parts here. We 
       (goto-char pos)
       (org-show-entry))))
 
-
-#+END_SRC
-
-#+RESULTS:
-: sem-editmark-list-jump
-
-In the list view, we need to have a key map that makes it easy to jump back to the highlights, accept/reject/clear/delete them, etc.
-
-#+BEGIN_SRC emacs-lisp
 (defvar sem-editmark-list-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "q") 'bury-buffer)
@@ -1700,15 +1216,6 @@ In the list view, we need to have a key map that makes it easy to jump back to t
     map)
   "Local keymap for `sem-editmark-list-mode'.")
 
-
-#+END_SRC
-
-#+RESULTS:
-: sem-editmark-list-mode-map
-
-Finally we define a minor mode for the list view.
-
-#+BEGIN_SRC emacs-lisp
 (define-derived-mode sem-editmark-list-mode
   tabulated-list-mode "sem-editmarks"
   "Mode for viewing editmarks as a tabular list.
@@ -1717,18 +1224,6 @@ Finally we define a minor mode for the list view.
   (add-hook 'tabulated-list-revert-hook
 	    #'sem-editmark-refresh-list))
 
-
- #+END_SRC
-
- #+RESULTS:
- : sem-editmark-list-mode
-
-*** Spell-check editmark
-
- Especially for typo editmarks, we should have an easy way to fix them. Here are two options. One spell checks the content, and one is really intended for typo editmarks.
-
-
- #+BEGIN_SRC emacs-lisp
 (defun sem-editmark-spellcheck ()
   "Spell check the content of the editmark."
   (interactive)
@@ -1750,17 +1245,6 @@ Finally we define a minor mode for the list view.
       (font-lock-fontify-region (car bounds) (cdr bounds)))
     (sem-clear-editmark)))
 
-
- #+END_SRC
-
- #+RESULTS:
- : sem-editmark-spellcheck-typo
-
-*** The scimax-editmarks hydra
-
- I never remember all the things that are possible. Hydra menus solve that, and here we provide a context aware hydra menu that inserts editmarks when you are not on one, and provides actions for editmarks when you are on one. I bind it to H-m.
-
- #+BEGIN_SRC emacs-lisp
 (defhydra sem-insert (:color blue :hint nil :columns 3)
   "Editmark insert"
   ("u" (sem-audio-insert) "audio")
@@ -1817,24 +1301,6 @@ On an editmark open the action menu, otherwise the insert menu."
       (sem-action/body)
     (sem-insert/body)))
 
-
- #+END_SRC
-
- #+RESULTS:
- : sem-hydra
-
-** Conversions
-
- The editmarks are primarily intended for use in org-mode, but it is sometimes nice to convert them to a PDF for visualization or sharing with others. This section makes this possible.
-
-*** org-export
-
-It appears that org-export--generate-copy-script makes a copy of the buffer with no properties, which breaks finding the editmarks. A solution I worked out is to temporarily redefine buffer-substring-no-properties to just be buffer-substring for that command. That seems to be the least intrusive.
-
-It seems this will be unnecessary in a future version of org-mode; Nicholas has changed this code in master. [2018-11-28 Wed].
-
-#+BEGIN_SRC emacs-lisp
-
 (defun sem-export-copy-advice (orig-func &rest args)
   "Temporarily redefine buffer-substring-no-properties for exporting."
   (cl-letf (((symbol-function 'buffer-substring-no-properties) #'buffer-substring))
@@ -1870,37 +1336,10 @@ in a copy of the buffer."
 	    (funcall export-func backend)
 	  (sem-export-default backend)))))
 
-
- #+END_SRC
-
- #+RESULTS:
- : sem-editmarks-to-org
-
-** Generation
-
- It is also helpful to see how the current document has changed from some reference state. Two useful reference states are:
-
- 1. The version on disk since the buffer was last saved.
- 2. The difference between two git commits (or HEAD and some past commit).
-
- For this to work, you need a wdiff command. Here we set up the command with options for deletion and insertion marks.
-
- #+BEGIN_SRC emacs-lisp
 (defcustom sem-wdiff-cmd
   "wdiff -w \"{>-\" -x \"-<}\" -y \"{>+\" -z \"+<}\" "
   "Command to run wdiff with.")
 
-
- #+END_SRC
-
- #+RESULTS:
- : sem-wdiff-cmd
-
-*** From disk copy
-
- Say you have been editing along and want to see how the /unsaved/ buffer differs from what is on the disk. This command will show the marked up diff in a new buffer.
-
- #+BEGIN_SRC emacs-lisp
 (defun sem-wdiff-buffer-with-file ()
   "Do a wdiff of the buffer with the last saved version.
 For line-based diff use `diff-buffer-with-file'."
@@ -1922,17 +1361,6 @@ For line-based diff use `diff-buffer-with-file'."
     (goto-char (point-min))
     (sem-mode)))
 
-
- #+END_SRC
-
- #+RESULTS:
- : sem-wdiff-buffer-with-file
-
-*** From git diff
-
- This is lightly tested. It should show changes from the current version to some version in a past git commit. Note if you have existing sem-editmarks in the old version, you might get confusing results.
-
- #+BEGIN_SRC emacs-lisp
 (defun sem-wdiff-git (commit)
   "Perform a wdiff between HEAD and a git commit.
 An ivy selection is used to choose the commit.
@@ -1986,22 +1414,11 @@ the current version. Returns the buffer."
       (setq *sem-wdiff-git-source* curbuf))
     buf))
 
-
- #+END_SRC
-
- #+RESULTS:
- : sem-wdiff-git
-
-*** TODO Saving the generated wdiff buffer back
-
- The idea here is you you can do accept/reject in the temporary buffer, and then save it back. If you mess up badly, just delete the temp buffer. This needs to be tested.
-
- #+BEGIN_SRC emacs-lisp
 (defun sem-wdiff-save ()
   "Save changes.
 If there is an *org-wdiff-git* buffer, then we copy that content
 to the buffer visiting `*cm-wdiff-git-source*'. You may use
-,*org-wdiff-git* to accept/reject changes, and then put it back to
+*org-wdiff-git* to accept/reject changes, and then put it back to
 where it came from. Otherwise we just save the buffer."
   (interactive)
   (if (get-buffer "*org-wdiff-git*")
@@ -2012,23 +1429,6 @@ where it came from. Otherwise we just save the buffer."
 	(kill-buffer "*org-wdiff-git*"))
     (save-buffer)))
 
-
- #+END_SRC
-
-** Track changes mode
-   :PROPERTIES:
-   :ID:       D5D9C6AE-9B8E-4DD3-B542-60DAA5AD979F
-   :END:
-
- One thing MS Word does really well is track changes. It turns out to be super tricky to do it well. We try to do it here.
-
- This work is build off the `cm-follow-changes' code in cm-mode.
-
- The idea is we use before/after-change-functions to update the editmarks as we edit.
-
- This code is not super sophisticated yet, and the editmarks will break org-mode syntax if you delete across boundaries of tables, blocks, headlines, etc. It is not clear how clever the code can get to avoid this.
-
- #+BEGIN_SRC emacs-lisp
 (define-minor-mode sem-track-change-mode
   "A minor mode for tracking changes."
   :lighter " tc"
@@ -2041,23 +1441,6 @@ where it came from. Otherwise we just save the buffer."
     (setq after-change-functions (delq 'sem-after-change after-change-functions))
     (message "Track changes mode deactivated.")))
 
-
- #+END_SRC
-
- #+RESULTS:
-
- The insertions are pretty easy to handle, they are done in the before-change function. The gist of this function seems to be to move the point to the right place, and make sure we put anything around it we need, e.g. markers, then the insertion happens.
-
-There are a surprising number of cases to handle.
-
-1. Inside an editmark content insertion should work as expected. [[(insert-content)]]
-2. On editmark open markers we should move inside the content for insertion. [[(insert-open)]]
-3. On an editmark close marker we should move inside [[(insert-close)]]
-4. At the end of an insert editmark, merge backwards. [[(insert-merge-back)]]
-5. At the front of an insert editmark, merge forward. [[(insert-merge-forward)]]
-6. In plain text, insert markers [[(insert-simple)]]
-
- #+BEGIN_SRC emacs-lisp
 (defvar sem-current-deletion nil
   "The deleted text in track changes mode.
 The value is a list consisting of the text and a flag
@@ -2119,35 +1502,6 @@ changed."
        (t
 	(setq sem-current-deletion (list (buffer-substring beg end) (= (point) end))))))))
 
-
-#+END_SRC
-
-#+RESULTS:
-: sem-before-change
-
-#+RESULTS:
-: sem-before-change
-
-
-
- For deletions, There are two categories I have observed:
-1. Deletions from C-d, kill [[(delete-1)]].
-   1. These are characterized by (cl-second sem-current-deletion) being nil. There several cases to consider here too.
-      1. If not on an editmark, insert a delete mark [[(delete-1-add-mark)]].
-      2. If you are on content, just let it happen. [[(delete-1-content)]]
-      3. On an open-marker, ignore this. [[(delete-1-open)]]
-      4. On a close-marker, ignore this. [[(delete-1-close)]]
-2. Deletions from backspace [[(delete-2)]]
-   1. These are characterized by (cl-second sem-current-deletion) not being nil.
-      1. You are in an empty editmark, we should delete it. [[(delete-2-empty)]]
-      2. Fresh delete, insert markers and put content in them. [[(delete-2-new)]]
-      3. At the beginning of a delete, and deleting. Push deletion to front of content. [[(delete-2-front)]].
-      4. At the beginning of a delete and end of another delete. merge them. [[(delete-2-merge)]].
-      5. At the beginning of a delete and end of another mark. Just move in to previous mark. [[(delete-2-end+mark)]].
-      6. At the end of a delete, but not looking at another mark. Jump to the front. [[(delete-2-end-extend)]]
-
-
-#+BEGIN_SRC emacs-lisp
 (defun sem-after-change (beg end length)
   "Function to execute after a buffer change.
 This function marks deletions.  See `sem-before-change' for details.
@@ -2304,35 +1658,12 @@ of the affected text."
   (setq sem-current-deletion nil)
   (save-excursion (font-lock-fontify-region (line-beginning-position) (line-end-position))))
 
-
- #+END_SRC
-
- #+RESULTS:
- : sem-after-change
-
- While in track changes mode, we often need to modify the buffer without triggering the change functions. This macro simplifies that.
-
- #+BEGIN_SRC emacs-lisp
 (defmacro sem-without-following-changes (&rest body)
   "Execute BODY without following changes."
   (declare (indent defun))
   `(let ((inhibit-modification-hooks t))
      ,@body))
 
-
- #+END_SRC
-
- #+RESULTS:
- : sem-without-following-changes
-
-* The end
-
-#+BEGIN_SRC emacs-lisp
 (provide 'scimax-editmarks)
 
 ;;; scimax-editmarks.el ends here
-#+END_SRC
-
-# Local Variables:
-# eval: (sem-mode)
-# End:
