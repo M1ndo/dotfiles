@@ -1,5 +1,5 @@
 -- Configured added / removed by ybenel (github.com/m1ndo)
--- Modification Date: 10/24/2021
+-- Modification Date: 12/18/2021
 -- Base
 import XMonad
 import System.IO (hPutStrLn)
@@ -185,6 +185,7 @@ myStartupHook = do
         -- spawnOnce "/usr/bin/emacs --daemon &"
         spawnOnce "xscreensaver -no-splash &"
         spawnOnce "caffeine &"
+        spawnOnce "eww daemon &"
         -- spawn "/home/ybenel/.bin/ybl/jack_start"
         setWMName "LG3D"
 
@@ -365,7 +366,7 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
               -- , NS "discord" spawnDiscord findDiscord manageDiscord
               -- , NS "lightcord" spawnLcord findLcord manageLcord
               , NS "qjackctl" spawnQjack findQjack manageQjack
-              --, NS "spotify" spawnSpot findSpot manageSpot
+              , NS "spotify" spawnSpot findSpot manageSpot
               ]
  where
   spawnTerm  = myTerminal ++ " -n scratchpad"
@@ -410,7 +411,7 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
               t = 0.5
               l = 0.5
   spawnSpot  = "spot_load"
-  findSpot   = (className =? "spotify")
+  findSpot   = (className =? "Spotify")
   manageSpot = nonFloating
 
 mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
@@ -546,6 +547,7 @@ myManageHook = composeAll
    , className =? "error"           --> doFloat
    , className =? "notification"    --> doFloat
    , (className =? "firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
+   , className =? "pcmanfm" --> hasBorder True
    ] <+> namedScratchpadManageHook myScratchPads
 
 myLogHook :: X ()
@@ -670,6 +672,19 @@ myKeys =
       , ("M-u v", spawn "mpc next")
       , ("M-u b", spawn "mpc prev")
       , ("M-u m", spawn "mpc stop")
+
+  -- Controls for Ncmpcpp mpd music player (SUPER-u followed by a key)
+      , ("M-u w", spawn "playerctl -p spotify play-pause")
+      , ("M-u d", spawn "playerctl -p spotify next")
+      , ("M-u a", spawn "playerctl -p spotify previous")
+      , ("M-u s", spawn "playerctl -p spotify stop")
+
+  -- Eww Widgets (Super-r followed by a key)
+      , ("M-r m", spawn "eww open player_side")
+      , ("M-r c", spawn "eww open time-side")
+      , ("M-r a", spawn "eww open-many player_side time-side quote weather")
+      , ("M-r q", spawn "eww close-all")
+
   -- App Shortcuts
       , ("M1-<Return>", spawn "rofi -show drun -show-icons")
       , ("M-M1-s", spawn "dmenu_run -c -b -l 10 -g 4 -p 'ybenel: ' -fn 'scientifica:size=12'")
