@@ -19,7 +19,7 @@
 (package! lua-mode)
 (package! highlight-indent-guides)
 (package! gif-screencast)
-(package! elcord)
+(package! elcord :disable t)
 (package! dracula-theme)
 (package! consult-dir)
 (package! company-emojify)
@@ -31,4 +31,4 @@
 (package! dashboard :disable t)
 (package! org-pretty-tags :pin "5c7521651b35ae9a7d3add4a66ae8cc176ae1c76")
 (package! marginalia)
-
+(package! theme-magic)

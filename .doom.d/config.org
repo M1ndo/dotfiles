@@ -554,8 +554,8 @@ there's alot of ways to map keys in emacs, we use ~map!~ in doom emacs to make n
       :ne "r" #'consult-recent-file
       :ne "p" #'doom/open-private-config
       :ne "c" (cmd! (find-file (expand-file-name "config.org" doom-private-dir)))
-      :ne "." (cmd! (doom-project-find-file "~/.config/")) ; . for dotfiles
-      :ne "b" #'+vertico/switch-workspace-buffer
+      :ne "." (cmd! (doom-project-find-file "~/.dotfiles/")) ; . for dotfiles
+      :ne "b" #'+ivy/switch-workspace-buffer
       :ne "B" #'consult-buffer
       :ne "q" #'save-buffers-kill-terminal)
 #+end_src
@@ -1594,6 +1594,6 @@ The Dancing Rainbow Cat
 ** Scimax Bookmard
 scimax-bookmarks from [[https://github.com/jkitchin/scimax][Scimax]] is a cool snippet, that highlights a specific word/sentence also does other cool things.
 #+begin_src emacs-lisp
-(load-file (concat doom-private-dir "/lisp/scimax-editmarks.el"))
+;; (load-file (concat doom-private-dir "/lisp/scimax-editmarks.el"))
 ;;(org-babel-load-file "~/.doom.d/lisp/scimax-editmarks.org")
 #+end_src
