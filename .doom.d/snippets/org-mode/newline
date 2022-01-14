@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: newline
+# uuid:
+# key: \newl
+# condition: t
+# --
+#+LATEX: \newline

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: latex_code2
+# uuid: Latex-Code22
+# key: llat
+# condition: t
+# --
+#+LATEX: $0
