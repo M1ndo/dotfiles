@@ -1,11 +1,13 @@
 ;; -*- lexical-binding: t; -*-
-(use-package org-roam
+(require 'org-roam)
+(use-package! org-roam
   :ensure t
   :demand t  ;; Ensure org-roam is loaded by default
   :init
   (setq org-roam-v2-ack t)
   :custom
-  (org-roam-directory "~/org/Boxes")
+  (setq org-roam-db-gc-threshold gc-cons-threshold)
+  (org-roam-directory "~/org/roam")
   (org-roam-completion-everywhere t)
   (org-roam-capture-templates
    '(("d" "default" plain
@@ -86,7 +88,7 @@ capture was not aborted."
    nil
    (lambda (node)
      ;; Only look for nodes tagged with at least one of the following keywords
-     (seq-intersection '("Project" "Life" "Boxes")
+     (seq-intersection '("Project" "Biblio" "Life" "Boxes")
                        (org-roam-node-tags node)))
    :templates
    '(("p" "project" plain
@@ -99,6 +101,10 @@ capture was not aborted."
       :unnarrowed t)
      ("l" "Life" plain
       (file "~/org/Templates/Life.org")
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Life")
+      :unnarrowed t)
+     ("m" "Biblio" plain
+      (file "~/org/Templates/Bib.org")
       :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Life")
       :unnarrowed t))))
 
