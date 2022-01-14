@@ -482,6 +482,14 @@ Adding other cool stuff
 #+begin_src emacs-lisp
 (setq history-delete-duplicates t)
 #+end_src
+*** Recentf
+Recentf package doesn't seem to be saving every file due to not setting configuration properly by doom emacs
+#+begin_src emacs-lisp
+(setq recentf-auto-cleanup 'never
+      recentf-max-menu-items 50
+      recentf-max-saved-items 400)
+(add-hook 'find-file-hook 'recentf-save-list)
+#+end_src
 ** Tabs/Modeline
 Using centaur-tabs to adds tabs in to our emacs with customizations
 #+begin_src emacs-lisp
@@ -1575,6 +1583,7 @@ Mpdmacs is a cool wrapper around mpd for emacs to control mpd and display the cu
 playing song on the modeline
 #+begin_src emacs-lisp
 (require 'mpdmacs)
+(setq mpdmacs-host "192.168.8.110")
 (mpdmacs-mode)
 #+end_src
 *** Elcord
