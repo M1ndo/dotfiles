@@ -38,11 +38,11 @@ get_title() {
 }
 get_artist() {
     if  [ "$PLAYER" = "spotify" ]; then
-        TITLE=$(playerctl -p spotify metadata --format '{{artist}}')
-        echo $TITLE
+        ARTIST=$(playerctl -p spotify metadata --format '{{artist}}')
+        echo $ARTIST
     elif [ "$PLAYER" = "mpd" ]; then
-        TITLE=$(mpc -f %artist% current)
-        echo $TITLE
+        ARTIST=$(mpc -f %artist% current)
+        echo $ARTIST
     else
         echo "Player"
     fi
@@ -143,6 +143,9 @@ elif [[ "$1" == "--title" ]]; then
     get_title
 elif [[ "$1" == "--status" ]]; then
     get_status
+elif [[ "$1" == "--fetch" ]]; then
+    # echo %{F#00ff7f} `get_title` %{F#ffff00}- %{F#7b68ee}`get_artist`
+    echo %{F#00ff7f}`get_title` %{F#7b68ee}- %{F#ffff00}`get_artist`
 elif [[ "$1" == "--toggle" ]]; then
     pause_play
 elif [[ "$1" == "--next" ]]; then
