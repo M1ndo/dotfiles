@@ -18,12 +18,14 @@ hc keyunbind --all
 
 # keybindings
 Mod=Mod4                            # Use the super key as the main modifier
-myTerm=xterm                   # Set my preferred terminal
+myTerm=alacrit                   # Set my preferred terminal
+myTerms=xterm                     # Set my preferred application terminal
 myEditor="emacsclient -c -a emacs"  # Set my preferred editor
-myBrowser="chromium"
+myBrowser="firefox"
 myMusic="/usr/bin/mocp"
 myMMusic="ncmpcpp"
 MMControl="mpc"
+SpMusic="playerctl -p spotify"
 hc keybind $Mod-Shift-q quit
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-c close
@@ -38,30 +40,38 @@ hc keybind Mod1-Return spawn rofi -show drun -show-icons
 hc keybind Mod1-Control-e spawn ./.dmenu/dmenu-edit-configs.sh
 hc keybind Mod1-Control-h spawn ./.dmenu/dmenu-sysmon.sh
 hc keybind Mod1-Control-s spawn ./.dmenu/dmenu-scrot.sh
+hc keybind Mod1-Control-b spawn ./.dmenu/dmenu-setbg.sh
 hc keybind Mod1-Control-p spawn passmenu
 
 # My applications (Super+Alt+Key)
-hc keybind $Mod-Mod1-l spawn $myTerm -e lynx --cfg=~/.lynx/lynx.cfg --lss=~/.lynx/lynx.lss -vikeys https://music.ybenel.cf
-hc keybind $Mod-Mod1-e spawn $myTerm -e irssi
-hc keybind $Mod-Mod1-f spawn $myTerm -e ~/.config/vifm/scripts/vifmrun
-hc keybind $Mod-Mod1-c spawn $myTerm -e $myMusic
-hc keybind $Mod-Mod1-z spawn $myTerm -e $myMMusic
+hc keybind $Mod-Mod1-l spawn $myTerms -e lynx --cfg=~/.lynx/lynx.cfg --lss=~/.lynx/lynx.lss -vikeys https://music.ybenel.cf
+hc keybind $Mod-Mod1-e spawn $myTerms -e irssi
+hc keybind $Mod-Mod1-f spawn $myTerms -e ~/.config/vifm/scripts/vifmrun
+hc keybind $Mod-Mod1-c spawn $myTerms -e $myMusic
+hc keybind $Mod-Mod1-z spawn $myTerms -e $myMMusic
 
 # My Secondary Applications
 hc keybind $Mod-Control-Return spawn $myTerm
-hc keybind $Mod-Control-e spawn $myTerm -e torify irssi
+hc keybind $Mod-Control-e spawn $myTerms -e torify irssi
 hc keybind $Mod-b spawn $myBrowser
 
 
 # Controllers
-hc keybind $Mod-Mod1-p spawn $myTerm -e $myMusic --play
-hc keybind $Mod-Mod1-l spawn $myTerm -e $myMusic --next
-hc keybind $Mod-Mod1-h spawn $myTerm -e $myMusic --previous
-hc keybind $Mod-Mod1-j spawn $myTerm -e $myMusic --toggle-pause
-hc keybind $Mod-Mod1-m spawn $myTerm -e $MMControl stop
-hc keybind $Mod-Mod1-b spawn $myTerm -e $MMControl prev
-hc keybind $Mod-Mod1-v spawn $myTerm -e $MMControl next
-hc keybind $Mod-Mod1-x spawn $myTerm -e $MMControl toggle
+# Mocp
+hc keybind Shift-Mod1-p spawn $myMusic --play
+hc keybind Shift-Mod1-l spawn $myMusic --next
+hc keybind Shift-Mod1-h spawn $myMusic --previous
+hc keybind Shift-Mod1-space spawn $myMusic --toggle-pause
+# Spotify
+hc keybind Shift-Mod1-w spawn $SpMusic "play-pause"
+hc keybind Shift-Mod1-d spawn $SpMusic "next"
+hc keybind Shift-Mod1-a spawn $SpMusic "previous"
+hc keybind Shift-Mod1-s spawn $SpMusic "stop"
+# Mpd
+hc keybind Shift-Mod1-m spawn $MMControl stop
+hc keybind Shift-Mod1-b spawn $MMControl prev
+hc keybind Shift-Mod1-v spawn $MMControl next
+hc keybind Shift-Mod1-x spawn $MMControl toggle
 
 # focusing clients
 hc keybind $Mod-Left          focus left
@@ -175,7 +185,7 @@ hc set frame_border_active_color '#00ced1'
 hc set frame_border_normal_color '#8a2be2'
 hc set frame_bg_normal_color '#912cee'
 hc set frame_bg_active_color '#3a5fcd'
-hc set frame_border_width 1
+hc set frame_border_width 2
 hc set always_show_frame 0
 hc set frame_bg_transparent 1
 hc set frame_transparent_width 0
@@ -187,7 +197,7 @@ hc attr theme.normal.color '#8a2be2'
 hc attr theme.urgent.color white
 hc attr theme.inner_width 0
 hc attr theme.inner_color black
-hc attr theme.border_width 1
+hc attr theme.border_width 2
 hc attr theme.floating.border_width 4
 hc attr theme.floating.outer_width 1
 hc attr theme.floating.outer_color black
@@ -235,9 +245,10 @@ herbstclient set tree_style '╾│ ├└╼─┐'
 # do multi monitor setup here, e.g.:
 # hc set_monitors 1280x1024+0+0 1504x846+0+0
 # or simply:
-#hc detect_monitors
+hc detect_monitors
 #hc set_monitors 1920x1080+0+0 #1920x1060+1920+22 1920x1060+3840+22
-hc set_monitors 1366x768+0+0 #1920x1060+1920+22 1920x1060+3840+22
+# hc set_monitors 1366x768+0+0 1440x720+0+0 #1920x1060+1920+22 1920x1060+3840+22
+#hc set_monitors 1366x768+0+0 1366x768+1366+22 #1920x1060+1920+22 1920x1060+3840+22
 
 # find the panel
 panel=~/.config/herbstluftwm/panel.sh

@@ -4,12 +4,20 @@ import re
 import socket
 import subprocess
 from libqtile import qtile, layout, bar, widget, hook
-from libqtile.config import Click, Drag, Group, KeyChord, EzKey, Match, Screen
+from libqtile.config import Click, Drag, Group, KeyChord, EzKey, Match, Screen,DropDown,ScratchPad
 from libqtile.command import lazy
 from libqtile.lazy import lazy
 
 mod = "mod4" 
-myTerm = "xterm"
+myTerm = "alacrit"
+myTerms = "xterm"
+
+groups = [ ScratchPad("scratchpad", [
+    DropDown("Term", "xterm  -class 'Term' -fn 'Cascadia Code' -fa 'Cascadia Code'",match=Match(wm_class="Term")),
+    DropDown("Spotify","spot_load",match=Match(wm_class="spotify"),on_focus_lost_hide=True),
+    DropDown("Ncp","xterm -name ncmpcpp -e ncmpcpp",match=Match(wm_class="ncmpcpp")),
+    DropDown("mocp","xterm -name mocp -e /usr/bin/mocp",match=Match(wm_class="mocp")),
+]) ]
 
 keys = [
 	EzKey("M-S-r", lazy.restart(),desc="Qtile Restart"),
@@ -20,7 +28,7 @@ keys = [
 	EzKey("M-<Tab>", lazy.next_layout(),desc="Toggle Next Layout"),
 	EzKey("M-l", lazy.layout.shrink(),lazy.layout.decrease_nmaster(),desc="Shrink Size"),
 	EzKey("M-h", lazy.layout.grow(),lazy.layout.increase_nmaster(),desc="Grow Size"),
-	EzKey("M-<comma>", lazy.prev_screen()),
+	EzKey("M-<BackSpace>", lazy.prev_screen()),
 	EzKey("M-<period>", lazy.next_screen()),
 	EzKey("M-S-c",lazy.window.kill(),desc="Kill Active Window"),
 	EzKey("M-<Up>", lazy.layout.up(),desc="Focus Up"),
@@ -37,16 +45,18 @@ keys = [
 	EzKey("M-m", lazy.layout.maximize(), desc="Maximize Size"),
 	EzKey("M-b",lazy.hide_show_bar("top"), desc='Toggle Top Bar'),
 	EzKey("M-n",lazy.window.toggle_minimize(), desc='Toggle Minimize'),
+
 	# Applications
 	EzKey("M-e",lazy.spawn("emacsclient -c -a emacs"),desc="Spawn Emacs"),
-	EzKey("M-A-z", lazy.spawn(myTerm + " -e ncmpcpp")),
+	EzKey("M-A-z", lazy.spawn(myTerms + " -e ncmpcpp")),
 	EzKey("A-<Return>", lazy.spawn("rofi -show drun -show-icons")),
 	EzKey("M-A-s", lazy.spawn("dmenu_run -c -b -l 10 -g 4 -p 'ybenel: ' -fn 'scientifica:size=12'")),
-	EzKey("M-A-e", lazy.spawn(myTerm + " -e irssi")),
-	EzKey("M-A-c", lazy.spawn(myTerm + " -e mocp")),
+	EzKey("M-A-e", lazy.spawn(myTerms + " -e irssi")),
+	EzKey("M-A-c", lazy.spawn(myTerms + " -e mocp")),
 	EzKey("A-C-s", lazy.spawn("./.dmenu/dmenu-scrot.sh")),
 	EzKey("A-C-h", lazy.spawn("./.dmenu/dmenu-sysmon.sh")),
 	EzKey("A-C-e", lazy.spawn("./.dmenu/dmenu-edit-configs.sh")),
+	EzKey("A-C-b", lazy.spawn("./.dmenu/dmenu-setbg.sh")),
 	EzKey("A-C-p", lazy.spawn("passmenu")),
 	EzKey("<XF86AudioLowerVolume>", lazy.spawn("amixer set Master 5%- unmute")),
 	EzKey("<XF86AudioRaiseVolume>", lazy.spawn("amixer set Master 5%+ unmute")),
@@ -54,6 +64,9 @@ keys = [
 	EzKey("<XF86AudioNext>", lazy.spawn("mpc next")),
 	EzKey("<XF86AudioPrev>", lazy.spawn("mpc prev")),
 	EzKey("<XF86AudioPlay>", lazy.spawn("mpc toggle")),
+	EzKey("<Print>", lazy.spawn("flameshot gui")),
+
+    # Controls
     EzKey("A-S-x",lazy.spawn("mpc toggle")),
     EzKey("A-S-v",lazy.spawn("mpc next")),
     EzKey("A-S-b",lazy.spawn("mpc prev")),
@@ -62,21 +75,18 @@ keys = [
     EzKey("A-S-l",lazy.spawn("mocp --next")),
     EzKey("A-S-h",lazy.spawn("mocp --previous")),
     EzKey("A-S-<space>",lazy.spawn("mocp --toggle-pause")),
+    EzKey("A-S-w",lazy.spawn("playerctl -p spotify play-pause")),
+    EzKey("A-S-d",lazy.spawn("playerctl -p spotify next")),
+    EzKey("A-S-a",lazy.spawn("playerctl -p spotify previous")),
+    EzKey("A-S-s",lazy.spawn("playerctl -p spotify stop")),
+    EzKey("A-p",lazy.spawn("playerctl play-pause")),
+
+    # Scratchpads
+    EzKey("M-C-<Return>",lazy.group["scratchpad"].dropdown_toggle('Term')),
+    EzKey("M-C-c",lazy.group["scratchpad"].dropdown_toggle('mocp')),
+    EzKey("M-C-y",lazy.group["scratchpad"].dropdown_toggle('Spotify')),
+    EzKey("M-C-a",lazy.group["scratchpad"].dropdown_toggle('Ncp')),
 ]
-
-
-# group_names = [("", {'layout': 'monadtall'}),
-#                ("", {'layout': 'monadtall'}),
-#                ("", {'layout': 'monadtall'}),
-#                ("", {'layout': 'monadtall'}),
-#                ("", {'layout': 'monadtall'}),
-#                ("", {'layout': 'monadtall'})]
-
-# groups = [Group(name, **kwargs) for name, kwargs in group_names]
-
-# for i, (name, kwargs) in enumerate(group_names, 1):
-# 	keys.append(EzKey("M-"+str(i),lazy.group[name].toscreen()))
-# 	keys.append(EzKey("M-S-"+str(i),lazy.window.togroup(name)))
 
 
 workspaces = [
@@ -88,15 +98,12 @@ workspaces = [
     {"name": "", "key": "6", "matches": [Match(wm_class='spotify'),Match(title='ncmpcpp')]},
 ]
 
-groups = []
+#groups = []
 for workspace in workspaces:
     matches = workspace["matches"] if "matches" in workspace else None
     groups.append(Group(workspace["name"], matches=matches, layout="monadtall"))
     keys.append(EzKey("M-"+str(workspace['key']),lazy.group[workspace["name"]].toscreen()))
     keys.append(EzKey("M-S-"+str(workspace['key']),lazy.window.togroup(workspace["name"])))
-    # keys.append(Key([mod], workspace["key"], lazy.group[workspace["name"]].toscreen()))
-    # keys.append(Key([mod, "shift"], workspace["key"], lazy.window.togroup(workspace["name"])))
-
 
 layout_theme = {"border_width": 2,
                 "margin": 8,
@@ -223,14 +230,15 @@ def init_widgets_list():
                        background = colors[0],
                        fontsize = 17
                        ),
-							widget.Mpd2(
-											background = colors[0],
-											foreground = colors[2],
-											#colors_progress = colors[2]
-											no_connection = "Mpd Is Off",
-											status_format = "{artist} - {title}",
-											update_interval = 0.5
-											),
+		      widget.Mpd2(
+                        background = colors[0],
+                        foreground = colors[2],
+                        #colors_progress = colors[2]
+                        host = "192.168.8.110",
+                        no_connection = "Mpd Is Off",
+                        status_format = "{artist} - {title}",
+                        update_interval = 0.5
+                        ),
               widget.Spacer(length=6,background=colors[0]),
               widget.TextBox(
 											 font = "FiraCode Nerd Font Mono",

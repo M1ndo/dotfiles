@@ -139,7 +139,8 @@ myModMask :: KeyMask
 myModMask = mod4Mask       -- Sets modkey to super/windows key
 
 myTerminal :: String
-myTerminal = "xterm"   -- Sets default terminal to the favorite (xterm)
+myTerminal = "alacrit"   -- Sets default terminal to the favorite (xterm)
+myTerminal2 = "xterm"   -- Sets default terminal to the favorite (xterm)
 
 myBrowser :: String
 myBrowser = "firefox "               -- Moved To A better Browser .
@@ -369,23 +370,28 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
               , NS "spotify" spawnSpot findSpot manageSpot
               ]
  where
-  spawnTerm  = myTerminal ++ " -n scratchpad"
-  findTerm   = resource =? "scratchpad"
+  spawnTerm  = myTerminal2 ++ " -class 'Term' -fn 'Cascadia Code' -fa 'Cascadia Code'"
+  findTerm   = (className =? "Term")
   manageTerm = customFloating $ W.RationalRect l t w h
              where
-               h = 0.9
-               w = 0.9
-               t = 0.95 -h
-               l = 0.95 -w
-  spawnMocp  = myTerminal ++ " -name mocp -e /usr/bin/mocp"
+               h = 0.5
+               w = 0.5
+               t = 0.2
+               l = 0.2
+             -- where
+             --   h = 0.9
+             --   w = 0.9
+             --   t = 0.95 -h
+             --   l = 0.95 -w
+  spawnMocp  = myTerminal2 ++ " -name mocp -e /usr/bin/mocp"
   findMocp   = appName =? "mocp"
   manageMocp = nonFloating
 
-  spawnNcp  = myTerminal ++ " -name ncmpcpp -e ncmpcpp"
+  spawnNcp  = myTerminal2 ++ " -name ncmpcpp -e ncmpcpp"
   findNcp   = appName =? "ncmpcpp"
   manageNcp = nonFloating
 
-  spawnIrc  = myTerminal ++ " -n irssi -e 'torify irssi'"
+  spawnIrc  = myTerminal2 ++ " -n irssi -e 'torify irssi'"
   findIrc   = (stringProperty "WM_NAME" =? "irssi")
   manageIrc = customFloating $ W.RationalRect l t w h
             where
@@ -574,7 +580,7 @@ myKeys =
       , ("M-S-a", killAll)                       -- Kill all windows on current workspace
 
   -- Workspaces
-      , ("M-.", nextScreen)  -- Switch focus to next monitor
+      , ("M-<Backspace>", nextScreen)  -- Switch focus to next monitor
       , ("M-,", prevScreen)  -- Switch focus to prev monitor
       , ("M-S-<KP_Add>", shiftTo Next nonNSP >> moveTo Next nonNSP)       -- Shifts focused window to next ws
       , ("M-S-<KP_Subtract>", shiftTo Prev nonNSP >> moveTo Prev nonNSP)  -- Shifts focused window to prev ws
@@ -609,7 +615,7 @@ myKeys =
       , ("M-S-k", windows W.swapUp)     -- Swap focused window with prev window
       , ("M-S-<Up>", windows W.swapUp)
       , ("M-S-<Down>", windows W.swapDown)
-      , ("M-<Backspace>", promote)      -- Moves focused window to master, others maintain order
+      , ("M-.", promote)      -- Moves focused window to master, others maintain order
       , ("M-S-<Tab>", rotSlavesDown)    -- Rotate all windows except master and keep focus in place
       , ("M-C-<Tab>", rotAllDown)       -- Rotate all the windows in the current stack
 
@@ -679,9 +685,14 @@ myKeys =
       , ("M-u a", spawn "playerctl -p spotify previous")
       , ("M-u s", spawn "playerctl -p spotify stop")
 
+  -- Player Ctl Stop Content (alt-p followed by a key)
+      , ("M1-p", spawn "playerctl play-pause")
+
   -- Eww Widgets (Super-r followed by a key)
       , ("M-r m", spawn "eww open player_side")
       , ("M-r c", spawn "eww open time-side")
+      , ("M-r p", spawn "eww open quote")
+      , ("M-r w", spawn "eww open weather")
       , ("M-r a", spawn "eww open-many player_side time-side quote weather")
       , ("M-r q", spawn "eww close-all")
 
@@ -709,7 +720,7 @@ myKeys =
       , ("<XF86Mail>", runOrRaise "thunderbird" (resource =? "thunderbird"))
       , ("<XF86Calculator>", runOrRaise "gcalctool" (resource =? "gcalctool"))
       , ("<XF86Eject>", spawn "toggleeject")
-      , ("<Print>", spawn "scrot")
+      , ("<Print>", spawn "flameshot gui")
       , ("M-<F1>", spawn "sxiv -r -q -t -o ~/wallpapers/*")
       , ("M-<F2>", spawn "/bin/ls ~/wallpapers | shuf -n 1 | xargs xwallpaper --stretch")
       ]
