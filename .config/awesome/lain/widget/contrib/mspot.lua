@@ -1,7 +1,7 @@
 --[[
 
      Licensed under GNU General Public License v3
-      (C) 2020, ybenel <http://github.com/m1ndo>
+      (C) 2022, ybenel <http://github.com/m1ndo>
 
 --]]
 
@@ -12,23 +12,24 @@ local focused      = require("awful.screen").focused
 local escape_f     = require("awful.util").escape
 local naughty      = require("naughty")
 local wibox        = require("wibox")
+local gears = require("gears")
 local os           = os
 local string       = string
 
--- Spotify Mpd Music Client
--- lain.widget.contrib.spot
+-- Spotify Music Client
+-- lain.widget.contrib.mspot
 
 local function factory(args)
-    local spot          = { widget = wibox.widget.textbox() }
+    local mspot          = { widget = wibox.widget.textbox() }
     local args          = args or {}
-    local show_tooltip  = args.show_toolip or false
+    local show_tooltip  = args.show_toolip or true 
     local timeout       = args.timeout or 1
     local settings      = args.settings or function() end
 
     helpers.set_map("current playing track", nil)
 
-    function spot.update()
-        helpers.async("sp current && sp status", function(f)
+    function mspot.update()
+        helpers.async("getmusic --current", function(f)
             spot_now = {
                 state   = "N/A",
                 artist  = "",
@@ -39,7 +40,7 @@ local function factory(args)
 
 
             escaped = string.gsub(f, '&', '&amp;')
-            spot_now.album, spot_now.album_artist, spot_now.artist, spot_now.title = string.match(escaped, 'Album%s*(.*)\nAlbumArtist%s*(.*)\nArtist%s*(.*)\nTitle%s*(.*)\n')
+            spot_now.album, spot_now.album_artist, spot_now.artist, spot_now.title,spot_now.state = string.match(escaped, 'Album%s*(.*)\nAlbumArtist%s*(.*)\nArtist%s*(.*)\nTitle%s*(.*)\nStatus%s*(.*)\n')
             if string.match(escaped, 'Playing') then
               spot_now.state = "Playing"
             elseif string.match(escaped, 'Paused') then
@@ -47,7 +48,7 @@ local function factory(args)
             else
               spot_now.state = "Stopped"
             end
-            widget = spot.widget
+            widget = mspot.widget
             settings()
 
             if spot_now.state == "Playing" then
@@ -68,22 +69,26 @@ local function factory(args)
                 local spot_tooltip = awful.tooltip {
                     mode = 'outside',
                     preferred_positions = {'bottom'},
-                 }
+                    border_width = 1,
+                    border_color = "#a9a9a9"
+                }
                 -- spot.update()
                 spot_tooltip:add_to_object(widget)
+                spot_tooltip:set_shape(gears.shape.rounded_rect)
                 widget:connect_signal('mouse::enter', function()
-                    spot_tooltip.markup = '<b>Album</b>: ' .. spot_now.album
-                        .. '\n<b>Artist</b>: ' .. spot_now.artist
-                        .. '\n<b>Song</b>: ' .. spot_now.title
+                    spot_tooltip.markup = '<span foreground="#43cd80"><b>Album</b></span>: ' .. spot_now.album
+                        .. '\n<span foreground="#436eee"><b>Artist</b></span>: ' .. spot_now.artist
+                        .. '\n<span foreground="#ff7256"><b>Song</b></span>: ' .. spot_now.title
+                        .. '\n<span foreground="#ff006a"><b>Status</b></span>: ' .. spot_now.state
                 end)
             end
         end)
     end
 
 
-    spot.timer = helpers.newtimer("spot", timeout, spot.update, true, true)
+    mspot.timer = helpers.newtimer("mspot", timeout, mspot.update, true, true)
 
-    return spot
+    return mspot
 end
 
 return factory

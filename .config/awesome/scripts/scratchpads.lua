@@ -1,3 +1,10 @@
+--[[
+    Awesome WM Configuration 2.0
+    Customized by ybenel
+    My Personall Config File
+    (C) 2017-2022 Ybenel <github.com/m1ndo/dotfiles>
+--]]
+
 local bling = require("lib.bling")
 local rubato = require("lib.rubato")
 local anim_y = rubato.timed {

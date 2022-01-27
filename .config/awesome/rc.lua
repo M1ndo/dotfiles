@@ -1,6 +1,10 @@
--- My Personall Config File
--- Customized by ybenel
--- Date: 10/02/2021
+--[[
+    Awesome WM Configuration 2.0
+    Customized by ybenel
+    My Personall Config File
+    (C) 2017-2022 Ybenel <github.com/m1ndo/dotfiles>
+--]]
+
 -- {{{  libraries
 local awesome, client, mouse, screen, tag = awesome, client, mouse, screen, tag
 local ipairs, string, os, table, tostring, tonumber, type = ipairs, string, os, table, tostring, tonumber, type
@@ -240,11 +244,6 @@ screen.connect_signal("property::geometry", function(s)
         gears.wallpaper.maximized(wallpaper, s, true)
     end
 end)
--- Create a wibox for each screen and add it
-awful.screen.connect_for_each_screen(function(s) beautiful.at_screen_connect(s) end)
--- }}}
-
-
 
 -- {{{ Mouse bindings
 root.buttons(my_table.join(
@@ -282,27 +281,6 @@ globalkeys = my_table.join(
 	    end,
     {description = "show rofi", group = "hotkeys"}),
      
-    -- Restore Minimized
-    awful.key({ modkey, "Control" }, "n",
-        function ()
-            local c = awful.client.restore()
-            -- Focus restored client
-            if c then
-                client.focus = c
-                c:raise()
-            end
-        end,
-        {description = "Restore Minimized", group = "Client"}),
-    awful.key({ modkey, "Control", altkey }, "n",      
-        function ()
-            for _, cl in ipairs(mouse.screen.selected_tag:clients()) do
-                local c = cl
-                c:emit_signal(
-                    "request::activate", "key.unminimize", {raise = true}
-                )
-            end
-        end,
-        {description = "Restore all Minimized windows in current tag", group = "Client"}),
 
     -- My dmenu scripts (Alt+Ctrl+Key)
     awful.key({ altkey, "Control" }, "e", function () awful.util.spawn( "./.dmenu/dmenu-edit-configs.sh" ) end,
@@ -333,10 +311,10 @@ globalkeys = my_table.join(
         {description = "Torify Irssi" , group = "terminal apps" }),
 
     -- screenshots
-    awful.key({ }, "Print", function () awful.util.spawn("scrot 'Ybenel_D-%Y-%m-%d_$wx$h.jpg' -e 'mv $f $$(xdg-user-dir PICTURES)'") end,
-        {description = "Scrot FullScreen", group = "ScreenShots"}),
-    awful.key({ modkey1, "Shift" }, "Print", function() awful.util.spawn("scrot -a $(slop -f '%x,%y,%w,%h') -d 2") end,
-        {description = "Scrot Delayed Screen", group = "ScreenShots"}),
+    awful.key({ }, "Print", function () awful.util.spawn("flameshot gui") end,
+        {description = "Toggle Flameshot", group = "ScreenShots"}),
+    awful.key({ modkey1, "Shift" }, "Print", function() awful.util.spawn("scrot 'Ybenel_D-%Y-%m-%d_$wx$h.jpg' -e 'mv $f $$(xdg-user-dir PICTURES)'") end, -- scrot -a $(slop -f '%x,%y,%w,%h') -d 2 (Delayed Selection)
+        {description = "Scrot Fullscreen", group = "ScreenShots"}),
 
     -- Personal keybindings
 
@@ -346,7 +324,7 @@ globalkeys = my_table.join(
     awful.key({ }, "XF86Tools", function () awesome.emit_signal("scratch::spot") end,
         {description = "Spotify" , group = "Scratchpad" }),
     awful.key({ }, "XF86HomePage", function () awesome.emit_signal("scratch::brows") end,
-        {description = "Chromium" , group = "Scratchpad" }),
+        {description = "Firefox ScratchPad" , group = "Scratchpad" }),
     awful.key({ }, "XF86Mail", function () awesome.emit_signal("scratch::filem") end,
         {description = "File_Manager (Pcmanfm)" , group = "Scratchpad" }),
     awful.key({ modkey, }, "F1", function () awesome.emit_signal("scratch::disco") end,
@@ -355,46 +333,78 @@ globalkeys = my_table.join(
         {description = "Turn Off Scratch Visibily" , group = "Scratchpad" }),
     awful.key({ modkey, }, "F9", function () awesome.emit_signal("scratch::turn_on") end,
         {description = "Turn On Scratch Visibily" , group = "Scratchpad" }),
-    -- Mocp Controls    
-    awful.key({ modkey, altkey }, "b", function () os.execute('mocp --toggle-pause') end,
+
+    -- Mocp Controls
+    awful.key({ altkey, "Shift" }, "b", function () os.execute('mocp --toggle-pause') end,
         {description = "Moc Pause/Resume", group = "Moc"}),
-    awful.key({ modkey, altkey }, "p", function () os.execute('mocp --play') end,
+    awful.key({ altkey, "Shift" }, "p", function () os.execute('mocp --play') end,
         {description = "Moc Play", group = "Moc"}),
-    awful.key({ modkey, altkey }, "h", function () os.execute('mocp --previous') end,
+    awful.key({ altkey, "Shift" }, "h", function () os.execute('mocp --previous') end,
         {description = "Moc Previous", group = "Moc"}),
-    awful.key({ modkey, altkey }, "l", function () os.execute('mocp --next') end,
+    awful.key({ altkey, "Shift" }, "l", function () os.execute('mocp --next') end,
         {description = "Moc Next", group = "Moc"}),
+
     -- Mpd Controls
-    awful.key({ modkey, altkey }, "x", function () os.execute('mpc toggle') end,
+    awful.key({ altkey, "Shift" }, "x", function () os.execute('mpc toggle') end,
         {description = "Mpd Toggle", group = "Mpd"}),
-    awful.key({ modkey, altkey }, "v", function () os.execute('mpc next') end,
+    awful.key({ altkey, "Shift" }, "v", function () os.execute('mpc next') end,
         {description = "Mpd Next", group = "Mpd"}),
-    awful.key({ modkey, altkey }, "b", function () os.execute('mpc prev') end,
+    awful.key({ altkey, "Shift" }, "b", function () os.execute('mpc prev') end,
         {description = "Mpd Previous", group = "Mpd"}),
-    awful.key({ modkey, altkey }, "m", function () os.execute('mpc stop') end,
+    awful.key({ altkey, "Shift" }, "m", function () os.execute('mpc stop') end,
         {description = "Mpd Stop", group = "Mpd"}),
 
-    -- Hotkeys Awesome
+    -- Mpd Controls
+    awful.key({ altkey, "Shift" }, "w", function () os.execute('playerctl -p spotify play-pause') end,
+        {description = "Spotify Toggle", group = "Mpd"}),
+    awful.key({ altkey, "Shift" }, "d", function () os.execute('playerctl -p spotify next') end,
+        {description = "Spotify Next", group = "Mpd"}),
+    awful.key({ altkey, "Shift" }, "a", function () os.execute('playerctl -p spotify previous') end,
+        {description = "Spotify Previous", group = "Mpd"}),
+    awful.key({ altkey, "Shift" }, "s", function () os.execute('playerctl -p spotify stop') end,
+        {description = "Spotify Stop", group = "Mpd"}),
 
+    -- Browser *Dbus* Audio Control
+    awful.key({ altkey }, "p", function() os.execute('playerctl play-pause') end),
+
+    -- Eww Widgets
+    awful.key({ altkey }, "m", function() os.execute('eww open player_side') end),
+    awful.key({ altkey }, "r", function() os.execute('eww open time-side') end),
+    awful.key({ altkey }, "q", function() os.execute('eww open quote') end),
+    awful.key({ altkey, "Control" }, "w", function() os.execute('eww open weather') end),
+    awful.key({ altkey, "Control" }, "a", function() os.execute('eww open-many player_side time-side quote weather') end),
+    awful.key({ altkey, "Control" }, "x", function() os.execute('eww close-all') end),
+
+
+    -- Hotkeys Awesome
     awful.key({ modkey, "Shift" }, "s",      hotkeys_popup.show_help,
         {description = "show help", group="Awesome"}),
-    awful.key({ modkey, }, "w", function () mymainmenu:toggle() end,
+    awful.key({ modkey }, "w", function () mymainmenu:toggle() end,
         {description = "show main menu", group = "Awesome"}),
+
     -- Show/Hide Wibox
     awful.key({ modkey }, "b", function ()
-            for s in screen do
-                s.mywibox.visible = not s.mywibox.visible
-                if s.mybottomwibox then
-                    s.mybottomwibox.visible = not s.mybottomwibox.visible
-                end
-            end
+            local s = screen[1]
+            s.mywibox.visible = not s.mywibox.visible
+            s.mywiboxmiddle.visible = not s.mywiboxmiddle.visible
+            s.mywiboxright.visible = not s.mywiboxright.visible
+            -- for s in screen do
+                -- s.mywibox.visible = not s.mywibox.visible
+                -- s.mywiboxmiddle.visible = not s.mywiboxmiddle.visible
+                -- s.mywiboxright.visible = not s.mywiboxright.visible
+            --     if s.mybottomwibox then
+            --         s.mybottomwibox.visible = not s.mybottomwibox.visible
+            --     end
+            -- end
         end,
         {description = "Toggle Wibox", group = "Awesome"}),
+
     -- Reload And Quit Awesome
     awful.key({ modkey, "Shift" }, "r", awesome.restart,
               {description = "Reload Awesome", group = "Awesome"}),
     awful.key({ modkey, "Shift" }, "q",  function () awesome.quit() end,
               {description = "Quit Awesome", group = "Awesome"}),
+
     -- Tag browsing with modkey
     awful.key({ modkey, modkey1 }, "Left",   awful.tag.viewprev,
         {description = "View Previous", group = "Tag"}),
@@ -442,10 +452,10 @@ globalkeys = my_table.join(
         {description = "Focus Right", group = "Client"}),
 
     -- Non-empty tag browsing
-    --awful.key({ modkey }, "Left", function () lain.util.tag_view_nonempty(-1) end,
-              --{description = "view  previous nonempty", group = "tag"}),
-   -- awful.key({ modkey }, "Right", function () lain.util.tag_view_nonempty(1) end,
-             -- {description = "view  previous nonempty", group = "tag"}),
+    awful.key({ "Control", "Shift" }, "Left", function () lain.util.tag_view_nonempty(-1) end,
+              {description = "view  previous nonempty", group = "tag"}),
+    awful.key({ "Control", "Shift" }, "Right", function () lain.util.tag_view_nonempty(1) end,
+             {description = "view  previous nonempty", group = "tag"}),
 
 
     -- Layout manipulation
@@ -453,7 +463,7 @@ globalkeys = my_table.join(
               {description = "Swap With Next Client By Index", group = "Client"}),
     awful.key({ modkey, "Shift" }, "k", function () awful.client.swap.byidx( -1)    end,
               {description = "Swap With Previous Client By Index", group = "Client"}),
-    awful.key({ modkey, }, ".", function () awful.screen.focus_relative( 1) end,
+    awful.key({ modkey, }, "BackSpace", function () awful.screen.focus_relative( 1) end,
               {description = "Focus The pext Screen", group = "Screen"}),
     awful.key({ modkey, }, ",", function () awful.screen.focus_relative(-1) end,
               {description = "Focus The previous Screen", group = "Screen"}),
@@ -490,6 +500,7 @@ globalkeys = my_table.join(
     -- Standard program
     awful.key({ modkey, }, "Return", function () awful.spawn(terminal) end,
               {description = "Launch Terminal", group = "Super"}),
+
     -- Leaved Layout 
     awful.key({ modkey, }, "s", leaved.keys.min_container,
               {description = "Minimize Container Windows", group = "Client"}),
@@ -501,46 +512,13 @@ globalkeys = my_table.join(
               {description = "Split Wind Virtical(Leaved Layout)", group = "Client"}),
     awful.key({ modkey, }, "'", leaved.keys.shiftStyle,
               {description = "Change Style(Leaved Layout)", group = "Client"}),
+
      --- Pop Ups
     awful.key({ altkey, }, "i", function () awesome.emit_signal("evil::volume") end,
               {description = "Volume Pop Up", group = "Pop Ups"}),
     awful.key({ altkey, }, "j", function () awesome.emit_signal("evil::plyctl") end,
               {description = "Volume Pop Up", group = "Pop Ups"}),
-    -- awful.key({ altkey, }, "j", function () awesome.emit_signal("bling::playerctl::title_artist_album") end,
-    --           {description = "Volume Pop Up", group = "Pop Ups"}),
-    awful.key({ modkey, }, "p", 
-        function () 
-            local last_notify = {}
-            awesome.connect_signal("bling::playerctl::title_artist_album", function(title, artist, album)
-            last_notify = naughty.notify {
-                title=tostring(title),
-                text=tostring(artist),
-                icon = gears.surface.load_uncached_silently(album),
-                timeout=2,
-                replaces_id=last_notify.id,
-            }
-            end)
-        end,
-        {description = "PlayerCtl Pop Up", group = "Pop Ups"}),
-    awful.key({ modkey, }, "p", 
-        function () 
-            local album_art = wibox.widget.imagebox()
-            local music = album_art
-            music.visible = true
-            local musictooltip = awful.tooltip {}
-            musictooltip.shape = helpers.prrect(dpi(6) - 3, false, true, true, false)
-            musictooltip.preferred_alignments = {"middle", "front", "back"}
-            musictooltip.mode = "outside"
-            musictooltip:add_to_object(music)
-            musictooltip.text = "Not updated"
-            awesome.connect_signal("bling::playerctl::title_artist_album", function(title, artist, album_path)
-                musictooltip.markup = tostring(title) .. " - " .. tostring(artist)
-                music.visible = true
-                album_art:set_image(gears.surface.load_uncached_silently(album_path))
-                album_art:emit_signal("widget::redraw_needed")
-            end)
-        end,
-        {description = "PlayerCtl Pop Up", group = "Pop Ups"}),      
+
     -- Tabbed Layout (Bling)
     awful.key({ altkey, }, ";", function() bling.module.tabbed.pop() end,
               {description = "Remove Focused Client From tabbed", group = "Client"}),
@@ -562,8 +540,8 @@ globalkeys = my_table.join(
               {description = "Dropdown Terminal", group = "Super"}),
 
     -- Widgets popups
---     awful.key({ altkey, }, "n", function () lain.widget.cal.show(7)  end,
---               {description = "Show Calendar", group = "Widgets"}),
+    awful.key({ altkey, }, "n", function () beautiful.cal.show(0)  end,
+              {description = "Show Calendar", group = "Widgets"}),
 --     awful.key({ altkey, }, "h", function () if beautiful.fs then beautiful.fs.show(7) end end,
 --               {description = "Show Filesystem", group = "Widgets"}),
     awful.key({ altkey, }, "w", function () if beautiful.weather then beautiful.weather.show(7) end end,
@@ -600,19 +578,11 @@ globalkeys = my_table.join(
         function ()
             os.execute(string.format("amixer -q set %s 0%%", beautiful.volume.channel))
             beautiful.volume.update()
-        end),
-    awful.key({altkey }, "p",
-        function()
-            os.execute('playerctl -p spotify play-pause')
-        end),
-    awful.key({altkey }, "l",
-        function()
-            os.execute('playerctl play-pause')
         end)
 )
 
 clientkeys = my_table.join(
-    awful.key({ altkey, "Shift"   }, "m",      lain.util.magnify_client,
+    awful.key({ modkey }, "m",      lain.util.magnify_client,
               {description = "Magnify Client", group = "Client"}),
     awful.key({ modkey,           }, "f", awful.client.floating.toggle,
         {description = "Toggle Floating", group = "Client"}),
@@ -626,7 +596,18 @@ clientkeys = my_table.join(
             end
         end,
         {description = "Close All Windows", group = "Hotkeys"}),
-        
+
+
+
+    -- Move client to screen.
+    awful.key({ modkey, "Shift" }, "BackSpace",
+        function ()
+            if client.focus then
+                local tag = client.focus.screen.tags[i]
+                client.focus:move_to_screen()
+            end
+        end),
+
     --awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end,
       --        {description = "Toggle To Keep On Top", group = "Client"}),
     
@@ -645,25 +626,43 @@ clientkeys = my_table.join(
         end ,
         {description = "Minimize", group = "Client"}),
               
-    awful.key({ modkey, }, "m",
-        function (c)
-            c.maximized = not c.maximized
-            c:raise()
-        end ,
-        {description = "Maximize", group = "Client"}),
-
     awful.key({ modkey, }, "space",
         function (c)
             c.maximized = not c.maximized
             c:raise()
         end ,
         {description = "Maximize", group = "Client"}),
+
     awful.key({ modkey, "Shift"   }, "space",
         function (c)
             c.fullscreen = not c.fullscreen
             c:raise()
         end,
-        {description = "Toggle Fullscreen", group = "Client"})
+        {description = "Toggle Fullscreen", group = "Client"}),
+
+    -- Restore Minimized
+    awful.key({ modkey, "Control" }, "n",
+        function ()
+            local c = awful.client.restore()
+            -- Focus restored client
+            if c then
+                client.focus = c
+                c:raise()
+            end
+        end,
+        {description = "Restore Minimized", group = "Client"}),
+
+    awful.key({ modkey, "Control", altkey }, "n",
+        function ()
+            for _, cl in ipairs(mouse.screen.selected_tag:clients()) do
+                local c = cl
+                c:emit_signal(
+                    "request::activate", "key.unminimize", {raise = true}
+                )
+            end
+        end,
+        {description = "Restore all Minimized windows in current tag", group = "Client"})
+
 )
 
 -- Bind all key numbers to tags.
@@ -689,6 +688,7 @@ for i = 1, 9 do
                         end
                   end,
                   descr_view),
+
         -- Toggle tag display.
         awful.key({ modkey, "Control" }, "#" .. i + 9,
                   function ()
@@ -699,7 +699,8 @@ for i = 1, 9 do
                       end
                   end,
                   descr_toggle),
-        -- Move client to tag.
+
+        -- Move Client To Tag
         awful.key({ modkey, "Shift" }, "#" .. i + 9,
                   function ()
                       if client.focus then
@@ -710,6 +711,7 @@ for i = 1, 9 do
                      end
                   end,
                   descr_move),
+
         -- Toggle tag on focused client.
         awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
                   function ()
@@ -745,6 +747,22 @@ root.keys(globalkeys)
 -- {{{ Rules
 require("configs.ruled")
 -- }}}
+
+-- Create a wibox for each screen and add it
+
+-- Enable For 2 Screens.
+-- local ss = screen[2]
+-- local fs = screen[1]
+-- beautiful.at_screen_connect(fs)
+-- if not tostring(ss) == 'nil' then
+--     beautiful.second_screen(ss)
+-- end
+
+-- Multiple / Single Screen
+awful.screen.connect_for_each_screen(function(s) beautiful.at_screen_connect(s) end)
+-- }}}
+--
+
 
 -- {{{ Signals
 -- Signal function to execute when a new client appears.

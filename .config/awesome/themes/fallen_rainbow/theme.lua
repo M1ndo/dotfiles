@@ -1,6 +1,6 @@
 --[[
-    Fallen_rainbow Awesome WM Theme 1.0
-    (C) Ybenel <github.com/r2dr0dn/fallen_rainbow>
+    Fallen_rainbow Awesome WM Theme 2.0
+    (C) 2020 - 2022 Ybenel <github.com/m1ndo/fallen_rainbow>
     inspired from github.com/lcpz (awesome-copycats 'rainbow')
 --]]
 
@@ -10,6 +10,7 @@ local lain  = require("lain")
 local awful = require("awful")
 local wibox = require("wibox")
 local dpi   = require("beautiful.xresources").apply_dpi
+local colors   = require("beautiful.xresources").get_current_theme()
 -- Ybenel.Bar.Mocp    = require("widgets.toggles")
 
 local os = os
@@ -44,10 +45,6 @@ theme.menu_submenu_icon                         = theme.dir .."/icons/submenu.pn
 theme.taglist_squares_sel                       = theme.dir .. "/icons/square_sel.png"
 theme.taglist_squares_unsel                     = theme.dir .. "/icons/square_unsel.png"
 theme.useless_gap                               = dpi(6)
-theme.layout_txt_tile                               = "Tile"
-theme.layout_txt_spiral                             = "Spiral"
-theme.layout_txt_floating                           = "Floats"
-theme.layout_txt_termfair                           = "TermF"
 theme.widget_mem                                = theme.dir .. "/icons/mem.png"
 theme.widget_cpu                                = theme.dir .. "/icons/cpu.png"
 theme.widget_temp                               = theme.dir .. "/icons/temp.png"
@@ -111,11 +108,35 @@ theme.mstab_bar_ontop = true
 theme.tabbar_font = "scientifica 10"
 
 -- Bling Layouts
-theme.layout_txt_leavedright                        = "LRight"
-theme.layout_txt_leavedleft                         = "LLeft"
-theme.layout_txt_leavedbottom                       = "LBott"
-theme.layout_txt_leavedtop                          = "LUp"
-theme.layout_txt_mstab                              = "Tabs"
+-- theme.layout_txt_tile                               = "Tile"
+-- theme.layout_txt_spiral                             = "Spiral"
+-- theme.layout_txt_floating                           = "Floats"
+-- theme.layout_txt_termfair                           = "TermF"
+-- theme.layout_txt_leavedright                        = "LRight"
+-- theme.layout_txt_leavedleft                         = "LLeft"
+-- theme.layout_txt_leavedbottom                       = "LBott"
+-- theme.layout_txt_leavedtop                          = "LUp"
+-- theme.layout_txt_mstab                              = "Tabs"
+
+theme.layout_txt_tile                               = ""
+theme.layout_txt_spiral                             = ""
+theme.layout_txt_floating                           = ""
+theme.layout_txt_termfair                           = ""
+theme.layout_txt_leavedright                        = ""
+theme.layout_txt_leavedleft                         = ""
+theme.layout_txt_leavedbottom                       = ""
+theme.layout_txt_leavedtop                          = ""
+theme.layout_txt_mstab                              = ""
+
+theme.col_layout_txt_tile                             = "#00cd66"
+theme.col_layout_txt_spiral                           = "#ff3e96"
+theme.col_layout_txt_floating                         = "#9b30ff"
+theme.col_layout_txt_termfair                         = "#7a67ee"
+theme.col_layout_txt_leavedright                      = "#4876ff"
+theme.col_layout_txt_leavedleft                       = "#c0ff3e"
+theme.col_layout_txt_leavedbottom                     = "#ffb90f"
+theme.col_layout_txt_leavedtop                        = "#ff7f24"
+theme.col_layout_txt_mstab                            = "#00bfff"
 
 -- notification
 theme.notification_font          = theme.font
@@ -151,6 +172,7 @@ theme.taglist_shape_border_color = "#ff7256"
 local markup = lain.util.markup
 local white  = theme.fg_focus
 local gray   = theme.fg_normal
+
 
 -- Textclock
 local mytextclock = wibox.widget.textclock(markup(white, " %H:%M "))
@@ -190,24 +212,24 @@ theme.mail = lain.widget.imap({
 --]]
 
 -- MPD
-theme.mpd = lain.widget.mpd({
-    settings = function()
-        mpd_notification_preset.fg = white
-        artist = mpd_now.artist .. " "
-        title  = mpd_now.title  .. " "
-        if mpd_now.state == "pause" then
-            artist = "Mpd "
-            title  = "Paused "
-        elseif mpd_now.state == "stop" then
-            artist = "Mpd "
-            title  = "Stopped"
-        elseif mpd_now.state == "N/A" then
-            artist = ""
-            title  = ""
-        end
-        widget:set_markup(markup.font(theme.font, markup("#ff006a", artist) .. markup("#00ffff", title)))
-    end
-})
+-- theme.mpd = lain.widget.mpd({
+--     settings = function()
+--         mpd_notification_preset.fg = white
+--         artist = mpd_now.artist .. " "
+--         title  = mpd_now.title  .. " "
+--         if mpd_now.state == "pause" then
+--             artist = "Mpd "
+--             title  = "Paused "
+--         elseif mpd_now.state == "stop" then
+--             artist = "Mpd "
+--             title  = "Stopped"
+--         elseif mpd_now.state == "N/A" then
+--             artist = ""
+--             title  = ""
+--         end
+--         widget:set_markup(markup.font(theme.font, markup("#ff006a", artist) .. markup("#00ffff", title)))
+--     end
+-- })
 
 -- /home fs
 --[[ commented because it needs Gio/Glib >= 2.54
@@ -291,7 +313,7 @@ local volumewidget = wibox.container.margin(volumebg, dpi(7), dpi(7), dpi(5), dp
 --   theme.moc.update()
 -- end)))
 
-theme.spot = lain.widget.contrib.spot({
+theme.spot = lain.widget.contrib.mspot({
   settings = function()
     if spot_now.state == "Playing" then
       artist = spot_now.artist .. " "
@@ -303,9 +325,10 @@ theme.spot = lain.widget.contrib.spot({
       artist = ""
       title  = ""
     end
-    widget:set_markup(markup.font(theme.font, markup(gray, artist) .. markup(white, title)))
+    widget:set_markup(markup.font(theme.font, markup("#00bfff", artist) .. markup("#deb887", title)))
   end
 })
+
 
 -- prev_next_mc:buttons(my_table.join(awful.button({}, 3,
 -- function ()
@@ -349,11 +372,29 @@ local volum = wibox.widget.textbox(markup.font(theme.font2, markup("#9517b5",'�
 local first = wibox.widget.textbox(markup.font("FiraCode Nerd Font Mono", " "))
 local spr   = wibox.widget.textbox(' ')
 
+local left_bracket = wibox.widget.textbox(markup.font("Mononoki Nerd Font 7", markup("#8a2be2","[ ")))
+local right_bracket = wibox.widget.textbox(markup.font("Mononoki Nerd Font 7", markup("#43cd80"," ]")))
+
 local function update_txt_layoutbox(s)
     -- Writes a string representation of the current layout in a textbox widget
-    local txt_l = theme["layout_txt_" .. awful.layout.getname(awful.layout.get(s))] or ""
-    s.mytxtlayoutbox:set_text(txt_l)
+    local txt_l = markup.font("FiraCode Nerd Font Mono 15",
+                              markup(theme["col_layout_txt_" .. awful.layout.getname(awful.layout.get(s))],
+                              theme["layout_txt_" .. awful.layout.getname(awful.layout.get(s))])) or ""
+    s.mytxtlayoutbox:set_markup_silently(txt_l)
 end
+
+
+function theme.second_screen(s)
+    local wallpaper = theme.wallpaper
+    if type(wallpaper) == "function" then
+        wallpaper = wallpaper(s)
+    end
+    gears.wallpaper.maximized(wallpaper, s, true)
+
+    -- Tags
+    awful.tag(awful.util.tagnames ,s, awful.layout.layouts[1])
+end
+
 
 function theme.at_screen_connect(s)
     -- Quake application
@@ -373,7 +414,8 @@ function theme.at_screen_connect(s)
     s.mypromptbox = awful.widget.prompt()
 
     -- Textual layoutbox
-    s.mytxtlayoutbox = wibox.widget.textbox(theme["layout_txt_" .. awful.layout.getname(awful.layout.get(s))]) -- Text Layout Box
+    -- s.mytxtlayoutbox = wibox.widget.textbox(theme["layout_txt_" .. awful.layout.getname(awful.layout.get(s))]) -- Text Layout Box
+    s.mytxtlayoutbox = wibox.widget.textbox(markup.font("FiraCode Nerd Font Mono 15",markup(theme["col_layout_txt_" .. awful.layout.getname(awful.layout.get(s))],theme["layout_txt_" .. awful.layout.getname(awful.layout.get(s))]))) -- Text Layout Box
     --s.mylayoutbox = awful.widget.layoutbox(s) -- layout box (icons)
     awful.tag.attached_connect_signal(s, "property::selected", function () update_txt_layoutbox(s) end)
     awful.tag.attached_connect_signal(s, "property::layout", function () update_txt_layoutbox(s) end)
@@ -399,8 +441,8 @@ function theme.at_screen_connect(s)
         theme.taglist_font = "FiraCode Nerd Font Mono 15"
         theme.font                                      = "Ubuntu Mono 9"
         theme.font2                                     = "Mononoki Nerd Font 9"
-        width1 = 165
-        width2 = 909
+        width1 = 160
+        width2 = 904
         width3 = 258
         middlex = 182
         rightx = 1100
@@ -409,7 +451,7 @@ function theme.at_screen_connect(s)
     elseif s.geometry.width == 1920 then
         theme.taglist_font = "FiraCode Nerd Font Mono 19"
         theme.font                                      = "Caskaydia Cove 10"
-        theme.font2                                     = "Caskaydia Cove 10"
+        theme.font2                                     = "Mononoki Nerd Font 10"
         width1 = 180
         width2 = 1400
         width3 = 280
@@ -450,14 +492,14 @@ function theme.at_screen_connect(s)
     })
 
     s.mywibox.x = 8
-    s.mywibox.y = 4
+    s.mywibox.y = 6
     s.mywibox.visible = true
 
     s.mywiboxmiddle.x = middlex
-    s.mywiboxmiddle.y = 4
+    s.mywiboxmiddle.y = 6
 
     s.mywiboxright.x = rightx
-    s.mywiboxright.y = 4
+    s.mywiboxright.y = 6
     s.mywiboxright.visible = true
 
     -- s.padding = {
@@ -473,7 +515,9 @@ function theme.at_screen_connect(s)
             layout = wibox.layout.fixed.horizontal,
             first,
             s.mytaglist,
+            left_bracket,
             s.mytxtlayoutbox,
+            right_bracket,
         }
     }
 
@@ -483,7 +527,7 @@ function theme.at_screen_connect(s)
         {
             layout = wibox.layout.fixed.horizontal,
             s.mypromptbox,
-            theme.mpd,
+            -- theme.mpd,
             theme.spot,
         },
         mytextclock,

@@ -1,3 +1,10 @@
+--[[
+    Awesome WM Configuration 2.0
+    Customized by ybenel
+    My Personall Config File
+    (C) 2017-2022 Ybenel <github.com/m1ndo/dotfiles>
+--]]
+
 local awful = require("awful")
 local gears = require("gears")
 local wibox = require("wibox")
@@ -140,6 +147,8 @@ local ply_pop = awful.popup {
 local hide = gears.timer.start_new(5, function() ply_pop.visible = false end)
 
 awesome.connect_signal("evil::plyctl", function()
+        ply_pop.y = (awful.screen.focused().geometry.height - 250)
+        ply_pop.x = (awful.screen.focused().geometry.width - 200) / 2
         ply_pop.visible = true
         hide:again()
 end)

@@ -1,7 +1,15 @@
+--[[
+    Awesome WM Configuration 2.0
+    Customized by ybenel
+    My Personall Config File
+    (C) 2017-2022 Ybenel <github.com/m1ndo/dotfiles>
+--]]
+
 local awful = require("awful")
 local gears = require("gears")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
+local naughty = require("naughty")
 local dpi   = require("beautiful").xresources.apply_dpi
 local awesome, mouse = awesome, mouse
 
@@ -87,6 +95,8 @@ local pop = awful.popup {
 local hide = gears.timer.start_new(5, function() pop.visible = false end)
 
 awesome.connect_signal("evil::volume", function()
+        pop.y = (awful.screen.focused().geometry.height - 70)
+        pop.x = (awful.screen.focused().geometry.width - 300) / 2
         pop.visible = true
         hide:again()
 end)
