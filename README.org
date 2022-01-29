@@ -23,7 +23,7 @@ Doom Emacs On Linux (Arch/Debian) - Windows (WSL/XServer)
 
 ** Screenshots
 *** Awesome WM
-[[file:screenshots/ybenel-full-20211012-212709.png]]
+[[https://github.com/m1ndo/fallen_rainbow/blob/master/img/fallen_rainbow.png]]
 *** Xmonad
 [[file:screenshots/ybenel-full-20211027-170226.png]]
 *** Herbstluftwm
