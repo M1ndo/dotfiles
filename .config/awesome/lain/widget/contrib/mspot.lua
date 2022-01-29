@@ -75,6 +75,7 @@ local function factory(args)
                 -- spot.update()
                 spot_tooltip:add_to_object(widget)
                 spot_tooltip:set_shape(gears.shape.rounded_rect)
+                widget:connect_signal("mouse::leave", function() spot_tooltip.visible = false end)
                 widget:connect_signal('mouse::enter', function()
                     spot_tooltip.markup = '<span foreground="#43cd80"><b>Album</b></span>: ' .. spot_now.album
                         .. '\n<span foreground="#436eee"><b>Artist</b></span>: ' .. spot_now.artist

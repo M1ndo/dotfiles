@@ -751,12 +751,12 @@ require("configs.ruled")
 -- Create a wibox for each screen and add it
 
 -- Enable For 2 Screens.
--- local ss = screen[2]
--- local fs = screen[1]
--- beautiful.at_screen_connect(fs)
--- if not tostring(ss) == 'nil' then
---     beautiful.second_screen(ss)
--- end
+--local ss = screen[2]
+--local fs = screen[1]
+--beautiful.at_screen_connect(fs)
+--if tostring(ss.index) == "2" then
+--    beautiful.second_screen(ss)
+--end
 
 -- Multiple / Single Screen
 awful.screen.connect_for_each_screen(function(s) beautiful.at_screen_connect(s) end)
