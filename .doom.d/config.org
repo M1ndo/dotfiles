@@ -25,9 +25,11 @@ use epa-file to decrypt our *GPG* encrypt personal.el then load it.
 *** Set Doom Font
 I'm using [[github:eliheuer/caskaydia-cove][Caskaydia Cove]] which is a fork of [[github:microsoft/cascadia-code][Cascadia Code]]
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "Cascadia Code" :weight 'SemiBold :size 15)
+
+(setq doom-font (font-spec :family "Cascadia Code" :weight 'SemiLight :foreground "#00bfff" :size 15)
       doom-variable-pitch-font (font-spec :family "Cascadia Code" :weight 'SemiBold :size 15)
       doom-big-font (font-spec :family "Cascadia Code" :weight 'SemiBold :size 24))
+
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
   '(font-lock-keyword-face :slant italic))
@@ -420,6 +422,17 @@ Using the built-in flyspell in emacs, fantastic.
         :desc "Run Spell Check On Region" "r" #'flyspell-region
         :desc "Correct Next Word" "n" #'flyspell-correct-next
         :desc "Correct Previous Word" "p" #'flyspell-correct-previous)))
+#+end_src
+Setting a custom dictionary to auto complete
+#+begin_src emacs-lisp
+(require 'auto-complete-config)
+(ac-config-default)
+(add-to-list 'ac-dictionary-files "~/.doom.d/misc/english-words.txt")
+(setq-default ac-sources '(ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
+(dolist (mode '(org-mode))
+  (add-to-list 'ac-modes mode))
+;; (remove-hook! '(org-mode-hook text-mode-hook markdown-mode-hook fundamental-mode) '(lambda () (auto-complete-mode 1)))
+(add-hook! '(org-mode-hook) (lambda () (auto-complete-mode 1)))
 #+end_src
 *** Tab Width
 Set Spaces Instead of tabs for more consistency
@@ -1295,6 +1308,14 @@ There's variety of Mail client in Emacs such as the builtin one, however i'd pre
   (bind-key "C-c C-m" 'mu4e)
   (setq mu4e-html2text-command "w3m -dump -T text/html -o display_link_number=true")
   ;; (setq mu4e-html2text-command "html2markdown | grep -v '&nbsp_place_holder;'")
+  (setq mail-specify-envelope-from t)
+  (setq message-sendmail-envelope-from 'header)
+  (setq mail-envelope-from 'header)
+  ;; Set Sendmail to msmtp for different accounts
+  (setq sendmail-program (executable-find "msmtp"))
+  (setq send-mail-function #'sendmail-send-it)
+  ;; Set Attachment Directory
+  (setq mu4e-attachment-dir "~/Downloads/Attachements/")
 
   (set-email-account! "Personal"
                       `((mu4e-sent-folder          . "/Gmail/[Gmail]/Sent Mail")

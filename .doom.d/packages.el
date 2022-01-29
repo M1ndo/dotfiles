@@ -33,3 +33,5 @@
 (package! marginalia)
 (package! theme-magic)
 (package! poetry :pin "5b9ef569d629d79820e73b5380e54e443ba90616")
+(package! org-recent-headings)
+(package! auto-complete)
