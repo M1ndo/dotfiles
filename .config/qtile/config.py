@@ -66,26 +66,34 @@ keys = [
 	EzKey("<XF86AudioPlay>", lazy.spawn("mpc toggle")),
 	EzKey("<Print>", lazy.spawn("flameshot gui")),
 
-    # Controls
-    EzKey("A-S-x",lazy.spawn("mpc toggle")),
-    EzKey("A-S-v",lazy.spawn("mpc next")),
-    EzKey("A-S-b",lazy.spawn("mpc prev")),
-    EzKey("A-S-m",lazy.spawn("mpc stop")),
-    EzKey("A-S-p",lazy.spawn("mocp --play")),
-    EzKey("A-S-l",lazy.spawn("mocp --next")),
-    EzKey("A-S-h",lazy.spawn("mocp --previous")),
-    EzKey("A-S-<space>",lazy.spawn("mocp --toggle-pause")),
-    EzKey("A-S-w",lazy.spawn("playerctl -p spotify play-pause")),
-    EzKey("A-S-d",lazy.spawn("playerctl -p spotify next")),
-    EzKey("A-S-a",lazy.spawn("playerctl -p spotify previous")),
-    EzKey("A-S-s",lazy.spawn("playerctl -p spotify stop")),
-    EzKey("A-p",lazy.spawn("playerctl play-pause")),
+        # Controls
+        EzKey("A-S-x",lazy.spawn("mpc toggle")),
+        EzKey("A-S-v",lazy.spawn("mpc next")),
+        EzKey("A-S-b",lazy.spawn("mpc prev")),
+        EzKey("A-S-m",lazy.spawn("mpc stop")),
+        EzKey("A-S-p",lazy.spawn("mocp --play")),
+        EzKey("A-S-l",lazy.spawn("mocp --next")),
+        EzKey("A-S-h",lazy.spawn("mocp --previous")),
+        EzKey("A-S-<space>",lazy.spawn("mocp --toggle-pause")),
+        EzKey("A-S-w",lazy.spawn("playerctl -p spotify play-pause")),
+        EzKey("A-S-d",lazy.spawn("playerctl -p spotify next")),
+        EzKey("A-S-a",lazy.spawn("playerctl -p spotify previous")),
+        EzKey("A-S-s",lazy.spawn("playerctl -p spotify stop")),
+        EzKey("A-p",lazy.spawn("playerctl play-pause")),
 
-    # Scratchpads
-    EzKey("M-C-<Return>",lazy.group["scratchpad"].dropdown_toggle('Term')),
-    EzKey("M-C-c",lazy.group["scratchpad"].dropdown_toggle('mocp')),
-    EzKey("M-C-y",lazy.group["scratchpad"].dropdown_toggle('Spotify')),
-    EzKey("M-C-a",lazy.group["scratchpad"].dropdown_toggle('Ncp')),
+        # Scratchpads
+        EzKey("M-C-<Return>",lazy.group["scratchpad"].dropdown_toggle('Term')),
+        EzKey("M-C-c",lazy.group["scratchpad"].dropdown_toggle('mocp')),
+        EzKey("M-C-y",lazy.group["scratchpad"].dropdown_toggle('Spotify')),
+        EzKey("M-C-a",lazy.group["scratchpad"].dropdown_toggle('Ncp')),
+
+        # Eww widgets
+        EzKey("A-m",lazy.spawn('eww open player_side')),
+        EzKey("A-r",lazy.spawn('eww open time-side')),
+        EzKey("A-q",lazy.spawn('eww open quote')),
+        EzKey("A-w",lazy.spawn('eww open weather')),
+        EzKey("A-a",lazy.spawn('eww open-many player_side time-side quote weather')),
+        EzKey("A-x",lazy.spawn('eww close-all')),
 ]
 
 
