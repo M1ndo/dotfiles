@@ -3,8 +3,8 @@
 # Including Local Bin Tool In The Path
 PATH="$HOME/.emacs.d/bin:$HOME/.local/bin:$PATH"
 
-# Setting Editor As NeoVim
-EDITOR="emacsclient -a -c 'emacs'"
+# Setting Editor As Emacs
+EDITOR="emacsclient -a -c " 
 
 # Source Skey
 source $HOME/.bin/ybl/skey
@@ -13,6 +13,9 @@ source $HOME/.bin/ybl/skey
 # Note: For Better Colors Change To "st-256color" if you have st installed
 export TERM="xterm-256color"
 
+# Maximize History
+HISTSIZE=10000
+HISTFILESIZE=50000
 [[ $- != *i* ]] && return
 
 # A List Of Colors 
@@ -212,6 +215,12 @@ alias ...='cd ../..'
 # vim
 alias vim=nvim
 
+# Trash
+alias rm='trash'
+
+# Clear
+alias clear='echo -en "\x1b[2J\x1b[1;1H"'
+
 # broot
 alias br='br -dhp'
 alias bs='br --sizes'
@@ -251,6 +260,13 @@ alias pg='ping'   # Extra
 # Overwrite .Xresources To take effect of the new settings
 alias xd='xrdb ~/.Xresources'
 
+# Website Aliases
+WEBROOT="~/Templates/Website"
+alias web="cd $WEBROOT/WebRoot"
+alias webpush="cd $WEBROOT/Push_Web"
+alias webms="cd $WEBROOT/Music_Player/My_Music"
+alias webmsp="cd $WEBROOT/My_Music"
+
 # DarkOs Aliases
 alias darksrc="cd ~/DarkOs/Full/Builds/repo_src"
 alias darkpkg="cd ~/DarkOs/Full/Builds/pkg_builds"
@@ -278,8 +294,10 @@ alias plhd+="mpv --ytdl-format='bestvideo[height<=?1080]+bestaudio/best'"
 # Res
 alias revp="xrandr --output LVDS1 --mode 1366x768 --panning 1920x1080 --scale 1.40556369x1.40625"
 alias revpo="xrandr --output LVDS1 --mode 1366x768 --panning 1366x768 --scale 1x1"
+
 # Add A Special Env For My Laptop
 alias scv='LIBGL_ALWAYS_SOFTWARE=1'
+
 # adding flags
 alias cp="cp -i"                          # confirm before overwriting something
 alias df='df -h'                          # human-readable sizes
@@ -291,6 +309,7 @@ alias vifm='./.config/vifm/scripts/vifmrun'
 # More Aliases 
 alias doc='cd ~/Documents'
 alias dow='cd ~/Downloads'
+
 #alias ips="curl -s ifconfig.co | grep 'IP</span>:'| cut -d '<' -f 4 | sed 's/\/span>://'"
 alias ips="curl -s ifconfig.co" 
 alias fxr="./.bin/ybl/resolution"
@@ -346,6 +365,6 @@ $HOME/.bin/shuffle.py
 #export PS1="\[\e[1;49;32m\]\W \[\e[m\]\[\e[1;49;96m\]\\$\[\e[1;49;39m\] "
 #16s
 gradient_cols
-export PS1='\[\e[0m\]\[\e[48;5;236m\]\[\e[38;5;105m\]\u\[\e[38;5;105m\]@\[\e[38;5;105m\]\h\[\e[38;5;105m\] \[\e[38;5;221m\]\w\[\e[38;5;221m\]\[\e[38;5;105m\]\[\e[0m\]\[\e[38;5;236m\]\342\226\214\342\226\214\342\226\214\[\e[0m\]'
+#export PS1='\[\e[0m\]\[\e[48;5;236m\]\[\e[38;5;105m\]\u\[\e[38;5;105m\]@\[\e[38;5;105m\]\h\[\e[38;5;105m\] \[\e[38;5;221m\]\w\[\e[38;5;221m\]\[\e[38;5;105m\]\[\e[0m\]\[\e[38;5;236m\]\342\226\214\342\226\214\342\226\214\[\e[0m\]'
 #export PS1='\[\e[31;1;48;234m\]\u \[\e[38;5;240m\]on \[\e[1;38;5;28;48;234m\]\h \[\e[38;5;54m\]\d \@\[\e[0m\]\n\[\e[38;5;105m\][\W] \[\e[1m\]\$\e[0m\] '
 eval "$(starship init bash)"

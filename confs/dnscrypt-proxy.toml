@@ -1,4 +1,5 @@
-server_names = ['cloudflare','cloudflare-ipv6','adguard-dns-doh']
+#server_names = ['adguard-dns-doh','cloudflare','cloudflare-ipv6']
+server_names = ['adguard-dns-doh','bortzmeyer','cs-madrid']
 listen_addresses = ['127.0.0.1:53', '[::1]:53']
 max_clients = 250
 ipv4_servers = true
@@ -72,7 +73,7 @@ fragments_blocked = ['cisco', 'cisco-ipv6', 'cisco-familyshield', 'cisco-familys
 
 [anonymized_dns]
 routes = [
-    { server_name='*', via=['ams-dnscrypt-nl'] },
+    { server_name='*', via=['anon-bcn','anon-cs-barcelona','anon-cs-madrid','anon-cs-fr'] },
 ]
 skip_incompatible = false
 
