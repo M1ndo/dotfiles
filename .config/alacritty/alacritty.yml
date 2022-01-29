@@ -22,21 +22,34 @@ scrolling:
 
 #tabspaces: 8
 
+# font:
+#   normal:
+#     family: Mononoki Nerd Font
+#     style: Regular
+#   bold:
+#     family: Mononoki Nerd Font
+#     style: Bold
+#   italic:
+#     family: Mononoki Nerd Font
+#     style: Italic
+
+#   bold_italic:
+#     family: Mononoki Nerd Font
+#     style: Bold Italic
 font:
   normal:
-    family: Mononoki Nerd Font
+    family: Cascadia Code
     style: Regular
   bold:
-    family: Mononoki Nerd Font
+    family: Cascadia Code
     style: Bold
   italic:
-    family: Mononoki Nerd Font
+    family: Cascadia Code
     style: Italic
-
   bold_italic:
-    family: Mononoki Nerd Font
+    family: Cascadia Code
     style: Bold Italic
-  size: 9.0
+  size: 8.0
   offset:
     x: 0
     y: 0
@@ -45,7 +58,6 @@ font:
   #  y: 0
 
 draw_bold_text_with_bright_colors: true
-
 colors:
   primary:
     background: '0x0e1019'
@@ -56,15 +68,6 @@ colors:
   cursor:
     #text: '0x000000'
     cursor: '0xBBF0FF'
-
-  # Selection colors
-  #
-  # Colors which should be used to draw the selection area. If selection
-  # background is unset, selection color will be the inverse of the cell colors.
-  # If only text is unset the cell text color will remain the same.
-  # selection:
-  #   text: '0xbbc2cf'
-  #   background: '0x282c34'
 
   # Normal colors
   normal:
@@ -86,8 +89,35 @@ colors:
     magenta: '0x9a5feb'
     cyan:    '0x67fff0'
     white:   '0xffffff'
+  # Search
+  search:
+    matches:
+      foreground: '#44475a'
+      background: '#50fa7b'
+    focused_match:
+      foreground: '#44475a'
+      background: '#ffb86c'
+    bar:
+      background: '#282a36'
+      foreground: '#f8f8f2'
+  # Hints
+  hints:
+    start:
+      foreground: '#282a36'
+      background: '#f1fa8c'
+    end:
+      foreground: '#f1fa8c'
+      background: '#282a36'
+  #  Line Indicator
+  line_indicator:
+    foreground: None
+    background: None
+  # Selection
+  selection:
+    text: CellForeground
+    background: '#44475a'
 
-  #dim:
+  # dim:
   #  black:   '0x000000'
   #  red:     '0x8c3336'
   #  green:   '0x7a8530'
@@ -290,6 +320,9 @@ key_bindings:
   - { key: K,         mods: Alt|Shift, action: IncreaseFontSize }
   - { key: Down,      mods: Alt|Shift, action: DecreaseFontSize }
   - { key: J,         mods: Alt|Shift, action: DecreaseFontSize }
+  - { key: S,         mods: Alt|Shift, action: SearchBackward }
+  - { key: N,         mods: Alt|Shift, action: SpawnNewInstance }
+  - { key: F,         mods: Alt|Shift, action: SearchForward }
 
   - { key: Paste,                    action: Paste                            }
   - { key: Copy,                     action: Copy                             }

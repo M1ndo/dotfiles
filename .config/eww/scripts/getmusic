@@ -36,6 +36,18 @@ get_title() {
         echo "Offline"
     fi
 }
+
+get_album() {
+    if  [ "$PLAYER" = "spotify" ]; then
+        ALBUM=$(playerctl -p spotify metadata --format '{{album}}')
+        echo $ALBUM
+    elif [ "$PLAYER" = "mpd" ]; then
+        ALBUM=$(mpc -f %album% current)
+        echo $ALBUM
+    else
+        echo "Offline"
+    fi
+}
 get_artist() {
     if  [ "$PLAYER" = "spotify" ]; then
         ARTIST=$(playerctl -p spotify metadata --format '{{artist}}')
@@ -45,6 +57,117 @@ get_artist() {
         echo $ARTIST
     else
         echo "Player"
+    fi
+}
+get_status() {
+    if  [ "$PLAYER" = "spotify" ]; then
+        STATUS=$(playerctl -p spotify status)
+        if [ "$STATUS" = "Playing" ]; then
+            STATUS=""
+        else
+            STATUS=""
+        fi
+        printf "$STATUS"
+    elif [ "$PLAYER" = "mpd" ]; then
+        STATUS=$(mpc status | grep playing > /dev/null)
+        exit_code=$?
+        if [ $exit_code -eq 0 ]; then
+            STATUS=""
+        else
+            STATUS=""
+        fi
+        printf "$STATUS"
+    else
+        printf ""
+    fi
+}
+get_statuss() {
+    if  [ "$PLAYER" = "spotify" ]; then
+        STATUS=$(playerctl -p spotify status)
+        if [ "$STATUS" = "Playing" ]; then
+            STATUS="Playing"
+        else
+            STATUS="Paused"
+        fi
+        printf "$STATUS"
+    elif [ "$PLAYER" = "mpd" ]; then
+        STATUS=$(mpc status | grep playing > /dev/null)
+        exit_code=$?
+        if [ $exit_code -eq 0 ]; then
+            STATUS="Playing"
+        else
+            STATUS="Playing"
+        fi
+        printf "$STATUS"
+    else
+        printf "Paused"
+    fi
+}
+
+get_status() {
+    if  [ "$PLAYER" = "spotify" ]; then
+        STATUS=$(playerctl -p spotify status)
+        if [ "$STATUS" = "Playing" ]; then
+            STATUS=""
+        else
+            STATUS=""
+        fi
+        printf "$STATUS"
+    elif [ "$PLAYER" = "mpd" ]; then
+        STATUS=$(mpc status | grep playing > /dev/null)
+        exit_code=$?
+        if [ $exit_code -eq 0 ]; then
+            STATUS=""
+        else
+            STATUS=""
+        fi
+        printf "$STATUS"
+    else
+        printf ""
+    fi
+}
+get_status() {
+    if  [ "$PLAYER" = "spotify" ]; then
+        STATUS=$(playerctl -p spotify status)
+        if [ "$STATUS" = "Playing" ]; then
+            STATUS=""
+        else
+            STATUS=""
+        fi
+        printf "$STATUS"
+    elif [ "$PLAYER" = "mpd" ]; then
+        STATUS=$(mpc status | grep playing > /dev/null)
+        exit_code=$?
+        if [ $exit_code -eq 0 ]; then
+            STATUS=""
+        else
+            STATUS=""
+        fi
+        printf "$STATUS"
+    else
+        printf ""
+    fi
+}
+get_status() {
+    if  [ "$PLAYER" = "spotify" ]; then
+        STATUS=$(playerctl -p spotify status)
+        if [ "$STATUS" = "Playing" ]; then
+            STATUS=""
+        else
+            STATUS=""
+        fi
+        printf "$STATUS"
+    elif [ "$PLAYER" = "mpd" ]; then
+        STATUS=$(mpc status | grep playing > /dev/null)
+        exit_code=$?
+        if [ $exit_code -eq 0 ]; then
+            STATUS=""
+        else
+            STATUS=""
+        fi
+        printf "$STATUS"
+    else
+        printf ""
     fi
 }
 get_status() {
@@ -135,12 +258,22 @@ player_stop() {
     fi
 }
 
+show_current() { 
+    echo "Album        `get_album`"
+    echo "AlbumArtist  `get_artist`"
+    echo "Artist       `get_artist`"
+    echo "Title        `get_title`"
+    echo "Status       `get_statuss`"
+}
+
 if [[ "$1" == "--art" ]]; then
     get_art
 elif [[ "$1" == "--artist" ]]; then
     get_artist
 elif [[ "$1" == "--title" ]]; then
     get_title
+elif [[ "$1" == "--album" ]]; then
+    get_album
 elif [[ "$1" == "--status" ]]; then
     get_status
 elif [[ "$1" == "--fetch" ]]; then
@@ -154,4 +287,6 @@ elif [[ "$1" == "--prev" ]]; then
     play_prev
 elif [[ "$1" == "--stop" ]]; then
     player_stop
+elif [[ "$1" == "--current" ]]; then
+    show_current
 fi
