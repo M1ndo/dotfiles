@@ -393,6 +393,8 @@ function theme.second_screen(s)
 
     -- Tags
     awful.tag(awful.util.tagnames ,s, awful.layout.layouts[1])
+
+    s.quake = lain.util.quake({ app = awful.util.terminal })
 end
 
 

@@ -9,7 +9,7 @@ cache_weather_hex=${cache_dir}/weather-hex
 cache_weather_icon=${cache_dir}/weather-icon
 
 ## Weather data
-KEY="API_KEY"
+KEY="728baa31ce838d612ca8f315249864eb"
 ID="2537406"
 UNIT="metric"	# Available options : 'metric' or 'imperial'
 
@@ -21,7 +21,6 @@ fi
 ## Get data
 get_weather_data() {
 	weather=$(curl -sf "http://api.openweathermap.org/data/2.5/weather?id=$ID&appid=$KEY&units=$UNIT")
-	echo $weather
 
 	if [ ! -z "$weather" ]; then
 		weather_temp=`echo "$weather" | jq ".main.temp" | cut -d "." -f 1`
