@@ -8,3 +8,9 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[http]
+	version = HTTP/2
+[core]
+	compression = 0
+[init]
+	defaultBranch = master

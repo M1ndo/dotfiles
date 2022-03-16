@@ -3,3 +3,18 @@ clear control
 keycode 66 = Control_L
 add control = Control_L
 add Lock = Control_R
+
+keycode 66 = Mode_switch
+keysym w = w W e
+keysym s = s S d
+keysym x = x X c
+keysym 2 = 2 2 3
+
+keysym XF86HomePage = XF86HomePage XF86HomePage F1
+keysym XF86AudioPrev = XF86AudioPrev XF86AudioPrev F2
+keysym XF86AudioPlay = XF86AudioPlay XF86AudioPlay F3
+keysym XF86AudioNext = XF86AudioNext XF86AudioNext F4
+
+keysym XF86AudioLowerVolume = XF86AudioLowerVolume XF86AudioLowerVolume XF86MonBrightnessDown
+keysym XF86AudioRaiseVolume = XF86AudioRaiseVolume XF86AudioRaiseVolume XF86MonBrightnessUp
+keysym XF86AudioMute = XF86AudioMute XF86AudioMute XF86Search

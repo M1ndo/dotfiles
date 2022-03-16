@@ -1,10 +1,13 @@
 [General]
-allow-moves=true
 ambi-format=ambix
-channels=surround61
+channels=quad
 default-hrtf=Built-In HRTF
-frequency=44100
+dither=false
+frequency=48000
 hrtf=true
-hrtf-mode=full
-resampler=cubic
+hrtf-mode=ambi2
+resampler=bsinc24
 stereo-mode=headphones
+
+[decoder]
+nfc=true

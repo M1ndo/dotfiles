@@ -15,8 +15,8 @@ Xcursor.size: 24
 
 XTerm.termName: xterm-256color
 XTerm*renderFont: true
-XTerm*faceName: mononoki Nerd Font
-xterm*faceSize: 8
+XTerm*faceName: Cascadia Code 
+xterm*faceSize: 8 
 ! VT Font Menu: Unreadable
 xterm*faceSize1: 8
 ! VT font menu: Tiny
@@ -250,24 +250,28 @@ XScreenSaver.Dialog.passwdFont:         -*-dejavu sans mono-medium-r-*-*-*-85-*-
 ! *.color15:	   #fdf6e3
 
 !! xterm */
-! *.background: #131313
-! *.foreground: #F8F8F2
-! *.color0:     #000000
-! *.color8:     #4d4d4d
-! *.color1:     #cd0000
-! *.color9:     #ff0000
-! *.color2:     #00cd00
-! *.color10:    #00ff00
-! *.color3:     #cdcd00
-! *.color11:    #ffff00
-! *.color4:     #0000cd
+*.background: #131313
+*.foreground: #F8F8F2
+*.color0:     #000000
+*.color8:     #4d4d4d
+*.color1:     #cd0000
+*.color9:     #ff0000
+*.color2:     #00cd00
+*.color10:    #00ff00
+*.color3:     #cdcd00
+*.color11:    #ffff00
+! *.color4:     #0000cd ! Original Color Schmee
 ! *.color12:    #0000ff
+*.color4:     #BD93F9
+*.color12:    #CAA9FA
 ! *.color5:     #cd00cd
 ! *.color13:    #ff00ff
-! *.color6:     #00cdcd
-! *.color14:    #00ffff
-! *.color7:     #e5e5e5
-! *.color15:    #aabac8
+*.color5:     #FF79C6
+*.color13:    #FF92D0
+*.color6:     #00cdcd
+*.color14:    #00ffff
+*.color7:     #e5e5e5
+*.color15:    #aabac8
 
 ! Dracula Xresources palette (Original) */
 ! *.foreground: #F8F8F2
@@ -357,26 +361,26 @@ XScreenSaver.Dialog.passwdFont:         -*-dejavu sans mono-medium-r-*-*-*-85-*-
 ! *.colorBD:     #9e9c9a
 
 
-! special
-*.foreground:   #ababab
-*.background:   #000000
-*.cursorColor:  #ababab
-*.color0:       #000000
-*.color8:       #343434
-*.color1:       #e92f2f
-*.color9:       #e92f2f
-*.color2:       #0ed839
-*.color10:      #0ed839
-*.color3:       #dddd13
-*.color11:      #dddd13
-*.color4:       #3b48e3
-*.color12:      #3b48e3
-*.color5:       #f996e2
-*.color13:      #f996e2
-*.color6:       #23edda
-*.color14:      #23edda
-*.color7:       #ababab
-*.color15:      #f9f9f9
+! special (dark background)
+! *.foreground:   #ababab
+! *.background:   #000000
+! *.cursorColor:  #ababab
+! *.color0:       #000000
+! *.color8:       #343434
+! *.color1:       #e92f2f
+! *.color9:       #e92f2f
+! *.color2:       #0ed839
+! *.color10:      #0ed839
+! *.color3:       #dddd13
+! *.color11:      #dddd13
+! *.color4:       #3b48e3
+! *.color12:      #3b48e3
+! *.color5:       #f996e2
+! *.color13:      #f996e2
+! *.color6:       #23edda
+! *.color14:      #23edda
+! *.color7:       #ababab
+! *.color15:      #f9f9f9
 
 ! Gotham
 ! *.foreground:   #98d1ce

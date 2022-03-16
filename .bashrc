@@ -1,13 +1,13 @@
 # Maintainer Ybenel (ybenel@molero.xyz)
 
 # Including Local Bin Tool In The Path
-PATH="$HOME/.emacs.d/bin:$HOME/.local/bin:$PATH"
+PATH="$HOME/.emacs.d/bin:$HOME/.local/bin:$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH"
 
 # Setting Editor As Emacs
 EDITOR="emacsclient -a -c " 
 
 # Source Skey
-source $HOME/.bin/ybl/skey
+#source $HOME/.bin/ybl/skey
 
 # Exporting Term Colors To Xterm 
 # Note: For Better Colors Change To "st-256color" if you have st installed
@@ -204,6 +204,16 @@ say() {
     vterm_cmd message "%s" "$*"
 }
 
+
+genpdf() {
+
+    DIR=$(mktemp -d)
+    xelatex -shell-escape -interaction nonstopmode --output-directory="$DIR" "$1"
+    mv "$DIR/"*pdf .
+
+}
+
+
 ### ALIASES ###
 
 # root privileges
@@ -277,8 +287,8 @@ DARKREP="/home/ybenel/DarkOs/Full/DarkOs-Repo/x86_64/"
 # Tlmgr
 alias tlmgr='/usr/share/texmf-dist/scripts/texlive/tlmgr.pl  --usermode'
 
-# Doom Emacs
 
+# Emacs
 alias emax='
 export DISPLAY=:0.0
 export LIBGL_ALWAYS_INDIRECT=1
@@ -367,4 +377,5 @@ $HOME/.bin/shuffle.py
 gradient_cols
 #export PS1='\[\e[0m\]\[\e[48;5;236m\]\[\e[38;5;105m\]\u\[\e[38;5;105m\]@\[\e[38;5;105m\]\h\[\e[38;5;105m\] \[\e[38;5;221m\]\w\[\e[38;5;221m\]\[\e[38;5;105m\]\[\e[0m\]\[\e[38;5;236m\]\342\226\214\342\226\214\342\226\214\[\e[0m\]'
 #export PS1='\[\e[31;1;48;234m\]\u \[\e[38;5;240m\]on \[\e[1;38;5;28;48;234m\]\h \[\e[38;5;54m\]\d \@\[\e[0m\]\n\[\e[38;5;105m\][\W] \[\e[1m\]\$\e[0m\] '
+eval $(thefuck --alias)
 eval "$(starship init bash)"
