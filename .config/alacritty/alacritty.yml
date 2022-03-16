@@ -18,7 +18,7 @@ window:
 scrolling:
   history: 5000
   #multiplier: 3
-  #auto_scroll: false
+  auto_scroll: true 
 
 #tabspaces: 8
 
@@ -145,7 +145,7 @@ colors:
 #  duration: 0
 #  color: '0xffffff'
 
-background_opacity: 1
+window_opacity: 1
 
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"

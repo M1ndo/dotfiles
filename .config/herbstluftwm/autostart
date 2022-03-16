@@ -56,6 +56,9 @@ hc keybind $Mod-Control-e spawn $myTerms -e torify irssi
 hc keybind $Mod-b spawn $myBrowser
 
 
+# Scratchpad
+hc keybind $Mod-s spawn ~/.config/herbstluftwm/scratchpad.sh
+
 # Controllers
 # Mocp
 hc keybind Shift-Mod1-p spawn $myMusic --play
@@ -67,11 +70,25 @@ hc keybind Shift-Mod1-w spawn $SpMusic "play-pause"
 hc keybind Shift-Mod1-d spawn $SpMusic "next"
 hc keybind Shift-Mod1-a spawn $SpMusic "previous"
 hc keybind Shift-Mod1-s spawn $SpMusic "stop"
+
+# Dbus
+hc keybind Mod1-p spawn playerctl play-pause
+
 # Mpd
 hc keybind Shift-Mod1-m spawn $MMControl stop
 hc keybind Shift-Mod1-b spawn $MMControl prev
 hc keybind Shift-Mod1-v spawn $MMControl next
 hc keybind Shift-Mod1-x spawn $MMControl toggle
+
+# Eww
+hc keybind Mod1-m spawn eww open player_side
+hc keybind Mod1-s spawn eww open player_side2
+hc keybind Mod1-r spawn eww open time-side
+hc keybind Mod1-q spawn eww open quote
+hc keybind Mod1-Control-a spawn eww open weather
+hc keybind Mod1-control-w spawn eww open-many player_side time-side quote weather player_side2
+hc keybind Mod1-Control-x spawn eww close-all
+
 
 # focusing clients
 hc keybind $Mod-Left          focus left
@@ -248,7 +265,7 @@ herbstclient set tree_style '╾│ ├└╼─┐'
 hc detect_monitors
 #hc set_monitors 1920x1080+0+0 #1920x1060+1920+22 1920x1060+3840+22
 # hc set_monitors 1366x768+0+0 1440x720+0+0 #1920x1060+1920+22 1920x1060+3840+22
-#hc set_monitors 1366x768+0+0 1366x768+1366+22 #1920x1060+1920+22 1920x1060+3840+22
+#hc set_monitors 1366x768+0+0 1366x768+0+0 #1920x1060+1920+22 1920x1060+3840+22
 
 # find the panel
 panel=~/.config/herbstluftwm/panel.sh

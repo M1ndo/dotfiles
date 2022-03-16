@@ -1,10 +1,3 @@
---[[
-    Awesome WM Configuration 2.0
-    Customized by ybenel
-    My Personall Config File
-    (C) 2017-2022 Ybenel <github.com/m1ndo/dotfiles>
---]]
-
 awful = require("awful")
 local update_interval = 5
 local temp_script = [[

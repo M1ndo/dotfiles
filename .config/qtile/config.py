@@ -115,8 +115,8 @@ for workspace in workspaces:
 
 layout_theme = {"border_width": 2,
                 "margin": 8,
-                "border_focus": "e1acff",
-                "border_normal": "1D2330"
+                "border_focus": "#e1acff",
+                "border_normal": "#1D2330"
                 }
 
 layouts = [
@@ -130,11 +130,11 @@ layouts = [
          sections = ["Tabs"],
          section_fontsize = 10,
          border_width = 2,
-         bg_color = "1c1f24",
-         active_bg = "c678dd",
-         active_fg = "000000",
-         inactive_bg = "a9a1e1",
-         inactive_fg = "1c1f24",
+         bg_color = "#1c1f24",
+         active_bg = "#c678dd",
+         active_fg = "#000000",
+         inactive_bg = "#a9a1e1",
+         inactive_fg = "#1c1f24",
          padding_left = 0,
          padding_x = 0,
          padding_y = 5,
@@ -242,7 +242,7 @@ def init_widgets_list():
                         background = colors[0],
                         foreground = colors[2],
                         #colors_progress = colors[2]
-                        host = "192.168.8.110",
+                        host = "192.168.1.110",
                         no_connection = "Mpd Is Off",
                         status_format = "{artist} - {title}",
                         update_interval = 0.5

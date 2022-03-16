@@ -323,10 +323,10 @@ globalkeys = my_table.join(
         {description = "ncmpcpp" , group = "Scratchpad" }),
     awful.key({ }, "XF86Tools", function () awesome.emit_signal("scratch::spot") end,
         {description = "Spotify" , group = "Scratchpad" }),
-    awful.key({ }, "XF86HomePage", function () awesome.emit_signal("scratch::brows") end,
-        {description = "Firefox ScratchPad" , group = "Scratchpad" }),
-    awful.key({ }, "XF86Mail", function () awesome.emit_signal("scratch::filem") end,
-        {description = "File_Manager (Pcmanfm)" , group = "Scratchpad" }),
+    -- awful.key({ }, "XF86HomePage", function () awesome.emit_signal("scratch::brows") end,
+    --     {description = "Firefox ScratchPad" , group = "Scratchpad" }),
+    -- awful.key({ }, "XF86Mail", function () awesome.emit_signal("scratch::filem") end,
+    --     {description = "File_Manager (Pcmanfm)" , group = "Scratchpad" }),
     awful.key({ modkey, }, "F1", function () awesome.emit_signal("scratch::disco") end,
         {description = "Discord" , group = "Scratchpad" }),
     awful.key({ modkey, }, "F12", function () awesome.emit_signal("scratch::turn_off") end,
@@ -369,6 +369,7 @@ globalkeys = my_table.join(
 
     -- Eww Widgets
     awful.key({ altkey }, "m", function() os.execute('eww open player_side') end),
+    awful.key({ altkey }, "s", function() os.execute('eww open player_side2') end),
     awful.key({ altkey }, "r", function() os.execute('eww open time-side') end),
     awful.key({ altkey }, "q", function() os.execute('eww open quote') end),
     awful.key({ altkey, "Control" }, "w", function() os.execute('eww open weather') end),
@@ -552,6 +553,17 @@ globalkeys = my_table.join(
               {description = "+10%", group = "Hotkeys"}),
     awful.key({ }, "XF86MonBrightnessDown", function () os.execute("xbacklight -dec 10") end,
               {description = "-10%", group = "Hotkeys"}),
+    awful.key({ modkey1, "Shift" }, ",", function () os.execute("xbacklight -dec 10") end,
+              {description = "-10%", group = "Hotkeys"}),
+    awful.key({ modkey1, "Shift" }, ".", function () os.execute("xbacklight -inc 10") end,
+              {description = "-10%", group = "Hotkeys"}),
+
+    -- F Keys
+    awful.key({ }, "XF86AudioPlay", function () os.execute("mpc toggle") end),
+    awful.key({ }, "XF86AudioPrev", function () os.execute("mpc prev") end),
+    awful.key({ }, "XF86AudioNext", function () os.execute("mpc next") end),
+    awful.key({ }, "F2", function () os.execute("xbacklight -dec 5") end),
+    awful.key({ }, "F3", function () os.execute("xbacklight -inc 5") end),
 
     -- ALSA volume control
     awful.key({ }, "XF86AudioRaiseVolume",
@@ -752,14 +764,21 @@ require("configs.ruled")
 
 -- Enable For 2 Screens.
 --local ss = screen[2]
---local fs = screen[1]
---beautiful.at_screen_connect(fs)
+local fs = screen[1]
+beautiful.at_screen_connect(fs)
 --if tostring(ss.index) == "2" then
+--    awful.util.spawn("~/.screenlayout/Monitors.sh")
 --    beautiful.second_screen(ss)
 --end
+-- if not ss == nil or ss == '' then
+--     if tostring(ss.index) == "2" then
+--        awful.util.spawn("~/.screenlayout/Monitors.sh")
+--        beautiful.second_screen(ss)
+--     end
+-- end
 
 -- Multiple / Single Screen
-awful.screen.connect_for_each_screen(function(s) beautiful.at_screen_connect(s) end)
+-- awful.screen.connect_for_each_screen(function(s) beautiful.at_screen_connect(s) end)
 -- }}}
 --
 

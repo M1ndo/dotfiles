@@ -10,7 +10,7 @@
 (defpoll MUSICSTAT :interval "5s" "~/.config/eww/scripts/getmusic --status")
 (defpoll ARTIST :interval "5s" "~/.config/eww/scripts/getmusic --artist")
 ;; TIme
-(defpoll HOUR :interval "30m" "date '+%H'")
+(defpoll HOUR :interval "30m" "date '+%I'")
 (defpoll MIN :interval "10s" "date '+%M'")
 (defpoll DAY :interval "15h" "date '+%A'")
 (defpoll DAYY :interval "15h" "date '+%d/%m'")
@@ -19,7 +19,7 @@
 (defpoll QUOTE_AUTHOR :interval "10m" "~/.config/eww/scripts/getquote --author")
 ;; Weather
 
-(defpoll ICON :interval "15m"  "~/.config/eww/scripts/weather_info --icon")
+(defpoll ICON :interval "15m"  "~/.config/eww/scripts/weather_info --getdata && ~/.config/eww/scripts/weather_info --icon")
 (defpoll STAT :interval "15m"  "~/.config/eww/scripts/weather_info --stat")
 (defpoll TEMP :interval "15m"  "~/.config/eww/scripts/weather_info --temp")
 (defpoll HEX :interval "15m"  "~/.config/eww/scripts/weather_info --hex")
@@ -63,36 +63,41 @@
             (label :class "label_quote" :text QUOTE2_WEATHER))))
 
 ;; Player-side widget top-left for 1366x768 && 1920x1080
-;; (defwindow player_side :stacking "fg" :focusable "false" :screen 1
-;;   :geometry (geometry :x 10 :y 50 :width 300 :height 135)
-;;                 (music))
+(defwindow player_side2 :stacking "fg" :focusable "false" :monitor 1
+  :geometry (geometry :x 1038 :y 10 :width 200 :height 135)
+                (music))
 
-;; Quote Widget
-(defwindow quote :stacking "fg" :focusable "false" :screen 1
+;; Quote Widget for 1366x768 && 1920x1080
+(defwindow quote :stacking "fg" :focusable "false" :monitor 0
   :geometry (geometry :x 10 :y 45 :width 600 :height 100)
                 (quote))
 
-;; Weather Widget
-(defwindow weather :stacking "fg" :focusable "false" :screen 1
+;; Weather Widget for 1366x768
+(defwindow weather :stacking "fg" :focusable "false" :monitor 0
   :geometry (geometry :x 1009 :y 155 :width 350 :height 250)
                 (weather))
 
+;; Weather Widget for 1920x1080
+;; (defwindow weather :stacking "fg" :focusable "false" :monitor 0
+;;   :geometry (geometry :x 1563 :y 155 :width 350 :height 250)
+;;                 (weather))
+
 ;; Player-side widget for 1366x768
-(defwindow player_side :stacking "fg" :focusable "false" :screen 1
+(defwindow player_side :stacking "fg" :focusable "false" :monitor 0
   :geometry (geometry :x 530 :y 590 :width 200 :height 100)
                 (music))
 
 ;; Player-side Widget for 1920x1080
-;; (defwindow player_side :stacking "fg" :focusable "false" :screen 1
+;; (defwindow player_side :stacking "fg" :focusable "false" :monitor 0
 ;;   :geometry (geometry :x 800 :y 900 :width 200 :height 135)
 ;;                 (music))
 
 ;; Time-side Widget for 1366x768
-(defwindow time-side :stacking "fg" :focusable "false" :screen 1
+(defwindow time-side :stacking "fg" :focusable "false" :monitor 0
   :geometry (geometry :x 1210 :y 45 :width 150 :height 100)
                 (time))
 
 ;; Time-side Widget for 1920x1080
-;; (defwindow time-side :stacking "fg" :focusable "false" :screen 1
+;; (defwindow time-side :stacking "fg" :focusable "false" :monitor 0
 ;;   :geometry (geometry :x 1760 :y 45 :width 150 :height 100)
 ;;                 (time))

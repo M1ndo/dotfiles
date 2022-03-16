@@ -9,6 +9,7 @@ import qualified XMonad.StackSet as W
   -- Actions
 import XMonad.Actions.CopyWindow (kill1, killAllOtherCopies,copyToAll,wsContainingCopies,killAllOtherCopies)
 import XMonad.Actions.CycleWS (moveTo, shiftTo, WSType(..), nextScreen, prevScreen)
+import XMonad.Actions.PhysicalScreens
 import XMonad.Actions.GridSelect
 import XMonad.Actions.MouseResize
 import XMonad.Actions.Promote
@@ -19,6 +20,7 @@ import XMonad.Actions.WithAll (sinkAll, killAll)
 import qualified XMonad.Actions.Search as S
 import XMonad.Actions.Minimize
 import XMonad.Actions.AfterDrag (afterDrag)
+import XMonad.Util.NoTaskbar
 -- Controls
 import XMonad.Actions.Navigation2D
   -- Data
@@ -157,10 +159,16 @@ myBorderWidth :: Dimension
 myBorderWidth = 2          -- Sets border width for windows
 
 myNormColor :: String
-myNormColor   = "#282c34"  -- Border color of normal windows
+myNormColor   = "#90ee90"  -- Border color of normal windows
 
 myFocusColor :: String
 myFocusColor  = "#46d9ff"  -- Border color of focused windows
+
+trayerCommand :: String
+trayerCommand = "trayer --edge top --align right --widthtype request --padding 2 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x282C34 --height 22 --iconspacing 0 --margin 479 --distance 9 &"
+
+xmobarToggleCommand :: String
+xmobarToggleCommand = "dbus-send --session --dest=org.Xmobar.Control --type=method_call '/org/Xmobar/Control' org.Xmobar.Control.SendSignal \"string:Toggle 0\""
 
 altMask :: KeyMask
 altMask = mod1Mask         -- Setting this for use in xprompts
@@ -178,10 +186,10 @@ myStartupHook = do
         spawnOnce "nm-applet &"
         spawnOnce "volumeicon &"
         -- spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x282C34 --height 22 --iconspacing 0 --margin 682 &" -- Enable When Using Secondary Xmobar config
-        spawnOnce "trayer --edge top --align right --widthtype request --padding 2 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x282C34 --height 22 --iconspacing 0 --margin 449 --distance 9 &"
+        spawnOnce "trayer --edge top --align right --widthtype request --padding 2 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x282C34 --height 22 --iconspacing 0 --margin 479 --distance 9 &"
         -- spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x090D12 --height 22 --iconspacing 0 --margin 476 &"
         spawnOnce "/usr/lib/polkit-kde-authentication-agent-1 &"
-        spawnOnce "xfce4-power-manager &"
+        spawnOnce "powerkit &"
         spawnOnce "numlockx on &"
         -- spawnOnce "/usr/bin/emacs --daemon &"
         spawnOnce "xscreensaver -no-splash &"
@@ -389,7 +397,7 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
 
   spawnNcp  = myTerminal2 ++ " -name ncmpcpp -e ncmpcpp"
   findNcp   = appName =? "ncmpcpp"
-  manageNcp = nonFloating
+  manageNcp = ( noTaskbar <+> customFloating (W.RationalRect 0.25 0.1 0.5 0.8) )
 
   spawnIrc  = myTerminal2 ++ " -n irssi -e 'torify irssi'"
   findIrc   = (stringProperty "WM_NAME" =? "irssi")
@@ -508,7 +516,7 @@ myShowWNameTheme = def
 myLayoutHook = avoidStruts . minimize $ mouseResize $ windowArrange $ T.toggleLayouts floats
              $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
            where
-            myDefaultLayout = tall ||| magnify ||| noBorders monocle ||| floats ||| noBorders tabs ||| grid ||| spirals ||| threeCol ||| threeRow ||| tallAccordion ||| wideAccordion
+            myDefaultLayout = withBorder myBorderWidth tall ||| magnify ||| noBorders monocle ||| floats ||| noBorders tabs ||| grid ||| spirals ||| threeCol ||| threeRow ||| tallAccordion ||| wideAccordion
 
 myWorkspaces = [" B ", " T ", " E ", " S ", " C ", " M "]
 
@@ -572,8 +580,11 @@ myKeys =
 
   -- Useful programs to have a keybinding for launch
       , ("M-<Return>", spawn myTerminal)
-      , ("M-b", spawn myBrowser)
+      , ("M-S-b", spawn myBrowser)
       , ("M-M1-h", spawn (myTerminal ++ " -e htop"))
+
+  -- Toggle Xmobar
+      , ("M-b", spawn (xmobarToggleCommand ++ " && pkill trayer || " ++ trayerCommand))
 
   -- Kill windows
       , ("M-S-c", kill1)                         -- Kill the currently focused client
@@ -581,6 +592,7 @@ myKeys =
 
   -- Workspaces
       , ("M-<Backspace>", nextScreen)  -- Switch focus to next monitor
+      , ("M-S-<Backspace>", onPrevNeighbour def W.shift)  -- Switch focus to next monitor
       , ("M-,", prevScreen)  -- Switch focus to prev monitor
       , ("M-S-<KP_Add>", shiftTo Next nonNSP >> moveTo Next nonNSP)       -- Shifts focused window to next ws
       , ("M-S-<KP_Subtract>", shiftTo Prev nonNSP >> moveTo Prev nonNSP)  -- Shifts focused window to prev ws
@@ -690,6 +702,7 @@ myKeys =
 
   -- Eww Widgets (Super-r followed by a key)
       , ("M-r m", spawn "eww open player_side")
+      , ("M-r s", spawn "eww open player_side2")
       , ("M-r c", spawn "eww open time-side")
       , ("M-r p", spawn "eww open quote")
       , ("M-r w", spawn "eww open weather")
@@ -709,20 +722,23 @@ myKeys =
       , ("M-M1-z", spawn (myTerminal2 ++ " -e ncmpcpp"))
 
   -- Multimedia Keys
-      , ("<XF86AudioPlay>", spawn (myTerminal2 ++ "mocp --play"))
-      , ("<XF86AudioPrev>", spawn (myTerminal2 ++ "mocp --previous"))
-      , ("<XF86AudioNext>", spawn (myTerminal2 ++ "mocp --next"))
+      , ("<XF86AudioPlay>", spawn  "mpc toggle")
+      , ("<XF86AudioPrev>", spawn  "mpc prev")
+      , ("<XF86AudioNext>", spawn  "mpc next")
       , ("<XF86AudioMute>",   spawn "amixer set Master toggle")
       , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%- unmute")
       , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 5%+ unmute")
+      , ("<F2>", spawn "xbacklight -dec 5")
+      , ("<F3>", spawn "xbacklight -inc 5")
+      , ("<F4>", spawn "arandr")
       , ("<XF86HomePage>", spawn "firefox")
       , ("<XF86Search>", safeSpawn "firefox" ["https://www.duckduckgo.com/"])
       , ("<XF86Mail>", runOrRaise "thunderbird" (resource =? "thunderbird"))
       , ("<XF86Calculator>", runOrRaise "gcalctool" (resource =? "gcalctool"))
       , ("<XF86Eject>", spawn "toggleeject")
       , ("<Print>", spawn "flameshot gui")
-      , ("M-<F1>", spawn "sxiv -r -q -t -o ~/wallpapers/*")
-      , ("M-<F2>", spawn "/bin/ls ~/wallpapers | shuf -n 1 | xargs xwallpaper --stretch")
+      , ("M-<F1>", spawn "sxiv -r -q -t -o ~/Pictures/Backgrounds/*")
+      , ("M-<F2>", spawn "/bin/ls ~/Pictures/Backgrounds/* | shuf -n 1 | xargs xwallpaper --stretch")
       ]
   -- Appending search engine prompts to keybindings list.
   -- Look at "search engines" section of this config for values for "k".

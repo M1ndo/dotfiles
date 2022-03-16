@@ -1,10 +1,3 @@
---[[
-    Awesome WM Configuration 2.0
-    Customized by ybenel
-    My Personall Config File
-    (C) 2017-2022 Ybenel <github.com/m1ndo/dotfiles>
---]]
-
 local awful = require('awful')
 local gears = require('gears')
 local wibox = require('wibox')

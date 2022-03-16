@@ -1,41 +1,38 @@
---[[
-    Awesome WM Configuration 2.0
-    Customized by ybenel
-    My Personall Config File
-    (C) 2017-2022 Ybenel <github.com/m1ndo/dotfiles>
---]]
-
 local bling = require("lib.bling")
 local rubato = require("lib.rubato")
+local beautiful = require("beautiful")
+local dpi = beautiful.xresources.apply_dpi
 local anim_y = rubato.timed {
-    rate = 60,
+    rate = 120,
+    pos = -970,
     easing = rubato.linear,
     intro = 0.1,
-    duration = 0.5,
+    duration = 0.3,
     awestore_compat = true
 }
 
 local anim_x = rubato.timed {
-    rate = 60,
-    easing = rubato.linear,
+    rate = 120,
+    pos = -970,
+    easing = rubato.quadratic,
     intro = 0.1,
-    duration = 0.5,
+    duration = 0.3,
     awestore_compat = true 
 }
 
 local music_ncmp = bling.module.scratchpad { command = "xterm -name scratch_ncmp -e ncmpcpp",
                                       rule = { instance = "scratch_ncmp" },                 
                                       sticky = false, autoclose = true,                              
-                                      floating = false, geometry = {x = 0 , y = 0},
+                                      floating = true, geometry = {x = dpi(220), y = dpi(130), height = dpi(550), width = dpi(960)},
                                       reapply = true, dont_focus_before_close  = true,
-                                      --rubato = {x = anim_x, y = anim_y} 
+                                      rubato = {y = anim_y}
 }
 local music_spot = bling.module.scratchpad { command = "spot_load",
                                       rule = { class = "Spotify" },                 
-                                      sticky = false, autoclose = true,                              
-                                      floating = false, geometry = {x = 0 , y = 0},
+                                      sticky = false, autoclose = true,
+                                      floating = true, geometry = {x = dpi(220), y = dpi(130), height = dpi(550), width = dpi(960)},
                                       reapply = true, dont_focus_before_close  = false,
-                                      --rubato = {x = anim_x, y = anim_y} 
+                                      rubato = {x = anim_x}
 }
 local file_manager = bling.module.scratchpad { command = "pcmanfm",
                                       rule = { instance = "pcmanfm" },                 
@@ -51,8 +48,8 @@ local discord = bling.module.scratchpad { command = "discord",
                                       reapply = true, dont_focus_before_close  = false,
                                       --rubato = {x = anim_x, y = anim_y} 
 }
-local chromium = bling.module.scratchpad { command = "chromium",
-                                      rule = { class = "Chromium" },                 
+local chromium = bling.module.scratchpad { command = "firefox",
+                                      rule = { class = "Firefox" },
                                       sticky = false, autoclose = true,                              
                                       floating = false, geometry = {x = 0 , y = 0},
                                       reapply = true, dont_focus_before_close  = false,
