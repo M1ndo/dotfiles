@@ -213,6 +213,11 @@ genpdf() {
 
 }
 
+calc ()
+{
+  (( d = $1 ))
+  echo $d
+}
 
 ### ALIASES ###
 

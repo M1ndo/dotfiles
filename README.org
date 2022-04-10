@@ -3,6 +3,12 @@
 The MODKEY is set to the /Super key/ (aka the *Windows* key). I try to keep
 the keybindings consistent with all of my window managers. Full
 Keybinding Documentation Is Available [[https://docs.darkos.cf/bindings/][Here]]
+** Installing
+#+begin_src shell
+git clone --recurse-submodules -j3 --depth 1 https://github.com/m1ndo/dotfiles
+cd dotfiles/
+# Then copy what folder of configuration you want to /home/username/.
+#+end_src
 
 ** [[https://github.com/elkowar/eww][Eww Widgets]]
 Eww widgets are compatible with *1920x1080* // *1366x768* resolutions
@@ -17,9 +23,8 @@ Eww widgets are compatible with *1920x1080* // *1366x768* resolutions
 *** Screenshot (Xmonad With Eww)
 [[file:screenshots/ybenel-full-20211219-211935.png]]
 
-** Doom Emacs Installation.
-Follow This [[https://ybenel.cf/files/Install-Emacs.pdf][Article]] To Install
-Doom Emacs On Linux (Arch/Debian) - Windows (WSL/XServer)
+** Doom Emacs.
+Read README.org in *.doom.d/README.org*
 
 ** Screenshots
 *** Awesome WM
