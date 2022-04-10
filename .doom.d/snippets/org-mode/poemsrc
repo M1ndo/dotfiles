@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# name: poemsrc
+# uuid: poemsrc
+# key: poemsrc
+# condition: t
+# --
+\renewcommand{\poemtitlefont}{%
+  \normalfont\large\bfseries\centering}\renewcommand{\poemtoc}{subsection}
+\plainpoemtitle
+\poemtitle{$0}
+\settowidth{\versewidth}{$1}
+\begin{verse}[\versewidth]
+\end{verse}
+\begin{center}
+\itshape{\noindent{Something...}}
+\end{center}

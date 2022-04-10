@@ -1,0 +1,30 @@
+#+SUBTITLE: /%^{SUBTITLE}/
+#+AUTHOR: %^{AUTHOR}
+#+DATE: %^{DATE}
+#+latex_class: memoir
+#+latex_class_options: [smalldemyvopaper,11pt,oneside,onecolumn,openright,extrafontsizes]
+#+SETUPFILE: ~/org/Templates/poem.setup
+#+OPTIONS: toc:nil author:nil date:nil title:nil
+#+LATEX_HEADER: \newcommand{\mytitle}{}
+#+LATEX_HEADER: \newcommand{\mydate}{}
+#+LATEX_HEADER: \newcommand{\mysubtitle}{}
+
+#+begin_src latex
+\pagestyle{empty}
+\titleM
+\pagestyle{mystyle}
+#+end_src
+
+#+begin_src latex
+% \renewcommand{\poemtitlefont}{%
+% \normalfont\large\bfseries\centering}\renewcommand{\poemtoc}{subsection}
+% \plainpoemtitle
+% \poemtitle{Ana Jay}
+\settowidth{\versewidth}{}
+\begin{verse}[\versewidth]
+%?
+\end{verse}
+\begin{center}
+\itshape{\noindent{For you}}
+\end{center}
+#+end_src

@@ -1,16 +1,31 @@
-#+LaTeX_CLASS: org-plain-latex
-#+LaTeX_CLASS_OPTIONS: [letterpaper]
-
 #+LATEX_HEADER: \usepackage[T1]{fontenc}
+# #+LATEX_HEADER: \usepackage{tgchorus} % Nice Font
+# #+LATEX_HEADER: \usepackage[cmintegrals,cmbraces]{newtxmath}
+#+LATEX_HEADER: \usepackage{ebgaramond-maths} %  Good Font
+# #+LATEX_HEADER: \usepackage{charter} % Another Good Font
 #+LATEX_HEADER: \usepackage{fontspec}
-#+LATEX_HEADER: \setmainfont[Path=/home/ybenel/org/fonts/static/, ItalicFont=CascadiaCode-Italic.otf, BoldFont=CascadiaCode-Bold.otf, BoldItalicFont=CascadiaCode-BoldItalic.otf]{CascadiaCode-Regular.otf}
-%#+LATEX_HEADER: \newfontfamily\itali{Cascadia Code Italic}
-%#+LATEX_HEADER: \newfontfamily\myfont{texgyreheroscn-bold.otf}
-%#+LATEX_HEADER: \newfontfamily\tocfoc{texgyreheroscn-bold.otf}
+#+LATEX_HEADER: \newfontfamily\myfont{texgyreadventor}[Path=/home/llove/texmf/fonts/opentype/public/tex-gyre/,Extension = .otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+# #+LATEX_HEADER: \setmainfont[Path=/home/ybenel/org/fonts/static/, ItalicFont=CascadiaCode-Italic.otf, BoldFont=CascadiaCode-Bold.otf, BoldItalicFont=CascadiaCode-BoldItalic.otf]{CascadiaCode-Regular.otf}
+# %#+LATEX_HEADER: \newfontfamily\itali{Cascadia Code Italic}
+# %#+LATEX_HEADER: \newfontfamily\myfont{texgyreheroscn-bold.otf}
+# %#+LATEX_HEADER: \newfontfamily\tocfoc{texgyreheroscn-bold.otf}
 #+LATEX_HEADER: \usepackage{graphicx}
 #+LATEX_HEADER: \usepackage{amsmath, amsthm, amssymb}
-#+LATEX_HEADER: \usepackage[table, xcdraw]{xcolor}
+#+LATEX_HEADER: \usepackage[table, xcdraw, dvipsnames]{xcolor}
 # #+LATEX_HEADER: \usepackage{multicol}
+
+
+% Paper Width
+#+LATEX_HEADER: \setlength\paperwidth{12in}
+
+% Wallpaper
+
+% Footer - Header
+#+LATEX_HEADER: \usepackage{fancyhdr}
+#+LATEX_HEADER: \pagestyle{fancy}
+# #+LATEX_HEADER: \cfoot{To Be Continued}
+#+LATEX_HEADER: \renewcommand{\footrulewidth}{0.4pt}
+
 
 % table of content
 #+LATEX_HEADER: \usepackage{tocloft}
@@ -36,6 +51,7 @@
 
 % Colorizing links in a nicer way.
 #+LATEX_HEADER: \definecolor{bblue}{HTML}{0645AD}
+#+LATEX_HEADER: \definecolor{grey}{gray}{0.3}
 #+LATEX_HEADER: \usepackage[colorlinks]{hyperref}
 #+LATEX_HEADER: \hypersetup{colorlinks, linkcolor=blue, urlcolor=bblue}
 
@@ -43,7 +59,7 @@
 #+LATEX_HEADER: \usepackage{titling}
 #+LATEX_HEADER: \setlength{\droptitle}{-6em}
 
-#+LATEX_HEADER: \setlength{\parindent}{0pt}
+#+LATEX_HEADER: \setlength{\parindent}{10pt} % Space before starting a sentence
 #+LATEX_HEADER: \setlength{\parskip}{1em}
 #+LATEX_HEADER: \usepackage[stretch=10]{microtype}
 #+LATEX_HEADER: \usepackage{hyphenat}
@@ -51,12 +67,19 @@
 #+LATEX_HEADER: \usepackage{subfig} % Subfigures (not needed in Org I think)
 #+LATEX_HEADER: \usepackage{hyperref} % Links
 #+LATEX_HEADER: \usepackage{minted} % Code highlighting
-#+LATEX_HEADER: \setminted{fontsize=\scriptsize,baselinestretch=0.9}
+% #+LATEX_HEADER: \usepackage{quotchap} % Not Working With Classes With No Chapter
+#+LATEX_HEADER: \usepackage[left = \flqq{},right = \frqq{},leftsub = \flq{},rightsub = \frq{}]{dirtytalk}
+#+LATEX_HEADER: \usepackage{csquotes}
+#+LATEX_HEADER: \usepackage[raster]{tcolorbox}
+#+LATEX_HEADER: \definecolor{LightGray}{gray}{0.9}
+# #+LATEX_HEADER: \setminted{fontsize=\scriptsize,baselinestretch=1,frame=lines,breakanywhere=true,breaklines=true,bgcolor=yellow!15}
+#+LATEX_HEADER: \setminted{frame=lines,breakanywhere=true,breaklines=true,bgcolor=LightGray}
 % Disables flush alighment on the right side. Personal preference.
 # #+LATEX_HEADER: \RaggedRight
 
 % Page geometry
 #+LATEX_HEADER: \usepackage[top=1in, bottom=1.25in, left=1.55in, right=1.55in]{geometry}
+# #+LATEX_HEADER: \usepackage[top=1in, bottom=1.25in, left=1.7in, right=1.7in]{geometry}
 
 % Line spacing
 #+LATEX_HEADER: \renewcommand{\baselinestretch}{1.15}
@@ -68,14 +91,40 @@
 #+LATEX_HEADER: \usepackage[explicit]{titlesec}
 
 % Title customization
-#+LATEX_HEADER: \pretitle{\begin{center}\fontsize{20pt}{20pt}\selectfont}
-#+LATEX_HEADER: \posttitle{\par\end{center}\itali}
-#+LATEX_HEADER: \preauthor{\begin{center}\vspace{-6bp}\fontsize{14pt}{14pt}\selectfont}
-#+LATEX_HEADER: \postauthor{\par\end{center}\vspace{-25bp}}
+# #+LATEX_HEADER: \pretitle{\begin{center}\fontsize{20pt}{20pt}\myfont}
+# #+LATEX_HEADER: \posttitle{\par\end{center}}
 
-#+LATEX_HEADER: \predate{\begin{center}\fontsize{12pt}{12pt}\selectfont}
-#+LATEX_HEADER: \postdate{\par\end{center}\vspace{0em}}
+#+LATEX_HEADER: \thispagestyle{empty}
+#+LATEX_HEADER: \makeatletter
+% \newlength\drop % Drop Little Bit
+#+LATEX_HEADER: \def\@maketitle{\begingroup % Misericords, T&H p 153
+  #+LATEX_HEADER: \setlength\drop{0.15\textheight}
+  #+LATEX_HEADER: \begin{center}
+  #+LATEX_HEADER: \rule{\textwidth}{0in}\par
+  #+LATEX_HEADER: {\fontsize{20pt}{20pt}\myfont\HUGE\textsc\@title}
+  # #+LATEX_HEADER: \rule{\textwidth}{0in}\par
+  #+LATEX_HEADER: {\par\vspace{-0.5em}\fontsize{9pt}{9pt}\textit{Written by \textbf{\@author}}}
+  #+LATEX_HEADER: {\footnotesize\textit{in \textsc{\@date}}\par}
+  #+LATEX_HEADER: \end{center}
+#+LATEX_HEADER: \endgroup}
+#+LATEX_HEADER: \makeatother
 
+% Customized Title
+# #+LATEX_HEADER: \renewcommand*{\maketitle}{\fontsize{24}{28}\selectfont\sffamily\bfseries\thetitle\par\fontsize{12}{14}\selectfont\raggedleft\today\\\theauthor}
+
+% Fucked Customized
+# #+LATEX_HEADER: \preauthor{\hspace{27em}\vspace{-6bp}\fontsize{9pt}{9pt}\selectfont}
+# #+LATEX_HEADER: \postauthor{\par\vspace{-25bp}}
+# #+LATEX_HEADER: \predate{\fontsize{8pt}{8pt}\selectfont}
+# #+LATEX_HEADER: \postdate{\par\vspace{0em}}
+# #+LATEX_HEADER: \predate{\begin{center}\fontsize{12pt}{12pt}\selectfont}
+# #+LATEX_HEADER: \postdate{\par\end{center}\vspace{0em}}
+
+% Regular centered Author and date
+# #+LATEX_HEADER: \preauthor{\begin{center}\vspace{-6bp}\fontsize{14pt}{14pt}\selectfont}
+# #+LATEX_HEADER: \postauthor{\par\end{center}\vspace{-25bp}}
+# #+LATEX_HEADER: \predate{\begin{center}\fontsize{12pt}{12pt}\selectfont}
+# #+LATEX_HEADER: \postdate{\par\end{center}\vspace{0em}}
 
 % Section/subsection headings:
 

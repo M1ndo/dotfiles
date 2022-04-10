@@ -2,7 +2,6 @@
 (require 'org-roam)
 (use-package! org-roam
   :ensure t
-  :demand t  ;; Ensure org-roam is loaded by default
   :init
   (setq org-roam-v2-ack t)
   :custom
@@ -54,15 +53,19 @@
            (my/org-roam-filter-by-tag tag-name)
            (org-roam-node-list))))
 
+(setq org-roam-node-display-template
+      (concat "${title:90} "
+              (propertize "${tags:*}" 'face 'org-tag)))
+
 (defun my/org-roam-refresh-agenda-list ()
   (interactive)
   (setq org-agenda-files
         (append
          (list "~/org/agenda.org"
                "~/org/notes.org"
-               "~/org/todo.org")
-         (my/org-roam-list-notes-by-tag "Projects")
-         (my/org-roam-list-notes-by-tag "Life"))))
+               "~/org/todo.org"))))
+         ;; (my/org-roam-list-notes-by-tag "Biblio")
+         ;; (my/org-roam-list-notes-by-tag "Life"))))
 
 ;; Build the agenda list the first time for the session
 (my/org-roam-refresh-agenda-list)
@@ -88,7 +91,7 @@ capture was not aborted."
    nil
    (lambda (node)
      ;; Only look for nodes tagged with at least one of the following keywords
-     (seq-intersection '("Project" "Biblio" "Life" "Boxes")
+     (seq-intersection '("Project" "Life" "Biblio" "Letter" "Ebook" "Boxes")
                        (org-roam-node-tags node)))
    :templates
    '(("p" "project" plain
@@ -105,7 +108,15 @@ capture was not aborted."
       :unnarrowed t)
      ("m" "Biblio" plain
       (file "~/org/Templates/Bib.org")
-      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Life")
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Biblio")
+      :unnarrowed t)
+     ("e" "Letter" plain
+      (file "~/org/Templates/Letter.org")
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Letter")
+      :unnarrowed t)
+     ("t" "Ebook" plain
+      (file "~/org/Templates/novel.tex")
+      :if-new (file+head "${slug}.tex" "#+title: ${title}\n#+category: ${title}\n#+filetags: Ebook")
       :unnarrowed t))))
 
 (defun my/org-roam-capture-inbox ()

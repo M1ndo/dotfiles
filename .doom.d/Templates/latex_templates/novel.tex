@@ -1,0 +1,180 @@
+% universal settings
+\documentclass[smalldemyvopaper,11pt,twoside,onecolumn,openright,extrafontsizes]{memoir}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[osf]{Alegreya,AlegreyaSans}
+
+% PACKAGE DEFINITION
+% typographical packages
+\usepackage{microtype} % for micro-typographical adjustments
+\usepackage{setspace} % for line spacing
+\usepackage{lettrine} % for drop caps and awesome chapter beginnings
+\usepackage{titlesec} % for manipulation of chapter titles
+
+% for placeholder text
+\usepackage{lipsum} % to generate Lorem Ipsum
+
+% other
+\usepackage{calc}
+\usepackage{hologo}
+\usepackage[hidelinks]{hyperref}
+%\usepackage{showframe}
+
+% PHYSICAL DOCUMENT SETUP
+% media settings
+\setstocksize{8.5in}{5.675in}
+\settrimmedsize{8.5in}{5.5in}{*}
+\setbinding{0.175in}
+\setlrmarginsandblock{0.611in}{1.222in}{*}
+\setulmarginsandblock{0.722in}{1.545in}{*}
+
+% defining the title and the author
+%\title{\LaTeX{} ePub Template}
+%\title{\textsc{How I Started to Love {\fontfamily{cmr}\selectfont\LaTeX{}}}}
+\title{X Times The Charm}
+\author{AUTHORj}
+\newcommand{\ISBN}{0-000-00000-2}
+\newcommand{\press}{Published Under LOL}
+\newcommand{\Title}{THETITLE\\\medskip \large \emph{The SUBTITLE}}
+%\newcommand{\subtitle}{\large \emph{The SUBTITLE!}}
+
+% custom second title page
+\makeatletter
+\newcommand*\halftitlepage{\begingroup % Misericords, T&H p 153
+  \setlength\drop{0.1\textheight}
+  \begin{center}
+  \vspace*{\drop}
+  \rule{\textwidth}{0in}\par
+  {\Large\textsc\thetitle\par}
+  \rule{\textwidth}{0in}\par
+  \vfill
+  \end{center}
+\endgroup}
+\makeatother
+
+% custom title page
+\thispagestyle{empty}
+\makeatletter
+\newlength\drop
+\newcommand*\titleM{\begingroup % Misericords, T&H p 153
+  \setlength\drop{0.15\textheight}
+  \begin{center}
+  \vspace*{\drop}
+  \rule{\textwidth}{0in}\par
+  {\HUGE\textsc\Title\par}
+  \rule{\textwidth}{0in}\par
+  {\Large\textit\theauthor\par}
+  \vfill
+  {\Large\scshape\press}
+  \end{center}
+\endgroup}
+\makeatother
+
+% chapter title manipulation
+% padding with zero
+\renewcommand*\thechapter{\ifnum\value{chapter}<10 0\fi\arabic{chapter}}
+% chapter title display
+\titleformat
+{\chapter}
+[display]
+{\normalfont\scshape\huge}
+{\HUGE\thechapter\centering}
+{0pt}
+{\vspace{18pt}\centering}[\vspace{42pt}]
+
+% typographical settings for the body text
+\setlength{\parskip}{0em}
+\linespread{1.09}
+
+% HEADER AND FOOTER MANIPULATION
+  % for normal pages
+  \nouppercaseheads
+  \headsep = 0.16in
+  \makepagestyle{mystyle}
+  \setlength{\headwidth}{\dimexpr\textwidth+\marginparsep+\marginparwidth\relax}
+  \makerunningwidth{mystyle}{\headwidth}
+  \makeevenhead{mystyle}{}{\textsf{\scriptsize\scshape\thetitle}}{}
+  \makeoddhead{mystyle}{}{\textsf{\scriptsize\scshape\leftmark}}{}
+  \makeevenfoot{mystyle}{}{\textsf{\scriptsize\thepage}}{}
+  \makeoddfoot{mystyle}{}{\textsf{\scriptsize\thepage}}{}
+  \makeatletter
+  \makepsmarks{mystyle}{%
+  \createmark{chapter}{left}{nonumber}{\@chapapp\ }{.\ }}
+  \makeatother
+  % for pages where chapters begin
+  \makepagestyle{plain}
+  \makerunningwidth{plain}{\headwidth}
+  \makeevenfoot{plain}{}{}{}
+  \makeoddfoot{plain}{}{}{}
+  \pagestyle{mystyle}
+% END HEADER AND FOOTER MANIPULATION
+
+% table of contents customisation
+\renewcommand\contentsname{\normalfont\scshape Contents}
+\renewcommand\cftchapterfont{\normalfont}
+\renewcommand{\cftchapterpagefont}{\normalfont}
+\renewcommand{\printtoctitle}{\centering\Huge}
+
+% layout check and fix
+\checkandfixthelayout
+\fixpdflayout
+
+% BEGIN THE DOCUMENT
+\begin{document}
+\pagestyle{empty}
+% the half title page
+\halftitlepage
+\cleardoublepage
+% the title page
+\titleM
+\clearpage
+% copyright page
+\noindent{\small{This novel is entirely a work of fiction. The names, characters and incidents portrayed in it are the product of the author's imagination. Any resemblance to actual persons, living or dead, or events or localities is entirely coincidental.\par\vfill\noindent Paperback Edition\space\today\\ISBN\space\ISBN\\\copyright\space\theauthor. All rights reserved.\par\vfill\noindent\theauthor\space asserts the moral right to be identified as the author of this work. All rights reserved in all media. No part of this publication may be reproduced, stored in a retrieval system, or transmitted, in any form, or by any means, electronic, mechanical, photocopying, recording or otherwise, without the prior written permission of the author and/or the publisher.\par}}
+\clearpage
+
+% dedication
+\begin{center}
+\itshape{\noindent{Dedicated to my all {\fontfamily{cmr}\selectfont\LaTeX{}} users.}}
+\end{center}
+\begin{center}
+\begin{quote}
+\par\vfill\itshape{\noindent{There is no sun without shadow, and it is essential to know the night.} \textasciitilde{} {\fontfamily{cmr}\selectfont Albert Camus}}
+\end{quote}
+\end{center}
+
+% begin front matter
+\frontmatter
+\pagestyle{mystyle}
+% First Chapter
+\chapter*{Everything And Nothing}
+One night in a dark side of the room, somewhere ultimately unknown.A young man laying in his bed thinking of ways he could've escaped his fate, trying desperately to change his own past in future.
+
+
+
+
+% acknowledgements
+\chapter*{Acknowledgements}
+\lipsum[1-9]
+% table of contents
+\clearpage
+% \tableofcontents*
+
+% begin main matter
+\mainmatter
+\chapter{Chapter One}
+\lipsum[1-20]
+\chapter{Chapter Two}
+\lipsum[21-40]
+\chapter{Chapter Three}
+\lipsum[41-60]
+\chapter{Chapter Four}
+\lipsum[61-80]
+\chapter{Chapter Five}
+\lipsum[81-100]
+\chapter{Chapter Six}
+\lipsum[101-120]
+
+% begin back matter
+
+\end{document}
+% END THE DOCUMENT

@@ -1,0 +1,102 @@
+* Doom Emacs Configuration
+** Other Things
+Other things that aren't included here, should be documented in *config.org* make sure to read it.
+** Requirements
+*** Spelling
+**** Requirements
+1. Make sure to have *~/.doom.d/misc/english-words.txt*
+2. Install the following packages: aspell + aspell-en + hunspell + hunspell-en_us
+**** To Change Spelling Language
+Make sure to change the following to your preference.
+(default) English-US
+#+begin_src lisp
+(setq ispell-dictionary "en_US")
+(setq ispell-local-dictionary "en_US")
+(setq ispell-local-dictionary-alist
+      '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
+(setq company-ispell-dictionary (concat doom-private-dir "misc/english-words.txt"))
+#+end_src
+**** Packages Installed
+- mw-thesaurus "Thesaurus look up dictionary"
+- auto-complete "Auto Complete Words"
+- Flyspell+Grammar "Spell Check And Grammar Checking"
+*** Latex + Org Export
+**** Requirements
+- For Latex Export and Latex Completion, Install The following packages
+1. texlive-bin + texlive-core, texlive-latexextra (optional but install if you have problem compiling with my latex export template)
+2. In order to use my custom latex templates make sure you have *~/.doom.d/Templates*
+** To Know About
+*** [[https://github.com/danielfm/smudge/][Smudge]] (Spotify Controller)
+- Requires Spotify Premium To Control Spotify
+- *READ THE CONFIGURATION PAGE ON THEIR REPO* And Change The Following API KEYS
+- Doesn't require spotify premium to set song title in modeline
+- *INVOKE global-smudge-remote-mode and smudge-controller-toggle-play to set/update song in modeline-*
+#+begin_src lisp
+(setq smudge-oauth2-client-secret "-----CLIENT-SECRET-----")
+(setq smudge-oauth2-client-id "-----CLIENT-ID-----")
+(setq smudge-player-status-format "%a - %t ◷ %l ")
+(setq smudge-player-status-truncate-length 40)
+(global-smudge-remote-mode)
+#+end_src
+*** Mpdmacs
+- Control and display mpd status on modeline
+- Make sure to *change mpdmacs-host to yours in config.org*
+#+begin_src lisp
+(setq mpdmacs-host "127.0.0.1")
+#+end_src
+*** Mail In Emacs
+For mail i'm using [[https://github.com/djcb/mu/][Mu (Mu4e)]] And [[https://isync.sourceforge.io/][Isync (Mbsync)]].
+Configured specially for *gmail*, for other smtp server change it to your own
+**** Requirements
+1. Install the following packages: Mu (1.6.X Stable) + Isync + msmtp (Smtp Client To Send Mail)
+**** Set Configs For Isync And Msmtp
+- My configurations are available.
+mbsync -> *~/.mbsync*
+msmtp -> *~/.msmtprc*
+**** Create "~/.doom.d/personal.el"
+Add The following to it
+#+begin_src lisp
+;;;; -*- epa-file-encrypt-to: ("gpgmail@mai.com") -*-
+
+(setq my_name "MY NAME")
+(setq my_email "mymail@gmail.com")
+(setq my_signature "Signed by me")
+(setq my_hosts "mywebsite.com")
+
+(setq my_name2 "MY NAME2")
+(setq my_email2 "mymail2@gmail.com")
+(setq my_signature2 "--- \nSigned by ME\nRANDOM QUOTE")
+(setq my_hosts2 "mywebsite2.com")
+#+end_src
+
+** Custom Keybindings
+
+|--------------+----------------------------|
+| Key          | Function                   |
+|--------------+----------------------------|
+| SPC-d-b      | Toggle Doom Modeline       |
+| SPC-d-e      | Bufler Switch Buffer       |
+| SPC-d-q      | Bufler Set Workspace Frame |
+| SPC-d-w      | Counsel Switch Buffer      |
+| SPC-d-f      | Clippy Describe Function   |
+| SPC-d-v      | Clippy Describe Variable   |
+| SPC-d-t      | Chronos Timer Set          |
+| SPC-d-p      | Org-Sidebar Tree Toggle    |
+| SPC-d-l      | Org-SideBar Toggle         |
+|--------------+----------------------------|
+| Spelling Key | Function                   |
+|--------------+----------------------------|
+| SPC-d-s-n    | Correct Next Word          |
+| SPC-d-s-p    | Correct Previous Word      |
+| SPC-d-s-r    | Spell Check On Region      |
+|--------------+----------------------------|
+| 0x0 Key      | Function                   |
+|--------------+----------------------------|
+| SPC-x-0      | Upload File To 0x0         |
+| SPC-x-1      | Copy Buffer/Region To 0x0  |
+|--------------+----------------------------|
+* Installation
+Make sure you have doom emacs installed and after that run.
+#+begin_src shell
+doom sync
+#+end_src

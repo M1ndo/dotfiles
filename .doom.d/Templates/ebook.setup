@@ -1,0 +1,3 @@
+#+LaTeX_CLASS: memoir
+#+LATEX_CLASS_OPTIONS: \documentclass[oneside,11pt]
+# #+LATEX_HEADER: \input{ebook_structure.tex}

@@ -38,11 +38,12 @@ I'm using [[github:eliheuer/caskaydia-cove][Caskaydia Cove]] which is a fork of 
 Doom-themes are fantastic, there's alot of variants you could choose from.
 Right here I'm using doom-dracula , there's also [[github:dracula/emacs][Dracula]] theme which is little more bold
 #+begin_src emacs-lisp
+;; (add-to-list 'custom-theme-load-path "~/.doom.d/themes")
 (use-package! doom-themes
   :config
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-dracula t) ;; set dracula theme
+  (load-theme 'doom-laserwave t) ;; set laserwave theme
   (doom-themes-visual-bell-config)   ;; Enable flashing mode-line on errors
   (doom-themes-neotree-config)   ;; Enable custom neotree theme
   (doom-themes-org-config))  ;; Corrects (and improves) org-mode's native fontification.
@@ -393,6 +394,11 @@ shadow)=, but I don't like that.
                     (doom-blend 'red 'orange (- size-index 1)))))
       (propertize (file-size-human-readable size) 'face (list :foreground color)))))
 #+end_src
+*** Beacon
+Setting up beacon to highlight cursor
+#+begin_src emacs-lisp
+(beacon-mode 1)
+#+end_src
 ** Editing
 *** Aggressive Indent
 Indent blocks very useful then editing lisp code,also other stuff
@@ -433,6 +439,11 @@ Setting a custom dictionary to auto complete
   (add-to-list 'ac-modes mode))
 ;; (remove-hook! '(org-mode-hook text-mode-hook markdown-mode-hook fundamental-mode) '(lambda () (auto-complete-mode 1)))
 (add-hook! '(org-mode-hook) (lambda () (auto-complete-mode 1)))
+#+end_src
+Setting thesaurus api key
+#+begin_src emacs-lisp
+(setq mw-thesaurus--api-key "----APIKEY---")
+(add-hook 'mw-thesaurus-mode-hook (lambda () (define-key evil-normal-state-local-map (kbd "q") 'mw-thesaurus--quit)))
 #+end_src
 *** Tab Width
 Set Spaces Instead of tabs for more consistency
@@ -582,7 +593,7 @@ pip install --user "python-language-server[all]"
 (setq lsp-pyls-server-command "/home/ybenel/.local/bin/pyls")
 (setq lsp-pylsp-server-command "/home/ybenel/.local/bin/pylsp")
 ;; Set Flake8 Ignore Codes
-(setq lsp-pylsp-plugins-flake8-ignore ["E231","226"])
+(setq lsp-pylsp-plugins-flake8-ignore ["E231","E226","F401"])
 
 (use-package! poetry
   :after python-mode
@@ -590,7 +601,16 @@ pip install --user "python-language-server[all]"
   (setq poetry-tracking-strategy 'switch-buffer)
   (add-hook 'python-mode-hook #'poetry-tracking-mode))
 #+end_src
-** Tabs/Modeline
+*** Column Force
+Using [[https://github.com/jordonbiondo/column-enforce-mode][column-enforce-mode]] to force a certain column width
+#+begin_src emacs-lisp
+(setq column-enforce-column 90)
+#+end_src
+*** Rainbow Delimeters
+#+begin_src emacs-lisp
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+#+end_src
+** Tabs/MOdeline
 Using centaur-tabs to adds tabs in to our emacs with customizations
 #+begin_src emacs-lisp
 (use-package! centaur-tabs
@@ -633,6 +653,8 @@ there's alot of ways to map keys in emacs, we use ~map!~ in doom emacs to make n
 (map! :leader
       (:prefix-map ("d" . "Doom")
        :desc "Hide Doom Modeline" "b" #'hide-mode-line-mode
+       :desc "Bufler Switch Buffer" "e" #'bufler-switch-buffer
+       :desc "Bufler Set Workspace Frame" "q" #'bufler-workspace-frame-set
        :desc "Counel Switch Buffer" "w" #'counsel-switch-buffer))
 
 (map! :leader
@@ -663,6 +685,17 @@ there's alot of ways to map keys in emacs, we use ~map!~ in doom emacs to make n
       :ne "b" #'+ivy/switch-workspace-buffer
       :ne "B" #'consult-buffer
       :ne "q" #'save-buffers-kill-terminal)
+
+(map! :leader
+      (:prefix-map ("d" . "Doom")
+       :desc "Clippy describes function under point" "f" #'clippy-describe-function
+       :desc "Clippy describes variable under point" "v" #'clippy-describe-variable))
+
+(map! :leader
+      (:prefix-map ("d" . "Doom")
+       :desc "Chronos timer set" "t" #'chronos-add-timer
+       :desc "Org Sidebar Tree Toggle" "p" #'org-sidebar-tree-toggle
+       :desc "Org Sidebar Toggle" "l" #'org-sidebar-toggle))
 #+end_src
 ** Org
 *** Set Org Directory
@@ -671,215 +704,69 @@ Setting custom org directory and enabling org logging, so each time a task is fi
 (setq org-directory "~/org/")
 (setq org-log-done 'time)
 #+end_src
+*** Org Keywords
+#+begin_src emacs-lisp
+;; Org Keywords
+(after! org
+  (setq org-todo-keywords
+        '((sequence
+          "TODO(t)"  ; A task that needs doing & is ready to do
+          "PROJ(p)"  ; A project, which usually contains other tasks
+          "LOOP(r)"  ; A recurring task
+          "STRT(s)"  ; A task that is in progress
+          "WAIT(w)"  ; Something external is holding up this task
+          "HOLD(h)"  ; This task is paused/on hold because of me
+          "IDEA(i)"  ; An unconfirmed and unapproved task or notion
+          "GYM(g)"  ; Set a Gym Task
+          "DATE(D)"  ; Set a Date
+          "|"
+          "DONE(d)"  ; Task successfully completed
+          "CANCELLED(c)"  ; Task successfully completed
+          "KILL(k)") ; Task was cancelled, aborted or is no longer applicable
+          (sequence
+          "[ ](T)"   ; A task that needs doing
+          "[-](S)"   ; Task is in progress
+          "[?](W)"   ; Task is being held up or paused
+          "|"
+          "[X](X)")  ; Task was completed
+          (sequence
+          "|"
+          "OKAY(o)"
+          "YES(y)"
+          "NO(n)"))))
+#+end_src
 *** Org Roam
 I use org-roam to manage my org files and organize my life.
 #+begin_src emacs-lisp
-(load-file (concat doom-private-dir "/lisp/roam.el"))
+;; (load-file (concat doom-private-dir "/lisp/roam.el"))
 #+end_src
 *** Latex Syntax Highlighting
 Using [[https://orgmode.org/worg/exporters/ox-overview.html][Ox-latex]] export framework to export from org to latex to pdf
 #+begin_src emacs-lisp
-(setq-default TeX-engine 'xetex
-              TeX-PDF-mode t)
-(with-eval-after-load 'ox-latex
-  (add-to-list 'org-latex-packages-alist '("" "minted"))
-  (setq org-latex-listings 'minted)
-  (setq org-latex-pdf-process
-        '("xelatex -shell-escape -interaction nonstopmode %f"
-          "xelatex -shell-escape -interaction nonstopmode %f"))
-  ;; (setq org-latex-pdf-process
-  ;;       '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-  ;;         "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-  ;;         "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-  (add-to-list 'org-latex-classes
-    '("book"
-    "\\documentclass{book}
-    [NO-DEFAULT-PACKAGES]
-    [PACKAGES]
-    [EXTRA]"
-    ("\\part{%s}" . "\\part*{%s}")
-    ("\\chapter{%s}" . "\\chapter*{%s}")
-    ("\\section{%s}" . "\\section*{%s}")
-    ("\\subsection{%s}" . "\\subsection*{%s}")
-    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
-  (add-to-list 'org-latex-classes
-    '("koma-article"
-    "\\documentclass{scrartcl}
-    [NO-DEFAULT-PACKAGES]
-    [PACKAGES]
-    [EXTRA]"
-    ("\\part{%s}" . "\\part*{%s}")
-    ("\\chapter{%s}" . "\\chapter*{%s}")
-    ("\\section{%s}" . "\\section*{%s}")
-    ("\\subsection{%s}" . "\\subsection*{%s}")
-    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
-  (add-to-list 'org-latex-classes
-    '("koma-article"
-    "\\documentclass{scrbook}
-    [NO-DEFAULT-PACKAGES]
-    [PACKAGES]
-    [EXTRA]"
-    ("\\part{%s}" . "\\part*{%s}")
-    ("\\chapter{%s}" . "\\chapter*{%s}")
-    ("\\section{%s}" . "\\section*{%s}")
-    ("\\subsection{%s}" . "\\subsection*{%s}")
-    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
-  (add-to-list 'org-latex-classes
-               '("org-plain-latex"
-                 "\\documentclass{article}
-                 [NO-DEFAULT-PACKAGES]
-                 [PACKAGES]
-                 [EXTRA]"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+(load-file (concat doom-private-dir "/lisp/ox-latex.el"))
 #+end_src
 *** Org Agenda
 What's more better than organizing your life with org *super* agenda.
 #+begin_src emacs-lisp
-(use-package! org-super-agenda
-  :after org-agenda
-  :init
-  (setq org-agenda-skip-scheduled-if-done t)
-  (setq org-agenda-skip-deadline-if-done t)
-  (setq org-agenda-custom-commands
-        '(("t" "Today view"
-           ((agenda "" ((org-agenda-overriding-header "")
-                        (org-agenda-span 'day)
-                        (org-agenda-start-day nil)
-                        ;; always show timelines!
-                        (org-agenda-time-grid '((daily today) (800 1000 1200 1400 1600 1800 2000) "" "----------------"))
-                        (org-agenda-prefix-format '((agenda . " %i %?-12t%-6e% s")))
-                        (org-super-agenda-groups
-                         '((:name "Scheduled Today"
-                            :time-grid t
-                            :date today
-                            :order 1)
-                           (:name "Habits"
-                            :habit t
-                            :date today
-                            :order 2)
-                           (:name "Overdue"
-                            :deadline past
-                            :order 3)
-                           (:name "Ongoing"
-                            :scheduled past
-                            :order 4
-                            )
-                           (:discard (:anything t)))
-                         )
-                        )
-                    )
-            (alltodo "" ((org-agenda-overriding-header "")
-                         (org-agenda-prefix-format '((agenda . " %i %?-12t%-6e% s")
-                                                     (todo . " %i %-6e")
-                                                     (tags . " %i %-12:c")
-                                                     (search . " %i")))
-                         (org-super-agenda-groups
-                          '((:discard (:scheduled today))
-                            (:name "Low Effort (<= 15 min)"
-                             :and (:effort< "0:16")
-                             :order 1)
-                            (:name "Next Tasks"
-                             :todo "NEXT"
-                             :order 2)
-                            (:discard (:anything t))))))))
-          ("w" "Week view"
-           ((agenda "" ((org-agenda-overriding-header "Week view")
-                        (org-agenda-span 'week)
-                        (org-agenda-start-on-weekday 1)
-                        (org-agenda-time-grid '(nil (800 1000 1200 1400 1600 1800 2000) "" "----------------"))
-                        (org-agenda-prefix-format '((agenda . " %i %?-12t%-6e% s")))
-                        )
-                    )
-            (alltodo "" ((org-agenda-overriding-header "")
-                         (org-super-agenda-groups
-                          '((:name "Overdue (past scheduled/deadline)"
-                             :deadline past
-                             :scheduled past
-                             :order 1
-                             )
-                            (:name "Individual Tasks"
-                             :file-path "task"
-                             :order 2
-                             )
-                            (:name "Next tasks"
-                             :todo "NEXT"
-                             :order 3)
-                            (:discard (:anything t))
-                            )
-                          )
-                         )
-                     )
-            )
-           )
-          ("p" . "Planning")
-          ("pm" "Month view"
-           (
-            (tags-todo "+Goal" ((org-agenda-overriding-header "Goals")
-                                )
-                       )
-            (agenda "" ((org-agenda-span 'month)
-                        (org-agenda-start-day "01")
-                        (org-super-agenda-groups
-                         '((:discard (:todo "GOAL"))
-                           (:discard (:todo "RECUR"))
-                           (:scheduled t))
-                         )
-                        )
-                    )
-            (todo "" ((org-agenda-overriding-header "Things to schedule")
-                      (org-super-agenda-groups
-                       '((:name "Individual tasks"
-                          :file-path "task"
-                          )
-                         (:name "Next tasks"
-                          :todo "NEXT"
-                          )
-                         (:discard (:anything t)))
-                       )
-                      )
-                  )
-            ))
-          ))
-  :config
-  (org-super-agenda-mode))
+(load-file (concat doom-private-dir "/lisp/agendas.el"))
 #+end_src
 *** Org Superstar
 #+begin_src emacs-lisp
-(require 'org-superstar)
-(after! org-superstar
-  (setq org-superstar-headline-bullets-list '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
-        org-superstar-prettify-item-bullets t )
-  (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
-
-(setq org-ellipsis " ▾ "
-      org-hide-emphasis-markers t
-      org-hide-leading-stars t
-      org-priority-highest ?A
-      org-priority-lowest ?E
-      org-priority-faces
-      '((?A . 'all-the-icons-red)
-        (?B . 'all-the-icons-orange)
-        (?C . 'all-the-icons-yellow)
-        (?D . 'all-the-icons-green)
-        (?E . 'all-the-icons-blue)))
+;; (load-file (concat doom-private-dir "/lisp/superstar.el"))
 #+end_src
 *** Org Pretty Table
 #+begin_src emacs-lisp
-(progn
-  (add-to-list 'load-path "~/.doom.d/lisp/org-pretty-table")
-  (require 'org-pretty-table)
-  (add-hook 'org-mode-hook (lambda () (org-pretty-table-mode))))
+;; (progn
+;;  (add-to-list 'load-path "~/.doom.d/lisp/org-pretty-table")
+;;  (require 'org-pretty-table)
+;;  (add-hook 'org-mode-hook (lambda () (org-pretty-table-mode))))
 #+end_src
 *** Org Appear
 #+begin_src emacs-lisp
-(progn
-  (add-to-list 'load-path "~/.doom.d/lisp/org-appear")
-  (require 'org-appear)
-  (add-hook 'org-mode-hook (lambda () (org-appear-mode))))
+;; (progn
+;;  (add-to-list 'load-path "~/.doom.d/lisp/org-appear")
+;;  (require 'org-appear)
+;;  (add-hook 'org-mode-hook (lambda () (org-appear-mode))))
 #+end_src
 *** Key Mapp
 Set Shortcuts To Open Agenda,Todo,Notes.
@@ -921,132 +808,10 @@ I have no idea why it stops, but I'd rather it didn't.
 If you have any idea what's going on or how to fix this /please/ get in touch.
 #+end_warning
 
-#+begin_src emacs-lisp
-(defvar org-prettify-inline-results t
-  "Whether to use (ab)use prettify-symbols-mode on {{{results(...)}}}.
-Either t or a cons cell of strings which are used as substitutions
-for the start and end of inline results, respectively.")
-
-(defvar org-fontify-inline-src-blocks-max-length 200
-  "Maximum content length of an inline src block that will be fontified.")
-
-(defun org-fontify-inline-src-blocks (limit)
-  "Try to apply `org-fontify-inline-src-blocks-1'."
-  (condition-case nil
-      (org-fontify-inline-src-blocks-1 limit)
-    (error (message "Org mode fontification error in %S at %d"
-                    (current-buffer)
-                    (line-number-at-pos)))))
-
-(defun org-fontify-inline-src-blocks-1 (limit)
-  "Fontify inline src_LANG blocks, from `point' up to LIMIT."
-  (let ((case-fold-search t)
-        (initial-point (point)))
-    (while (re-search-forward "\\_<src_\\([^ \t\n[{]+\\)[{[]?" limit t) ; stolen from `org-element-inline-src-block-parser'
-      (let ((beg (match-beginning 0))
-            pt
-            (lang-beg (match-beginning 1))
-            (lang-end (match-end 1)))
-        (remove-text-properties beg lang-end '(face nil))
-        (font-lock-append-text-property lang-beg lang-end 'face 'org-meta-line)
-        (font-lock-append-text-property beg lang-beg 'face 'shadow)
-        (font-lock-append-text-property beg lang-end 'face 'org-block)
-        (setq pt (goto-char lang-end))
-        ;; `org-element--parse-paired-brackets' doesn't take a limit, so to
-        ;; prevent it searching the entire rest of the buffer we temporarily
-        ;; narrow the active region.
-        (save-restriction
-          (narrow-to-region beg (min (point-max) limit (+ lang-end org-fontify-inline-src-blocks-max-length)))
-          (when (ignore-errors (org-element--parse-paired-brackets ?\[))
-            (remove-text-properties pt (point) '(face nil))
-            (font-lock-append-text-property pt (point) 'face 'org-block)
-            (setq pt (point)))
-          (when (ignore-errors (org-element--parse-paired-brackets ?\{))
-            (remove-text-properties pt (point) '(face nil))
-            (font-lock-append-text-property pt (1+ pt) 'face '(org-block shadow))
-            (unless (= (1+ pt) (1- (point)))
-              (if org-src-fontify-natively
-                  (org-src-font-lock-fontify-block (buffer-substring-no-properties lang-beg lang-end) (1+ pt) (1- (point)))
-                (font-lock-append-text-property (1+ pt) (1- (point)) 'face 'org-block)))
-            (font-lock-append-text-property (1- (point)) (point) 'face '(org-block shadow))
-            (setq pt (point))))
-        (when (and org-prettify-inline-results (re-search-forward "\\= {{{results(" limit t))
-          (font-lock-append-text-property pt (1+ pt) 'face 'org-block)
-          (goto-char pt))))
-    (when org-prettify-inline-results
-      (goto-char initial-point)
-      (org-fontify-inline-src-results limit))))
-
-(defun org-fontify-inline-src-results (limit)
-  (while (re-search-forward "{{{results(\\(.+?\\))}}}" limit t)
-    (remove-list-of-text-properties (match-beginning 0) (point)
-                                    '(composition
-                                      prettify-symbols-start
-                                      prettify-symbols-end))
-    (font-lock-append-text-property (match-beginning 0) (match-end 0) 'face 'org-block)
-    (let ((start (match-beginning 0)) (end (match-beginning 1)))
-      (with-silent-modifications
-        (compose-region start end (if (eq org-prettify-inline-results t) "⟨" (car org-prettify-inline-results)))
-        (add-text-properties start end `(prettify-symbols-start ,start prettify-symbols-end ,end))))
-    (let ((start (match-end 1)) (end (point)))
-      (with-silent-modifications
-        (compose-region start end (if (eq org-prettify-inline-results t) "⟩" (cdr org-prettify-inline-results)))
-        (add-text-properties start end `(prettify-symbols-start ,start prettify-symbols-end ,end))))))
-
-(defun org-fontify-inline-src-blocks-enable ()
-  "Add inline src fontification to font-lock in Org.
-Must be run as part of `org-font-lock-set-keywords-hook'."
-  (setq org-font-lock-extra-keywords
-        (append org-font-lock-extra-keywords '((org-fontify-inline-src-blocks)))))
-
-(add-hook 'org-font-lock-set-keywords-hook #'org-fontify-inline-src-blocks-enable)
-#+end_src
-
 Doom theme's extra fontification is more problematic than helpful.
-#+begin_src emacs-lisp
-(setq doom-themes-org-fontify-special-tags nil)
-#+end_src
 
 #+begin_src emacs-lisp
-(defun my/org-mode/load-prettify-symbols () "Prettify org mode keywords"
-  (interactive)
-  (setq-default prettify-symbols-alist
-    (mapcan (lambda (x) (list x (cons (upcase (car x)) (cdr x))))
-          '(("#+begin_src" . ?»)
-            ("#+end_src" . ?«)
-            ("#+begin_example" . ?)
-            ("#+end_example" . ?)
-            ("#+begin_quote" . ?“)
-            ("#+end_quote" . ?”)
-            ("#+begin_export" . ?⏩)
-            ("#+end_export" . ?⏪)
-            ("#+title:" . ?𝙏)
-            ("#+subtitle" . ?𝙩)
-            ("#+DATE:" . ?𝘿)
-            ("#+AUTHOR:" . ?𝘼)
-            ("[ ]" .  ?☐)
-            ("[X]" . ?☑ )
-            ("[-]" . ?❍ )
-            ("lambda" . ?λ)
-            ("#+header:" . ?)
-            ("#+name:" . ?﮸)
-            ("#+results:" . ?)
-            ("#+call:" . ?)
-            (":properties:" . ?)
-            (":logbook:" . ?)
-            ("#+LATEX_HEADER:" . ?🅻)
-            ("#+LATEX_CLASS:" . ?🄻)
-            ("..." . ?…)
-            ;; ("[#A]" . (propertize "⚑" 'face 'all-the-icons-red))
-            ;; ("[#B]" . (propertize "⬆" 'face 'all-the-icons-orange))
-            ;; ("[#C]" . (propertize "■" 'face 'all-the-icons-yellow))
-            ;; ("[#D]" . (propertize "⬇" 'face 'all-the-icons-green))
-            ;; ("[#E]" . (propertize "❓" 'face 'all-the-icons-blue))
-            ("->" . ?→)
-            ("<-" . ?←))))
-  (prettify-symbols-mode 1))
-
-(add-hook 'org-mode-hook #'my/org-mode/load-prettify-symbols)
+;; (load-file (concat doom-private-dir "/lisp/prettify_symb.el"))
 #+end_src
 **** Symbols
 It's also nice to make use of the Unicode characters for check boxes, and other commands.
@@ -1137,89 +902,22 @@ It's also nice to make use of the Unicode characters for check boxes, and other 
 
 ~org-superstar-mode~ is great. While we're at it we may as well make tags prettier as well 🙂
 #+begin_src emacs-lisp
-(use-package! org-pretty-tags
-:config
- (setq org-pretty-tags-surrogate-strings
-       `(("uni"        . ,(all-the-icons-faicon   "graduation-cap" :face 'all-the-icons-purple  :v-adjust 0.01))
-         ("ucc"        . ,(all-the-icons-material "computer"       :face 'all-the-icons-silver  :v-adjust 0.01))
-         ("assignment" . ,(all-the-icons-material "library_books"  :face 'all-the-icons-orange  :v-adjust 0.01))
-         ("test"       . ,(all-the-icons-material "timer"          :face 'all-the-icons-red     :v-adjust 0.01))
-         ("lecture"    . ,(all-the-icons-fileicon "keynote"        :face 'all-the-icons-orange  :v-adjust 0.01))
-         ("email"      . ,(all-the-icons-faicon   "envelope"       :face 'all-the-icons-blue    :v-adjust 0.01))
-         ("read"       . ,(all-the-icons-octicon  "book"           :face 'all-the-icons-lblue   :v-adjust 0.01))
-         ("article"    . ,(all-the-icons-octicon  "file-text"      :face 'all-the-icons-yellow  :v-adjust 0.01))
-         ("web"        . ,(all-the-icons-faicon   "globe"          :face 'all-the-icons-green   :v-adjust 0.01))
-         ("info"       . ,(all-the-icons-faicon   "info-circle"    :face 'all-the-icons-blue    :v-adjust 0.01))
-         ("issue"      . ,(all-the-icons-faicon   "bug"            :face 'all-the-icons-red     :v-adjust 0.01))
-         ("someday"    . ,(all-the-icons-faicon   "calendar-o"     :face 'all-the-icons-cyan    :v-adjust 0.01))
-         ("music"      . ,(all-the-icons-faicon   "music"          :face 'all-the-icons-cyan    :v-adjust 0.01))
-         ("idea"       . ,(all-the-icons-octicon  "light-bulb"     :face 'all-the-icons-yellow  :v-adjust 0.01))
-         ("DarkOs"     . ,(all-the-icons-fileicon "arch-linux"     :face 'all-the-icons-yellow  :v-adjust 0.01))
-         ("emacs"      . ,(all-the-icons-fileicon "emacs"          :face 'all-the-icons-lpurple :v-adjust 0.01))))
- (org-pretty-tags-global-mode))
+;; (load-file (concat doom-private-dir "/lisp/symbols.el"))
 #+end_src
 
 Using prettify symbols modes to add replace traditional ligatures with custom unicode
 *** Org Templates
 Adding a bunch of templates to make it easier instead of typing manually.
 #+begin_src emacs-lisp
-(with-eval-after-load 'org
-  (require 'org-tempo)
-
-  (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
-  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
-  (add-to-list 'org-structure-template-alist '("py" . "src python")))
+;; (require 'org-tempo)
+;; (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+;; (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+;; (add-to-list 'org-structure-template-alist '("py" . "src python"))
 #+end_src
 *** Org Header
 Beautifying Headers And Enabling Org-Pretty-Mode With Custom Faces
 #+begin_src emacs-lisp
-(font-lock-add-keywords 'org-mode
-                        '(("^ *\\([-]\\) "
-                            (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-(add-hook 'org-mode-hook #'+org-pretty-mode)
-
-;; (custom-set-faces!
-;;   '(outline-1 :weight regular :height 1.2)
-;;   '(outline-2 :weight bold :height 1.1)
-;;   '(outline-3 :weight bold :height 0.9)
-;;   '(outline-4 :weight semibold :height 0.9)
-;;   '(outline-5 :weight semibold :height 0.7)
-;;   '(outline-6 :weight semibold)
-;;   '(outline-8 :weight semibold)
-;;   '(outline-9 :weight semibold))
-;; (custom-set-faces!
-;;   '(outline-1 :weight regular :height 1.2)
-;;   '(outline-2 :weight regular :height 1.1)
-;;   '(outline-3 :weight regular :height 0.9)
-;;   '(outline-4 :weight regular :height 0.9)
-;;   '(outline-5 :weight regular :height 0.7)
-;;   '(outline-6 :weight regular)
-;;   '(outline-8 :weight regular)
-;;   '(outline-9 :weight regular))
-;; Org Document Title Make It Bigger
-(custom-set-faces!
-  '(org-document-title :height 1.7))
-;; Using Error Face In Deadlines
-(setq org-agenda-deadline-faces
-      '((1.001 . error)
-        (1.0 . org-warning)
-        (0.5 . org-upcoming-deadline)
-        (0.0 . org-upcoming-distant-deadline)))
-;; Custom Faces For Org Elements
-(custom-theme-set-faces
-   'user
-   '(org-link ((t (:foreground "SpringGreen2" :underline t))))
-   '(org-table ((t (:inherit fixed-pitch :foreground "#83a598")))))
-;; Adding Italic To Quote BLocks
-(setq org-fontify-quote-and-verse-blocks t)
-;; Editing Large Files Can Be Fucked up For that reason adding little delay in fontification.
-(defun locally-defer-font-lock ()
-  "Set jit-lock defer and stealth, when buffer is over a certain size."
-  (when (> (buffer-size) 50000)
-    (setq-local jit-lock-defer-time 0.05
-                jit-lock-stealth-time 1)))
-
-(add-hook 'org-mode-hook #'locally-defer-font-lock)
+;; (load-file (concat doom-private-dir "/lisp/org-headder.el"))
 #+end_src
 *** Mixed pitch
 #+begin_quote
@@ -1282,6 +980,64 @@ Thankfully, it isn't to hard to add these to the ~composition-function-table~.
 #+begin_src emacs-lisp
 ;; (set-char-table-range composition-function-table ?f '(["\\(?:ff?[fijlt]\\)" 0 font-shape-gstring]))
 ;; (set-char-table-range composition-function-table ?T '(["\\(?:Th\\)" 0 font-shape-gstring]))
+#+end_src
+*** Load All
+#+begin_src emacs-lisp
+(with-eval-after-load 'org
+
+    (load-file (concat doom-private-dir "/lisp/roam.el"))
+    (load-file (concat doom-private-dir "/lisp/superstar.el"))
+
+    (progn
+    (add-to-list 'load-path "~/.doom.d/lisp/org-pretty-table")
+    (require 'org-pretty-table)
+    (add-hook 'org-mode-hook (lambda () (org-pretty-table-mode))))
+
+    (progn
+    (add-to-list 'load-path "~/.doom.d/lisp/org-appear")
+    (require 'org-appear)
+    (add-hook 'org-mode-hook (lambda () (org-appear-mode))))
+
+    (load-file (concat doom-private-dir "/lisp/prettify_symb.el"))
+
+    (load-file (concat doom-private-dir "/lisp/symbols.el"))
+
+    (require 'org-tempo)
+    (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+    (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+    (add-to-list 'org-structure-template-alist '("py" . "src python"))
+
+    (load-file (concat doom-private-dir "/lisp/org-headder.el"))
+
+    (use-package! org-recent-headings
+      :config (org-recent-headings-mode))
+    (use-package! org-mime
+    :ensure t
+    :config
+    (setq org-mime-export-options '(:section-numbers nil
+                                    :with-author nil
+                                    :with-toc nil))
+    (add-hook 'org-mime-html-hook
+            (lambda ()
+                (org-mime-change-element-style
+                "pre" (format "color: %s; background-color: %s; padding: 0.5em;"
+                                "#E6E1DC" "#232323"))))
+    (add-hook 'message-send-hook 'org-mime-htmlize)))
+
+#+end_src
+*** Ispell
+#+begin_src emacs-lisp
+(setq ispell-dictionary "en_US")
+(setq ispell-local-dictionary "en_US")
+(setq ispell-local-dictionary-alist
+      '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
+(setq company-ispell-dictionary (concat doom-private-dir "misc/english-words.txt"))
+#+end_src
+*** Org Recent Heading
+Using [[https://github.com/alphapapa/org-recent-headings][Org-Recent-Headings]] To Navigate Quickly between previously viewed headings.
+#+begin_src emacs-lisp
+;;(use-package! org-recent-headings
+;;  :config (org-recent-headings-mode))
 #+end_src
 ** Large Files
 Using vlf to edit large files in chunks
@@ -1450,18 +1206,18 @@ This piece of configuration is totally not needed in Doom Emacs Since it's alrea
 *** Org Mime
 org-mime is another cool packages , that allows us to turn org syntax into html when composing mail, since few mail providers do not supports plain-text SMH
 #+begin_src emacs-lisp
-(use-package! org-mime
-  :ensure t
-  :config
-  (setq org-mime-export-options '(:section-numbers nil
-                                  :with-author nil
-                                  :with-toc nil))
-  (add-hook 'org-mime-html-hook
-            (lambda ()
-              (org-mime-change-element-style
-               "pre" (format "color: %s; background-color: %s; padding: 0.5em;"
-                             "#E6E1DC" "#232323"))))
-  (add-hook 'message-send-hook 'org-mime-htmlize))
+;;(use-package! org-mime
+;;  :ensure t
+;;  :config
+;;  (setq org-mime-export-options '(:section-numbers nil
+;;                                  :with-author nil
+;;                                  :with-toc nil))
+;;  (add-hook 'org-mime-html-hook
+;;            (lambda ()
+;;              (org-mime-change-element-style
+;;               "pre" (format "color: %s; background-color: %s; padding: 0.5em;"
+;;                             "#E6E1DC" "#232323"))))
+;;  (add-hook 'message-send-hook 'org-mime-htmlize))
 #+end_src
 ** Neotree
 #+begin_src emacs-lisp
@@ -1731,8 +1487,8 @@ Mpdmacs is a cool wrapper around mpd for emacs to control mpd and display the cu
 playing song on the modeline
 #+begin_src emacs-lisp
 (require 'mpdmacs)
-(setq mpdmacs-host "192.168.8.110")
-(mpdmacs-mode)
+(setq mpdmacs-host "192.168.1.110")
+;;(mpdmacs-mode)
 #+end_src
 *** Elcord
 A Lot of us Emacs users love to show the world we are using emacs thats where elcord comes in,
@@ -1741,12 +1497,23 @@ Share what file u editing right now on discord, what u doing what buffer ...
 (use-package! elcord
   :commands elcord-mode
   :config
+  (setq elcord--editor-name "Emacs")
+  (setq elcord-editor-icon "emacs_legacy_icon")
   (setq elcord-use-major-mode-as-main-icon t))
 #+end_src
 *** Nyan Mode
 The Dancing Rainbow Cat
 #+begin_src emacs-lisp
 (require 'nyan-mode)
+#+end_src
+*** Smudge
+Using Smudge To Control Spotify
+#+begin_src emacs-lisp
+(setq smudge-oauth2-client-secret "---SECRET---KEY")
+(setq smudge-oauth2-client-id "---CLIENT_ID-------")
+(setq smudge-player-status-format "%a - %t ◷ %l ")
+(setq smudge-player-status-truncate-length 40)
+(global-smudge-remote-mode)
 #+end_src
 ** Scimax Bookmard
 scimax-bookmarks from [[https://github.com/jkitchin/scimax][Scimax]] is a cool snippet, that highlights a specific word/sentence also does other cool things.

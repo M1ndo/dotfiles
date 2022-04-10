@@ -1,0 +1,125 @@
+% universal settings
+#+LATEX_HEADER: \usepackage[utf8x]{inputenc}
+#+LATEX_HEADER: \usepackage[T1]{fontenc}
+
+
+% Fonts
+#+LATEX_HEADER: \usepackage[osf]{Alegreya,AlegreyaSans}
+% #+LATEX_HEADER: \usepackage{tgchorus}
+% #+LATEX_HEADER: \usepackage[urw-garamond]{mathdesign}
+% #+LATEX_HEADER: \usepackage{charter}
+% #+LATEX_HEADER: \usepackage[cmintegrals,cmbraces]{newtxmath}
+% #+LATEX_HEADER: \usepackage{ebgaramond-maths} %  Good Font
+% #+LATEX_HEADER: \usepackage{tgbonum}
+#+LATEX_HEADER: \usepackage{fontspec}
+#+LATEX_HEADER: \newfontfamily\myfont{texgyreadventor}[Path=/home/llove/texmf/fonts/opentype/public/tex-gyre/,Extension = .otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+
+% Quoting
+#+LATEX_HEADER: \usepackage{quotchap}
+
+% PACKAGE DEFINITION
+% typographical packages
+#+LATEX_HEADER: \usepackage{microtype} % for micro-typographical adjustments
+#+LATEX_HEADER: \usepackage{setspace} % for line spacing
+#+LATEX_HEADER: \usepackage{lettrine} % for drop caps and awesome chapter beginnings
+#+LATEX_HEADER: \usepackage{titlesec} % for manipulation of chapter titles
+
+% other
+#+LATEX_HEADER: \usepackage{calc}
+#+LATEX_HEADER: \usepackage{hologo}
+#+LATEX_HEADER: \usepackage[hidelinks]{hyperref}
+% #+LATEX_HEADER: \usepackage{showframe}
+#+LATEX_HEADER: \usepackage{graphicx}
+
+
+% Empty Page
+#+LATEX_HEADER: \usepackage{afterpage}
+#+LATEX_HEADER: \newcommand\blankpage{%
+    #+LATEX_HEADER: \null
+    #+LATEX_HEADER: \thispagestyle{empty}%
+    #+LATEX_HEADER: \addtocounter{page}{-1}%
+    #+LATEX_HEADER: \newpage}
+
+
+% PHYSICAL DOCUMENT SETUP
+% media settings
+#+LATEX_HEADER: \setstocksize{8.5in}{5.675in}
+#+LATEX_HEADER: \settrimmedsize{8.5in}{5.5in}{*}
+#+LATEX_HEADER: \setbinding{0.175in}
+#+LATEX_HEADER: \setlrmarginsandblock{0.611in}{1.222in}{*}
+#+LATEX_HEADER: \setulmarginsandblock{0.722in}{1.545in}{*}
+
+
+#+LATEX_HEADER: \title{\mytitle}
+#+LATEX_HEADER: \author{AUTHOOOR}
+#+LATEX_HEADER: \newcommand{\Title}{\myfont\mytitle\\\medskip \large \emph{\mysubtitle}}
+#+LATEX_HEADER: \newcommand{\yesterday}{\mydate}
+
+
+
+#+LATEX_HEADER: \thispagestyle{empty}
+#+LATEX_HEADER: \makeatletter
+% \newlength\drop % Drop Little Bit
+#+LATEX_HEADER: \newcommand*\titleM{\begingroup % Misericords, T&H p 153
+  #+LATEX_HEADER: \setlength\drop{0.15\textheight}
+  #+LATEX_HEADER: \begin{center}
+  #+LATEX_HEADER: \rule{\textwidth}{0in}\par
+  #+LATEX_HEADER: {\HUGE\textsc\Title\par}
+  # #+LATEX_HEADER: \rule{\textwidth}{0in}\par
+  # #+LATEX_HEADER: {\Large\textit\theauthor\par}
+  # #+LATEX_HEADER: {\vspace{0.3cm}\footnotesize\textit\yesterday\par}
+  #+LATEX_HEADER: \end{center}
+#+LATEX_HEADER: \endgroup}
+#+LATEX_HEADER: \makeatother
+
+% chapter title manipulation
+% padding with zero
+#+LATEX_HEADER: \renewcommand*\thechapter{\ifnum\value{chapter}<10 0\fi\arabic{chapter}}
+% chapter title display
+#+LATEX_HEADER: \titleformat
+#+LATEX_HEADER: {\chapter}
+#+LATEX_HEADER: [display]
+#+LATEX_HEADER: {\normalfont\scshape\huge}
+#+LATEX_HEADER: {\HUGE\thechapter\centering}
+#+LATEX_HEADER: {0pt}
+#+LATEX_HEADER: {\vspace{18pt}\centering}[\vspace{42pt}]
+
+% typographical settings for the body text
+#+LATEX_HEADER: \setlength{\parskip}{0em}
+#+LATEX_HEADER: \linespread{1.09}
+
+
+% HEADER AND FOOTER MANIPULATION
+  % for normal pages
+  #+LATEX_HEADER: \nouppercaseheads
+  #+LATEX_HEADER: \headsep = 0.16in
+  #+LATEX_HEADER: \makepagestyle{mystyle}
+  #+LATEX_HEADER: \setlength{\headwidth}{\dimexpr\textwidth+\marginparsep+\marginparwidth\relax}
+  #+LATEX_HEADER: \makerunningwidth{mystyle}{\headwidth}
+  #+LATEX_HEADER: \makeevenhead{mystyle}{}{\textsf{\scriptsize\scshape\thetitle}}{}
+  #+LATEX_HEADER: \makeoddhead{mystyle}{}{\textsf{\scriptsize\scshape\leftmark}}{}
+  #+LATEX_HEADER: \makeevenfoot{mystyle}{}{\textsf{\scriptsize\thepage}}{}
+  #+LATEX_HEADER: \makeoddfoot{mystyle}{}{\textsf{\scriptsize\thepage}}{}
+  #+LATEX_HEADER: \makeatletter
+  #+LATEX_HEADER: \makepsmarks{mystyle}{%
+  #+LATEX_HEADER: \createmark{chapter}{left}{nonumber}{\@chapapp\ }{.\ }}
+  #+LATEX_HEADER: \makeatother
+  % for pages where chapters begin
+  #+LATEX_HEADER: \makepagestyle{plain}
+  #+LATEX_HEADER: \makerunningwidth{plain}{\headwidth}
+  #+LATEX_HEADER: \makeevenfoot{plain}{}{}{}
+  #+LATEX_HEADER: \makeoddfoot{plain}{}{}{}
+  #+LATEX_HEADER: \pagestyle{mystyle}
+% END HEADER AND FOOTER MANIPULATION
+
+
+% table of contents customisation
+#+LATEX_HEADER: \renewcommand\contentsname{\normalfont\scshape Contents}
+#+LATEX_HEADER: \renewcommand\cftchapterfont{\normalfont}
+#+LATEX_HEADER: \renewcommand{\cftchapterpagefont}{\normalfont}
+#+LATEX_HEADER: \renewcommand{\printtoctitle}{\centering\Huge}
+%\newenvironment{dialogue}{\let\item\par}{\par\aftergroup\noindent\aftergroup\ignorespaces}
+#+LATEX_HEADER: \newenvironment{dialogue}{\list{}{\itemsep=\parskip \topsep=\parskip \parsep=\parskip \itshape}}{\endlist}
+% layout check and fix
+#+LATEX_HEADER: \checkandfixthelayout
+#+LATEX_HEADER: \fixpdflayout

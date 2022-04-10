@@ -1,4 +1,4 @@
-#+SUBTITLE: @@latex: \itali{\emph{%^{SUBTITLE}}}@@
+#+SUBTITLE: /%^{SUBTITLE}/
 #+AUTHOR: %^{AUTHOR}
 #+SETUPFILE: ~/org/Templates/latex.setup
 #+OPTIONS: toc:t

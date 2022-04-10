@@ -1,0 +1,7 @@
+#+SUBTITLE: /%^{SUBTITLE}/
+#+AUTHOR: AUTHOOR 
+#+DATE: %^{DATE}
+#+SETUPFILE: ~/org/Templates/latex.setup
+#+OPTIONS: toc:nil
+
+* %?
