@@ -20,12 +20,28 @@ local anim_x = rubato.timed {
     awestore_compat = true 
 }
 
+local anim_z = rubato.timed {
+    rate = 690,
+    pos = 1380,
+    easing = rubato.linear,
+    intro = 0.1,
+    duration = 0.3,
+    awestore_compat = true
+}
+
 local music_ncmp = bling.module.scratchpad { command = "xterm -name scratch_ncmp -e ncmpcpp",
                                       rule = { instance = "scratch_ncmp" },                 
                                       sticky = false, autoclose = true,                              
                                       floating = true, geometry = {x = dpi(220), y = dpi(130), height = dpi(550), width = dpi(960)},
                                       reapply = true, dont_focus_before_close  = true,
                                       rubato = {y = anim_y}
+}
+local music_lyrics = bling.module.scratchpad { command = "xterm -name scratch_lyrics -e ~/.local/bin/lyrics",
+                                      rule = { instance = "scratch_lyrics" },
+                                      sticky = false, autoclose = true,
+                                      floating = true, geometry = {x = dpi(430), y = dpi(40), height = dpi(715), width = dpi(500)},
+                                      reapply = true, dont_focus_before_close  = true,
+                                      rubato = {x = anim_z}
 }
 local music_spot = bling.module.scratchpad { command = "spot_load",
                                       rule = { class = "Spotify" },                 
@@ -56,8 +72,9 @@ local chromium = bling.module.scratchpad { command = "firefox",
                                       --rubato = {x = anim_x, y = anim_y} 
 }
 
-local scratchs = {music_ncmp,music_spot,file_manager,discord,chromium}
+local scratchs = {music_ncmp,music_spot,music_lyrics}
 awesome.connect_signal("scratch::music", function() music_ncmp:toggle() end)
+awesome.connect_signal("scratch::lyrics", function() music_lyrics:toggle() end)
 awesome.connect_signal("scratch::spot", function() music_spot:toggle() end)
 awesome.connect_signal("scratch::filem", function() file_manager:toggle() end)
 awesome.connect_signal("scratch::disco", function() discord:toggle() end)

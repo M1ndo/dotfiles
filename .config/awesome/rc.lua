@@ -319,9 +319,11 @@ globalkeys = my_table.join(
     -- Personal keybindings
 
     -- Scratchpads
-    awful.key({ modkey, altkey }, "z", function () awesome.emit_signal("scratch::music") end,
+    awful.key({ }, "F2", function () awesome.emit_signal("scratch::music") end,
         {description = "ncmpcpp" , group = "Scratchpad" }),
-    awful.key({ }, "XF86Tools", function () awesome.emit_signal("scratch::spot") end,
+    awful.key({ }, "F3", function () awesome.emit_signal("scratch::lyrics") end,
+        {description = "Lyrics" , group = "Scratchpad" }),
+    awful.key({ }, "F1", function () awesome.emit_signal("scratch::spot") end,
         {description = "Spotify" , group = "Scratchpad" }),
     -- awful.key({ }, "XF86HomePage", function () awesome.emit_signal("scratch::brows") end,
     --     {description = "Firefox ScratchPad" , group = "Scratchpad" }),
@@ -562,8 +564,8 @@ globalkeys = my_table.join(
     awful.key({ }, "XF86AudioPlay", function () os.execute("mpc toggle") end),
     awful.key({ }, "XF86AudioPrev", function () os.execute("mpc prev") end),
     awful.key({ }, "XF86AudioNext", function () os.execute("mpc next") end),
-    awful.key({ }, "F2", function () os.execute("xbacklight -dec 5") end),
-    awful.key({ }, "F3", function () os.execute("xbacklight -inc 5") end),
+    awful.key({ modkey, }, "F2", function () os.execute("xbacklight -dec 5") end),
+    awful.key({ modkey, }, "F3", function () os.execute("xbacklight -inc 5") end),
 
     -- ALSA volume control
     awful.key({ }, "XF86AudioRaiseVolume",

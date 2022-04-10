@@ -58,6 +58,7 @@ hc keybind $Mod-b spawn $myBrowser
 
 # Scratchpad
 hc keybind $Mod-s spawn ~/.config/herbstluftwm/scratchpad.sh
+hc keybind $Mod-a spawn ~/.config/herbstluftwm/term.sh
 
 # Controllers
 # Mocp
