@@ -1,7 +1,7 @@
-export ZSH=/home/ybenel/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="miloshadzic"
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-# CASE_SENSITIVE="true"
+ ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+CASE_SENSITIVE="true"
 # HYPHEN_INSENSITIVE="true"
 # DISABLE_AUTO_UPDATE="true"
 # DISABLE_UPDATE_PROMPT="true"
@@ -9,10 +9,11 @@ ZSH_THEME="miloshadzic"
 # DISABLE_MAGIC_FUNCTIONS=true
 # DISABLE_LS_COLORS="true"
 # DISABLE_AUTO_TITLE="true"
-ENABLE_CORRECTION="true"
+#ENABLE_CORRECTION="true"
 # COMPLETION_WAITING_DOTS="true"
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 # HIST_STAMPS="mm/dd/yyyy"
+ZSH_DISABLE_COMPFIX="true"
 plugins=("git" "thefuck")
 source $ZSH/oh-my-zsh.sh
 
@@ -24,6 +25,7 @@ export EDITOR='nvim'
 
 
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 setopt GLOB_DOTS
 
@@ -31,12 +33,13 @@ setopt GLOB_DOTS
 [[ $- != *i* ]] && return
 
 export HISTCONTROL=ignoreboth:erasedups
-#if [ -d "$HOME/.bin" ] ;
-#  then PATH="$HOME/.bin:$PATH"
-#fi
+
+if [ -d "$HOME/.bin" ] ;
+  then PATH="$HOME/.bin:$PATH"
+fi
 
 if [ -d "$HOME/.local/bin" ] ;
-  then PATH="$HOME/.local/bin:/home/ybenel/.gem/ruby/2.7.0/bin:$PATH"
+  then PATH="$HOME/.local/bin:$PATH"
 fi
 
 xhost +local:root > /dev/null 2>&1
@@ -110,7 +113,7 @@ alias ins='yay -S'
 alias up='yay -Sy'
 alias upd='yay -Syu'
 alias rms='yay -R'
-alias pcsrc='pacman -Ss'
+alias pcsrc='/usr/bin/pacman -Ss'
 alias pcin='sudo pacman -S'
 alias pcr='sudo pacman -R'
 alias sy='sudo pacman -Sy'
@@ -122,9 +125,6 @@ alias pg='ping'   # Extra
 
 # Overwrite .Xresources To take effect of the new settings
 alias xd='xrdb ~/.Xresources'
-
-# Add A Specific Env File For My laptop
-alias scv='LIBGL_ALWAYS_SOFTWARE=1'
 
 # adding flags
 alias cp="cp -i"                          # confirm before overwriting something
@@ -138,24 +138,15 @@ alias vifm='./.config/vifm/scripts/vifmrun'
 alias doc='cd ~/Documents'
 alias dow='cd ~/Downloads'
 alias ips="curl -s ifconfig.co | grep 'IP</span>:'| cut -d '<' -f 4 | sed 's/\/span>://'"
-alias fxr="./.bin/ybl/resolution"
-alias fxr2="./.bin/ybl/resolution2"
-
-# Tools Shortcuts
-alias searchsploit='/opt/exploitdb/searchsploit'
-alias conx="dow && cd conx && sudo openvpn ybenel.ovpn"
-alias conx2="dow && cd conx && sudo openvpn Thm.ovpn"
-alias htb='doc && cd Sec/htb/'
-alias thm='doc && cd Sec/thm'
 
 # Awesome Screen Locker
-alias bls="betterlockscreen -u ~/Pictures/WallOne/Mandalorian4.jpg -l -t 'Victory Is Mine !'"
+#alias bls="betterlockscreen -w /usr/share/backgrounds/archlinux/gritty.png -l -t 'Victory is Mine!'"
 
 #check vulnerabilities microcode
 alias microcode='grep . /sys/devices/system/cpu/vulnerabilities/*'
 
 #get fastest mirrors in your neighborhood
-alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
+alias mirror="sudo reflector --threads 10 -f 30 -l 30 --sort rate --number 10 --verbose --save /etc/pacman.d/mirrorlist"
 
 #get the error messages from journalctl
 alias jctl="journalctl -p 3 -xb"

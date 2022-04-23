@@ -29,7 +29,7 @@ naughty.config.defaults['icon_size'] = 100
 local lain          = require("lain")
 local freedesktop   = require("freedesktop")
 -- Tabbed Layout
-local leaved = require "awesome-leaved"
+-- local leaved = require "awesome-leaved"
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 local hotkeys_popup = require("awful.hotkeys_popup").widget
@@ -128,7 +128,7 @@ local virtualmachine    = "virtualbox"
 
 -- awesome variables
 local l = awful.layout.suit
-local ll = leaved.layout.suit.tile
+-- local ll = leaved.layout.suit.tile
 awful.util.terminal = terminal
 awful.util.tagnames = {"", "הּ", "", "", "", "ﲤ"}
 awful.layout.layouts = {
@@ -137,10 +137,11 @@ awful.layout.layouts = {
     l.spiral,
     bling.layout.mstab,
     lain.layout.termfair,
-    ll.right,
-    ll.left,
-    ll.bottom, 
-    ll.top,
+    bling.layout.centered,
+    -- ll.right,
+    -- ll.left,
+    -- ll.bottom,
+    -- ll.top,
 }
 
 awful.util.taglist_buttons = my_table.join(
@@ -505,16 +506,22 @@ globalkeys = my_table.join(
               {description = "Launch Terminal", group = "Super"}),
 
     -- Leaved Layout 
-    awful.key({ modkey, }, "s", leaved.keys.min_container,
-              {description = "Minimize Container Windows", group = "Client"}),
-    awful.key({ modkey, }, ";", leaved.keys.shiftOrder,
-              {description = "Minimize Container Windows", group = "Client"}),
-    awful.key({ modkey, }, "[", leaved.keys.splitH,
-              {description = "Split Wind Horiz(Leaved Layout)", group = "Client"}),
-    awful.key({ modkey, }, "]", leaved.keys.splitV,
-              {description = "Split Wind Virtical(Leaved Layout)", group = "Client"}),
-    awful.key({ modkey, }, "'", leaved.keys.shiftStyle,
-              {description = "Change Style(Leaved Layout)", group = "Client"}),
+    -- awful.key({ modkey, }, "s", leaved.keys.min_container,
+    --           {description = "Minimize Container Windows", group = "Leaved"}),
+    -- awful.key({ modkey, }, ";", leaved.keys.shiftOrder,
+    --           {description = "Switch Between Tabs/Stack/NoTabs", group = "Leaved"}),
+    -- awful.key({ modkey, }, "[", leaved.keys.splitH,
+    --           {description = "Split Wind Horizontal", group = "Leaved"}),
+    -- awful.key({ modkey, }, "]", leaved.keys.splitV,
+    --           {description = "Split Wind Vertical", group = "Leaved"}),
+    -- awful.key({ modkey, }, "'", leaved.keys.shiftStyle,
+    --           {description = "Change Style", group = "Leaved"}),
+    -- awful.key({ modkey, "Shift" }, "'", leaved.keys.swap,
+    --           {description = "Swap Active Client", group = "Leaved"}),
+    -- awful.key({ modkey, "Shift" }, "=", leaved.keys.focus,
+    --           {description = "Focus/Select Client", group = "Leaved"}),
+    -- awful.key({ modkey, }, "s", leaved.keys.focus_container,
+    --           {description = "Focus Contain Window", group = "Leaved"}),
 
      --- Pop Ups
     awful.key({ altkey, }, "i", function () awesome.emit_signal("evil::volume") end,
@@ -524,13 +531,22 @@ globalkeys = my_table.join(
 
     -- Tabbed Layout (Bling)
     awful.key({ altkey, }, ";", function() bling.module.tabbed.pop() end,
-              {description = "Remove Focused Client From tabbed", group = "Client"}),
-    awful.key({ altkey, }, "Left", function() bling.module.tabbed.iter(-1) end,
-              {description = "Pick Client From Tabbed", group = "Client"}),
-    awful.key({ altkey, }, "Right", function() bling.module.tabbed.iter(1) end,
-              {description = "Pick Client From Tabbed", group = "Client"}),          
+              {description = "Remove Focused Client From tabbed", group = "Mstab"}),
+    awful.key({ modkey, }, ".", function() bling.module.tabbed.iter(-1) end,
+              {description = "Pick Client From Tabbed", group = "Mstab"}),
+    awful.key({ modkey, }, ",", function() bling.module.tabbed.iter(1) end,
+              {description = "Pick Client From Tabbed", group = "Mstab"}),
     awful.key({ altkey, }, "'", function() bling.module.tabbed.pick_with_dmenu() end,
-              {description = "Iterates Through Focused Tabbing Group", group = "Client"}),
+              {description = "Iterates Through Focused Tabbing Group", group = "Mstab"}),
+    awful.key({ altkey, }, "Left", function() bling.module.tabbed.pick_by_direction("left") end,
+              {description = "Pick From Left", group = "Mstab"}),
+    awful.key({ altkey, }, "Right", function() bling.module.tabbed.pick_by_direction("right") end,
+              {description = "Pick From Right", group = "Mstab"}),
+    awful.key({ altkey, }, "Up", function() bling.module.tabbed.pick_by_direction("up") end,
+              {description = "Pick From Up", group = "Mstab"}),
+    awful.key({ altkey, }, "Down", function() bling.module.tabbed.pick_by_direction("down") end,
+              {description = "Pick From Down", group = "Mstab"}),
+
     
     -- Layout Selection
     awful.key({ modkey, }, "Tab", function () awful.layout.inc( 1) end,
@@ -765,11 +781,10 @@ require("configs.ruled")
 -- Create a wibox for each screen and add it
 
 -- Enable For 2 Screens.
---local ss = screen[2]
+local ss = screen[2]
 local fs = screen[1]
 beautiful.at_screen_connect(fs)
 --if tostring(ss.index) == "2" then
---    awful.util.spawn("~/.screenlayout/Monitors.sh")
 --    beautiful.second_screen(ss)
 --end
 -- if not ss == nil or ss == '' then
@@ -872,3 +887,6 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- Autostart applications
 awful.spawn.with_shell("~/.config/awesome/autostart.sh")
 --awful.spawn.with_shell("xmp ~/mod_music/morning_ditty.mod")
+-- collectgarbage("setstepmul", 2*collectgarbage("setstepmul", 42))
+collectgarbage("setpause", 160)
+collectgarbage("setstepmul", 400)
