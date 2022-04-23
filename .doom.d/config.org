@@ -399,6 +399,17 @@ Setting up beacon to highlight cursor
 #+begin_src emacs-lisp
 (beacon-mode 1)
 #+end_src
+*** Window Zoom
+#+begin_src emacs-lisp
+(with-eval-after-load "persp-mode-autoloads"
+  (add-hook 'after-init-hook #'(lambda () (persp-mode 1))))
+
+(require 'zoom-window)
+(custom-set-variables
+ '(zoom-window-use-persp t)
+ '(zoom-window-mode-line-color "SlateGrey"))
+(zoom-window-setup)
+#+end_src
 ** Editing
 *** Aggressive Indent
 Indent blocks very useful then editing lisp code,also other stuff
@@ -655,7 +666,8 @@ there's alot of ways to map keys in emacs, we use ~map!~ in doom emacs to make n
        :desc "Hide Doom Modeline" "b" #'hide-mode-line-mode
        :desc "Bufler Switch Buffer" "e" #'bufler-switch-buffer
        :desc "Bufler Set Workspace Frame" "q" #'bufler-workspace-frame-set
-       :desc "Counel Switch Buffer" "w" #'counsel-switch-buffer))
+       :desc "Counel Switch Buffer" "w" #'counsel-switch-buffer
+       :desc "Window Zoom/Unzoom" "z" #'zoom-window-zoom))
 
 (map! :leader
       :desc "Switch To Left Window" "<left>" #'evil-window-left
@@ -1514,6 +1526,14 @@ Using Smudge To Control Spotify
 (setq smudge-player-status-format "%a - %t ◷ %l ")
 (setq smudge-player-status-truncate-length 40)
 (global-smudge-remote-mode)
+#+end_src
+*** Goggles
+Goggles highlights the modified region, Supported commands (undo, yank, kill and delete)
+#+begin_src emacs-lisp
+(use-package! goggles
+  :hook ((prog-mode text-mode) . goggles-mode)
+  :config
+  (setq-default goggles-pulse t)) ;; set to nil to disable pulsing
 #+end_src
 ** Scimax Bookmard
 scimax-bookmarks from [[https://github.com/jkitchin/scimax][Scimax]] is a cool snippet, that highlights a specific word/sentence also does other cool things.

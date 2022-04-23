@@ -83,6 +83,7 @@ Add The following to it
 | SPC-d-t      | Chronos Timer Set          |
 | SPC-d-p      | Org-Sidebar Tree Toggle    |
 | SPC-d-l      | Org-SideBar Toggle         |
+| SPC-d-z      | Window Zoom/Unzoom         |
 |--------------+----------------------------|
 | Spelling Key | Function                   |
 |--------------+----------------------------|
