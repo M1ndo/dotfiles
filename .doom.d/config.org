@@ -26,7 +26,11 @@ use epa-file to decrypt our *GPG* encrypt personal.el then load it.
 I'm using [[github:eliheuer/caskaydia-cove][Caskaydia Cove]] which is a fork of [[github:microsoft/cascadia-code][Cascadia Code]]
 #+begin_src emacs-lisp
 
-(setq doom-font (font-spec :family "Cascadia Code" :weight 'SemiLight :foreground "#00bfff" :size 15)
+;; (setq doom-font (font-spec :family "Cascadia Code" :weight 'SemiLight :foreground "#00bfff" :size 15)
+;;       doom-variable-pitch-font (font-spec :family "Cascadia Code" :weight 'SemiBold :size 15)
+;;       doom-big-font (font-spec :family "Cascadia Code" :weight 'SemiBold :size 24))
+
+(setq doom-font (font-spec :family "Iosevka" :weight 'Regular :foreground "#00bfff" :size 15)
       doom-variable-pitch-font (font-spec :family "Cascadia Code" :weight 'SemiBold :size 15)
       doom-big-font (font-spec :family "Cascadia Code" :weight 'SemiBold :size 24))
 
@@ -43,7 +47,7 @@ Right here I'm using doom-dracula , there's also [[github:dracula/emacs][Dracula
   :config
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-laserwave t) ;; set laserwave theme
+  (load-theme 'doom-horizon t) ;; set laserwave theme
   (doom-themes-visual-bell-config)   ;; Enable flashing mode-line on errors
   (doom-themes-neotree-config)   ;; Enable custom neotree theme
   (doom-themes-org-config))  ;; Corrects (and improves) org-mode's native fontification.
@@ -290,18 +294,18 @@ There's also a tool called [[github:folke/splashcii][Splashcii]] that downloads 
 (setq-hook! '+doom-dashboard-mode-hook evil-normal-state-cursor (list nil))
 
 ;; Call splashcii to get the banne and output it .
-;; (defvar +fl/splashcii-query ""
-;;   "The query to search on asciiur.com")
-;; (defun +fl/splashcii-banner ()
-;;   (mapc (lambda (line)
-;;           (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
-;;                               'face 'doom-dashboard-banner) " ")
-;;           (insert "\n"))
-;;         (split-string (with-output-to-string
-;;                         (call-process "splashcii" nil standard-output nil +fl/splashcii-query))
-;;                       "\n" t)))
-;; (setq +doom-dashboard-ascii-banner-fn #'+fl/splashcii-banner)
-;; (setq +fl/splashcii-query "space")
+(defvar +fl/splashcii-query ""
+  "The query to search on asciiur.com")
+(defun +fl/splashcii-banner ()
+  (mapc (lambda (line)
+          (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
+                              'face 'doom-dashboard-banner) " ")
+          (insert "\n"))
+        (split-string (with-output-to-string
+                        (call-process "splashcii" nil standard-output nil +fl/splashcii-query))
+                      "\n" t)))
+(setq +doom-dashboard-ascii-banner-fn #'+fl/splashcii-banner)
+(setq +fl/splashcii-query "batman")
 #+end_src
 *** Background for non-real buffer
 Using Solaire-mode to add the dark background in unreal buffers
@@ -715,6 +719,17 @@ Setting custom org directory and enabling org logging, so each time a task is fi
 #+begin_src emacs-lisp
 (setq org-directory "~/org/")
 (setq org-log-done 'time)
+(setq org-agenda-include-diary t)
+
+;; https://emacs.stackexchange.com/questions/31683/schedule-org-task-for-last-day-of-every-month
+(defun diary-last-day-of-month (date)
+"Return `t` if DATE is the last day of the month."
+  (let* ((day (calendar-extract-day date))
+         (month (calendar-extract-month date))
+         (year (calendar-extract-year date))
+         (last-day-of-month
+            (calendar-last-day-of-month month year)))
+    (= day last-day-of-month)))
 #+end_src
 *** Org Keywords
 #+begin_src emacs-lisp
@@ -1525,7 +1540,7 @@ Using Smudge To Control Spotify
 (setq smudge-oauth2-client-id "---CLIENT_ID-------")
 (setq smudge-player-status-format "%a - %t ◷ %l ")
 (setq smudge-player-status-truncate-length 40)
-(global-smudge-remote-mode)
+;; (global-smudge-remote-mode)
 #+end_src
 *** Goggles
 Goggles highlights the modified region, Supported commands (undo, yank, kill and delete)

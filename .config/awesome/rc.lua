@@ -39,6 +39,8 @@ local helpers       = require("lain.helpers")
 local dpi   = require("beautiful").xresources.apply_dpi
 -- }}}
 
+
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -320,17 +322,17 @@ globalkeys = my_table.join(
     -- Personal keybindings
 
     -- Scratchpads
-    awful.key({ }, "F2", function () awesome.emit_signal("scratch::music") end,
+    awful.key({ modkey, }, "F2", function () awesome.emit_signal("scratch::music") end,
         {description = "ncmpcpp" , group = "Scratchpad" }),
-    awful.key({ }, "F3", function () awesome.emit_signal("scratch::lyrics") end,
+    awful.key({ modkey, }, "F3", function () awesome.emit_signal("scratch::lyrics") end,
         {description = "Lyrics" , group = "Scratchpad" }),
-    awful.key({ }, "F1", function () awesome.emit_signal("scratch::spot") end,
+    awful.key({ modkey, }, "F1", function () awesome.emit_signal("scratch::spot") end,
         {description = "Spotify" , group = "Scratchpad" }),
     -- awful.key({ }, "XF86HomePage", function () awesome.emit_signal("scratch::brows") end,
     --     {description = "Firefox ScratchPad" , group = "Scratchpad" }),
     -- awful.key({ }, "XF86Mail", function () awesome.emit_signal("scratch::filem") end,
     --     {description = "File_Manager (Pcmanfm)" , group = "Scratchpad" }),
-    awful.key({ modkey, }, "F1", function () awesome.emit_signal("scratch::disco") end,
+    awful.key({ modkey, }, "F4", function () awesome.emit_signal("scratch::disco") end,
         {description = "Discord" , group = "Scratchpad" }),
     awful.key({ modkey, }, "F12", function () awesome.emit_signal("scratch::turn_off") end,
         {description = "Turn Off Scratch Visibily" , group = "Scratchpad" }),
@@ -784,9 +786,9 @@ require("configs.ruled")
 local ss = screen[2]
 local fs = screen[1]
 beautiful.at_screen_connect(fs)
---if tostring(ss.index) == "2" then
+-- if tostring(ss.index) == "2" then
 --    beautiful.second_screen(ss)
---end
+-- end
 -- if not ss == nil or ss == '' then
 --     if tostring(ss.index) == "2" then
 --        awful.util.spawn("~/.screenlayout/Monitors.sh")

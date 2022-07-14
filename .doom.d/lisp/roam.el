@@ -13,9 +13,33 @@
       "%?"
       :if-new (file+head "${slug}.org" "#+title: ${title}\n")
       :unnarrowed t)
-     ("b" "Box Notes" plain
+     ("p" "project" plain
+      (file "~/org/Templates/Projects.org")
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Project")
+      :unnarrowed t)
+     ("b" "Boxes" plain
       (file "~/org/Templates/Boxes.org")
-      :if-new (file+head "${slug}.org" "#+title: ${title}\n")
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: Boxes\n#+filetags: Boxes")
+      :unnarrowed t)
+     ("l" "Life" plain
+      (file "~/org/Templates/Life.org")
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Life")
+      :unnarrowed t)
+     ("m" "Biblio" plain
+      (file "~/org/Templates/Bib.org")
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Biblio")
+      :unnarrowed t)
+     ("e" "Letter" plain
+      (file "~/org/Templates/Letter.org")
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Letter")
+      :unnarrowed t)
+     ("t" "Ebook" plain
+      (file "~/org/Templates/novel.tex")
+      :if-new (file+head "${slug}.tex" "#+title: ${title}\n#+category: ${title}\n#+filetags: Ebook")
+      :unnarrowed t)
+     ("s" "School" plain
+      (file "~/org/Templates/School.org")
+      :if-new (file+head "{slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: School")
       :unnarrowed t)))
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
@@ -91,33 +115,8 @@ capture was not aborted."
    nil
    (lambda (node)
      ;; Only look for nodes tagged with at least one of the following keywords
-     (seq-intersection '("Project" "Life" "Biblio" "Letter" "Ebook" "Boxes")
-                       (org-roam-node-tags node)))
-   :templates
-   '(("p" "project" plain
-      (file "~/org/Templates/Projects.org")
-      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Project")
-      :unnarrowed t)
-     ("b" "Boxes" plain
-      (file "~/org/Templates/Boxes.org")
-      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: Boxes\n#+filetags: Boxes")
-      :unnarrowed t)
-     ("l" "Life" plain
-      (file "~/org/Templates/Life.org")
-      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Life")
-      :unnarrowed t)
-     ("m" "Biblio" plain
-      (file "~/org/Templates/Bib.org")
-      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Biblio")
-      :unnarrowed t)
-     ("e" "Letter" plain
-      (file "~/org/Templates/Letter.org")
-      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Letter")
-      :unnarrowed t)
-     ("t" "Ebook" plain
-      (file "~/org/Templates/novel.tex")
-      :if-new (file+head "${slug}.tex" "#+title: ${title}\n#+category: ${title}\n#+filetags: Ebook")
-      :unnarrowed t))))
+     (seq-intersection '("Project" "Life" "Biblio" "Letter" "Ebook" "Boxes" "School")
+                       (org-roam-node-tags node)))))
 
 (defun my/org-roam-capture-inbox ()
   (interactive)
@@ -160,5 +159,5 @@ capture was not aborted."
 
 (add-to-list 'org-after-todo-state-change-hook
              (lambda ()
-               (when (equal org-state "DONE")
+               (when (or (equal org-state "DONE") (equal org-state "COMPLETED") (equal org-state "NO") (equal org-state "KILL") (equal org-state "CANCELLED"))
                  (my/org-roam-copy-todo-to-today))))

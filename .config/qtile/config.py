@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# Copyright (c) 2022 Younes Ben El (ybenel)
+
 import os
 import re
 import socket
@@ -7,7 +9,7 @@ from libqtile import qtile, layout, bar, widget, hook
 from libqtile.config import Click, Drag, Group, KeyChord, EzKey, Match, Screen,DropDown,ScratchPad
 from libqtile.command import lazy
 from libqtile.lazy import lazy
-
+from getmusic import GetMusic
 mod = "mod4" 
 myTerm = "alacrit"
 myTerms = "xterm"
@@ -231,25 +233,30 @@ def init_widgets_list():
                        ),
 							widget.Spacer(length=6,background=colors[0]),
 							widget.TextBox(
-											 font = "FiraCode Nerd Font Mono",
+                                     font = "FiraCode Nerd Font Mono",
                        text = "",
                        padding = 2,
                        foreground = "#96cdcd",
                        background = colors[0],
                        fontsize = 17
                        ),
-		      widget.Mpd2(
-                        background = colors[0],
-                        foreground = colors[2],
-                        #colors_progress = colors[2]
-                        host = "192.168.1.110",
-                        no_connection = "Mpd Is Off",
-                        status_format = "{artist} - {title}",
-                        update_interval = 0.5
-                        ),
+              GetMusic(
+                       update_interval = 1.0,
+                       background = colors[0],
+                       foreground = colors[2]
+              ),
+              # widget.Mpd2(
+              #           background = colors[0],
+              #           foreground = colors[2],
+              #           #colors_progress = colors[2]
+              #           host = "192.168.1.110",
+              #           no_connection = "Mpd Is Off",
+              #           status_format = "{artist} - {title}",
+              #           update_interval = 0.5
+              #           ),
               widget.Spacer(length=6,background=colors[0]),
               widget.TextBox(
-											 font = "FiraCode Nerd Font Mono",
+                       font = "FiraCode Nerd Font Mono",
                        text = "﨎",
                        padding = 2,
                        foreground = "#8470ff",
@@ -277,8 +284,8 @@ def init_widgets_list():
                        padding = 5
                        ),
               widget.TextBox(
-											 font = "FiraCode Nerd Font Mono",
-											 fontsize = 17,
+                       font = "FiraCode Nerd Font Mono",
+                       fontsize = 17,
                        text = "",
                        foreground = "#32cd32",
                        background = colors[0],
@@ -290,8 +297,8 @@ def init_widgets_list():
                        padding = 5
                        ),
                widget.TextBox(
-											 font = "FiraCode Nerd Font Mono",
-											 fontsize = 17,
+                       font = "FiraCode Nerd Font Mono",
+                       fontsize = 17,
                        text = "",
                        foreground = "#ff6347",
                        background = colors[0],
@@ -310,7 +317,7 @@ def init_widgets_screen():
     return widgets_screen2      
 
 def init_screens():
-    return [Screen(top=bar.Bar(widgets=init_widgets_screen(), opacity=1, size=20,margin=[10, 16, 0, 16]))]
+    return [Screen(top=bar.Bar(widgets=init_widgets_screen(), opacity=0.90, size=20,margin=[10, 16, 0, 16]))]
 
 if __name__ in ["config", "__main__"]:
     screens = init_screens()

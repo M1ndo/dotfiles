@@ -49,3 +49,5 @@
 (package! olivetti)
 (package! freeze-it)
 (package! cyberpunk-theme)
+(package! zoom-window)
+(package! goggles)

@@ -38,7 +38,7 @@ local music_ncmp = bling.module.scratchpad { command = "xterm -name scratch_ncmp
 }
 local music_lyrics = bling.module.scratchpad { command = "xterm -name scratch_lyrics -e ~/.local/bin/lyrics",
                                       rule = { instance = "scratch_lyrics" },
-                                      sticky = false, autoclose = true,
+                                      sticky = false, autoclose = false,
                                       floating = true, geometry = {x = dpi(430), y = dpi(40), height = dpi(715), width = dpi(500)},
                                       reapply = true, dont_focus_before_close  = true,
                                       rubato = {x = anim_z}

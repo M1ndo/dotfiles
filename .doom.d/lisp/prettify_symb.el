@@ -92,7 +92,7 @@ Must be run as part of `org-font-lock-set-keywords-hook'."
             ("#+begin_export" . ?⏩)
             ("#+end_export" . ?⏪)
             ("#+title:" . ?𝙏)
-            ("#+subtitle" . ?𝙩)
+            ("#+subtitle:" . ?𝙩)
             ("#+DATE:" . ?𝘿)
             ("#+AUTHOR:" . ?𝘼)
             ("[ ]" .  ?☐)

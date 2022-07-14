@@ -186,16 +186,16 @@ myStartupHook = do
         spawnOnce "nm-applet &"
         spawnOnce "volumeicon &"
         -- spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x282C34 --height 22 --iconspacing 0 --margin 682 &" -- Enable When Using Secondary Xmobar config
-        spawnOnce "trayer --edge top --align right --widthtype request --padding 2 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x282C34 --height 22 --iconspacing 0 --margin 479 --distance 9 &"
-        -- spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x090D12 --height 22 --iconspacing 0 --margin 476 &"
+        spawnOnce trayerCommand
         spawnOnce "/usr/lib/polkit-kde-authentication-agent-1 &"
         spawnOnce "powerkit &"
         spawnOnce "numlockx on &"
         -- spawnOnce "/usr/bin/emacs --daemon &"
         spawnOnce "xscreensaver -no-splash &"
         spawnOnce "caffeine &"
-        spawnOnce "eww daemon &"
-        -- spawn "/home/ybenel/.bin/ybl/jack_start"
+	spawnOnce "eww daemon &"
+        -- spawnOnce "xdg-autostart-launcher --user &"
+        spawnOnce "xsetroot -cursor_name left_ptr"
         setWMName "LG3D"
 
 myColorizer :: Window -> Bool -> X (String, String)

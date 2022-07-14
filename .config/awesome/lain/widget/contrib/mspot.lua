@@ -22,7 +22,7 @@ local string       = string
 local function factory(args)
     local mspot          = { widget = wibox.widget.textbox() }
     local args          = args or {}
-    local show_tooltip  = args.show_toolip or true 
+    local show_tooltip  = args.show_toolip or false
     local timeout       = args.timeout or 1
     local settings      = args.settings or function() end
 
