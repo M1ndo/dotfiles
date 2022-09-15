@@ -11,14 +11,15 @@ from libqtile.command import lazy
 from libqtile.lazy import lazy
 from getmusic import GetMusic
 mod = "mod4" 
-myTerm = "alacrit"
+myTerm = "st"
 myTerms = "xterm"
 
 groups = [ ScratchPad("scratchpad", [
     DropDown("Term", "xterm  -class 'Term' -fn 'Cascadia Code' -fa 'Cascadia Code'",match=Match(wm_class="Term")),
     DropDown("Spotify","spot_load",match=Match(wm_class="spotify"),on_focus_lost_hide=True),
-    DropDown("Ncp","xterm -name ncmpcpp -e ncmpcpp",match=Match(wm_class="ncmpcpp")),
+    DropDown("Ncp","env LIBGL_ALWAYS_SOFTWARE=1 alacritty --class ncmpcpp -e ncmpcpp",x=0.05, y=0.2, width=0.9, height=0.5, match=Match(wm_class="ncmpcpp")),
     DropDown("mocp","xterm -name mocp -e /usr/bin/mocp",match=Match(wm_class="mocp")),
+    DropDown("Lyrics","xterm -name scratch_lyrics -e ~/.local/bin/lyrics",x=0.35,y=0.05,width=0.3,height=0.9,match=Match(wm_class="scratch_lyrics")),
 ]) ]
 
 keys = [
@@ -88,6 +89,7 @@ keys = [
         EzKey("M-C-c",lazy.group["scratchpad"].dropdown_toggle('mocp')),
         EzKey("M-C-y",lazy.group["scratchpad"].dropdown_toggle('Spotify')),
         EzKey("M-C-a",lazy.group["scratchpad"].dropdown_toggle('Ncp')),
+        EzKey("M-C-l",lazy.group["scratchpad"].dropdown_toggle('Lyrics')),
 
         # Eww widgets
         EzKey("A-m",lazy.spawn('eww open player_side')),
