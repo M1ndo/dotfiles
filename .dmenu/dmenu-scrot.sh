@@ -88,7 +88,7 @@ main() {
       _file_type="region"
     ;;
     *)
-      _maim_args="-g ${_display_mode[${target}]}"
+      _maim_args="-d 2 -g ${_display_mode[${target}]}"
       _file_type="${target}"
     ;;
   esac

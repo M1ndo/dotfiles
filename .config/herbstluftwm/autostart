@@ -18,14 +18,14 @@ hc keyunbind --all
 
 # keybindings
 Mod=Mod4                            # Use the super key as the main modifier
-myTerm=alacrit                   # Set my preferred terminal
+myTerm=st                   # Set my preferred terminal
 myTerms=xterm                     # Set my preferred application terminal
 myEditor="emacsclient -c -a emacs"  # Set my preferred editor
 myBrowser="firefox"
 myMusic="/usr/bin/mocp"
 myMMusic="ncmpcpp"
 MMControl="mpc"
-SpMusic="playerctl -p spotify"
+SpMusic="playerctl -i firefox"
 hc keybind $Mod-Shift-q quit
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-c close

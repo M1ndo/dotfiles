@@ -1,8 +1,7 @@
 User tor
-SocksPort 9050 # Default: Bind to localhost:9050 for local connections.
-MapAddress 192.168.9.10 dtlbunzs5b7s5sl775quwezleyeplxzicdoh3cnhm7feolxmkfd42nqd.onion
-SocksPolicy accept 192.168.8.110
-SocksPolicy accept 192.168.9.10
+SocksPort 9050 IsolateClientAddr IsolateSOCKSAuth IsolateClientProtocol IsolateDestPort IsolateDestAddr # Default: Bind to localhost:9050 for local connections.
+#MapAddress 192.168.9.10 dtlbunzs5b7s5sl775quwezleyeplxzicdoh3cnhm7feolxmkfd42nqd.onion # Map a tor address to a unused  vaddress. 
+SocksPolicy accept 192.168.1.110
 SocksPolicy accept 127.0.0.1
 SocksPolicy reject *
 Log notice syslog
@@ -11,10 +10,11 @@ DataDirectory /var/lib/tor
 ControlPort 9051
 HashedControlPassword 16:7EF32549F6E2416D60BBF4EE0E91BA198A465CFDF60647D6BC5B8DFEDE
 Nickname JackTheRipper
-ExitPolicy accept *:6660-6667,reject *:* # allow irc ports but no more
+#ExitPolicy accept *:6660-6667,reject *:* # allow irc ports but no more
+ExitPolicy reject *:* # Reject Everything 
+WarnPlaintextPorts 23,109,110,143,80
+VirtualAddrNetwork 10.210.0.0/10
+AutomapHostsOnResolve 1
 UseBridges 1
 ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy managed
 
-Bridge obfs4 157.131.222.16:4444 944BBBE17B66DB5BDB5F8341A6E018880078F64B cert=Wi0M7A7vzDfKv1jH/U/Y9w5Nsv7+xbhIZ0NDpv6fUAxxqqwxVopGriYFJ9rZXHsv68sDNA iat-mode=0
-Bridge obfs4 209.181.111.126:7853 2E1865A5615D0C449637BD6CFE9AFD57DA6804BF cert=eekbp3cpthmhavB8J4LJLSRNq7Fnx9f/CwdMC1QC2VKtV5IdHer1mpk2Td5iKGPaN5nvDg iat-mode=0
-Bridge obfs4 178.84.124.125:6506 CC39D1CD368E4E27261B06625D61EFA7E7370669 cert=2TXmE3egteBYg/aQh1yykNm4PkJaKpwIizC/tKEVFM/UlQhq38zRKeR9L2d0DEVCclUwXA iat-mode=0

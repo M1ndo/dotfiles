@@ -1,5 +1,4 @@
--- Configured added / removed by ybenel (github.com/m1ndo)
--- Modification Date: 12/18/2021
+-- Modification Date: 11/28/2022
 -- Base
 import XMonad
 import System.IO (hPutStrLn)
@@ -32,9 +31,9 @@ import qualified Data.Map as M
 
   -- Hooks
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
-import XMonad.Hooks.EwmhDesktops  -- for some fullscreen events, also for xcomposite in obs.
+import qualified XMonad.Hooks.EwmhDesktops as E
 import XMonad.Hooks.FadeInactive
-import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, manageDocks, ToggleStruts(..))
+import XMonad.Hooks.ManageDocks (avoidStruts, docks, manageDocks, ToggleStruts(..))
 import XMonad.Hooks.ManageHelpers (isFullscreen, doFullFloat)
 import XMonad.Hooks.ServerMode
 import XMonad.Hooks.SetWMName
@@ -81,25 +80,26 @@ import Control.Arrow (first)
  -- Utilities
 import XMonad.Util.EZConfig (additionalKeysP)
 import XMonad.Util.NamedScratchpad
-import XMonad.Util.Run (runProcessWithInput, safeSpawn, spawnPipe)
+import XMonad.Util.Run (runProcessWithInput, safeSpawn)
 import XMonad.Util.SpawnOnce
+
+-- statusBar
+import XMonad.Hooks.StatusBar
+import XMonad.Hooks.StatusBar.PP
 
 main :: IO ()
 main = do
-  -- Launching One Instance Of xmobar.
-  xmproc0 <- spawnPipe "xmobar -x 0 $HOME/.config/xmobar/xmobarrc"
   -- the xmonad, ya know...what the WM is named after!
-  xmonad $ navigation2D
+  xmonad . withSB mySB . E.ewmh . E.ewmhFullscreen . docks . (`additionalKeysP` myKeys) $ navigation2D
           def
           (xK_Up, xK_Left, xK_Down, xK_Right)
           [(mod4Mask, windowGo), (mod4Mask .|. shiftMask, windowSwap)]
           False
-      $ ewmh def
+      $ def
       { manageHook = ( isFullscreen --> doFullFloat ) <+> myManageHook <+> manageDocks
       , handleEventHook    = serverModeEventHookCmd
                              <+> serverModeEventHook
                              <+> serverModeEventHookF "XMONAD_PRINT" (io . putStrLn)
-                             <+> docksEventHook
                              <+> fadeWindowsEventHook
       , modMask            = myModMask
       , terminal           = myTerminal
@@ -109,30 +109,8 @@ main = do
       , borderWidth        = myBorderWidth
       , normalBorderColor  = myNormColor
       , focusedBorderColor = myFocusColor
-      , logHook = workspaceHistoryHook <+> myLogHook <+> fadeWindowsLogHook myFadeHook <+> dynamicLogWithPP xmobarPP
-              { ppOutput = \x -> hPutStrLn xmproc0 x
-              , ppCurrent = xmobarColor "#c792ea" "" . wrap "<box type=Bottom width=2 mb=2 color=#c792ea>" "</box>"
-              , ppVisible = xmobarColor "#c792ea" "" . myClickableWorkspaces
-              , ppHidden = xmobarColor "#82AAFF" "" . wrap "<box type=Top width=2 mt=2 color=#82AAFF>" "</box>" . myClickableWorkspaces
-              , ppHiddenNoWindows = xmobarColor "#82AAFF" "" . myClickableWorkspaces
-              , ppTitle = xmobarColor "#b3afc2" "" . shorten 60
-              , ppSep =  "<fc=#666666> <fn=1>|</fn> </fc>"
-              , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"
-              , ppExtras  = [windowCount]
-              , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
-              }
-              -- { ppOutput = \x -> hPutStrLn xmproc0 x
-              -- , ppCurrent = xmobarColor "#98be65" "" . wrap "[" "]"
-              -- , ppVisible = xmobarColor "#98be65" ""
-              -- , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" ""
-              -- , ppHiddenNoWindows = xmobarColor "#c792ea" ""
-              -- , ppTitle = xmobarColor "#b3afc2" "" . shorten 60
-              -- , ppSep =  "<fc=#666666> <fn=2>|</fn> </fc>"
-              -- , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"
-              -- , ppExtras  = [windowCount]
-              -- , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
-              -- }
-      } `additionalKeysP` myKeys
+      , logHook = workspaceHistoryHook <+> myLogHook <+> fadeWindowsLogHook myFadeHook
+      } 
 
 myFont :: String
 myFont = "xft:Mononoki Nerd Font:bold:size=9:antialias=true:hinting=true"
@@ -146,10 +124,6 @@ myTerminal2 = "xterm"   -- Sets default terminal to the favorite (xterm)
 
 myBrowser :: String
 myBrowser = "firefox "               -- Moved To A better Browser .
-
-myEditor :: String
-myEditor = "emacsclient -c -a emacs"  -- Sets nvim as editor for tree select
--- myEditor = myTerminal ++ " -e vim "    -- Sets vim as editor for tree select
 
 -- Setup A Emacs Client
 myEmacs :: String
@@ -165,35 +139,51 @@ myFocusColor :: String
 myFocusColor  = "#46d9ff"  -- Border color of focused windows
 
 trayerCommand :: String
-trayerCommand = "trayer --edge top --align right --widthtype request --padding 2 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x282C34 --height 22 --iconspacing 0 --margin 479 --distance 9 &"
+-- trayerCommand = "trayer --edge top --align right --widthtype request --padding 2 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x282C34 --height 22 --iconspacing 0 --margin 479 --distance 9 &" -- Normal Xmobarrc 
+trayerCommand = "trayer --edge top --align right --widthtype request --padding 2 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x282C34 --height 20 --iconspacing 0 --margin 14 --distance 9 &" -- Xmobar Themed
 
 xmobarToggleCommand :: String
 xmobarToggleCommand = "dbus-send --session --dest=org.Xmobar.Control --type=method_call '/org/Xmobar/Control' org.Xmobar.Control.SendSignal \"string:Toggle 0\""
 
 altMask :: KeyMask
-altMask = mod1Mask         -- Setting this for use in xprompts
+altMask = mod1Mask     
 
 windowCount :: X (Maybe String)
 windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset
 
+
+-- Status Bar 
+mySB :: StatusBarConfig
+mySB = statusBarProp "xmobar -x 0 $HOME/.config/xmobar/xmobar_dracula" (pure myPP)    
+  where 
+    myPP = xmobarPP { 
+      ppCurrent = xmobarColor "#98be6a" "" . wrap "<box type=Bottom width=2 mb=2 color=#b400fa>" "</box>"
+      , ppVisible = xmobarColor "#c792ea" "" -- . myClickableWorkspaces
+      , ppHidden = xmobarColor "#82AAFF" "" . wrap "<box type=Top width=2 mt=2 color=#8e7cc3>" "</box>" -- . myClickableWorkspaces
+      , ppHiddenNoWindows = xmobarColor "#9fc5e8" "" -- . myClickableWorkspaces
+      , ppTitle = xmobarColor "#b3afc2" "" . shorten 60
+      , ppSep =  "<fc=#666666> <fn=1>|</fn> </fc>"
+      , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"
+      , ppExtras  = [windowCount]
+      , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
+    }
+    
 myStartupHook :: X ()
 myStartupHook = do
-        --spawn "/home/ybenel/.bin/ybl/resolution"
+        spawn "/home/llove/.screenlayout/screen1.sh"
         spawnOnce "nitrogen --restore &"
         spawnOnce "picom &"
         spawnOnce "unclutter -root &"
         spawnOnce "sxhkd &"
         spawnOnce "nm-applet &"
         spawnOnce "volumeicon &"
-        -- spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x282C34 --height 22 --iconspacing 0 --margin 682 &" -- Enable When Using Secondary Xmobar config
         spawnOnce trayerCommand
         spawnOnce "/usr/lib/polkit-kde-authentication-agent-1 &"
         spawnOnce "powerkit &"
         spawnOnce "numlockx on &"
-        -- spawnOnce "/usr/bin/emacs --daemon &"
         spawnOnce "xscreensaver -no-splash &"
         spawnOnce "caffeine &"
-	spawnOnce "eww daemon &"
+        spawnOnce "eww daemon &"
         -- spawnOnce "xdg-autostart-launcher --user &"
         spawnOnce "xsetroot -cursor_name left_ptr"
         setWMName "LG3D"
@@ -231,11 +221,11 @@ spawnSelected' lst = gridselect conf lst >>= flip whenJust spawn
 myAppGrid = [ ("Xterm", "xterm")
                , ("Browser", "firefox")
                , ("Stremio", "stremio")
-               , ("Lite", "lite")
+               , ("Lite XL", "lite-xl")
                , ("Gimp", "gimp")
                , ("Discord", "discord")
                , ("Spotify", "spot_load")
-               , ("LibreOffice Writer", "lowriter")
+               , ("Emacs", "emacsclient -c -a emacs")
                , ("PCManFM", "pcmanfm")
                ]
 
@@ -339,37 +329,27 @@ ybXPKeymap = M.fromList $
    , (xK_Escape, quit)
    ]
 
-archwiki, ebay, news, reddit, urban :: S.SearchEngine
+archwiki, urban :: S.SearchEngine
 archwiki = S.searchEngine "archwiki" "https://wiki.archlinux.org/index.php?search="
-ebay     = S.searchEngine "ebay" "https://www.ebay.com/sch/i.html?_nkw="
-news     = S.searchEngine "news" "https://news.google.com/search?q="
-reddit   = S.searchEngine "reddit" "https://www.reddit.com/search/?q="
 urban    = S.searchEngine "urban" "https://www.urbandictionary.com/define.php?term="
 browser  = S.selectSearchBrowser "/usr/bin/firefox"
 -- This is the list of search engines that I want to use. Some are from
 -- XMonad.Actions.Search, and some are the ones that I added above.
 searchList :: [(String, S.SearchEngine)]
 searchList = [ ("a", archwiki)
-           , ("d", S.duckduckgo)
-           , ("e", ebay)
+           , ("<Return>", S.duckduckgo)
            , ("g", S.google)
-           , ("h", S.hoogle)
-           , ("i", S.images)
-           , ("n", news)
-           , ("r", reddit)
-           , ("s", S.stackage)
            , ("t", S.thesaurus)
            , ("v", S.vocabulary)
            , ("b", S.wayback)
            , ("u", urban)
            , ("w", S.wikipedia)
            , ("y", S.youtube)
-           , ("z", S.amazon)
            ]
 
 myScratchPads :: [NamedScratchpad]
 myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
-              , NS "irssi" spawnIrc findIrc manageIrc
+              --, NS "irssi" spawnIrc findIrc manageIrc
               , NS "mocp" spawnMocp findMocp manageMocp
               , NS "Ncp" spawnNcp findNcp manageNcp
               -- , NS "discord" spawnDiscord findDiscord manageDiscord
@@ -399,14 +379,14 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
   findNcp   = appName =? "ncmpcpp"
   manageNcp = ( noTaskbar <+> customFloating (W.RationalRect 0.25 0.1 0.5 0.8) )
 
-  spawnIrc  = myTerminal2 ++ " -n irssi -e 'torify irssi'"
-  findIrc   = (stringProperty "WM_NAME" =? "irssi")
-  manageIrc = customFloating $ W.RationalRect l t w h
-            where
-              h = 0.96
-              w = 0.96
-              t = 0.5
-              l = 0.5
+  --spawnIrc  = myTerminal2 ++ " -n irssi -e 'torify irssi'"
+  --findIrc   = (stringProperty "WM_NAME" =? "irssi")
+  --manageIrc = customFloating $ W.RationalRect l t w h
+  --          where
+  --            h = 0.96
+  --            w = 0.96
+  --            t = 0.5
+  --            l = 0.5
   -- spawnDiscord  = "discord"
   -- findDiscord   = (className =? "discord")
   -- manageDiscord = nonFloating
@@ -444,14 +424,13 @@ tall     = renamed [Replace "tall"]
            $ limitWindows 12
            $ mySpacing 8
            $ ResizableTall 1 (3/100) (1/2) []
-magnify  = renamed [Replace "magnify"]
-           $ smartBorders
-           $ addTabs shrinkText myTabTheme
-           $ subLayout [] (smartBorders Simplest)
-           $ magnifier
-           $ limitWindows 12
-           $ mySpacing 8
-           $ ResizableTall 1 (3/100) (1/2) []
+-- magnify  = renamed [Replace "magnify"]
+--            $ smartBorders
+--            $ addTabs shrinkText myTabTheme
+--            $ subLayout [] (smartBorders Simplest)
+--            $ limitWindows 12
+--            $ mySpacing 8
+--            $ magnifier (ResizableTall 1 (3/100) (1/2) [])
 monocle  = renamed [Replace "monocle"]
            $ smartBorders
            $ addTabs shrinkText myTabTheme
@@ -504,40 +483,25 @@ myTabTheme = def { fontName            = myFont
                }
 
 -- Theme for showWName which prints current workspace when you change workspaces.
-myShowWNameTheme :: SWNConfig
-myShowWNameTheme = def
-  { swn_font              = "xft:Ubuntu:bold:size=60"
-  , swn_fade              = 1.0
-  , swn_bgcolor           = "#1c1f24"
-  , swn_color             = "#ffffff"
-  }
+--myShowWNameTheme :: SWNConfig
+--myShowWNameTheme = def
+--  { swn_font              = "xft:Ubuntu:bold:size=60"
+--  , swn_fade              = 1.0
+--  , swn_bgcolor           = "#1c1f24"
+--  , swn_color             = "#ffffff"
+--  }
 
 -- The layout hook
 myLayoutHook = avoidStruts . minimize $ mouseResize $ windowArrange $ T.toggleLayouts floats
              $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
            where
-            myDefaultLayout = withBorder myBorderWidth tall ||| magnify ||| noBorders monocle ||| floats ||| noBorders tabs ||| grid ||| spirals ||| threeCol ||| threeRow ||| tallAccordion ||| wideAccordion
+            myDefaultLayout = withBorder myBorderWidth tall ||| magnifier (Tall 1 (3/100) (1/2)) ||| noBorders monocle ||| floats ||| noBorders tabs ||| grid ||| spirals ||| threeCol ||| threeRow ||| tallAccordion ||| wideAccordion
 
 myWorkspaces = [" B ", " T ", " E ", " S ", " C ", " M "]
 
-xmobarEscape :: String -> String
-xmobarEscape = concatMap doubleLts
-  where
-      doubleLts '<' = "<<"
-      doubleLts x   = [x]
-
-myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
-
-myClickableWorkspaces ws = "<action=xdotool key super+"++show i++">"++ws++"</action>"
-    where i = fromJust $ M.lookup ws myWorkspaceIndices
-
--- myClickableWorkspaces :: [String]
--- myClickableWorkspaces = clickable . (map xmobarEscape)
---              $ [" B ", " T ", " E ", " S ", " C ", " M "]
---   where
---       clickable l = [ "<action=xdotool key super+" ++ show (n) ++ ">" ++ ws ++ "</action>" |
---                     (i,ws) <- zip [1..6] l,
---                     let n = i ]
+--myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
+--myClickableWorkspaces ws = "<action=xdotool key super+"++show i++">"++ws++"</action>"
+--    where i = fromJust $ M.lookup ws myWorkspaceIndices
 
 myFadeHook = composeAll [className =? "lite" --> transparency 0.6
                         ,                opaque
@@ -552,9 +516,8 @@ myManageHook = composeAll
    , className =? "stremio"     --> doShift ( myWorkspaces !! 3 )
    , className =? "spotify"     --> doShift ( myWorkspaces !! 5 )
    , className =? "Gimp"    --> doShift ( myWorkspaces !! 3 )
-   , title =? "Oracle VM VirtualBox Manager"     --> doFloat
    , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 3 )
-   , title =? "Oracle VM VirtualBox Manager"     --> doFloat
+   , className =? "Vmware Workstation" --> doShift  ( myWorkspaces !! 3 )
    , className =? "file_progress"   --> doFloat
    , className =? "dialog"          --> doFloat
    , className =? "download"        --> doFloat
@@ -580,6 +543,7 @@ myKeys =
 
   -- Useful programs to have a keybinding for launch
       , ("M-<Return>", spawn myTerminal)
+      , ("M-M1-<Return>", spawn myTerminal2)
       , ("M-S-b", spawn myBrowser)
       , ("M-M1-h", spawn (myTerminal ++ " -e htop"))
 
@@ -654,9 +618,11 @@ myKeys =
 
  -- AfterDrag Resize Window
      --, ((mod, button3), (\w -> focus w >> mouseResizeWindow w >> afterDrag (windows $ W.float w $ W.RationalRect 0 0 1 1)))
+     
  -- Window Minimize / Maximize
       , ("M-n", withFocused minimizeWindow)
       , ("M-C-n", withLastMinimized maximizeWindow)
+      
   -- Sublayouts
   -- This is used to push windows to tabbed sublayouts, or pull them out of it.
       , ("M-C-h", sendMessage $ pullGroup L)
@@ -672,7 +638,7 @@ myKeys =
   -- Scratchpads
       , ("M-C-<Return>", namedScratchpadAction myScratchPads "terminal")
       , ("M-C-c", namedScratchpadAction myScratchPads "mocp")
-      , ("M-C-e", namedScratchpadAction myScratchPads "irssi")
+      -- , ("M-C-e", namedScratchpadAction myScratchPads "irssi")
       , ("M-C-a", namedScratchpadAction myScratchPads "Ncp")
       -- , ("M-C-x", namedScratchpadAction myScratchPads "discord")
       -- , ("M-C-z", namedScratchpadAction myScratchPads "lightcord")

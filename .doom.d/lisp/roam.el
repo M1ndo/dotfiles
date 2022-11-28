@@ -11,11 +11,11 @@
   (org-roam-capture-templates
    '(("d" "default" plain
       "%?"
-      :if-new (file+head "${slug}.org" "#+title: ${title}\n")
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${tag}\n#+filetags: ${tag}")
       :unnarrowed t)
      ("p" "project" plain
       (file "~/org/Templates/Projects.org")
-      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Project")
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: Projects\n#+filetags: Project")
       :unnarrowed t)
      ("b" "Boxes" plain
       (file "~/org/Templates/Boxes.org")
@@ -36,10 +36,6 @@
      ("t" "Ebook" plain
       (file "~/org/Templates/novel.tex")
       :if-new (file+head "${slug}.tex" "#+title: ${title}\n#+category: ${title}\n#+filetags: Ebook")
-      :unnarrowed t)
-     ("s" "School" plain
-      (file "~/org/Templates/School.org")
-      :if-new (file+head "{slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: School")
       :unnarrowed t)))
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
@@ -115,7 +111,7 @@ capture was not aborted."
    nil
    (lambda (node)
      ;; Only look for nodes tagged with at least one of the following keywords
-     (seq-intersection '("Project" "Life" "Biblio" "Letter" "Ebook" "Boxes" "School")
+     (seq-intersection '("Project" "Life" "Biblio" "Letter" "Ebook" "Boxes")
                        (org-roam-node-tags node)))))
 
 (defun my/org-roam-capture-inbox ()

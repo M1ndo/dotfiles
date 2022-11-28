@@ -7,17 +7,18 @@ Config { font    = "xft:Scientifica:pixelsize=11:antialias=true:hinting=true"
        , fgColor = "#ff6c6b"
        , position = Static { xpos = 6, ypos = 9, width = 1354, height = 24 }
        -- , position = Static { xpos = 6, ypos = 9, width = 1908, height = 24 }
+       -- , position = TopSize C 100 24
        , lowerOnStart = True
        , hideOnStart = False
        , allDesktops = True
        , persistent = True
        , alpha = 255
-       , iconRoot = "/home/llove/.xmonad/xpm/"  -- default: "."
+       , iconRoot = ".xmonad/xpm/"  -- default: "."
        , commands = [
                       -- Time and date
                       Run Date "<fn=1>\xf133 </fn> %b %d (%H:%M)" "date" 50
                       -- Network up and down
-                    , Run Network "wlp0s29u1u1u4" ["-t", "<fn=1>\xf0aa </fn> <rx>kb  <fn=1>\xf0ab </fn> <tx>kb"] 20
+                    , Run Network "eno1" ["-t", "<fn=1>\xf0aa </fn> <rx>kb  <fn=1>\xf0ab </fn> <tx>kb"] 20
                       -- Cpu usage in percent
                     , Run Cpu ["-t", "<fn=1>\xf108 </fn> (<total>%)","-H","50","--high","red"] 20
                       -- Ram used number and percent
@@ -31,11 +32,11 @@ Config { font    = "xft:Scientifica:pixelsize=11:antialias=true:hinting=true"
                     -- , Run Com "uname" ["-r"] "" 3600
                       -- Prints out the left side items such as workspaces, layout, etc.
                       -- The workspaces are 'clickable' in my configs.
-                    , Run UnsafeStdinReader
+                    , Run XMonadLog
                     , Run Com "/home/llove/.config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 10
                     -- , Run Com "/home/llove/.config/xmobar/moc.sh" [] "moc_spot" 300
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = " <action=`xdotool key control+alt+g`><icon=ybenel.xpm/> </action><fc=#666666> | </fc> %UnsafeStdinReader% }{ <fc=#666666><fn=2>| %trayerpad% |</fn></fc> <fc=#ecbe7b> %cpu% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#ff6c6b> %memory% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#51afef> %disku% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#c678dd><fn=1> </fn> %pacupdate%</fc><fc=#666666> <fn=2>|</fn></fc> <fc=#46d9ff> %date%  </fc>"
+       , template = " <action=`xdotool key control+alt+g`><icon=ybenel.xpm/> </action><fc=#666666> | </fc> %XMonadLog% }{ <fc=#666666><fn=2>| %trayerpad% |</fn></fc> <fc=#ecbe7b> %cpu% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#ff6c6b> %memory% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#51afef> %disku% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#c678dd><fn=1> </fn> %pacupdate%</fc><fc=#666666> <fn=2>|</fn></fc> <fc=#46d9ff> %date%  </fc>"
        }

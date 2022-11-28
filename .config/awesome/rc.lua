@@ -125,7 +125,8 @@ local filemanager       = "pcmanfm"
 local mailclient        = "evolution"
 local mediaplayer       = "vlc"
 local scrlocker         = "xscreensaver"
-local terminal          = "alacrit"
+local terminal          = "st"
+local terminal_s        = "alacrit"
 local virtualmachine    = "virtualbox"
 
 -- awesome variables
@@ -507,6 +508,9 @@ globalkeys = my_table.join(
     awful.key({ modkey, }, "Return", function () awful.spawn(terminal) end,
               {description = "Launch Terminal", group = "Super"}),
 
+    awful.key({ modkey, "Control" }, "Return", function () awful.spawn(terminal_s) end,
+              {description = "Launch Terminal", group = "Super"}),
+
     -- Leaved Layout 
     -- awful.key({ modkey, }, "s", leaved.keys.min_container,
     --           {description = "Minimize Container Windows", group = "Leaved"}),
@@ -540,13 +544,13 @@ globalkeys = my_table.join(
               {description = "Pick Client From Tabbed", group = "Mstab"}),
     awful.key({ altkey, }, "'", function() bling.module.tabbed.pick_with_dmenu() end,
               {description = "Iterates Through Focused Tabbing Group", group = "Mstab"}),
-    awful.key({ altkey, }, "Left", function() bling.module.tabbed.pick_by_direction("left") end,
+    awful.key({ altkey, modkey }, "Left", function() bling.module.tabbed.pick_by_direction("left") end,
               {description = "Pick From Left", group = "Mstab"}),
-    awful.key({ altkey, }, "Right", function() bling.module.tabbed.pick_by_direction("right") end,
+    awful.key({ altkey, modkey }, "Right", function() bling.module.tabbed.pick_by_direction("right") end,
               {description = "Pick From Right", group = "Mstab"}),
-    awful.key({ altkey, }, "Up", function() bling.module.tabbed.pick_by_direction("up") end,
+    awful.key({ altkey, modkey }, "Up", function() bling.module.tabbed.pick_by_direction("up") end,
               {description = "Pick From Up", group = "Mstab"}),
-    awful.key({ altkey, }, "Down", function() bling.module.tabbed.pick_by_direction("down") end,
+    awful.key({ altkey, modkey }, "Down", function() bling.module.tabbed.pick_by_direction("down") end,
               {description = "Pick From Down", group = "Mstab"}),
 
     
@@ -786,9 +790,9 @@ require("configs.ruled")
 local ss = screen[2]
 local fs = screen[1]
 beautiful.at_screen_connect(fs)
--- if tostring(ss.index) == "2" then
+--if tostring(ss.index) == "2" then
 --    beautiful.second_screen(ss)
--- end
+--end
 -- if not ss == nil or ss == '' then
 --     if tostring(ss.index) == "2" then
 --        awful.util.spawn("~/.screenlayout/Monitors.sh")

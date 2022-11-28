@@ -51,3 +51,4 @@
 (package! cyberpunk-theme)
 (package! zoom-window)
 (package! goggles)
+(package! hammy :recipe (:host github :repo "alphapapa/hammy.el"))

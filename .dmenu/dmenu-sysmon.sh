@@ -23,6 +23,7 @@ source "$(get_config)"
 # Dmenu script for launching system monitoring programs.
 declare -a options=("htop
 glances
+btop
 gtop
 iftop
 iotop
@@ -39,6 +40,7 @@ case $choice in
 	;;
 	htop| \
 	glances| \
+	btop| \
 	gtop| \
 	nmon| \
 	s-tui)

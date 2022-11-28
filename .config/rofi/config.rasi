@@ -1,12 +1,12 @@
 configuration {
-	theme: "./themes/spotlight.rasi";
 	modi: "drun,run";
 	location: 2;
 	fixed-num-lines: false;
 	show-icons: true;
-	icon-theme: "WhiteSur-purple-dark";
+	icon-theme: "Dracula";
 	display-window: "缾";
 	display-run: "";
 	display-drun: "";
     display-emoji: "";
 }
+@theme "./themes/spotlight.rasi"

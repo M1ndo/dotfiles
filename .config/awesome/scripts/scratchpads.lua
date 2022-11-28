@@ -29,7 +29,7 @@ local anim_z = rubato.timed {
     awestore_compat = true
 }
 
-local music_ncmp = bling.module.scratchpad { command = "xterm -name scratch_ncmp -e ncmpcpp",
+local music_ncmp = bling.module.scratchpad { command = "st -n scratch_ncmp -e ncmpcpp",
                                       rule = { instance = "scratch_ncmp" },                 
                                       sticky = false, autoclose = true,                              
                                       floating = true, geometry = {x = dpi(220), y = dpi(130), height = dpi(550), width = dpi(960)},

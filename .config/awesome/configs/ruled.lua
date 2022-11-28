@@ -1,5 +1,4 @@
 local awful = require('awful')
-local ruled = require('ruled')
 local beautiful = require('beautiful')
 
 awful.rules.rules = {
@@ -48,7 +47,7 @@ awful.rules.rules = {
           class = {"Emacs", "lite"}
        },
        properties = {
-          screen = 1,
+          -- screen = 1,
           tag =  awful.util.tagnames[3]
        }
     },

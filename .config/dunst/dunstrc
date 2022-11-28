@@ -17,7 +17,8 @@
     idle_threshold = 120
 
     ### Text ###
-    font = Ubuntu Mono 12
+    #font = Ubuntu Mono 12
+    font = Iosevka 12
     line_height = 0
     markup = full
     format = "<b>%s</b>\n%b"
@@ -43,7 +44,7 @@
 
     ### Misc/Advanced ###
     dmenu = /usr/bin/dmenu -p dunst:
-    browser = /usr/bin/chromium
+    browser = /usr/bin/xdg-open
     always_run_script = true
     title = Dunst
     class = Dunst
@@ -57,30 +58,32 @@
 
     ### mouse
     mouse_left_click = close_current
-    mouse_middle_click = do_action
+    mouse_middle_click = open_url
     mouse_right_click = close_all
 
 [experimental]
     per_monitor_dpi = false
 
 [shortcuts]
-    close = ctrl+space
-    close_all = ctrl+shift+space
-    history = ctrl+grave
-    context = ctrl+shift+period
+    close = ctrl+one
+    close_all = ctrl+2
+    history = ctrl+3
+    context = ctrl+4
 
 [urgency_low]
-    background = "#f08080"
-    foreground = "#ffffff"
-    timeout = 10
+    foreground = "#f08080"
+    background = "#191311"
+    frame_color = "#3B7C87"
+    timeout = 4
 
 [urgency_normal]
-    background = "#436eee"
-    foreground = "#ffffff"
-    timeout = 10
+    foreground = "#436eee"
+    background = "#191311"
+    frame_color = "#5B8234"
+    timeout = 7
 
 [urgency_critical]
-    background = "#d40b04"
-    foreground = "#ffffff"
-    frame_color = "#ff0000"
+    foreground = "#d40b04"
+    background = "#191311"
+    frame_color = "#B7472A"
     timeout = 10

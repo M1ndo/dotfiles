@@ -88,22 +88,22 @@ EXEC 00;32;1;64                        # This is for files with execute permissi
 
 # Image formats (yellow)
 
-.jpg    1;105;33
-.jpeg   1;105;33
-.gif    1;105;33
-.bmp    1;105;33
-.ppm    1;105;33
-.tga    1;105;33
-.tif    1;105;33
-.tiff   1;105;33
-.png    1;105;33
-.svg    1;105;33
-.svgz   1;105;33
-.xcf    1;105;33
-.xwd    1;105;33
-.yuv    1;105;33
-.eps    1;105;33
-.ico    1;105;33
+.jpg    0;109;35
+.jpeg   1;109;35
+.gif    1;109;35
+.bmp    1;109;35
+.ppm    1;109;35
+.tga    1;109;35
+.tif    1;109;35
+.tiff   1;109;35
+.png    1;109;35
+.svg    1;109;35
+.svgz   1;109;35
+.xcf    1;109;35
+.xwd    1;109;35
+.yuv    1;109;35
+.eps    1;109;35
+.ico    1;109;35
 
 
 # Files of special interest

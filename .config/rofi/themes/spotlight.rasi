@@ -1,12 +1,12 @@
-configuration {
-    display-drun: "";
-    display-run: "";
-    display-window: "缾";
-    show-icons: true;
-    icon-theme: "Papirus";
-    fixed-num-lines: false;
-    location: 2;
-}
+//configuration {
+//    display-drun: "";
+//    display-run: "";
+//    display-window: "缾";
+//    show-icons: true;
+//    icon-theme: "Papirus";
+//    fixed-num-lines: false;
+//    location: 2;
+//}
 
 * {
   // Foreground

@@ -140,6 +140,7 @@ ex ()
       *.zip)       unzip $1     ;;
       *.Z)         uncompress $1;;
       *.7z)        7z x $1      ;;
+      *.tar.zst)        tar xf $1      ;;
       *)           echo "'$1' cannot be extracted via ex()" ;;
     esac
   else
@@ -212,6 +213,7 @@ genpdf() {
     mv "$DIR/"*pdf .
 
 }
+alias zt='zathura'
 
 calc ()
 {
@@ -220,9 +222,6 @@ calc ()
 }
 
 ### ALIASES ###
-
-# root privileges
-#alias doas="doas --"
 
 # navigation
 alias ..='cd ..' 
@@ -242,6 +241,7 @@ alias bs='br --sizes'
 
 #Source .bashrc
 alias sr='source ~/.bashrc'
+alias zrc='source ~/.zshrc'
 
 # Add Grep Colors
 alias grep='grep --color=auto'
@@ -276,7 +276,7 @@ alias pg='ping'   # Extra
 alias xd='xrdb ~/.Xresources'
 
 # Website Aliases
-WEBROOT="~/Templates/Website"
+export WEBROOT="~/Templates/Website"
 alias web="cd $WEBROOT/WebRoot"
 alias webpush="cd $WEBROOT/Push_Web"
 alias webms="cd $WEBROOT/Music_Player/My_Music"
@@ -287,28 +287,21 @@ alias darksrc="cd ~/DarkOs/Full/Builds/repo_src"
 alias darkpkg="cd ~/DarkOs/Full/Builds/pkg_builds"
 alias darkrep="cd ~/DarkOS/Full/DarkOs-Repo/"
 alias darkope="cd ~/DarkOS/Full/Operating_System/"
-DARKREP="/home/ybenel/DarkOs/Full/DarkOs-Repo/x86_64/"
+export DARKREP="/home/llove/DarkOs/Full/DarkOs-Repo/x86_64/"
 
 # Tlmgr
 alias tlmgr='/usr/share/texmf-dist/scripts/texlive/tlmgr.pl  --usermode'
 
-
 # Emacs
-alias emax='
-export DISPLAY=:0.0
-export LIBGL_ALWAYS_INDIRECT=1
-setxkbmap -layout us
-setsid emacs
-exit
-'
+alias emax='emacsclient -c --tty'
 
 # Mpv Alias
 alias plhd="mpv --ytdl-format='bestvideo[height<=?720]+bestaudio/best'"
 alias plhd+="mpv --ytdl-format='bestvideo[height<=?1080]+bestaudio/best'"
 
 # Res
-alias revp="xrandr --output LVDS1 --mode 1366x768 --panning 1920x1080 --scale 1.40556369x1.40625"
-alias revpo="xrandr --output LVDS1 --mode 1366x768 --panning 1366x768 --scale 1x1"
+alias revp="xrandr --output LVDS-1 --mode 1366x768 --panning 1920x1080 --scale 1.40556369x1.40625"
+alias revpo="xrandr --output LVDS-1 --mode 1366x768 --panning 1366x768 --scale 1x1"
 
 # Add A Special Env For My Laptop
 alias scv='LIBGL_ALWAYS_SOFTWARE=1'
@@ -327,18 +320,11 @@ alias dow='cd ~/Downloads'
 
 #alias ips="curl -s ifconfig.co | grep 'IP</span>:'| cut -d '<' -f 4 | sed 's/\/span>://'"
 alias ips="curl -s ifconfig.co" 
-alias fxr="./.bin/ybl/resolution"
-alias fxr2="./.bin/ybl/resolution2"
-
-# Hacking  Tools Shortcuts
-alias searchsploit='/opt/exploitdb/searchsploit'
-alias conx="dow && cd conx && sudo openvpn ybenel.ovpn"
-alias conx2="dow && cd conx && sudo openvpn Thm.ovpn"
-alias htb='doc && cd Boxes/htb/'
-alias thm='doc && cd Boxes/THM'
 
 # Awesome Screen Locker
-alias bls="betterlockscreen -w ~/Pictures/Backgrounds/Skull_GreyMono.jpg -l -t 'Victory Is Mine !'"
+#alias bls="betterlockscreen -w ~/Pictures/Backgrounds/Carina_Nebula.jpg -l -t 'Victory Is Mine !'"
+alias bls="betterlockscreen -l" 
+
 
 #check vulnerabilities microcode
 alias microcode='grep . /sys/devices/system/cpu/vulnerabilities/*'
@@ -349,20 +335,17 @@ alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacma
 #get the error messages from journalctl
 alias jctl="journalctl -p 3 -xb"
 
-# the terminal rickroll
-alias rr='curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash'
-
-# bare git repo alias for dotfiles
-#alias config="/usr/bin/git --git-dir=$HOME/dotfiles --work-tree=$HOME"
-
 # termbin
 alias tb="nc termbin.com 9999"
 
 ### SET VI MODE IN BASH SHELL
 set -o vi
 
-### SET VIM AS MANPAGER ###
-export MANPAGER="/bin/sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist noma' -\""
+### SET VIM/NVIM AS MANPAGER ###
+#export MANPAGER="/bin/sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist noma' -\""
+#export MANPAGER="sh -c 'sed -e s/.\\\\x08//g | bat -l man -p'"
+export MANPAGER="nvimpager"
+export PAGER="nvimpager"
 
 #Recent Installed Packages
 alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
@@ -374,13 +357,14 @@ if [ -f /etc/bash.command-not-found ]; then
 fi
 
 ### RANDOM COLOR SCRIPT ###
-$HOME/.bin/shuffle.py
+#$HOME/.bin/shuffle.py
 
 # PS1 Customization "~$ "
-#export PS1="\[\e[1;49;32m\]\W \[\e[m\]\[\e[1;49;96m\]\\$\[\e[1;49;39m\] "
+export PS1="\[\e[1;49;32m\]\W \[\e[m\]\[\e[1;49;96m\]\\$\[\e[1;49;39m\] "
 #16s
-gradient_cols
+#gradient_cols
 #export PS1='\[\e[0m\]\[\e[48;5;236m\]\[\e[38;5;105m\]\u\[\e[38;5;105m\]@\[\e[38;5;105m\]\h\[\e[38;5;105m\] \[\e[38;5;221m\]\w\[\e[38;5;221m\]\[\e[38;5;105m\]\[\e[0m\]\[\e[38;5;236m\]\342\226\214\342\226\214\342\226\214\[\e[0m\]'
 #export PS1='\[\e[31;1;48;234m\]\u \[\e[38;5;240m\]on \[\e[1;38;5;28;48;234m\]\h \[\e[38;5;54m\]\d \@\[\e[0m\]\n\[\e[38;5;105m\][\W] \[\e[1m\]\$\e[0m\] '
 eval $(thefuck --alias)
+eval "$(zoxide init bash)"
 eval "$(starship init bash)"

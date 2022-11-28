@@ -9,13 +9,13 @@ Xft.hintstyle: hintfull
 Xft.lcdfilter: lcdfilter
 
 ## Set Cursor
-Xcursor.theme: macOSBigSur
+Xcursor.theme: "Posy's Cursor (default)"
 Xcursor.size: 24
 
 
 XTerm.termName: xterm-256color
 XTerm*renderFont: true
-XTerm*faceName: Cascadia Code 
+XTerm*faceName: Cascadia Code
 xterm*faceSize: 8 
 ! VT Font Menu: Unreadable
 xterm*faceSize1: 8
@@ -41,9 +41,10 @@ xterm*cursorColor: #bbf0ff
 xterm*cursorBlink: true
 xterm*bellIsUrgent: true
 ! Smooth Scroll
-!scrollInput: on
-multiScroll: on
-scrollKey: off
+xterm*scrollInput: true 
+xterm*multiScroll: true
+xterm*scrollKey: true 
+xterm*jumpScroll: true
 
 ! Only select text
 xterm*highlightSelection: true
@@ -51,7 +52,7 @@ xterm*highlightSelection: true
 xterm*trimSelection: true
 
 ! Lines of output that you can scroll back over
-xterm*saveLines: 10000
+xterm*saveLines: 100000
 
 ! Do not scroll when there is new input e.g. tail -f /var/syslog
 xterm*scrollTtyOutput: false
@@ -168,25 +169,25 @@ XScreenSaver.Dialog.passwdFont:         -*-dejavu sans mono-medium-r-*-*-*-85-*-
 ! *.foreground: #282828
 
 !! brogrammer:
-! *.foreground:  #d6dbe5
-! *.background:  #131313
-! *.color0:      #1f1f1f
-! *.color8:      #d6dbe5
-! *.color1:      #f81118
-! *.color9:      #de352e
-! *.color2:      #2dc55e
-! *.color10:     #1dd361
-! *.color3:      #ecba0f
-! *.color11:     #f3bd09
-! *.color4:      #2a84d2
-! *.color12:     #1081d6
-! *.color5:      #4e5ab7
-! *.color13:     #5350b9
-! *.color6:      #1081d6
-! *.color14:     #0f7ddb
-! *.color7:      #d6dbe5
-! *.color15:     #ffffff
-! *.colorBD:     #d6dbe5
+!*.foreground:  #d6dbe5
+!*.background:  #131313
+!*.color0:      #1f1f1f
+!*.color8:      #d6dbe5
+!*.color1:      #f81118
+!*.color9:      #de352e
+!*.color2:      #2dc55e
+!*.color10:     #1dd361
+!*.color3:      #ecba0f
+!*.color11:     #f3bd09
+!*.color4:      #2a84d2
+!*.color12:     #1081d6
+!*.color5:      #4e5ab7
+!*.color13:     #5350b9
+!*.color6:      #1081d6
+!*.color14:     #0f7ddb
+!*.color7:      #d6dbe5
+!*.color15:     #ffffff
+!*.colorBD:     #d6dbe5
 
 ! special
 ! *.foreground:   #e1e6c2
@@ -250,28 +251,28 @@ XScreenSaver.Dialog.passwdFont:         -*-dejavu sans mono-medium-r-*-*-*-85-*-
 ! *.color15:	   #fdf6e3
 
 !! xterm */
-*.background: #131313
-*.foreground: #F8F8F2
-*.color0:     #000000
-*.color8:     #4d4d4d
-*.color1:     #cd0000
-*.color9:     #ff0000
-*.color2:     #00cd00
-*.color10:    #00ff00
-*.color3:     #cdcd00
-*.color11:    #ffff00
+! *.background: #131313
+! *.foreground: #F8F8F2
+! *.color0:     #000000
+! *.color8:     #4d4d4d
+! *.color1:     #cd0000
+! *.color9:     #ff0000
+! *.color2:     #00cd00
+! *.color10:    #00ff00
+! *.color3:     #cdcd00
+! *.color11:    #ffff00
 ! *.color4:     #0000cd ! Original Color Schmee
 ! *.color12:    #0000ff
-*.color4:     #BD93F9
-*.color12:    #CAA9FA
+! *.color4:     #BD93F9
+! *.color12:    #CAA9FA
 ! *.color5:     #cd00cd
 ! *.color13:    #ff00ff
-*.color5:     #FF79C6
-*.color13:    #FF92D0
-*.color6:     #00cdcd
-*.color14:    #00ffff
-*.color7:     #e5e5e5
-*.color15:    #aabac8
+! *.color5:     #FF79C6
+! *.color13:    #FF92D0
+! *.color6:     #00cdcd
+! *.color14:    #00ffff
+! *.color7:     #e5e5e5
+! *.color15:    #aabac8
 
 ! Dracula Xresources palette (Original) */
 ! *.foreground: #F8F8F2
@@ -338,27 +339,26 @@ XScreenSaver.Dialog.passwdFont:         -*-dejavu sans mono-medium-r-*-*-*-85-*-
 ! *.colorBD:     #bd0013
 
 ! /* ! Argonaut */
-! *.background:  #401D32
-! *.background:  #0e1019
-! *.foreground:  #fffaf4
-! *.cursorColor: #ff0018
-! *.color0:      #232323
-! *.color8:      #444444
-! *.color1:      #ff000f
-! *.color9:      #ff2740
-! *.color2:      #8ce10b
-! *.color10:     #abe15b
-! *.color3:      #ffb900
-! *.color11:     #ffd242
-! *.color4:      #008df8
-! *.color12:     #0092ff
-! *.color5:      #6d43a6
-! *.color13:     #9a5feb
-! *.color6:      #00d8eb
-! *.color14:     #67fff0
-! *.color7:      #ffffff
-! *.color15:     #ffffff
-! *.colorBD:     #9e9c9a
+!*.background:  #401D32
+*.background:  #0e1019
+*.foreground:  #fffaf4
+*.color0:      #232323
+*.color8:      #444444
+*.color1:      #ff000f
+*.color9:      #ff2740
+*.color2:      #8ce10b
+*.color10:     #abe15b
+*.color3:      #ffb900
+*.color11:     #ffd242
+*.color4:      #008df8
+*.color12:     #0092ff
+*.color5:      #6d43a6
+*.color13:     #9a5feb
+*.color6:      #00d8eb
+*.color14:     #67fff0
+*.color7:      #ffffff
+*.color15:     #ffffff
+*.colorBD:     #9e9c9a
 
 
 ! special (dark background)

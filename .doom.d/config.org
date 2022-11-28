@@ -43,11 +43,17 @@ Doom-themes are fantastic, there's alot of variants you could choose from.
 Right here I'm using doom-dracula , there's also [[github:dracula/emacs][Dracula]] theme which is little more bold
 #+begin_src emacs-lisp
 ;; (add-to-list 'custom-theme-load-path "~/.doom.d/themes")
+;; (use-package! mindre-theme
+;;     :ensure t
+;;     :custom
+;;     (mindre-use-more-bold nil)
+;;     (mindre-use-faded-lisp-parens t))
+
 (use-package! doom-themes
   :config
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-horizon t) ;; set laserwave theme
+  (load-theme 'doom-dracula t) ;; set laserwave theme
   (doom-themes-visual-bell-config)   ;; Enable flashing mode-line on errors
   (doom-themes-neotree-config)   ;; Enable custom neotree theme
   (doom-themes-org-config))  ;; Corrects (and improves) org-mode's native fontification.
@@ -103,13 +109,13 @@ There's also a tool called [[github:folke/splashcii][Splashcii]] that downloads 
 ;; (setq doom-fallback-buffer-name "*dashboard*")
 ;; (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 ;; Splash screen for doom dashboard
-;;(setq fancy-splash-image "~/.doom.d/img/doom-emacs.png")
+(setq fancy-splash-image "~/.doom.d/img/doom-emacs.png")
 
-(defvar fancy-splash-image-template
-  ;; "~/.doom.d/img/doom-emacs.svg"
-  (expand-file-name "misc/splash-images/emacs-e-template.svg" doom-private-dir)
-  ;; (expand-file-name "img/doom-emacs.svg" doom-private-dir)
-  "Default template svg used for the splash image, with substitutions from ")
+;; (defvar fancy-splash-image-template
+;;   ;; "~/.doom.d/img/doom-emacs.svg"
+;;   (expand-file-name "misc/splash-images/emacs-e-template.svg" doom-private-dir)
+;;   ;; (expand-file-name "img/doom-emacs.svg" doom-private-dir)
+;;   "Default template svg used for the splash image, with substitutions from ")
 
 (defvar fancy-splash-sizes
   `((:height 300 :min-height 50 :padding (0 . 2))
@@ -127,77 +133,77 @@ There's also a tool called [[github:folke/splashcii][Splashcii]] that downloads 
   :template non-default template file
   :file file to use instead of template")
 
-(defvar fancy-splash-template-colours
-  '(("$colour1" . keywords) ("$colour2" . type) ("$colour3" . base5) ("$colour4" . base8))
-  "list of colour-replacement alists of the form (\"$placeholder\" . 'theme-colour) which applied the template")
+;; (defvar fancy-splash-template-colours
+;;   '(("$colour1" . keywords) ("$colour2" . type) ("$colour3" . base5) ("$colour4" . base8))
+;;   "list of colour-replacement alists of the form (\"$placeholder\" . 'theme-colour) which applied the template")
 
-(unless (file-exists-p (expand-file-name "theme-splashes" doom-cache-dir))
-  (make-directory (expand-file-name "theme-splashes" doom-cache-dir) t))
+;; (unless (file-exists-p (expand-file-name "theme-splashes" doom-cache-dir))
+;;   (make-directory (expand-file-name "theme-splashes" doom-cache-dir) t))
 
-(defun fancy-splash-filename (theme-name height)
-  (expand-file-name (concat (file-name-as-directory "theme-splashes")
-                            theme-name
-                            "-" (number-to-string height) ".svg")
-                    doom-cache-dir))
+;; (defun fancy-splash-filename (theme-name height)
+;;   (expand-file-name (concat (file-name-as-directory "theme-splashes")
+;;                             theme-name
+;;                             "-" (number-to-string height) ".svg")
+;;                     doom-cache-dir))
 
-(defun fancy-splash-clear-cache ()
-  "Delete all cached fancy splash images"
-  (interactive)
-  (delete-directory (expand-file-name "theme-splashes" doom-cache-dir) t)
-  (message "Cache cleared!"))
+;; (defun fancy-splash-clear-cache ()
+;;   "Delete all cached fancy splash images"
+;;   (interactive)
+;;   (delete-directory (expand-file-name "theme-splashes" doom-cache-dir) t)
+;;   (message "Cache cleared!"))
 
-(defun fancy-splash-generate-image (template height)
-  "Read TEMPLATE and create an image if HEIGHT with colour substitutions as
-   described by `fancy-splash-template-colours' for the current theme"
-  (with-temp-buffer
-    (insert-file-contents template)
-    (re-search-forward "$height" nil t)
-    (replace-match (number-to-string height) nil nil)
-    (dolist (substitution fancy-splash-template-colours)
-      (goto-char (point-min))
-      (while (re-search-forward (car substitution) nil t)
-        (replace-match (doom-color (cdr substitution)) nil nil)))
-    (write-region nil nil
-                  (fancy-splash-filename (symbol-name doom-theme) height) nil nil)))
+;; (defun fancy-splash-generate-image (template height)
+;;   "Read TEMPLATE and create an image if HEIGHT with colour substitutions as
+;;    described by `fancy-splash-template-colours' for the current theme"
+;;   (with-temp-buffer
+;;     (insert-file-contents template)
+;;     (re-search-forward "$height" nil t)
+;;     (replace-match (number-to-string height) nil nil)
+;;     (dolist (substitution fancy-splash-template-colours)
+;;       (goto-char (point-min))
+;;       (while (re-search-forward (car substitution) nil t)
+;;         (replace-match (doom-color (cdr substitution)) nil nil)))
+;;     (write-region nil nil
+;;                   (fancy-splash-filename (symbol-name doom-theme) height) nil nil)))
 
-(defun fancy-splash-generate-images ()
-  "Perform `fancy-splash-generate-image' in bulk"
-  (dolist (size fancy-splash-sizes)
-    (unless (plist-get size :file)
-      (fancy-splash-generate-image (or (plist-get size :template)
-                                       fancy-splash-image-template)
-                                   (plist-get size :height)))))
+;; (defun fancy-splash-generate-images ()
+;;   "Perform `fancy-splash-generate-image' in bulk"
+;;   (dolist (size fancy-splash-sizes)
+;;     (unless (plist-get size :file)
+;;       (fancy-splash-generate-image (or (plist-get size :template)
+;;                                        fancy-splash-image-template)
+;;                                    (plist-get size :height)))))
 
-(defun ensure-theme-splash-images-exist (&optional height)
-  (unless (file-exists-p (fancy-splash-filename
-                          (symbol-name doom-theme)
-                          (or height
-                              (plist-get (car fancy-splash-sizes) :height))))
-    (fancy-splash-generate-images)))
+;; (defun ensure-theme-splash-images-exist (&optional height)
+;;   (unless (file-exists-p (fancy-splash-filename
+;;                           (symbol-name doom-theme)
+;;                           (or height
+;;                               (plist-get (car fancy-splash-sizes) :height))))
+;;     (fancy-splash-generate-images)))
 
-(defun get-appropriate-splash ()
-  (let ((height (frame-height)))
-    (cl-some (lambda (size) (when (>= height (plist-get size :min-height)) size))
-             fancy-splash-sizes)))
+;; (defun get-appropriate-splash ()
+;;   (let ((height (frame-height)))
+;;     (cl-some (lambda (size) (when (>= height (plist-get size :min-height)) size))
+;;              fancy-splash-sizes)))
 
-(setq fancy-splash-last-size nil)
-(setq fancy-splash-last-theme nil)
-(defun set-appropriate-splash (&rest _)
-  (let ((appropriate-image (get-appropriate-splash)))
-    (unless (and (equal appropriate-image fancy-splash-last-size)
-                 (equal doom-theme fancy-splash-last-theme)))
-    (unless (plist-get appropriate-image :file)
-      (ensure-theme-splash-images-exist (plist-get appropriate-image :height)))
-    (setq fancy-splash-image
-          (or (plist-get appropriate-image :file)
-              (fancy-splash-filename (symbol-name doom-theme) (plist-get appropriate-image :height))))
-    (setq +doom-dashboard-banner-padding (plist-get appropriate-image :padding))
-    (setq fancy-splash-last-size appropriate-image)
-    (setq fancy-splash-last-theme doom-theme)
-    (+doom-dashboard-reload)))
+;; (setq fancy-splash-last-size nil)
+;; (setq fancy-splash-last-theme nil)
+;; (defun set-appropriate-splash (&rest _)
+;;   (let ((appropriate-image (get-appropriate-splash)))
+;;     (unless (and (equal appropriate-image fancy-splash-last-size)
+;;                  (equal doom-theme fancy-splash-last-theme)))
+;;     (unless (plist-get appropriate-image :file)
+;;       (ensure-theme-splash-images-exist (plist-get appropriate-image :height)))
+;;     (setq fancy-splash-image
+;;           (or (plist-get appropriate-image :file)
+;;               (fancy-splash-filename (symbol-name doom-theme) (plist-get appropriate-image :height))))
+;;     (setq +doom-dashboard-banner-padding (plist-get appropriate-image :padding))
+;;     (setq fancy-splash-last-size appropriate-image)
+;;     (setq fancy-splash-last-theme doom-theme)
+;;     (+doom-dashboard-reload)))
 
-(add-hook 'window-size-change-functions #'set-appropriate-splash)
-(add-hook 'doom-load-theme-hook #'set-appropriate-splash)
+;; (add-hook 'window-size-change-functions #'set-appropriate-splash)
+;; (add-hook 'doom-load-theme-hook #'set-appropriate-splash)
 (defvar splash-phrase-source-folder
   (expand-file-name "misc/splash-phrases" doom-private-dir)
   "A folder of text files with a fun phrase on each line.")
@@ -1300,6 +1306,33 @@ For capturing emacs frames i use gif-screencast which does the job.
 ;;      "/tmp/doom-color-theme" ))
 ;;   (gif-screencast-write-colormap)
 ;;   (add-hook 'doom-load-theme-hook #'gif-screencast-write-colormap))
+#+end_src
+** Hammy
+Hammy interactive interval timers, used for setting up timers and resting periods.
+#+begin_src emacs-lisp
+(hammy-define (propertize "🍅" 'face '(:foreground "tomato"))
+  :documentation "The classic pomodoro timer."
+  :intervals
+  (list
+   (interval :name "Work"
+             :duration (duration "25 minutes")
+             :before (list (announce "Starting work time.")
+                           (notify "Starting work time."))
+             :advance (list (announce "Break time!")
+                            (notify "Break time!")))
+   (interval :name "Break"
+             :duration (with-hammy
+                        (if (and (not (zerop cycles))
+                                 (zerop (mod cycles 3)))
+                            ;; If a multiple of three cycles have
+                            ;; elapsed, the fourth work period was
+                            ;; just completed, so take a longer break.
+                            (duration "30 minutes")
+                          (duration "5 minutes")))
+             :before (list (announce "Starting break time.")
+                           (notify "Starting break time."))
+             :advance (list (announce "Break time is over!")
+                            (notify "Break time is over!")))))
 #+end_src
 ** Twitter-Mode
 Twittering-Mode , To View status and stuff

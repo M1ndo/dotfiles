@@ -115,6 +115,9 @@ scrolling:
 mouse:
   hide_when_typing: true
 
+selection:
+  save_to_clipboard: true
+
 mouse_bindings:
   - { mouse: Middle, action: PasteSelection }
   
