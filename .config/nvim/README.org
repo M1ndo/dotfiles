@@ -1,0 +1,29 @@
+* Hackable Nvim Configuration
+** Why i wrote this?
+I wrote this configuration because i realized i spent more time on terminal and i was to lazy to open files in Emacs.
+So i decided to configure Nvim a little bit to include some features.
+This is not an emacs equivalent but it does the job.
+** Features
+- Support org-mode syntax
+- Code Completion using (Deoplete,LanguageClient,LSP) i've only added bash & python.
+  All [[https://langserver.org/][LSP's]] are supported.
+- Very similar Keybindings to emacs
+- Tagbar, Comment/Uncomment, MultiCursor, Snippits, Distraction Free (Like Zen Mode in Emacs)
+- Tabs/Icons/Emojis ...
+- [[https://github.com/nvim-treesitter/nvim-treesitter][Nvim-Treesitter]] Auto Highliter (Enabled Language (cpp,c,python,bash,lua))
+And Many more read the configuration to understand and see the keybindings.
+
+** Requirements.
+- Code Completion for bash =requires= [[https://github.com/bash-lsp/bash-language-server][Bash_LSP]] and python [[https://github.com/python-lsp/python-lsp-server][Pylsp]]
+  #+begin_src bash
+# In Arch Can be installed with pacman and pip
+sudo pacman -S bash-language-server
+pip install "python-lsp-server[all]"
+  #+end_src
+** To Install
+#+begin_src bash
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+nvim +PlugInstall +qall
+#+end_src
+Restart Nvim And Enjoy.
