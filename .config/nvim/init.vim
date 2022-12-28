@@ -6,7 +6,8 @@ Plug 'preservim/nerdcommenter'                     " Line Commenter
 Plug 'nvim-treesitter/nvim-treesitter' 
 Plug 'itchyny/lightline.vim'                       " Lightline statusbar
 Plug 'frazrepo/vim-rainbow'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'     " Highlighting Nerdtree
+Plug 'johnstef99/vim-nerdtree-syntax-highlight'    " Highlighting NerdTree (Fixing Bug)  
+" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'     " Highlighting Nerdtree
 Plug 'ryanoasis/vim-devicons'                      " Icons for Nerdtree
 Plug 'jreybert/vimagit'                            " Magit-like plugin for vim
 Plug 'tpope/vim-surround'                          " Change surrounding marks
@@ -33,7 +34,8 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' } " Search
 Plug 'terryma/vim-multiple-cursors' " Multi Cursor OFC
 Plug 'SirVer/ultisnips' " Snippets For Sure
-Plug 'honza/vim-snippets'
+" Plug 'honza/vim-snippets'
+Plug 'M1ndo/vim-snippets', { 'branch' : 'Org-Add' } " My Snippets Patch
 Plug 'majutsushi/tagbar' " Tag Bar *Why Not
 Plug 'wellle/targets.vim' " Expanded Text Object Deletion (Not Sure abt the term?)
 Plug 'ervandew/supertab' " Tab Sucks in insert mode
@@ -79,12 +81,12 @@ set foldlevel=99
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Uncomment to autostart the NERDTree
 " autocmd vimenter * NERDTree
-map <C-n> :NERDTreeToggle<CR>
+nnoremap <C-n> :NERDTreeToggle<CR>
 let g:NERDTreeDirArrowExpandable = '►'
 let g:NERDTreeDirArrowCollapsible = '▼'
-let NERDTreeShowLineNumbers=1
-let NERDTreeShowHidden=1
-let NERDTreeMinimalUI = 1
+let g:NERDTreeShowLineNumbers=1
+let g:NERDTreeShowHidden=1
+let g:NERDTreeMinimalUI = 1
 let g:NERDTreeWinSize=38
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -124,6 +126,8 @@ let g:LanguageClient_serverCommands = {
     \ 'sh': ['bash-language-server', 'start'],
     \ 'python': ['/home/llove/.local/bin/pylsp'],
     \ }
+nnoremap <Space>is :LanguageClientStart<CR>
+nnoremap <Space>iS :LanguageClientStop<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Theming
@@ -138,7 +142,7 @@ colorscheme My_Theme
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Open terminal inside Vim
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <A-t>t :vnew term://bash<CR>
+map <A-t>t :term<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Comment / Uncomment
@@ -176,6 +180,10 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Custom KeyMaps 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Map Space + L/U/D/R
 map <Space><left> <C-w>h
 map <Space><up> <C-w>k
@@ -200,7 +208,13 @@ noremap <silent> <C-Down> :resize -3<CR>
 map<Leader>th <C-w>t<C-w>H
 map <Leader>tk <C-w>t<C-w>K
 
-" Goyo & LimeLight
+inoremap <C-Del> <C-o>dw 
+" inoremap <C-BS> <C-w>
+inoremap 1<BS> <C-w> 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Goyo & LimeLight 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nmap <Space>zz :Goyo<Enter>
 nmap <Space>zt :Limelight<Enter>
 nmap <Space>zT :Limelight!<Enter>
@@ -317,9 +331,44 @@ endif
 " tb => open the tagbar
 nmap tb :TagbarToggle<CR>
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Treesitter 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = { "bash", "python", "lua", "cpp", "c", "vim"},
+  auto_install = true,
+  highlight = {
+    enable = true,              
+},
+}
+EOF
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Highlight TODO/FIXME/BUG ...
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+hi Todolevel1 ctermbg=NONE guibg=red ctermfg=red guifg=white gui=bold cterm=bold
+hi Todolevel2 ctermbg=NONE guibg=yellow ctermfg=yellow guifg=black gui=bold cterm=bold
+hi Todolevel3 ctermbg=NONE guibg=green ctermfg=green guifg=white gui=bold cterm=bold
+autocmd Syntax * call matchadd('Todolevel1',  '\W\zs\(FIXME\|XXX\|BUG\|HACK\|REPAIR\)')
+autocmd Syntax * call matchadd('Todolevel2',  '\W\zs\(WARNING\|WARN\|CHANGED\|CHANGE\)')
+autocmd Syntax * call matchadd('Todolevel3',  '\W\zs\(TODO\|NOTE\|DONE\)')
+
 " => Which key
 " nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
+"
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Neovide Configuration 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if exists("g:neovide")
+  set guifont=Cascadia\ Code:h12
+  let g:neovide_refresh_rate = 220
+  let g:neovide_scroll_animation_length = 0.3
+  let g:neovide_transparency = 0.8
+endif
+
+"let g:neovide_transparency=0.95
 " Remap ESC to ii
 ":imap ii <Esc>
 
