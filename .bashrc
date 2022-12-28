@@ -7,7 +7,7 @@ PATH="$HOME/.emacs.d/bin:$HOME/.local/bin:$HOME/.local/share/gem/ruby/3.0.0/bin:
 EDITOR="emacsclient -a -c " 
 
 # Source Skey
-#source $HOME/.bin/ybl/skey
+source $HOME/.skey
 
 # Exporting Term Colors To Xterm 
 # Note: For Better Colors Change To "st-256color" if you have st installed
@@ -248,11 +248,15 @@ alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 
-# Changing "ls" to "exa"
-alias ll='lsd -al' # my preferred listing
-alias la='lsd -a'  # all files and dirs
-alias ls='lsd -l'  # long format
-alias lt='lsd -a --tree' # tree listing
+# Changing "ls" to "lsd"
+# alias ll='lsd -al --icon never' # my preferred listing
+# alias la='lsd -a --icon never'  # all files and dirs
+# alias ls='lsd -l --icon never'  # long format
+# alias lt='lsd -a --tree --icon never' # tree listing
+alias ll='exa -gal  --group-directories-first' # my preferred listing
+alias la='exa -ga --group-directories-first'  # all files and dirs
+alias ls='exa -gl --group-directories-first'  # long format
+alias lt='exa -glT  --group-directories-first' # tree listing
 alias l="ls"
 
 # yay shortcuts
@@ -325,6 +329,9 @@ alias ips="curl -s ifconfig.co"
 #alias bls="betterlockscreen -w ~/Pictures/Backgrounds/Carina_Nebula.jpg -l -t 'Victory Is Mine !'"
 alias bls="betterlockscreen -l" 
 
+# xclip 
+alias xc='xclip -sel clip -rmlastnl'
+alias xcc='xclip -sel prim -rmlastnl'
 
 #check vulnerabilities microcode
 alias microcode='grep . /sys/devices/system/cpu/vulnerabilities/*'

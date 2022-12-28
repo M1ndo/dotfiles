@@ -16,17 +16,19 @@ Xcursor.size: 24
 XTerm.termName: xterm-256color
 XTerm*renderFont: true
 XTerm*faceName: Cascadia Code
-xterm*faceSize: 8 
+xterm*faceSize: 10
 ! VT Font Menu: Unreadable
 xterm*faceSize1: 8
 ! VT font menu: Tiny
 xterm*faceSize2: 10
 ! VT font menu: Medium
-xterm*faceSize3: 12
+xterm*faceSize3: 11
 ! VT font menu: Large
-xterm*faceSize4: 16
+xterm*faceSize4: 14
 ! VT font menu: Huge
-xterm*faceSize5: 22
+xterm*faceSize5: 16
+! VT font menu: Huge
+xterm*faceSize6: 18 
 
 ! BackGround Color #161925
 

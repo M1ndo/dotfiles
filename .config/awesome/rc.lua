@@ -125,7 +125,7 @@ local filemanager       = "pcmanfm"
 local mailclient        = "evolution"
 local mediaplayer       = "vlc"
 local scrlocker         = "xscreensaver"
-local terminal          = "st"
+local terminal          = "xterm"
 local terminal_s        = "alacrit"
 local virtualmachine    = "virtualbox"
 

@@ -704,7 +704,7 @@ myKeys =
       , ("<XF86Eject>", spawn "toggleeject")
       , ("<Print>", spawn "flameshot gui")
       , ("M-<F1>", spawn "sxiv -r -q -t -o ~/Pictures/Backgrounds/*")
-      , ("M-<F2>", spawn "/bin/ls ~/Pictures/Backgrounds/* | shuf -n 1 | xargs xwallpaper --stretch")
+      , ("M-<F2>", spawn "/bin/ls ~/Pictures/Backgrounds/* | shuf -n 1 | xargs feh --bg-scale")
       ]
   -- Appending search engine prompts to keybindings list.
   -- Look at "search engines" section of this config for values for "k".
