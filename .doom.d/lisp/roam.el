@@ -1,12 +1,12 @@
 ;; -*- lexical-binding: t; -*-
 (require 'org-roam)
 (use-package! org-roam
-  :ensure t
   :init
   (setq org-roam-v2-ack t)
   :custom
   (setq org-roam-db-gc-threshold gc-cons-threshold)
   (org-roam-directory "~/org/roam")
+  (org-roam-db-location (concat org-directory ".org-roam.db"))
   (org-roam-completion-everywhere t)
   (org-roam-capture-templates
    '(("d" "default" plain
@@ -23,19 +23,36 @@
       :unnarrowed t)
      ("l" "Life" plain
       (file "~/org/Templates/Life.org")
-      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Life")
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${Cat}\n#+filetags: Life")
       :unnarrowed t)
      ("m" "Biblio" plain
       (file "~/org/Templates/Bib.org")
-      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Biblio")
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${Cat}\n#+filetags: Biblio")
       :unnarrowed t)
      ("e" "Letter" plain
       (file "~/org/Templates/Letter.org")
-      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Letter")
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${Cat}\n#+filetags: Letter")
       :unnarrowed t)
      ("t" "Ebook" plain
       (file "~/org/Templates/novel.tex")
-      :if-new (file+head "${slug}.tex" "#+title: ${title}\n#+category: ${title}\n#+filetags: Ebook")
+      :if-new (file+head "${slug}.tex" "#+title: ${title}\n#+category: ${Cat}\n#+filetags: Ebook")
+      :unnarrowed t)
+     ("s" "School" plain
+      (file "~/org/Templates/School.org")
+      :if-new (file+head "{slug}.org" "#+title: ${title}\n#+category: ${Cat}\n#+filetags: School")
+      :unnarrowed t)))
+  (org-roam-dailies-capture-templates
+   '(("m" "maybe do today" plain
+      "* %?"
+      :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+category:Dailies\n#+filetags: MaybeTo" ("Maybe do today"))
+      :unnarrowed t)
+     ("t" "Do today" plain
+      "* TODO %?"
+      :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+category:Dailies\n#+filetags: todo" ("Do today"))
+      :unnarrowed t)
+     ("j" "Journal" plain
+      "* %<%H:%M> %?"
+      :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+category:Dailies\n#+filetags: Journal" ("Journal"))
       :unnarrowed t)))
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
@@ -74,13 +91,14 @@
            (org-roam-node-list))))
 
 (setq org-roam-node-display-template
-      (concat "${title:90} "
+      (concat (propertize "${title:90}" 'face 'org-document-info)
               (propertize "${tags:*}" 'face 'org-tag)))
 
 (defun my/org-roam-refresh-agenda-list ()
   (interactive)
   (setq org-agenda-files
         (append
+         (my/org-roam-list-notes-by-tag "todo")
          (list "~/org/agenda.org"
                "~/org/notes.org"
                "~/org/todo.org"))))
@@ -111,7 +129,7 @@ capture was not aborted."
    nil
    (lambda (node)
      ;; Only look for nodes tagged with at least one of the following keywords
-     (seq-intersection '("Project" "Life" "Biblio" "Letter" "Ebook" "Boxes")
+     (seq-intersection '("Project" "Life" "Biblio" "Letter" "Ebook" "Boxes" "School")
                        (org-roam-node-tags node)))))
 
 (defun my/org-roam-capture-inbox ()
@@ -128,10 +146,13 @@ capture was not aborted."
   ;; Capture the new task, creating the project file if necessary
   (org-roam-capture- :node (org-roam-node-read
                             nil
-                            (my/org-roam-filter-by-tag "Project"))
+                            (lambda (node)
+                              (seq-intersection '("Project" "Daily")
+                                                (org-roam-node-tags node))))
+                     ;; (my/org-roam-filter-by-tag "Project" ))
                      :templates '(("p" "project" plain "** TODO %?"
                                    :if-new (file+head+olp "${slug}.org"
-                                                          "#+title: ${title}\n#+category: ${title}\n#+filetags: Project"
+                                                          "#+title: ${title}\n#+category: ${title}\n#+filetags: Tasks"
                                                           ("Tasks"))))))
 
 (defun my/org-roam-copy-todo-to-today ()
@@ -139,7 +160,7 @@ capture was not aborted."
   (let ((org-refile-keep t) ;; Set this to nil to delete the original!
         (org-roam-dailies-capture-templates
          '(("t" "tasks" entry "%?"
-            :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n" ("Tasks")))))
+            :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+category: Finished\n" ("Tasks")))))
         (org-after-refile-insert-hook #'save-buffer)
         today-file
         pos)

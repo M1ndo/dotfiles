@@ -32,7 +32,10 @@ I'm using [[github:eliheuer/caskaydia-cove][Caskaydia Cove]] which is a fork of 
 
 (setq doom-font (font-spec :family "Iosevka" :weight 'Regular :foreground "#00bfff" :size 15)
       doom-variable-pitch-font (font-spec :family "Cascadia Code" :weight 'SemiBold :size 15)
-      doom-big-font (font-spec :family "Cascadia Code" :weight 'SemiBold :size 24))
+      ;; doom-variable-pitch-font (font-spec :family "JetBrains Mono" :weight 'Medium :size 15)
+      doom-unicode-font (font-spec :family "JuliaMono")
+      doom-big-font (font-spec :family "Cascadia Code" :weight 'SemiBold :size 24)
+      doom-serif-font (font-spec :family "IBM Plex Mono" :size 22 :weight 'light))
 
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
@@ -348,6 +351,18 @@ Enabling Frame Transparency For Focused And Unfocused Frames
 #+begin_src emacs-lisp
 (set-frame-parameter (selected-frame) 'alpha '(95 . 80))
 (add-to-list 'default-frame-alist '(alpha . (95 . 80)))
+
+(defun toggle-transparency ()
+  (interactive)
+  (let ((alpha (frame-parameter nil 'alpha)))
+    (set-frame-parameter
+    nil 'alpha
+    (if (eql (cond ((numberp alpha) alpha)
+                    ((numberp (cdr alpha)) (cdr alpha))
+                    ;; Also handle undocumented (<active> <inactive>) form.
+                    ((numberp (cadr alpha)) (cadr alpha)))
+              100)
+        '(85 . 50) '(100 . 100)))))
 #+end_src
 *** Marginalia
 #+begin_quote
@@ -356,7 +371,7 @@ Part of the =:completion vertico= module.
 
 Marginalia is nice, but the file metadata annotations are a little too plain.
 Specifically, I have these gripes
-+ File attributes would be nicer if coloured
++ File attributes would be nicer if colored
 + I don't care about the user/group information if the user/group is me
 + When a file time is recent, a relative age (e.g. =2h ago=) is more useful than
   the date
@@ -417,7 +432,7 @@ Setting up beacon to highlight cursor
 (require 'zoom-window)
 (custom-set-variables
  '(zoom-window-use-persp t)
- '(zoom-window-mode-line-color "SlateGrey"))
+ '(zoom-window-mode-line-color "MediumPurple4"))
 (zoom-window-setup)
 #+end_src
 ** Editing
@@ -548,7 +563,7 @@ Setting up lsp-mode and other functionalities for better features.
 #+begin_src sh :tangle no
 pip install --user "python-language-server[all]"
 #+end_src
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package! python-mode
   :ensure t
   :hook (python-mode . lsp-deferred)
@@ -622,6 +637,10 @@ pip install --user "python-language-server[all]"
   (setq poetry-tracking-strategy 'switch-buffer)
   (add-hook 'python-mode-hook #'poetry-tracking-mode))
 #+end_src
++ Set indentation for python (i like to 2 spaces)
+#+begin_src emacs-lisp
+(setq python-indent-offset 2)
+#+end_src
 *** Column Force
 Using [[https://github.com/jordonbiondo/column-enforce-mode][column-enforce-mode]] to force a certain column width
 #+begin_src emacs-lisp
@@ -631,7 +650,7 @@ Using [[https://github.com/jordonbiondo/column-enforce-mode][column-enforce-mode
 #+begin_src emacs-lisp
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 #+end_src
-** Tabs/MOdeline
+** Tabs/Modeline
 Using centaur-tabs to adds tabs in to our emacs with customizations
 #+begin_src emacs-lisp
 (use-package! centaur-tabs
@@ -657,6 +676,8 @@ Using centaur-tabs to adds tabs in to our emacs with customizations
         (centaur-tabs-local-mode)))))
 
 (setq doom-modeline-major-mode-icon t)
+(custom-set-faces! '(mode-line :slant italic))
+(setq doom-modeline-height 23)
 #+end_src
 ** Key Mapping
 there's alot of ways to map keys in emacs, we use ~map!~ in doom emacs to make new keys
@@ -673,11 +694,13 @@ there's alot of ways to map keys in emacs, we use ~map!~ in doom emacs to make n
 
 (map! :leader
       (:prefix-map ("d" . "Doom")
+       :desc "Doom Dashboard" "d" #'+doom-dashboard/open
        :desc "Hide Doom Modeline" "b" #'hide-mode-line-mode
        :desc "Bufler Switch Buffer" "e" #'bufler-switch-buffer
        :desc "Bufler Set Workspace Frame" "q" #'bufler-workspace-frame-set
        :desc "Counel Switch Buffer" "w" #'counsel-switch-buffer
-       :desc "Window Zoom/Unzoom" "z" #'zoom-window-zoom))
+       :desc "Window Zoom/Unzoom" "z" #'zoom-window-zoom
+       :desc "Toggle Transparency" "o" #'toggle-transparency))
 
 (map! :leader
       :desc "Switch To Left Window" "<left>" #'evil-window-left
@@ -695,16 +718,19 @@ there's alot of ways to map keys in emacs, we use ~map!~ in doom emacs to make n
        :desc "Evaluate defun" "d" #'eval-defun
        :desc "Evaluate elisp expression" "e" #'eval-expression
        :desc "Evaluate last sexpression" "l" #'eval-last-sexp
-       :desc "Evaluate elisp in region" "r" #'eval-region))
+       :desc "Evaluate elis qqp in region" "r" #'eval-region
+       :desc "Open Imenu" "t" #'lsp-ui-imenu
+       :desc "Open Imenu" "c" #'consult-imenu))
 
 (map! :map +doom-dashboard-mode-map
       :ne "f" #'find-file
-      ;; :ne "r" #'consult-recent-file
       :ne "r" #'recentf-open-files
       :ne "p" #'doom/open-private-config
       :ne "c" (cmd! (find-file (expand-file-name "config.org" doom-private-dir)))
       :ne "." (cmd! (doom-project-find-file "~/.dotfiles/")) ; . for dotfiles
-      :ne "b" #'+ivy/switch-workspace-buffer
+      :ne "n" #'my/org-roam-find-project
+      :ne "d" #'org-roam-dailies-capture-today
+      :ne "b" #'+vertico/switch-workspace-buffer
       :ne "B" #'consult-buffer
       :ne "q" #'save-buffers-kill-terminal)
 
@@ -718,6 +744,7 @@ there's alot of ways to map keys in emacs, we use ~map!~ in doom emacs to make n
        :desc "Chronos timer set" "t" #'chronos-add-timer
        :desc "Org Sidebar Tree Toggle" "p" #'org-sidebar-tree-toggle
        :desc "Org Sidebar Toggle" "l" #'org-sidebar-toggle))
+
 #+end_src
 ** Org
 *** Set Org Directory
@@ -809,6 +836,7 @@ Set Shortcuts To Open Agenda,Todo,Notes.
        :desc "Open Agenda" "a" #'(lambda () (interactive) (find-file "~/org/agenda.org"))
        :desc "Open Todo" "t" #'(lambda () (interactive) (find-file "~/org/todo.org"))
        :desc "Open Notes" "n" #'(lambda () (interactive) (find-file "~/org/notes.org"))
+       :desc "Open Journal" "j" #'(lambda () (interactive) (find-file "~/org/journal.org"))
        :desc "Open Config" "c" #'(lambda () (interactive) (find-file "~/.doom.d/config.org"))))
 
 (map! :map evil-org-mode-map
@@ -966,16 +994,16 @@ runs after UI initialisation and both
 + sets up the mixed pitch hooks
 
 #+begin_src emacs-lisp
-;; (defvar mixed-pitch-modes '(org-mode LaTeX-mode markdown-mode gfm-mode Info-mode)
-;;   "Modes that `mixed-pitch-mode' should be enabled in, but only after UI initialisation.")
-;; (defun init-mixed-pitch-h ()
-;;   "Hook `mixed-pitch-mode' into each mode in `mixed-pitch-modes'.
-;; Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
-;;   (when (memq major-mode mixed-pitch-modes)
-;;     (mixed-pitch-mode 1))
-;;   (dolist (hook mixed-pitch-modes)
-;;     (add-hook (intern (concat (symbol-name hook) "-hook")) #'mixed-pitch-mode)))
-;; (add-hook 'doom-init-ui-hook #'init-mixed-pitch-h)
+(defvar mixed-pitch-modes '(org-mode LaTeX-mode markdown-mode gfm-mode Info-mode)
+  "Modes that `mixed-pitch-mode' should be enabled in, but only after UI initialisation.")
+(defun init-mixed-pitch-h ()
+  "Hook `mixed-pitch-mode' into each mode in `mixed-pitch-modes'.
+Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
+  (when (memq major-mode mixed-pitch-modes)
+    (mixed-pitch-mode 1))
+  (dolist (hook mixed-pitch-modes)
+    (add-hook (intern (concat (symbol-name hook) "-hook")) #'mixed-pitch-mode)))
+(add-hook 'doom-init-ui-hook #'init-mixed-pitch-h)
 #+end_src
 
 As mixed pitch uses the variable =mixed-pitch-face=, we can create a new function
@@ -983,22 +1011,22 @@ to apply mixed pitch with a serif face instead of the default. This was created
 for writeroom mode.
 
 #+begin_src emacs-lisp
-;; (autoload #'mixed-pitch-serif-mode "mixed-pitch"
-;;   "Change the default face of the current buffer to a serifed variable pitch, while keeping some faces fixed pitch." t)
+(autoload #'mixed-pitch-serif-mode "mixed-pitch"
+  "Change the default face of the current buffer to a serifed variable pitch, while keeping some faces fixed pitch." t)
 
-;; (after! mixed-pitch
-;;   (defface variable-pitch-serif
-;;     '((t (:family "serif")))
-;;     "A variable-pitch face with serifs."
-;;     :group 'basic-faces)
-;;   (setq mixed-pitch-set-height t)
-;;   (setq variable-pitch-serif-font (font-spec :family "Alegreya" :size 27))
-;;   (set-face-attribute 'variable-pitch-serif nil :font variable-pitch-serif-font)
-;;   (defun mixed-pitch-serif-mode (&optional arg)
-;;     "Change the default face of the current buffer to a serifed variable pitch, while keeping some faces fixed pitch."
-;;     (interactive)
-;;     (let ((mixed-pitch-face 'variable-pitch-serif))
-;;       (mixed-pitch-mode (or arg 'toggle)))))
+(after! mixed-pitch
+  (defface variable-pitch-serif
+    '((t (:family "serif")))
+    "A variable-pitch face with serifs."
+    :group 'basic-faces)
+  (setq mixed-pitch-set-height t)
+  (setq variable-pitch-serif-font (font-spec :family "Alegreya" :size 16))
+  (set-face-attribute 'variable-pitch-serif nil :font variable-pitch-serif-font)
+  (defun mixed-pitch-serif-mode (&optional arg)
+    "Change the default face of the current buffer to a serifed variable pitch, while keeping some faces fixed pitch."
+    (interactive)
+    (let ((mixed-pitch-face 'variable-pitch-serif))
+      (mixed-pitch-mode (or arg 'toggle)))))
 #+end_src
 
 Now, as Harfbuzz is currently used in Emacs, we'll be missing out on the
@@ -1011,15 +1039,14 @@ Th /Th/
 
 Thankfully, it isn't to hard to add these to the ~composition-function-table~.
 #+begin_src emacs-lisp
-;; (set-char-table-range composition-function-table ?f '(["\\(?:ff?[fijlt]\\)" 0 font-shape-gstring]))
-;; (set-char-table-range composition-function-table ?T '(["\\(?:Th\\)" 0 font-shape-gstring]))
+(set-char-table-range composition-function-table ?f '(["\\(?:ff?[fijlt]\\)" 0 font-shape-gstring]))
+(set-char-table-range composition-function-table ?T '(["\\(?:Th\\)" 0 font-shape-gstring]))
 #+end_src
 *** Load All
 #+begin_src emacs-lisp
 (with-eval-after-load 'org
 
     (load-file (concat doom-private-dir "/lisp/roam.el"))
-    (load-file (concat doom-private-dir "/lisp/superstar.el"))
 
     (progn
     (add-to-list 'load-path "~/.doom.d/lisp/org-pretty-table")
@@ -1029,10 +1056,17 @@ Thankfully, it isn't to hard to add these to the ~composition-function-table~.
     (progn
     (add-to-list 'load-path "~/.doom.d/lisp/org-appear")
     (require 'org-appear)
-    (add-hook 'org-mode-hook (lambda () (org-appear-mode))))
+    (add-hook 'org-mode-hook (lambda () (org-appear-mode)))
+    (setq org-appear-autoemphasis t
+        org-appear-autosubmarkers t
+        org-appear-autolinks nil))
 
-    (load-file (concat doom-private-dir "/lisp/prettify_symb.el"))
+    ;; Symbols
+    (load-file (concat doom-private-dir "/lisp/modern.el"))
+    ;; (load-file (concat doom-private-dir "/lisp/superstar.el"))
+    ;; (load-file (concat doom-private-dir "/lisp/prettify_symb.el"))
 
+    ;; Tags
     (load-file (concat doom-private-dir "/lisp/symbols.el"))
 
     (require 'org-tempo)
@@ -1042,10 +1076,12 @@ Thankfully, it isn't to hard to add these to the ~composition-function-table~.
 
     (load-file (concat doom-private-dir "/lisp/org-headder.el"))
 
+    ;; Zen Write
+    (load-file (concat doom-private-dir "/lisp/zen_write.el"))
+
     (use-package! org-recent-headings
       :config (org-recent-headings-mode))
     (use-package! org-mime
-    :ensure t
     :config
     (setq org-mime-export-options '(:section-numbers nil
                                     :with-author nil
@@ -1310,29 +1346,31 @@ For capturing emacs frames i use gif-screencast which does the job.
 ** Hammy
 Hammy interactive interval timers, used for setting up timers and resting periods.
 #+begin_src emacs-lisp
-(hammy-define (propertize "🍅" 'face '(:foreground "tomato"))
-  :documentation "The classic pomodoro timer."
-  :intervals
-  (list
-   (interval :name "Work"
-             :duration (duration "25 minutes")
-             :before (list (announce "Starting work time.")
-                           (notify "Starting work time."))
-             :advance (list (announce "Break time!")
+(use-package! hammy
+  :config
+  (hammy-mode)
+  (hammy-define (propertize "🍅" 'face '(:foreground "tomato"))
+    :documentation "The classic pomodoro timer."
+    :intervals
+    (list
+    (interval :name "Work"
+              :duration "35 minutes"
+              :before (do (announce "Starting work time.")
+                          (notify "Starting work time."))
+              :advance (do (announce "Break time!")
                             (notify "Break time!")))
-   (interval :name "Break"
-             :duration (with-hammy
-                        (if (and (not (zerop cycles))
-                                 (zerop (mod cycles 3)))
-                            ;; If a multiple of three cycles have
-                            ;; elapsed, the fourth work period was
-                            ;; just completed, so take a longer break.
-                            (duration "30 minutes")
-                          (duration "5 minutes")))
-             :before (list (announce "Starting break time.")
-                           (notify "Starting break time."))
-             :advance (list (announce "Break time is over!")
-                            (notify "Break time is over!")))))
+    (interval :name "Break"
+              :duration (do (if (and (not (zerop cycles))
+                                      (zerop (mod cycles 3)))
+                                ;; If a multiple of three cycles have
+                                ;; elapsed, the fourth work period was
+                                ;; just completed, so take a longer break.
+                                "30 minutes"
+                              "5 minutes"))
+              :before (do (announce "Starting break time.")
+                          (notify "Starting break time."))
+              :advance (do (announce "Break time is over!")
+                            (notify "Break time is over!"))))))
 #+end_src
 ** Twitter-Mode
 Twittering-Mode , To View status and stuff
@@ -1470,6 +1508,7 @@ Other than that, this is pretty great OOTB 😀.
 
 #+begin_src emacs-lisp
 (setq emojify-emoji-set "twemoji-v2")
+(global-emojify-mode-line-mode)
 #+end_src
 
 One minor annoyance is the use of emojis over the default character

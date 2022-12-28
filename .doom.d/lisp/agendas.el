@@ -20,6 +20,12 @@
                             :habit t
                             :date today
                             :order 2)
+                           (:name "Let go"
+                            :priority "A"
+                            :tag "ENDME"
+                            :todo "HOLD"
+                            :date today
+                            :order 2)
                            (:name "Overdue"
                             :deadline past
                             :order 3)

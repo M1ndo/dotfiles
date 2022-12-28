@@ -5,7 +5,8 @@ Other things that aren't included here, should be documented in *config.org* mak
 *** Spelling
 **** Requirements
 1. Make sure to have *~/.doom.d/misc/english-words.txt*
-2. Install the following packages: aspell + aspell-en + hunspell + hunspell-en_us
+2. Install the following packages: =aspell + aspell-en + hunspell + hunspell-en_us=
+3. Install The following fonts =ttf-iosevka + ttf-cascadia-code + ttf-alegreya + ttf-ibm-plex + ttf-juliamono + ttf-jetbrains-mono=
 **** To Change Spelling Language
 Make sure to change the following to your preference.
 (default) English-US
@@ -23,14 +24,14 @@ Make sure to change the following to your preference.
 *** Latex + Org Export
 **** Requirements
 - For Latex Export and Latex Completion, Install The following packages
-1. texlive-bin + texlive-core, texlive-latexextra (optional but install if you have problem compiling with my latex export template)
+1. =texlive-bin= + =texlive-core=, =texlive-latexextra= (optional but install if you have problem compiling with my latex export template)
 2. In order to use my custom latex templates make sure you have *~/.doom.d/Templates*
 ** To Know About
 *** [[https://github.com/danielfm/smudge/][Smudge]] (Spotify Controller)
 - Requires Spotify Premium To Control Spotify
 - *READ THE CONFIGURATION PAGE ON THEIR REPO* And Change The Following API KEYS
 - Doesn't require spotify premium to set song title in modeline
-- *INVOKE global-smudge-remote-mode and smudge-controller-toggle-play to set/update song in modeline-*
+- *INVOKE global-smudge-remote-mode and smudge-controller-toggle-play to set/update song in modeline*
 #+begin_src lisp
 (setq smudge-oauth2-client-secret "-----CLIENT-SECRET-----")
 (setq smudge-oauth2-client-id "-----CLIENT-ID-----")
@@ -48,7 +49,7 @@ Make sure to change the following to your preference.
 For mail i'm using [[https://github.com/djcb/mu/][Mu (Mu4e)]] And [[https://isync.sourceforge.io/][Isync (Mbsync)]].
 Configured specially for *gmail*, for other smtp server change it to your own
 **** Requirements
-1. Install the following packages: Mu (1.6.X Stable) + Isync + msmtp (Smtp Client To Send Mail)
+1. Install the following packages: =Mu= (1.6.X Stable) + =Isync= + =msmtp= (Smtp Client To Send Mail)
 **** Set Configs For Isync And Msmtp
 - My configurations are available.
 mbsync -> *~/.mbsync*
@@ -99,5 +100,79 @@ Add The following to it
 * Installation
 Make sure you have doom emacs installed and after that run.
 #+begin_src shell
-doom sync
+cp -r dotfiles/.doom.d/ ~/
+# Make sure (You coppied the whole folder)
+~/.emacs.d/bin/doom sync
+# Wait for packages and for everything to install correctly.
+#+end_src
+* Emacs daemon
+Look at systemd service if you want it instead (However its recommended)
+Without systemd, add the following in ur autostart or run it manually..
+#+begin_src shell
+emacs --daemon
+#+end_src
+** Spawn emacs frame
+*** Graphical
+#+begin_src shell
+emacsclient -c -a emacs
+#+end_src
+*** From tty
+#+begin_src shell
+emacsclient -c --tty
+#+end_src
+* Systemd Service
+** Emacs Daemon
+Create the following service in =~.config/systemd/user/emacs.service=
+#+begin_src shell
+[Unit]
+Description=Emacs server daemon
+Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
+
+[Service]
+Type=forking
+ExecStart=sh -c 'emacs --daemon && emacsclient -c --eval "(delete-frame)"'
+ExecStop=/usr/bin/emacsclient --no-wait --eval "(progn (setq kill-emacs-hook nil) (kill emacs))"
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
+#+end_src
+Then run
+#+begin_src shell
+systemctl --user enable emacs.service
+systemctl --user start emacs.service
+#+end_src
+** Mbsync (Mu4e)
+Create the following service in =~.config/systemd/user/mbsync.service=
+#+begin_src shell
+[Unit]
+Description=mbsync service, sync all mail
+Documentation=man:mbsync(1)
+ConditionPathExists=%h/.mbsyncrc
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/mbsync -c %h/.mbsyncrc --all
+
+[Install]
+WantedBy=mail.target
+#+end_src
+Then create the following timer in =~.config/systemd/user/mbsync.timer=
+#+begin_src shell
+[Unit]
+Description=call mbsync on all accounts every 5 minutes
+ConditionPathExists=%h/.mbsyncrc
+
+[Timer]
+OnBootSec=5m
+OnUnitInactiveSec=5m
+
+[Install]
+WantedBy=default.target
+#+end_src
+Finally run
+#+begin_src shell
+systemctl --user enable mbsync.timer
+systemctl --user enable mbsync.service
+systemctl --user start mbsync.service
 #+end_src

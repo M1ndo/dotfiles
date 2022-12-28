@@ -21,20 +21,28 @@
 ;;   '(outline-6 :weight regular)
 ;;   '(outline-8 :weight regular)
 ;;   '(outline-9 :weight regular))
+
 ;; Org Document Title Make It Bigger
 (custom-set-faces!
-  '(org-document-title :height 1.7))
+  '(org-document-title :height 1.7)
+  '(org-document-info  :height 1.02 :slant italic))
+
+;; Setting Custom Face for org-tag
+(custom-set-faces!
+  '(org-tag :slant italic :foreground "aquamarine"))
+
 ;; Using Error Face In Deadlines
 (setq org-agenda-deadline-faces
       '((1.001 . error)
         (1.0 . org-warning)
         (0.5 . org-upcoming-deadline)
         (0.0 . org-upcoming-distant-deadline)))
+
 ;; Custom Faces For Org Elements
 (custom-theme-set-faces
-   'user
-   '(org-link ((t (:foreground "SpringGreen2" :underline t))))
-   '(org-table ((t (:inherit fixed-pitch :foreground "#83a598")))))
+ 'user
+ '(org-link ((t (:foreground "SpringGreen2" :underline t))))
+ '(org-table ((t (:inherit fixed-pitch :foreground "#83a598")))))
 ;; Adding Italic To Quote BLocks
 (setq org-fontify-quote-and-verse-blocks t)
 ;; Editing Large Files Can Be Fucked up For that reason adding little delay in fontification.
