@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: CommandShell
+# uuid: CommandShell
+# key: <cmd
+# condition: t
+# --
+#+begin_commandshell
+$0
+#+end_commandshell

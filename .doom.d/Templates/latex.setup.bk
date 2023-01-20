@@ -1,30 +1,19 @@
-% Font Selection
 # #+LATEX_HEADER: \usepackage{tgchorus} % Nice Font
 # #+LATEX_HEADER: \usepackage[cmintegrals,cmbraces]{newtxmath}
-# #+LATEX_HEADER: \usepackage{ebgaramond-maths} %  Good Font --> Has Some Unicode Chars
-# #+LATEX_HEADER: \usepackage{charter} % Another Good Font --> Includes Lots of Unicode
-# #+LATEX_HEADER: \usepackage[osf]{Alegreya,AlegreyaSans}
+# #+LATEX_HEADER: \usepackage{ebgaramond-maths} %  Good Font
+# #+LATEX_HEADER: \usepackage{charter} % Another Good Font
+#+LATEX_HEADER: \usepackage[osf]{Alegreya,AlegreyaSans}
 #+LATEX_HEADER: \usepackage{fontspec}
-#+LATEX_HEADER: \defaultfontfeatures{Ligatures=TeX}
-#+LATEX_HEADER: \setmainfont{Iosevka} % Use Iosevka Font
-# #+LATEX_HEADER: \setmainfont{Alegreya} % Use Alegreya Font
-#+LATEX_HEADER: \setmonofont[Path=/usr/share/fonts/TTF/, ItalicFont=JuliaMono-RegularItalic.ttf, BoldFont=JuliaMono-Bold.ttf, BoldItalicFont=JuliaMono-BoldItalic.ttf]{JuliaMono-Regular.ttf} % Use JuliaMono Font For Code Block
-#+LATEX_HEADER: \newfontfamily\myfont{texgyreadventor}[Path=/home/llove/texmf/fonts/opentype/public/tex-gyre/,Extension = .otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic] % Title Font And Possibly Quotes if Defined
-#+LATEX_HEADER: \newfontfamily\qquot[Path=/home/llove/org/fonts/static/]{QTBlackForest.otf}
-#+LATEX_HEADER: \newfontfamily\tocfoc[Path=/home/llove/org/fonts/static/]{QTHeidelbergType.otf}
-#+LATEX_HEADER: \newfontfamily\algreya{Alegreya SC}
-
-# #+LATEX_HEADER: \setmainfont[Path=/home/llove/org/fonts/static/, ItalicFont=CascadiaCode-Italic.otf, BoldFont=CascadiaCode-Bold.otf, BoldItalicFont=CascadiaCode-BoldItalic.otf]{CascadiaCode-Regular.otf} % Use The Cascadia Code Font
-# #+LATEX_HEADER: \setmainfont[Path=/home/llove/org/fonts/Brill/, ItalicFont=Brill-Italic, BoldFont=Brill-Bold, BoldItalicFont=Brill-BoldItalic, Extension=.ttf]{Brill-Roman.ttf} % Use Brill Font
-# #+LATEX_HEADER: \newcommand*{\unic}{\fontfamily{lmr}\selectfont} % Custom font for sensitive unicode
-
-# #+LATEX_HEADER: \usepackage{graphicx} % Disabled Because its already default
-# #+LATEX_HEADER: \usepackage[table, xcdraw, dvipsnames]{xcolor}
-#+LATEX_HEADER: \usepackage{xcolor}
-#+LATEX_HEADER: \usepackage{changepage} % Used to replace koma-article (addmargin)
+#+LATEX_HEADER: \newfontfamily\myfont{texgyreadventor}[Path=/home/llove/texmf/fonts/opentype/public/tex-gyre/,Extension = .otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+# #+LATEX_HEADER: \setmainfont[Path=/home/ybenel/org/fonts/static/, ItalicFont=CascadiaCode-Italic.otf, BoldFont=CascadiaCode-Bold.otf, BoldItalicFont=CascadiaCode-BoldItalic.otf]{CascadiaCode-Regular.otf}
+# %#+LATEX_HEADER: \newfontfamily\itali{Cascadia Code Italic}
+# %#+LATEX_HEADER: \newfontfamily\myfont{texgyreheroscn-bold.otf}
+# %#+LATEX_HEADER: \newfontfamily\tocfoc{texgyreheroscn-bold.otf}
+#+LATEX_HEADER: \usepackage{graphicx}
+#+LATEX_HEADER: \usepackage{amsmath, amsthm, amssymb}
+#+LATEX_HEADER: \usepackage[table, xcdraw, dvipsnames]{xcolor}
 # #+LATEX_HEADER: \usepackage{multicol}
-#+LATEX_HEADER: \usepackage[breakable,xparse,raster]{tcolorbox}
-#+LATEX_HEADER: \usepackage{csquotes}
+
 
 % Paper Width
 #+LATEX_HEADER: \setlength\paperwidth{12in}
@@ -38,8 +27,6 @@
 
 % Footer - Header
 #+LATEX_HEADER: \usepackage{fancyhdr}
-#+LATEX_HEADER: \setlength{\headheight}{22.11996pt}
-#+LATEX_HEADER: \addtolength{\topmargin}{-10.11996pt}
 #+LATEX_HEADER: \pagestyle{fancy}
 # #+LATEX_HEADER: \cfoot{To Be Continued}
 # #+LATEX_HEADER: \renewcommand{\footrulewidth}{0.4pt}
@@ -58,28 +45,7 @@
 
 % table of content
 #+LATEX_HEADER: \usepackage{tocloft}
-# #+LATEX_HEADER: \addtocontents{toc}{\protect\thispagestyle{fancy}}
 # #+LATEX_HEADER: \setcounter{tocdepth}{3} % Table of content depth
-#+LATEX_HEADER: \tocloftpagestyle{fancy}
-#+LATEX_HEADER: \renewcommand{\cftchapafterpnum}{\vskip2pt} % Enable if using any other class uses chapter
-#+LATEX_HEADER: \renewcommand{\cftsecafterpnum}{\vskip2pt}
-#+LATEX_HEADER: \renewcommand{\cftsubsecafterpnum}{\vskip2pt}
-#+LATEX_HEADER: \renewcommand{\cftsubsecnumwidth}{2.5em}
-#+LATEX_HEADER: \renewcommand{\cftsubsubsecnumwidth}{3.6em}
-#+LATEX_HEADER: \renewcommand{\cftpartfont}{\normalfont\sffamily\bfseries}
-#+LATEX_HEADER: \renewcommand{\cftchapfont}{\normalfont\large\itshape} % Enable if using any other class uses chapter
-#+LATEX_HEADER: \renewcommand{\cftsecfont}{\sffamily\bfseries\itshape}
-#+LATEX_HEADER: \renewcommand{\cftsubsecfont}{\sffamily\small\itshape}
-#+LATEX_HEADER: \renewcommand{\cftsubsubsecfont}{\sffamily\small}
-#+LATEX_HEADER: \renewcommand{\cftparafont}{\sffamily\bfseries\small}
-#+LATEX_HEADER: \renewcommand{\cftsubparafont}{\sffamily\small}
-
-# #+LATEX_HEADER: \renewcommand{\cftsecfont}{\tocfoc\bfseries\itshape}
-# #+LATEX_HEADER: \renewcommand{\cftsubsecfont}{\tocfoc\small\itshape}
-# #+LATEX_HEADER: \renewcommand{\cftsubsubsecfont}{\tocfoc\small}
-# #+LATEX_HEADER: \renewcommand{\cftparafont}{\tocfoc\bfseries\small}
-# #+LATEX_HEADER: \renewcommand{\cftsubparafont}{\tocfoc\small}
-
 # #+LATEX_HEADER: \addtolength{\cftsecnumwidth}{4pt}
 # #+LATEX_HEADER: \renewcommand\cftchapafterpnum{\vskip2pt}
 # #+LATEX_HEADER: \renewcommand\cftsecafterpnum{\vskip2pt}
@@ -88,12 +54,22 @@
 # #+LATEX_HEADER: \renewcommand{\cftsecfont}{\tocfoc}
 # #+LATEX_HEADER: \renewcommand{\cftsubsecfont}{\tocfoc}
 # #+LATEX_HEADER: \renewcommand{\cftsubsubsecfont}{\tocfoc}
+#+LATEX_HEADER: \renewcommand{\cftchapafterpnum}{\vskip2pt}
+#+LATEX_HEADER: \renewcommand{\cftsecafterpnum}{\vskip2pt}
+#+LATEX_HEADER: \renewcommand{\cftsubsecafterpnum}{\vskip2pt}
+#+LATEX_HEADER: \renewcommand{\cftsubsecnumwidth}{2.5em}
+#+LATEX_HEADER: \renewcommand{\cftsubsubsecnumwidth}{3.6em}
+#+LATEX_HEADER: \renewcommand{\cftpartfont}{\normalfont\sffamily\bfseries}
+#+LATEX_HEADER: \renewcommand{\cftchapfont}{\normalfont\large\itshape}
+#+LATEX_HEADER: \renewcommand{\cftsecfont}{\normalfont\slshape}
+#+LATEX_HEADER: \renewcommand{\cftsubsecfont}{\small\itshape}
+#+LATEX_HEADER: \renewcommand{\cftsubsubsecfont}{\small}
 
 % Colorizing links in a nicer way.
 #+LATEX_HEADER: \definecolor{bblue}{HTML}{0645AD}
 #+LATEX_HEADER: \definecolor{grey}{gray}{0.3}
-# #+LATEX_HEADER: \usepackage[colorlinks]{hyperref} % Automatically Added
-# #+LATEX_HEADER: \hypersetup{colorlinks=true, linkcolor=blue, urlcolor=bblue} % No longer need already setup in ox-latex
+#+LATEX_HEADER: \usepackage[colorlinks]{hyperref}
+#+LATEX_HEADER: \hypersetup{colorlinks, linkcolor=blue, urlcolor=bblue}
 
 % Moving up the title.
 #+LATEX_HEADER: \usepackage{titling}
@@ -101,22 +77,25 @@
 
 #+LATEX_HEADER: \setlength{\parindent}{10pt} % Space before starting a sentence
 #+LATEX_HEADER: \setlength{\parskip}{0.1em}
-# #+LATEX_HEADER: \usepackage[stretch=10]{microtype}
+#+LATEX_HEADER: \usepackage[stretch=10]{microtype}
 #+LATEX_HEADER: \usepackage{hyphenat}
 #+LATEX_HEADER: \usepackage{subfig} % Subfigures (not needed in Org I think)
-#+LATEX_HEADER: \usepackage{listings}
-# #+LATEX_HEADER: \usepackage{quotchap} % Not Working With Classes With No Chapter
+#+LATEX_HEADER: \usepackage[left = \flqq{},right = \frqq{},leftsub = \flq{},rightsub = \frq{}]{dirtytalk}
+#+LATEX_HEADER: \usepackage{csquotes}
+# #+LATEX_HEADER: \usepackage[raster]{tcolorbox} % disabled for engraved
 
 % Disables flush alighment on the right side. Personal preference.
 #+LATEX_HEADER: \usepackage{ragged2e}
 # #+LATEX_HEADER: \RaggedRight
 
-% Code Highlighting
-#+LATEX_HEADER: \usepackage{minted} % Code highlighting
-#+LATEX_HEADER: \definecolor{LightGray}{gray}{0.9}
-#+LATEX_HEADER: \setminted{frame=lines,breakanywhere=true,breaklines=true,bgcolor=LightGray}
-# #+LATEX_HEADER: \setminted{fontsize=\scriptsize,baselinestretch=1,frame=lines,breakanywhere=true,breaklines=true,bgcolor=yellow!15}
+% Setup Chapter
+#  #+LATEX_HEADER: \usepackage{quotchap} % Not Working With Classes With No Chapter
 
+% Code highlighting
+# #+LATEX_HEADER: \usepackage{minted} % Code highlighting
+# #+LATEX_HEADER: \definecolor{LightGray}{gray}{0.9}
+# #+LATEX_HEADER: \setminted{fontsize=\scriptsize,baselinestretch=1,frame=lines,breakanywhere=true,breaklines=true,bgcolor=yellow!15}
+# #+LATEX_HEADER: \setminted{frame=lines,breakanywhere=true,breaklines=true,bgcolor=LightGray}
 
 % Line spacing
 #+LATEX_HEADER: \renewcommand{\baselinestretch}{1.15}
@@ -147,15 +126,15 @@
 
 #+LATEX_HEADER: \thispagestyle{empty}
 #+LATEX_HEADER: \makeatletter
-#+LATEX_HEADER: % \newlength\drop % Drop Little Bit
+% \newlength\drop % Drop Little Bit
 #+LATEX_HEADER: \def\@maketitle{\begingroup % Misericords, T&H p 153
   #+LATEX_HEADER: \setlength\drop{0.15\textheight}
   #+LATEX_HEADER: \begin{center}
   #+LATEX_HEADER: \rule{\textwidth}{0in}\par
   #+LATEX_HEADER: {\fontsize{20pt}{20pt}\myfont\HUGE\textsc\@title}
-# #+LATEX_HEADER: \rule{\textwidth}{0in}\par
-  #+LATEX_HEADER: {\par\vspace{-0.5em}\fontsize{9pt}{9pt}\textit{Written by \tocfoc\fontsize{12pt}{12pt}\textbf{\@author}\\ \vspace{-0.17cm}\normalfont\normalsize\footnotesize in \textsc{\@date}}\par}
-# #+LATEX_HEADER: {\vspace{-0.2em}\footnotesize\textit{in \textsc{\@date}}\par}
+  # #+LATEX_HEADER: \rule{\textwidth}{0in}\par
+  #+LATEX_HEADER: {\par\vspace{-0.5em}\fontsize{9pt}{9pt}\textit{Written by \textbf{\@author}}}
+#  #+LATEX_HEADER: {\footnotesize\textit{in \textsc{\@date}}\par}
   #+LATEX_HEADER: \end{center}
 #+LATEX_HEADER: \endgroup}
 #+LATEX_HEADER: \makeatother
@@ -172,12 +151,6 @@
 
 %Subsubsection
 #+LATEX_HEADER: \titlespacing\subsubsection{0pt}{5pt}{4pt} % left margin, space before subsection header, space after subsection header
-
-% Paragraph
-#+LATEX_HEADER: \titlespacing\paragraph{0pt}{5pt}{4pt} % left margin, space before paragraph header, space after subsection header
-
-% subparagraph
-#+LATEX_HEADER: \titlespacing\subparagraph{0pt}{5pt}{4pt} % left margin, space before subsection header, space after subsection header
 
 % List spacing
 #+LATEX_HEADER: \usepackage{enumitem}

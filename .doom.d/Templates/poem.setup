@@ -5,17 +5,21 @@
 
 % Fonts
 #+LATEX_HEADER: \usepackage[osf]{Alegreya,AlegreyaSans}
-% #+LATEX_HEADER: \usepackage{tgchorus}
-% #+LATEX_HEADER: \usepackage[urw-garamond]{mathdesign}
-% #+LATEX_HEADER: \usepackage{charter}
-% #+LATEX_HEADER: \usepackage[cmintegrals,cmbraces]{newtxmath}
-% #+LATEX_HEADER: \usepackage{ebgaramond-maths} %  Good Font
-% #+LATEX_HEADER: \usepackage{tgbonum}
+# #+LATEX_HEADER: \usepackage{tgchorus}
+# #+LATEX_HEADER: \usepackage[urw-garamond]{mathdesign}
+# #+LATEX_HEADER: \usepackage{charter}
+# #+LATEX_HEADER: \usepackage[cmintegrals,cmbraces]{newtxmath}
+# #+LATEX_HEADER: \usepackage{ebgaramond-maths} %  Good Font
+# #+LATEX_HEADER: \usepackage{tgbonum}
 #+LATEX_HEADER: \usepackage{fontspec}
 #+LATEX_HEADER: \newfontfamily\myfont{texgyreadventor}[Path=/home/llove/texmf/fonts/opentype/public/tex-gyre/,Extension = .otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
 
 % Quoting
 #+LATEX_HEADER: \usepackage{quotchap}
+#+LATEX_HEADER: \usepackage[raster]{tcolorbox}
+
+% Colors
+#+LATEX_HEADER: \usepackage[dvipsnames]{xcolor}
 
 % PACKAGE DEFINITION
 % typographical packages
@@ -57,6 +61,22 @@
 
 
 
+# #+LATEX_HEADER: \thispagestyle{empty}
+# #+LATEX_HEADER: \makeatletter
+# % \newlength\drop % Drop Little Bit
+# #+LATEX_HEADER: \newcommand*\titleM{\begingroup % Misericords, T&H p 153
+#   #+LATEX_HEADER: \setlength\drop{0.15\textheight}
+#   #+LATEX_HEADER: \begin{center}
+#   #+LATEX_HEADER: \rule{\textwidth}{0in}\par
+#   #+LATEX_HEADER: {\HUGE\textsc\Title\par}
+#   # #+LATEX_HEADER: \rule{\textwidth}{0in}\par
+#   # #+LATEX_HEADER: {\Large\textit\theauthor\par}
+#   # #+LATEX_HEADER: {\vspace{0.3cm}\footnotesize\textit\yesterday\par}
+#   #+LATEX_HEADER: \end{center}
+# #+LATEX_HEADER: \endgroup}
+# #+LATEX_HEADER: \makeatother
+
+
 #+LATEX_HEADER: \thispagestyle{empty}
 #+LATEX_HEADER: \makeatletter
 % \newlength\drop % Drop Little Bit
@@ -64,13 +84,15 @@
   #+LATEX_HEADER: \setlength\drop{0.15\textheight}
   #+LATEX_HEADER: \begin{center}
   #+LATEX_HEADER: \rule{\textwidth}{0in}\par
-  #+LATEX_HEADER: {\HUGE\textsc\Title\par}
+  # #+LATEX_HEADER: {\HUGE\textsc\Title\par}
+  #+LATEX_HEADER: {\fontsize{20pt}{20pt}\myfont\HUGE\textsc\@title}
   # #+LATEX_HEADER: \rule{\textwidth}{0in}\par
-  # #+LATEX_HEADER: {\Large\textit\theauthor\par}
-  # #+LATEX_HEADER: {\vspace{0.3cm}\footnotesize\textit\yesterday\par}
+  #+LATEX_HEADER: {\par\vspace{-0.2em}\fontsize{9pt}{9pt}\textit{\myauthor}}
+  #+LATEX_HEADER: {\footnotesize\textit{in \textsc{\yesterday}}\par}
   #+LATEX_HEADER: \end{center}
 #+LATEX_HEADER: \endgroup}
 #+LATEX_HEADER: \makeatother
+
 
 % chapter title manipulation
 % padding with zero

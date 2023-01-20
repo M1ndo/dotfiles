@@ -2,6 +2,16 @@
 #+AUTHOR: %^{AUTHOR}
 #+DATE: %^{DATE}
 #+SETUPFILE: ~/org/Templates/latex.setup
-#+OPTIONS: toc:nil
+#+OPTIONS: toc:t
 
-* %?
+** Assignments
+*** Assign 1
+-
+-
+-
+
+** Assignments
+*** Assign 1
+-
+-
+-

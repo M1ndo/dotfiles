@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: CommandLine
+# uuid: CommandLine
+# key: cmd$
+# condition: t
+# --
+@@latex: \commandbox*{$0} @@

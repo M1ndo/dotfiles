@@ -13,33 +13,78 @@ Subfolders Verbatim
 Path ~/Mail/Gmail/
 Inbox ~/Mail/Gmail/Inbox
 
-Channel gmail
+Channel sync-googlemail-default2
 Far :gmail-remote:
 Near :gmail-local:
-Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/All Mail"
+# Select some mailboxes to sync
+Patterns "INBOX"
 Create Both
 Expunge Both
 SyncState *
 
-IMAPAccount gmail2
+Channel sync-googlemail-sent2
+Far :gmail-remote:"[Gmail]/Sent Mail"
+Near :gmail-local:sent
+Create Near
+Expunge Both
+SyncState *
+
+Channel sync-googlemail-trash2
+Far :gmail-remote:"[Gmail]/Trash"
+Near :gmail-local:trash
+Create Near
+Expunge Both
+SyncState *
+
+# Get all the channels together into a group.
+Group googlemail2
+Channel sync-googlemail-default2
+Channel sync-googlemail-sent2
+Channel sync-googlemail-trash2
+
+
+
+
+IMAPAccount AccountP 
 Host imap.gmail.com
 User myemail2@gmail.com
 PassCmd "gpg -q --for-your-eyes-only --no-tty -d ~/.password-store/gmail_app2.gpg"
 SSLType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
-IMAPStore gmail2-remote
-Account gmail2
+IMAPStore AccountP-remote
+Account AccountP 
 
-MaildirStore gmail2-local
+MaildirStore AccountP-local
 Subfolders Verbatim
 Path ~/Mail/Gmail2/
 Inbox ~/Mail/Gmail2/Inbox
 
-Channel gmail2
-Far :gmail2-remote:
-Near :gmail2-local:
-Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/All Mail"
+Channel sync-googlemail-default
+Far :AccountP-remote:
+Near :AccountP-local:
+# Select some mailboxes to sync
+Patterns "INBOX"
 Create Both
 Expunge Both
 SyncState *
+
+Channel sync-googlemail-sent
+Far :AccountP-remote:"[Gmail]/Sent Mail"
+Near :AccountP-local:sent
+Create Near
+Expunge Both
+SyncState *
+
+Channel sync-googlemail-trash
+Far :AccountP-remote:"[Gmail]/Trash"
+Near :AccountP-local:trash
+Create Near
+Expunge Both
+SyncState *
+
+# Get all the channels together into a group.
+Group googlemail
+Channel sync-googlemail-default
+Channel sync-googlemail-sent
+Channel sync-googlemail-trash

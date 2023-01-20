@@ -42,17 +42,18 @@
       :if-new (file+head "{slug}.org" "#+title: ${title}\n#+category: ${Cat}\n#+filetags: School")
       :unnarrowed t)))
   (org-roam-dailies-capture-templates
-   '(("m" "maybe do today" plain
-      "* %?"
-      :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+category:Dailies\n#+filetags: MaybeTo" ("Maybe do today"))
+   '(("d" "default" entry "%?"
+      :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+category: Daily\n#+filetags: Daily")
       :unnarrowed t)
-     ("t" "Do today" plain
-      "* TODO %?"
-      :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+category:Dailies\n#+filetags: todo" ("Do today"))
+     ("m" "maybe do today" entry "* %?"
+      :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+category :Daily\n#+filetags: MaybeTo" ("Maybe do today"))
+      ;; :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+category :Daily\n#+filetags: MaybeTo")
       :unnarrowed t)
-     ("j" "Journal" plain
-      "* %<%H:%M> %?"
-      :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+category:Dailies\n#+filetags: Journal" ("Journal"))
+     ("t" "Do today" entry "* TODO %?"
+      :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+category: Daily\n#+filetags: todo")
+      :unnarrowed t)
+     ("j" "Journal" entry "* %<%H:%M> %?"
+      :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+category: Daily\n#+filetags: Journal" ("Journal"))
       :unnarrowed t)))
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
@@ -89,6 +90,69 @@
           (seq-filter
            (my/org-roam-filter-by-tag tag-name)
            (org-roam-node-list))))
+
+;; (defun roam-extra:get-filetags ()
+;;   (split-string (or (org-collect-keywords "filetags") "")))
+
+;; (defun roam-extra:add-filetag (tag)
+;;   (let* ((new-tags (cons tag (roam-extra:get-filetags)))
+;;          (new-tags-str (combine-and-quote-strings new-tags)))
+;;     (org-roam-set-keyword "filetags" new-tags-str)))
+
+;; (defun roam-extra:del-filetag (tag)
+;;   (let* ((new-tags (seq-difference (roam-extra:get-filetags) `(,tag)))
+;;          (new-tags-str (combine-and-quote-strings new-tags)))
+;;     (org-roam-set-keyword "filetags" new-tags-str)))
+
+;; (defun roam-extra:todo-p ()
+;;   "Return non-nil if current buffer has any TODO entry.
+
+;; TODO entries marked as done are ignored, meaning the this
+;; function returns nil if current buffer contains only completed
+;; tasks."
+;;   (org-element-map
+;;       (org-element-parse-buffer 'headline)
+;;       'headline
+;;     (lambda (h)
+;;       (eq (org-element-property :todo-type h)
+;;           'todo))
+;;     nil 'first-match))
+
+;; (defun roam-extra:update-todo-tag ()
+;;   "Update TODO tag in the current buffer."
+;;   (when (and (not (active-minibuffer-window))
+;;              (org-roam-file-p))
+;;     (org-with-point-at 1
+;;       (let* ((tags (roam-extra:get-filetags))
+;;              (is-todo (roam-extra:todo-p)))
+;;         (cond ((and is-todo (not (seq-contains-p tags "todo")))
+;;                (roam-extra:add-filetag "todo"))
+;;               ((and (not is-todo) (seq-contains-p tags "todo"))
+;;                (roam-extra:del-filetag "todo")))))))
+
+;; (defun roam-extra:todo-files ()
+;;   "Return a list of roam files containing todo tag."
+;;   (org-roam-db-sync)
+;;   (let ((todo-nodes (seq-filter (lambda (n)
+;;                                   (seq-contains-p (org-roam-node-tags n) "todo"))
+;;                                 (org-roam-node-list))))
+;;     (seq-uniq (seq-map #'org-roam-node-file todo-nodes))))
+
+
+;; (defvar roam-extra-original-org-agenda-files (append (my/org-roam-list-notes-by-tag "todo") (list "~/org/agenda.org" "~/org/notes.org" "~/org/todo.org"))
+;;   "Original value of  `org-agenda-files'.")
+
+;; (defun roam-extra:update-todo-files (&rest _)
+;;   "Update the value of `org-agenda-files'."
+;;   (unless roam-extra-original-org-agenda-files
+;;     (setq roam-extra-original-org-agenda-files org-agenda-files))
+;;   (setq org-agenda-files
+;;         (append roam-extra-original-org-agenda-files
+;;                 (roam-extra:todo-files))))
+
+;; ;; (add-hook 'find-file-hook #'roam-extra:update-todo-tag)
+;; ;; (add-hook 'before-save-hook #'roam-extra:update-todo-tag)
+;; (advice-add 'org-agenda :before #'roam-extra:update-todo-files)
 
 (setq org-roam-node-display-template
       (concat (propertize "${title:90}" 'face 'org-document-info)

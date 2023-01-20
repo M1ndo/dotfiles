@@ -17,6 +17,17 @@ Make sure to change the following to your preference.
       '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
 (setq company-ispell-dictionary (concat doom-private-dir "misc/english-words.txt"))
 #+end_src
+**** Extra Info 
+Some =Keybindings= To Make Your Life Easier, ~NOTE~ 'AC-STOP' can be used when /auto-complete/ interfere with /company-mode/ in ~prog-mode~
+
+|-----+----------------------|
+| Key | Function             |
+|-----+----------------------|
+| M-[ | Auto Completion      |
+| M-] | Auto Completion Stop |
+|-----+----------------------|
+#NOTE Company-Mode (Ispell) Is Disabled In Favor Of Auto-Complete.
+#NOTE To Enable Company-Mode Ispell Set The Following =company-ispell-available= to "t" In [[https://github.com/M1ndo/dotfiles/blob/master/.doom.d/config.org#ispell][Config.Org]]
 **** Packages Installed
 - mw-thesaurus "Thesaurus look up dictionary"
 - auto-complete "Auto Complete Words"
@@ -26,11 +37,17 @@ Make sure to change the following to your preference.
 - For Latex Export and Latex Completion, Install The following packages
 1. =texlive-bin= + =texlive-core=, =texlive-latexextra= (optional but install if you have problem compiling with my latex export template)
 2. In order to use my custom latex templates make sure you have *~/.doom.d/Templates*
+
+***** Using (Templates/Latex.Setup ..) 
+#WARNING When Exporting Using One Of My Latex Templates (Templates/latex.setup ...) THERE ARE SOME ~REQUIREMENTS~.
+Please Install Any Necessary Packages That Might Be Missing When Compiling .Tex file.
+The fonts are currently in use when exporting are =Iosevka,Algreya SC,texgyreadventor,QTHeidelbergType,QTBlackForest= And [[https://brill.com/][Brill]]
+To Install Any Latex Packages, Please Refer to [[https://wiki.archlinux.org/title/TeX_Live#tlmgr][Tlmgr]]
 ** To Know About
 *** [[https://github.com/danielfm/smudge/][Smudge]] (Spotify Controller)
 - Requires Spotify Premium To Control Spotify
 - *READ THE CONFIGURATION PAGE ON THEIR REPO* And Change The Following API KEYS
-- Doesn't require spotify premium to set song title in modeline
+- Doesn't require spotify premium to set song title in mode-line
 - *INVOKE global-smudge-remote-mode and smudge-controller-toggle-play to set/update song in modeline*
 #+begin_src lisp
 (setq smudge-oauth2-client-secret "-----CLIENT-SECRET-----")
@@ -40,13 +57,13 @@ Make sure to change the following to your preference.
 (global-smudge-remote-mode)
 #+end_src
 *** Mpdmacs
-- Control and display mpd status on modeline
+- Control and display mpd status on mode-line
 - Make sure to *change mpdmacs-host to yours in config.org*
 #+begin_src lisp
 (setq mpdmacs-host "127.0.0.1")
 #+end_src
 *** Mail In Emacs
-For mail i'm using [[https://github.com/djcb/mu/][Mu (Mu4e)]] And [[https://isync.sourceforge.io/][Isync (Mbsync)]].
+For mail I'm using [[https://github.com/djcb/mu/][Mu (Mu4e)]] And [[https://isync.sourceforge.io/][Isync (Mbsync)]].
 Configured specially for *gmail*, for other smtp server change it to your own
 **** Requirements
 1. Install the following packages: =Mu= (1.6.X Stable) + =Isync= + =msmtp= (Smtp Client To Send Mail)
@@ -54,6 +71,13 @@ Configured specially for *gmail*, for other smtp server change it to your own
 - My configurations are available.
 mbsync -> *~/.mbsync*
 msmtp -> *~/.msmtprc*
+***** Obtain Mail
+In order for us to pull in all mail in our inbox, we need to create a folder called =Mail=
+Then we can call mu and set our personal and secondary email addresses.
+#+begin_src shell
+mkdir ~/Mail
+mu init --maildir ~/Mail/ --my-address=myemail@gmail.com --my-address=myemail2@gmail.com
+#+end_src
 **** Create "~/.doom.d/personal.el"
 Add The following to it
 #+begin_src lisp
@@ -71,6 +95,7 @@ Add The following to it
 #+end_src
 
 ** Custom Keybindings
+This is just a small list of keybindings, please refer to the config file for more custom keybindings.
 
 |--------------+----------------------------|
 | Key          | Function                   |
@@ -78,7 +103,7 @@ Add The following to it
 | SPC-d-b      | Toggle Doom Modeline       |
 | SPC-d-e      | Bufler Switch Buffer       |
 | SPC-d-q      | Bufler Set Workspace Frame |
-| SPC-d-w      | Counsel Switch Buffer      |
+| SPC-d-w      | Consult Switch Buffer      |
 | SPC-d-f      | Clippy Describe Function   |
 | SPC-d-v      | Clippy Describe Variable   |
 | SPC-d-t      | Chronos Timer Set          |
@@ -97,6 +122,7 @@ Add The following to it
 | SPC-x-0      | Upload File To 0x0         |
 | SPC-x-1      | Copy Buffer/Region To 0x0  |
 |--------------+----------------------------|
+
 * Installation
 Make sure you have doom emacs installed and after that run.
 #+begin_src shell
@@ -143,6 +169,8 @@ systemctl --user enable emacs.service
 systemctl --user start emacs.service
 #+end_src
 ** Mbsync (Mu4e)
+This is absolutely not necessary since, we have time in our =Emacs= Configuration that will sync our mail every 15minutes.
+But if you're using some other email client that requires manual synchronization you can use this.
 Create the following service in =~.config/systemd/user/mbsync.service=
 #+begin_src shell
 [Unit]
@@ -176,3 +204,5 @@ systemctl --user enable mbsync.timer
 systemctl --user enable mbsync.service
 systemctl --user start mbsync.service
 #+end_src
+
+#  LocalWords:  REPO mpdmacs config gmail smtp Configs

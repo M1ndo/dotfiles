@@ -2,9 +2,12 @@
 #+AUTHOR: YBenel (Younes Ben El)
 #+subtitle: My Personal Doom Emacs Configuration
 #+EMAIL: ybenel@pm.me
+#+DATE: {{{modification-time(%Y-%m-%d, t)}}} at {{{modification-time(%H:%M, t)}}}
 #+startup: fold hideblocks
+#+LaTeX_CLASS: article
 #+SETUPFILE: ~/org/Templates/latex.setup
-#+OPTIONS: toc:nil
+#+latex_engraved_theme: doom-moonlight
+#+OPTIONS: toc:t
 
 * Basic Startup
 Set lexical binding to make this file run faster
@@ -31,7 +34,7 @@ I'm using [[github:eliheuer/caskaydia-cove][Caskaydia Cove]] which is a fork of 
 ;;       doom-big-font (font-spec :family "Cascadia Code" :weight 'SemiBold :size 24))
 
 (setq doom-font (font-spec :family "Iosevka" :weight 'Regular :foreground "#00bfff" :size 15)
-      doom-variable-pitch-font (font-spec :family "Cascadia Code" :weight 'SemiBold :size 15)
+      doom-variable-pitch-font (font-spec :family "Cascadia Code" :weight 'SemiLight :size 15)
       ;; doom-variable-pitch-font (font-spec :family "JetBrains Mono" :weight 'Medium :size 15)
       doom-unicode-font (font-spec :family "JuliaMono")
       doom-big-font (font-spec :family "Cascadia Code" :weight 'SemiBold :size 24)
@@ -473,8 +476,12 @@ Setting a custom dictionary to auto complete
 (setq-default ac-sources '(ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
 (dolist (mode '(org-mode))
   (add-to-list 'ac-modes mode))
-;; (remove-hook! '(org-mode-hook text-mode-hook markdown-mode-hook fundamental-mode) '(lambda () (auto-complete-mode 1)))
-(add-hook! '(org-mode-hook) (lambda () (auto-complete-mode 1)))
+(add-hook! '(org-mode-hook markdown-mode-hook text-mode-hook fundamental-mode LaTeX-mode-hook) (lambda () (auto-complete-mode 1)))
+;; Adding Keymap to lunch or stop auto-complete
+(define-key ac-mode-map (kbd "M-[") 'auto-complete)
+(define-key ac-completing-map (kbd "M-]") 'ac-stop)
+;; Changing default color
+(custom-set-faces! '(ac-selection-face :slant italic  :foreground "black" :background "LightCoral"))
 #+end_src
 Setting thesaurus api key
 #+begin_src emacs-lisp
@@ -648,7 +655,12 @@ Using [[https://github.com/jordonbiondo/column-enforce-mode][column-enforce-mode
 #+end_src
 *** Rainbow Delimeters
 #+begin_src emacs-lisp
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'prog-mode-hook #'(lambda () (rainbow-delimiters-mode)))
+#+end_src
+*** Eldoc Box
+Enabling Eldoc-Box In all minor programming mode
+#+begin_src emacs-lisp
+(add-hook 'prog-mode-hook #'(lambda () (eldoc-box-hover-at-point-mode) (eldoc-box-hover-mode)))
 #+end_src
 ** Tabs/Modeline
 Using centaur-tabs to adds tabs in to our emacs with customizations
@@ -736,8 +748,8 @@ there's alot of ways to map keys in emacs, we use ~map!~ in doom emacs to make n
 
 (map! :leader
       (:prefix-map ("d" . "Doom")
-       :desc "Clippy describes function under point" "f" #'clippy-describe-function
-       :desc "Clippy describes variable under point" "v" #'clippy-describe-variable))
+       :desc "Clippy describes function under point" "f" #'eldoc-box-eglot-help-at-point
+       :desc "Clippy describes variable under point" "v" #'eldoc-box-help-at-point))
 
 (map! :leader
       (:prefix-map ("d" . "Doom")
@@ -745,6 +757,11 @@ there's alot of ways to map keys in emacs, we use ~map!~ in doom emacs to make n
        :desc "Org Sidebar Tree Toggle" "p" #'org-sidebar-tree-toggle
        :desc "Org Sidebar Toggle" "l" #'org-sidebar-toggle))
 
+(map! :leader
+      (:prefix-map ("c" . "code")
+       (:prefix ("m". "Mixed Pitch")
+        :desc "Mixed Pitched Mode" "m" #'mixed-pitch-mode
+        :desc "Mixed Pitched Serif" "s" #'mixed-pitch-serif-mode)))
 #+end_src
 ** Org
 *** Set Org Directory
@@ -800,7 +817,7 @@ I use org-roam to manage my org files and organize my life.
 #+begin_src emacs-lisp
 ;; (load-file (concat doom-private-dir "/lisp/roam.el"))
 #+end_src
-*** Latex Syntax Highlighting
+*** Latex Export
 Using [[https://orgmode.org/worg/exporters/ox-overview.html][Ox-latex]] export framework to export from org to latex to pdf
 #+begin_src emacs-lisp
 (load-file (concat doom-private-dir "/lisp/ox-latex.el"))
@@ -845,6 +862,8 @@ Set Shortcuts To Open Agenda,Todo,Notes.
       :n "g <down>" #'org-forward-heading-same-level
       :n "g <left>" #'org-up-element
       :n "g <right>" #'org-down-element)
+
+(define-key org-mode-map (kbd "C-c h") 'org-recent-headings)
 #+end_src
 *** Prettify Symbols
 **** Fontifying inline src blocks
@@ -871,12 +890,12 @@ If you have any idea what's going on or how to fix this /please/ get in touch.
 
 Doom theme's extra fontification is more problematic than helpful.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :exports none
 ;; (load-file (concat doom-private-dir "/lisp/prettify_symb.el"))
 #+end_src
 **** Symbols
 It's also nice to make use of the Unicode characters for check boxes, and other commands.
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :exports none
 ;; (appendq! +ligatures-extra-symbols
 ;;           `(:checkbox      "☐"
 ;;             :pending       "◼"
@@ -962,7 +981,7 @@ It's also nice to make use of the Unicode characters for check boxes, and other 
 #+end_src
 
 ~org-superstar-mode~ is great. While we're at it we may as well make tags prettier as well 🙂
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :exports none
 ;; (load-file (concat doom-private-dir "/lisp/symbols.el"))
 #+end_src
 
@@ -1080,27 +1099,18 @@ Thankfully, it isn't to hard to add these to the ~composition-function-table~.
     (load-file (concat doom-private-dir "/lisp/zen_write.el"))
 
     (use-package! org-recent-headings
-      :config (org-recent-headings-mode))
-    (use-package! org-mime
-    :config
-    (setq org-mime-export-options '(:section-numbers nil
-                                    :with-author nil
-                                    :with-toc nil))
-    (add-hook 'org-mime-html-hook
-            (lambda ()
-                (org-mime-change-element-style
-                "pre" (format "color: %s; background-color: %s; padding: 0.5em;"
-                                "#E6E1DC" "#232323"))))
-    (add-hook 'message-send-hook 'org-mime-htmlize)))
-
+      :config (org-recent-headings-mode)))
 #+end_src
 *** Ispell
 #+begin_src emacs-lisp
-(setq ispell-dictionary "en_US")
-(setq ispell-local-dictionary "en_US")
-(setq ispell-local-dictionary-alist
-      '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
-(setq company-ispell-dictionary (concat doom-private-dir "misc/english-words.txt"))
+(setq ispell-dictionary "en_US"
+      ispell-local-dictionary "en_US"
+      ispell-local-dictionary-alist
+      '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8))
+      company-ispell-dictionary (concat doom-private-dir "misc/english-words.txt")
+      ispell-alternate-dictionary (concat doom-private-dir "misc/english-words.txt"))
+;; Disabling Company-ispell because auto-complete is better
+(setq company-ispell-available nil)
 #+end_src
 *** Org Recent Heading
 Using [[https://github.com/alphapapa/org-recent-headings][Org-Recent-Headings]] To Navigate Quickly between previously viewed headings.
@@ -1126,13 +1136,10 @@ There's variety of Mail client in Emacs such as the builtin one, however i'd pre
   (setq mu4e-change-filenames-when-moving t)
   ;; refresh mail using isync every 10 minutes
   (setq mu4e-update-interval (* 10 60))
-  (setq mu4e-mu-binary "~/Downloads/mu-1.6.6/mu/mu")
+  (setq mu4e-mu-binary "/usr/bin/mu")
   (setq mu4e-get-mail-command "mbsync -a")
   (setq mu4e-root-maildir "~/Mail")
   (setq mu4e-user-agent-string "The God Above All In Undefined Space And Time")
-  (bind-key "C-c C-m" 'mu4e)
-  (setq mu4e-html2text-command "w3m -dump -T text/html -o display_link_number=true")
-  ;; (setq mu4e-html2text-command "html2markdown | grep -v '&nbsp_place_holder;'")
   (setq mail-specify-envelope-from t)
   (setq message-sendmail-envelope-from 'header)
   (setq mail-envelope-from 'header)
@@ -1140,13 +1147,16 @@ There's variety of Mail client in Emacs such as the builtin one, however i'd pre
   (setq sendmail-program (executable-find "msmtp"))
   (setq send-mail-function #'sendmail-send-it)
   ;; Set Attachment Directory
-  (setq mu4e-attachment-dir "~/Downloads/Attachements/")
+  (setq mu4e-attachment-dir "~/Downloads/")
+
+  (setq +mu4e-gmail-accounts '((,my_email . "/Gmail")
+                             (,my_email2 . "/Gmail2")))
 
   (set-email-account! "Personal"
-                      `((mu4e-sent-folder          . "/Gmail/[Gmail]/Sent Mail")
-                        (mu4e-drafts-folder        . "/Gmail/[Gmail]/Drafts")
+                      `((mu4e-sent-folder          . "/Gmail/sent")
+                        (mu4e-drafts-folder        . "/Gmail/drafts")
                         (mu4e-refile-folder        . "/Gmail/[Gmail]/All Mail")
-                        (mu4e-trash-folder         . "/Gmail/[Gmail]/Trash")
+                        (mu4e-trash-folder         . "/Gmail/trash")
                         (user-mail-address         . ,my_email)
                         (mail-host-address         . ,my_hosts)
                         (user-full-name            . ,my_name)
@@ -1158,10 +1168,10 @@ There's variety of Mail client in Emacs such as the builtin one, however i'd pre
                       t)
 
   (set-email-account! "Secondary"
-                      `((mu4e-sent-folder          . "/Gmail2/[Gmail]/Sent Mail")
-                        (mu4e-drafts-folder        . "/Gmail2/[Gmail]/Drafts")
+                      `((mu4e-sent-folder          . "/Gmail2/sent")
+                        (mu4e-drafts-folder        . "/Gmail2/drafts")
                         (mu4e-refile-folder        . "/Gmail2/[Gmail]/All Mail")
-                        (mu4e-trash-folder         . "/Gmail2/[Gmail]/Trash")
+                        (mu4e-trash-folder         . "/Gmail2/trash")
                         (user-mail-address         . ,my_email2)
                         (mail-host-address         . ,my_hosts2)
                         (user-full-name            . ,my_name2)
@@ -1171,7 +1181,6 @@ There's variety of Mail client in Emacs such as the builtin one, however i'd pre
                         (smtpmail-stream-type      . ssl)
                         (smtpmail-smtp-service     . 465))
                       t)
-
 
   ;; adjust the email adresses and account descriptions
   (defun timu/set-msmtp-account ()
@@ -1183,94 +1192,89 @@ There's variety of Mail client in Emacs such as the builtin one, however i'd pre
                       (message-fetch-field "from")))
               (account
                 (cond
-                ((string-match "REDACTED@gmail.com" from) "Gmail")
-                ((string-match "REDACTED@gmail.com" from) "Gmail2"))))
+                ((string-match ,my_email from) "Gmail")
+                ((string-match ,my_email2 from) "Gmail2"))))
             (setq message-sendmail-extra-arguments (list '"-a" account))))))
 
   (add-hook 'message-send-mail-hook 'timu/set-msmtp-account)
 
-  (add-to-list 'mu4e-bookmarks
-              (make-mu4e-bookmark
-              :name "Inbox - Personal"
-              :query "maildir:/Gmail/Inbox"
-              :key ?i))
-  (add-to-list 'mu4e-bookmarks
-              (make-mu4e-bookmark
-              :name "Inbox - Secondary"
-              :query "maildir:/Gmail2/Inbox"
-              :key ?g)))
+  (mu4e-bookmark-define "maildir:/Gmail/Inbox" "Inbox - Personal" ?i)
+  (mu4e-bookmark-define "maildir:/Gmail2/Inbox" "Inbox - Secondary" ?g))
 
   ;; (setq mu4e-maildir-shortcuts
-  ;;       '(("/inbox"             . ?i)
-  ;;         ("/[Gmail]/Sent Mail" . ?s)
-  ;;         ("/[Gmail]/Trash"     . ?t)
-  ;;         ("/[Gmail]/Drafts"    . ?d)
+  ;;       '(("/Inbox"    . ?i)
+  ;;         ("sent"      . ?s)
+  ;;         ("trash"     . ?t)
+  ;;         ("drafts"    . ?d)
   ;;         ("/[Gmail]/All Mail"  . ?a))))
 #+end_src
+
+#+RESULTS:
+
 ~NOTICE:~ Since I'm using experimental mu4e __1.7.0__ Remove ~add-to-list ...~ this will load installed mu and mu4e stable __1.6*__
 *** Mu4e-alert
 Since I'm using Mu4e 1.7.0 which is unstable , obviously there's fewer bugs and this one is related mu4e-alert.
 This piece of configuration is totally not needed in Doom Emacs Since it's already there if you enable it .
 #+begin_src emacs-lisp
-;; (use-package! mu4e-alert
-;;   :after mu4e
-;;   :config
-;;   (setq doom-modeline-mu4e t)
+(use-package! mu4e-alert
+  :after mu4e
+  :config
+  (setq doom-modeline-mu4e t)
 
-;;   (mu4e-alert-enable-mode-line-display)
-;;   (mu4e-alert-enable-notifications)
+  (mu4e-alert-enable-mode-line-display)
+  (mu4e-alert-enable-notifications)
 
-;;   (mu4e-alert-set-default-style 'libnotify)
-;;   (map! :leader
-;;         (:prefix-map ("d". "Doom")
-;;          :desc "Disable Mu4e Modeline Alert" "d" #'mu4e-alert-disable-mode-line-display
-;;          :desc "Enable Mu4e Modeline Alert" "i" #'mu4e-alert-enable-mode-line-display))
+  (mu4e-alert-set-default-style 'libnotify)
+  (map! :leader
+        (:prefix-map ("d". "Doom")
+         :desc "Disable Mu4e Modeline Alert" "n" #'mu4e-alert-disable-mode-line-display
+         :desc "Enable Mu4e Modeline Alert" "i" #'mu4e-alert-enable-mode-line-display))
 
-;;   (defvar +mu4e-alert-bell-cmd '("paplay" . "/usr/share/sounds/freedesktop/stereo/message.oga")
-;;     "Cons list with command to play a sound, and the sound file to play.
-;;                  Disabled when set to nil.")
+  (defvar +mu4e-alert-bell-cmd '("paplay" . "/usr/share/sounds/freedesktop/stereo/message.oga")
+    "Cons list with command to play a sound, and the sound file to play.
+                 Disabled when set to nil.")
 
-;;   (setq mu4e-alert-email-notification-types '(subjects))
-;;   (defun +mu4e-alert-grouped-mail-notification-formatter-with-bell (mail-group _all-mails)
-;;     "Default function to format MAIL-GROUP for notification.
-;;                  ALL-MAILS are the all the unread emails"
-;;     (when +mu4e-alert-bell-cmd
-;;       (start-process (car +mu4e-alert-bell-cmd) (cdr +mu4e-alert-bell-cmd)))
-;;     (if (> (length mail-group) 1)
-;;         (let* ((mail-count (length mail-group))
-;;                (first-mail (car mail-group))
-;;                (title-prefix (format "You have %d unread emails"
-;;                                      mail-count))
-;;                (field-value (mu4e-alert--get-group first-mail))
-;;                (title-suffix (format (pcase mu4e-alert-group-by
-;;                                        (`:from "from %s:")
-;;                                        (`:to "to %s:")
-;;                                        (`:maildir "in %s:")
-;;                                        (`:priority "with %s priority:")
-;;                                        (`:flags "with %s flags:"))
-;;                                      field-value))
-;;                (title (format "%s %s" title-prefix title-suffix)))
-;;           (list :title title
-;;                 :body (s-join "\n"
-;;                               (mapcar (lambda (mail)
-;;                                         (format "%s<b>%s</b> • %s"
-;;                                                 (cond
-;;                                                  ((plist-get mail :in-reply-to) "⮩ ")
-;;                                                  ((string-match-p "\\`Fwd:"
-;;                                                                   (plist-get mail :subject)) " ⮯ ")
-;;                                                  (t "  "))
-;;                                                 (truncate-string-to-width (caar (plist-get mail :from))
-;;                                                                           20 nil nil t)
-;;                                                 (truncate-string-to-width
-;;                                                  (replace-regexp-in-string "\\`Re: \\|\\`Fwd: " ""
-;;                                                                            (plist-get mail :subject))
-;;                                                  40 nil nil t)))
-;;                                       mail-group))))
-;;       (let* ((new-mail (car mail-group))
-;;              (subject (plist-get new-mail :subject))
-;;              (sender (caar (plist-get new-mail :from))))
-;;         (list :title sender :body subject))))
-;;   (setq mu4e-alert-grouped-mail-notification-formatter #'+mu4e-alert-grouped-mail-notification-formatter-with-bell))
+  (setq mu4e-alert-email-notification-types '(subjects))
+  (defun +mu4e-alert-grouped-mail-notification-formatter-with-bell (mail-group _all-mails)
+    "Default function to format MAIL-GROUP for notification.
+                 ALL-MAILS are the all the unread emails"
+    (when +mu4e-alert-bell-cmd
+      (start-process (car +mu4e-alert-bell-cmd) (cdr +mu4e-alert-bell-cmd)))
+    (if (> (length mail-group) 1)
+        (let* ((mail-count (length mail-group))
+               (first-mail (car mail-group))
+               (title-prefix (format "You have %d unread emails"
+                                     mail-count))
+               (field-value (mu4e-alert--get-group first-mail))
+               (title-suffix (format (pcase mu4e-alert-group-by
+                                       (`:from "from %s:")
+                                       (`:to "to %s:")
+                                       (`:maildir "in %s:")
+                                       (`:priority "with %s priority:")
+                                       (`:flags "with %s flags:"))
+                                     field-value))
+               (title (format "%s %s" title-prefix title-suffix)))
+          (list :title title
+                :body (s-join "\n"
+                              (mapcar (lambda (mail)
+                                        (format "%s<b>%s</b> • %s"
+                                                (cond
+                                                 ((plist-get mail :in-reply-to) "⮩ ")
+                                                 ((string-match-p "\\`Fwd:"
+                                                                  (plist-get mail :subject)) " ⮯ ")
+                                                 (t "  "))
+                                                (truncate-string-to-width (caar (plist-get mail :from))
+                                                                          20 nil nil t)
+                                                (truncate-string-to-width
+                                                 (replace-regexp-in-string "\\`Re: \\|\\`Fwd: " ""
+                                                                           (plist-get mail :subject))
+                                                 40 nil nil t)))
+                                      mail-group))))
+      (let* ((new-mail (car mail-group))
+             (subject (plist-get new-mail :subject))
+             (sender (caar (plist-get new-mail :from))))
+        (list :title sender :body subject))))
+  (setq mu4e-alert-grouped-mail-notification-formatter #'+mu4e-alert-grouped-mail-notification-formatter-with-bell))
 #+end_src
 *** Org Mime
 org-mime is another cool packages , that allows us to turn org syntax into html when composing mail, since few mail providers do not supports plain-text SMH

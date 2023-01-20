@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: Ybox
+# uuid: Ybox
+# key: ybo
+# condition: t
+# --
+#+ATTR_LATEX: :title $0
+#+begin_ybox
+$1
+#+end_ybox
