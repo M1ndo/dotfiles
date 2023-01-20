@@ -367,6 +367,7 @@ main = None
 follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
+x11_drag_polling_rate = 120
 
 floating_layout = layout.Floating(float_rules=[
     # Run the utility of `xprop` to see the wm class and name of an X client.

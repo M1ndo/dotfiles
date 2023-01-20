@@ -342,9 +342,11 @@ searchList = [ ("a", archwiki)
            , ("t", S.thesaurus)
            , ("v", S.vocabulary)
            , ("b", S.wayback)
+           , ("h", S.hoogle)
            , ("u", urban)
            , ("w", S.wikipedia)
            , ("y", S.youtube)
+           , ("G", S.github)
            ]
 
 myScratchPads :: [NamedScratchpad]
@@ -545,7 +547,7 @@ myKeys =
       , ("M-<Return>", spawn myTerminal)
       , ("M-M1-<Return>", spawn myTerminal2)
       , ("M-S-b", spawn myBrowser)
-      , ("M-M1-h", spawn (myTerminal ++ " -e htop"))
+      , ("M-M1-h", spawn (myTerminal2 ++ " -e gtop"))
 
   -- Toggle Xmobar
       , ("M-b", spawn (xmobarToggleCommand ++ " && pkill trayer || " ++ trayerCommand))

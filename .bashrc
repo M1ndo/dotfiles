@@ -108,6 +108,7 @@ unset use_color safe_term match_lhs sh
 xhost +local:root > /dev/null 2>&1
 
 complete -cf sudo
+complete -cf doas
 
 # Bash won't get SIGWINCH if another process is in the foreground.
 # Enable checkwinsize so that bash will check the terminal size when
@@ -210,9 +211,19 @@ genpdf() {
 
     DIR=$(mktemp -d)
     xelatex -shell-escape -interaction nonstopmode --output-directory="$DIR" "$1"
+
     mv "$DIR/"*pdf .
 
 }
+
+genpdf2() {
+
+    DIR=$(mktemp -d)
+    latexmk -f -pdf -xelatex -shell-escape -interaction=nonstopmode --output-directory="$DIR" "$1"
+    mv "$DIR/"*pdf .
+
+}
+
 alias zt='zathura'
 
 calc ()

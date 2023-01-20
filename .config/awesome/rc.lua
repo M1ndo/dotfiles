@@ -124,7 +124,7 @@ local editorgui         = "emacs"
 local filemanager       = "pcmanfm"
 local mailclient        = "evolution"
 local mediaplayer       = "vlc"
-local scrlocker         = "xscreensaver"
+local scrlocker         = "betterlockscreen -l"
 local terminal          = "xterm"
 local terminal_s        = "alacrit"
 local virtualmachine    = "virtualbox"
@@ -507,6 +507,9 @@ globalkeys = my_table.join(
     -- Standard program
     awful.key({ modkey, }, "Return", function () awful.spawn(terminal) end,
               {description = "Launch Terminal", group = "Super"}),
+
+    awful.key({ modkey, }, "l", function () awful.spawn(scrlocker) end,
+              {description = "Lock Screen", group = "Super"}),
 
     awful.key({ modkey, "Control" }, "Return", function () awful.spawn(terminal_s) end,
               {description = "Launch Terminal", group = "Super"}),

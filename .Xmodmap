@@ -4,11 +4,11 @@ keycode 66 = Control_L
 add control = Control_L
 add Lock = Control_R
 
-keycode 66 = Mode_switch
-keysym w = w W e
-keysym s = s S d
-keysym x = x X c
-keysym 2 = 2 2 3
+! keycode 66 = Mode_switch
+! keysym w = w W e
+! keysym s = s S d
+! keysym x = x X c
+! keysym 2 = 2 2 3
 
 keysym XF86HomePage = XF86HomePage XF86HomePage F1
 keysym XF86AudioPrev = XF86AudioPrev XF86AudioPrev F2

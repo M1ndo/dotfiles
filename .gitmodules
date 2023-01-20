@@ -10,6 +10,9 @@
 [submodule ".doom.d/lisp/screenshot"]
 	path = .doom.d/lisp/screenshot
 	url = https://github.com/tecosaur/screenshot
+[submodule ".doom.d/lisp/engrave-faces"]
+	path = .doom.d/lisp/screenshot
+	url = https://github.com/tecosaur/engrave-faces
 [submodule ".doom.d/lisp/posframe"]
 	path = .doom.d/lisp/posframe
 	url = https://github.com/tumashu/posframe
