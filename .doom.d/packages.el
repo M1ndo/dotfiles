@@ -6,6 +6,7 @@
 (package! org-pretty-table :recipe (:local-repo "~/.doom.d/lisp/org-pretty-table"))
 ;; (package! clippy :recipe (:local-repo "~/.doom.d/lisp/clippy"))
 (package! engrave-faces :recipe (:local-repo "~/.doom.d/lisp/engrave-faces"))
+(package! softresize :recipe (:host github :repo "jdburgosr/softresize"))
 (package! org-super-agenda)
 (package! hammy)
 (package! sublimity)

@@ -6,7 +6,9 @@
 # #+LATEX_HEADER: \usepackage[osf]{Alegreya,AlegreyaSans}
 #+LATEX_HEADER: \usepackage{fontspec}
 #+LATEX_HEADER: \defaultfontfeatures{Ligatures=TeX}
-#+LATEX_HEADER: \setmainfont{Iosevka} % Use Iosevka Font
+#+LATEX_HEADER: \directlua{luaotfload.add_fallback ("emojifallback", { "Symbola:mode=harf;script=grek","Material Icons:mode=harf;script=grek","Material Icons Two Tone:mode=harf;script=grek","Weather Icons:mode=harf;script=grek","file-icons:mode=harf;script=grek","github-octicons:mode=harf;script=grek","all-the-icons:mode=harf;script=grek","FontAwesome:mode=harf;script=grek","DejaVu Sans:mode=harf;script=grek","Noto Sans Symbols2:mode=harf;script=grek"})} % Only Enable When Compiling With LuaTex
+#+LATEX_HEADER: \setmainfont{Iosevka}[RawFeature={fallback=emojifallback}] % Use Iosevka Font
+# #+LATEX_HEADER: \setmainfont{VictorMono Nerd Font} % Use VictorMono Font
 # #+LATEX_HEADER: \setmainfont{Alegreya} % Use Alegreya Font
 #+LATEX_HEADER: \setmonofont[Path=/usr/share/fonts/TTF/, ItalicFont=JuliaMono-RegularItalic.ttf, BoldFont=JuliaMono-Bold.ttf, BoldItalicFont=JuliaMono-BoldItalic.ttf]{JuliaMono-Regular.ttf} % Use JuliaMono Font For Code Block
 #+LATEX_HEADER: \newfontfamily\myfont{texgyreadventor}[Path=/home/llove/texmf/fonts/opentype/public/tex-gyre/,Extension = .otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic] % Title Font And Possibly Quotes if Defined
@@ -23,7 +25,7 @@
 #+LATEX_HEADER: \usepackage{xcolor}
 #+LATEX_HEADER: \usepackage{changepage} % Used to replace koma-article (addmargin)
 # #+LATEX_HEADER: \usepackage{multicol}
-#+LATEX_HEADER: \usepackage[breakable,xparse,raster]{tcolorbox}
+#+LATEX_HEADER: \usepackage[breakable,xparse,raster,skins]{tcolorbox}
 #+LATEX_HEADER: \usepackage{csquotes}
 
 % Paper Width
@@ -40,16 +42,17 @@
 #+LATEX_HEADER: \usepackage{fancyhdr}
 #+LATEX_HEADER: \setlength{\headheight}{22.11996pt}
 #+LATEX_HEADER: \addtolength{\topmargin}{-10.11996pt}
-#+LATEX_HEADER: \pagestyle{fancy}
+#+LATEX_HEADER: \pagestyle{fancy} % Enable (2)
 # #+LATEX_HEADER: \cfoot{To Be Continued}
 # #+LATEX_HEADER: \renewcommand{\footrulewidth}{0.4pt}
-#+LATEX_HEADER: \renewcommand{\headrulewidth}{1pt}
-#+LATEX_HEADER: \renewcommand\headrule{\makebox[\textwidth]{\rule{0.5\headwidth}{\headrulewidth}} \vskip-\headrulewidth}
+#+LATEX_HEADER: \renewcommand{\headrulewidth}{1pt}  % Enable (2)
+# #+LATEX_HEADER: \renewcommand\headrule{\makebox[\textwidth]{\rule{0.5\headwidth}{\headrulewidth}} \vskip-\headrulewidth}  % Enable (2)
 # #+LATEX_HEADER: \fancypagestyle{plain}{%
 # #+LATEX_HEADER: \fancyhf{}
-# #+LATEX_HEADER: \fancyfoot[C]{\hrulefill\quad\raisebox{-3pt}{\thepage}\quad\hrulefill}
+# # #+LATEX_HEADER: \fancyfoot[C]{\hrulefill\quad\raisebox{-3pt}{\thepage}\quad\hrulefill}
 # #+LATEX_HEADER: \fancyhead[CO]{\hrulefill\quad\raisebox{-3pt}{\leftmark}\quad\hrulefill}
 # #+LATEX_HEADER: \fancyhead[CE]{\hrulefill\quad\raisebox{-3pt}{\rightmark}\quad\hrulefill}
+# #+LATEX_HEADER: \fancyfoot[C]{\thepage}
 # #+LATEX_HEADER: \renewcommand{\headrulewidth}{0pt}
 # #+LATEX_HEADER: }
 # #+LATEX_HEADER: \pagestyle{plain}
@@ -154,7 +157,7 @@
   #+LATEX_HEADER: \rule{\textwidth}{0in}\par
   #+LATEX_HEADER: {\fontsize{20pt}{20pt}\myfont\HUGE\textsc\@title}
 # #+LATEX_HEADER: \rule{\textwidth}{0in}\par
-  #+LATEX_HEADER: {\par\vspace{-0.5em}\fontsize{9pt}{9pt}\textit{Written by \tocfoc\fontsize{12pt}{12pt}\textbf{\@author}\\ \vspace{-0.17cm}\normalfont\normalsize\footnotesize in \textsc{\@date}}\par}
+  #+LATEX_HEADER: {\par\vspace{-0.1em}\fontsize{9pt}{9pt}\textit{Written by \tocfoc\fontsize{12pt}{12pt}\textbf{\@author}\\ \vspace{-0.17cm}\normalfont\normalsize\footnotesize in \textsc{\@date}}\par}
 # #+LATEX_HEADER: {\vspace{-0.2em}\footnotesize\textit{in \textsc{\@date}}\par}
   #+LATEX_HEADER: \end{center}
 #+LATEX_HEADER: \endgroup}

@@ -14,7 +14,7 @@
         '(("AUTO" "inputenc" t)
           ("T1" "fontenc" t)
           ("" "graphicx" t)
-          ("" "longtable" nil)
+          ("" "longtable" t)
           ("" "wrapfig" nil)
           ("" "rotating" nil)
           ("normalem" "ulem" t)
@@ -24,7 +24,10 @@
           ("ngerman" "babel" t)
           ("" "capt-of" nil)
           ("" "hyperref" nil)))
+  ;; Change Height between Subtitle And Title
+  (setq org-latex-subtitle-format "\\\\\\smallskip\n\\large %s")
 
+  ;; custom Example Block
   (defadvice! org-latex-example-block (example-block _contents info)
     "Transcode an EXAMPLE-BLOCK element from Org to LaTeX.
 CONTENTS is nil.  INFO is a plist holding contextual
@@ -44,6 +47,7 @@ information."
                  environment)
          info))))
 
+  ;; Set Fancy Checkboxes.
   (defun +org-export-latex-fancy-item-checkboxes (text backend info)
     (when (org-export-derived-backend-p backend 'latex)
       (replace-regexp-in-string
@@ -59,6 +63,7 @@ information."
   (add-to-list 'org-export-filter-item-functions
                '+org-export-latex-fancy-item-checkboxes)
 
+  ;; Custom Latex Blocks
   (defadvice! org-latex-special-block (special-block contents info)
     "Transcode a SPECIAL-BLOCK element from Org to LaTeX.
 CONTENTS holds the contents of the block.  INFO is a plist
@@ -90,7 +95,7 @@ holding contextual information."
       ))
 
   (setq +latex-viewers '(zathura evince))
-  (setq org-latex-pdf-process '("latexmk -f -pdf -xelatex -shell-escape -interaction=nonstopmode %f"))
+  (setq org-latex-pdf-process '("latexmk -f -pdf -lualatex -shell-escape -interaction=nonstopmode %f"))
   (setq! org-latex-engraved-preamble
          "\\usepackage{fvextra}
 
@@ -226,8 +231,8 @@ holding contextual information."
   (defvar org-latex-cmdsh-preamble "
 \\tcbuselibrary{listings}
 \\newtcblisting{commandshell}{colback=blue!20!black,colupper=white,colframe=yellow!75!black,%
-listing only,listing options={style=tcblatex,language=sh},%
-every listing line={\\textcolor{red}{\\small\\ttfamily\\bfseries \textit{cmd} \$> }}}
+listing only,listing options={style=tcblatex,language=bash},%
+every listing line={\\textcolor{red}{\\small\\ttfamily\\bfseries \\textit{cmd} \$> }}}
 "
     "Mark Each Line In \\begin{commandshell} as a command")
 
@@ -241,12 +246,23 @@ every listing line={\\textcolor{red}{\\small\\ttfamily\\bfseries \textit{cmd} \$
 "
     " Preamble that provides a macro for quotes \say{} ")
 
+  (defvar org-latex-keyword-box "
+\\newtcbox{\\myk}{enhanced,nobeforeafter,tcbox raise base, %
+boxrule=0.2pt,top=0mm,bottom=0mm,colframe=blue, colback=black!90, %
+frame style={opacity=0.50}, interior style={opacity=0.50},shrink tight, extrude by=1mm}
+\\directlua{dofile(\"/home/llove/org/Templates/replMe.lua\")}
+\\AtBeginDocument{%
+\\directlua{luatexbase.add_to_callback (\"process_input_buffer\", replMe.replaceMe, \"replMe.replaceMe\")}}
+"
+    "Preamble To Supply TODO Keywords With Beautifed Box")
+
   (defvar org-latex-italic-quotes t
     "Make \"quote\" environments italic.")
-  (defvar org-latex-par-sep t
+  (defvar org-latex-par-sep nil
     "Vertically seperate paragraphs, and remove indentation.")
 
-  ;; Disabled Because We are using Iosevka Which has has enough unicode chars to cover
+  ;; Disabled Because We are using Iosevka Which has has enough unicode chars to cover *Updated
+  ;; Now all emoji's and unicode support is currently working using LuaLaTeX And Fall Back Fonts :)
   ;; (defvar +org-pdflatex-inputenc-encoded-chars
   ;;   "[[:ascii:]\u00A0-\u01F0\u0218-\u021BȲȳȷˆˇ˜˘˙˛˝\u0400-\u04FFḂḃẞ\u200B\u200C\u2010-\u201E†‡•…‰‱‹›※‽⁄⁎⁒₡₤₦₩₫€₱℃№℗℞℠™Ω℧℮←↑→↓〈〉␢␣◦◯♪⟨⟩Ḡḡ\uFB00-\uFB06\u2500-\u259F]")
 
@@ -275,6 +291,8 @@ every listing line={\\textcolor{red}{\\small\\ttfamily\\bfseries \textit{cmd} \$
       ("^[ \t]*#\\+caption:\\|\\\\caption" . caption)
       ("\\[\\[xkcd:" . (image caption))
       ("\\\\commandbox" . cmd-link)
+      ("^[ \t]*#\\+KEYS_ENABLE" . keyword-box)
+      ("^[ \t]*#\\+TOCT" . toc-box)
       ((and org-latex-italic-quotes "^[ \t]*#\\+begin_quote\\|\\\\begin{quote}") . italic-quotes)
       (org-latex-par-sep . par-sep)
       ("^[ \t]*#\\+begin_chat\\|\\\\begin{chat}" . box-chat)
@@ -306,6 +324,7 @@ existance of the feature.")
       (underline     :snippet "\\usepackage[normalem]{ulem}" :order 0.5)
       (float-wrap    :snippet "\\usepackage{wrapfig}" :order 2)
       (rotate        :snippet "\\usepackage{rotating}" :order 2)
+      (toc-box       :snippet "\\usepackage{pgfplots}\n\\pgfplotsset{compat=1.17}" :order 2)
       (caption       :snippet org-latex-caption-preamble :order 2.1) ; % This is for Koma Article class (Using Article!!!)
       (acronym       :snippet "\\newcommand{\\acr}[1]{\\protect\\textls*[110]{\\scshape #1}}\n\\newcommand{\\acrs}{\\protect\\scalebox{.91}[.84]{\\hspace{0.15ex}s}}" :order 0.4)
       (disp-quote    :snippet org-latex-qq-preamble :order 0.5)
@@ -315,12 +334,10 @@ existance of the feature.")
       (.xcoffins     :snippet "\\usepackage{xcoffins}")
       (cmd-link      :snippet org-latex-cmd-preamble :order 2.1)
       (cmd-shell     :snippet org-latex-cmdsh-preamble :order 2.1)
-      (checkbox      :requires .pifont :order 3
-                     :snippet (concat (unless (memq 'maths features)
-                                        "\\usepackage{amssymb} % provides \\square")
-                                      org-latex-checkbox-preamble))
-      (.fancy-box    :requires (.pifont .xcoffins)    :snippet org-latex-box-preamble :order 3.9)
-      (box-chat   :requires .fancy-box :order 4))
+      (checkbox      :requires .pifont :snippet org-latex-checkbox-preamble  :order 3)
+      (.fancy-box    :requires (.pifont .xcoffins) :snippet org-latex-box-preamble :order 3.9)
+      (keyword-box   :snippet org-latex-keyword-box :order 3.9)
+      (box-chat      :requires .fancy-box :order 4))
 
     "LaTeX features and details required to implement them.
 

@@ -28,12 +28,7 @@ use epa-file to decrypt our *GPG* encrypt personal.el then load it.
 *** Set Doom Font
 I'm using [[github:eliheuer/caskaydia-cove][Caskaydia Cove]] which is a fork of [[github:microsoft/cascadia-code][Cascadia Code]]
 #+begin_src emacs-lisp
-
-;; (setq doom-font (font-spec :family "Cascadia Code" :weight 'SemiLight :foreground "#00bfff" :size 15)
-;;       doom-variable-pitch-font (font-spec :family "Cascadia Code" :weight 'SemiBold :size 15)
-;;       doom-big-font (font-spec :family "Cascadia Code" :weight 'SemiBold :size 24))
-
-(setq doom-font (font-spec :family "Iosevka" :weight 'Regular :foreground "#00bfff" :size 15)
+(setq doom-font (font-spec :family "VictorMono Nerd Font" :weight 'Regular :foreground "#00bfff" :size 15)
       doom-variable-pitch-font (font-spec :family "Cascadia Code" :weight 'SemiLight :size 15)
       ;; doom-variable-pitch-font (font-spec :family "JetBrains Mono" :weight 'Medium :size 15)
       doom-unicode-font (font-spec :family "JuliaMono")
@@ -59,10 +54,12 @@ Right here I'm using doom-dracula , there's also [[github:dracula/emacs][Dracula
   :config
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-dracula t) ;; set laserwave theme
+  (load-theme 'doom-moonlight t) ;; set laserwave theme
   (doom-themes-visual-bell-config)   ;; Enable flashing mode-line on errors
   (doom-themes-neotree-config)   ;; Enable custom neotree theme
   (doom-themes-org-config))  ;; Corrects (and improves) org-mode's native fontification.
+
+;; (when (window-system 'nil) (progn (load-theme 'dracula t)) (load-theme 'doom-moonlight 't))
 #+end_src
 However, by default ~red~ text is used in the ~modeline~, so let's make that orange
 so I don't feel like something's gone /wrong/ when editing files.
@@ -476,7 +473,7 @@ Setting a custom dictionary to auto complete
 (setq-default ac-sources '(ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
 (dolist (mode '(org-mode))
   (add-to-list 'ac-modes mode))
-(add-hook! '(org-mode-hook markdown-mode-hook text-mode-hook fundamental-mode LaTeX-mode-hook) (lambda () (auto-complete-mode 1)))
+(add-hook! '(org-mode-hook markdown-mode-hook text-mode-hook fundamental-mode LaTeX-mode-hook) #'(lambda () (auto-complete-mode 1)))
 ;; Adding Keymap to lunch or stop auto-complete
 (define-key ac-mode-map (kbd "M-[") 'auto-complete)
 (define-key ac-completing-map (kbd "M-]") 'ac-stop)
@@ -486,7 +483,7 @@ Setting a custom dictionary to auto complete
 Setting thesaurus api key
 #+begin_src emacs-lisp
 (setq mw-thesaurus--api-key "----APIKEY---")
-(add-hook 'mw-thesaurus-mode-hook (lambda () (define-key evil-normal-state-local-map (kbd "q") 'mw-thesaurus--quit)))
+(add-hook 'mw-thesaurus-mode-hook #'(lambda () (define-key evil-normal-state-local-map (kbd "q") 'mw-thesaurus--quit)))
 #+end_src
 *** Tab Width
 Set Spaces Instead of tabs for more consistency
@@ -570,7 +567,7 @@ Setting up lsp-mode and other functionalities for better features.
 #+begin_src sh :tangle no
 pip install --user "python-language-server[all]"
 #+end_src
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp :exports none :tangle no
 (use-package! python-mode
   :ensure t
   :hook (python-mode . lsp-deferred)
@@ -662,6 +659,27 @@ Enabling Eldoc-Box In all minor programming mode
 #+begin_src emacs-lisp
 (add-hook 'prog-mode-hook #'(lambda () (eldoc-box-hover-at-point-mode) (eldoc-box-hover-mode)))
 #+end_src
+*** History Files
+So when i do backups, i generally don't wanna backup my whole emacs.d directory,
+because it can take a lot of space, and most of saved files are not generally important, Except for history files.
+So instead i'm saving them in my =.doom.d= directory, that i can peacefully backup.
+#+begin_src emacs-lisp
+(setq savehist-file (concat doom-private-dir ".cache/savehist")
+      recentf-save-file (concat doom-private-dir ".cache/recentf")
+      save-place-file (concat doom-private-dir ".cache/saveplace")
+      projectile-known-projects-file (concat doom-private-dir ".cache/projectile.projects")
+      projectile-cache-file (concat doom-private-dir ".cache/projectile.cache"))
+#+end_src
+*** Resize Windows
+I've been struggling to resize windows manually in Emacs.
+But Thanks to a reddit post, a new package exists for it and it does what i need.
+#+begin_src emacs-lisp
+(require 'softresize)
+(global-set-key (kbd "M-C-.") 'softresize-enlarge-window)
+(global-set-key (kbd "M-C-,") 'softresize-reduce-window)
+(global-set-key (kbd "M-C-[") 'softresize-enlarge-window-horizontally)
+(global-set-key (kbd "M-C-]") 'softresize-reduce-window-horizontally)
+#+end_src
 ** Tabs/Modeline
 Using centaur-tabs to adds tabs in to our emacs with customizations
 #+begin_src emacs-lisp
@@ -710,7 +728,7 @@ there's alot of ways to map keys in emacs, we use ~map!~ in doom emacs to make n
        :desc "Hide Doom Modeline" "b" #'hide-mode-line-mode
        :desc "Bufler Switch Buffer" "e" #'bufler-switch-buffer
        :desc "Bufler Set Workspace Frame" "q" #'bufler-workspace-frame-set
-       :desc "Counel Switch Buffer" "w" #'counsel-switch-buffer
+       :desc "Counel Switch Buffer" "w" #'consult-buffer
        :desc "Window Zoom/Unzoom" "z" #'zoom-window-zoom
        :desc "Toggle Transparency" "o" #'toggle-transparency))
 
@@ -767,24 +785,54 @@ there's alot of ways to map keys in emacs, we use ~map!~ in doom emacs to make n
 *** Set Org Directory
 Setting custom org directory and enabling org logging, so each time a task is finishing it sets a date.
 #+begin_src emacs-lisp
-(setq org-directory "~/org/")
-(setq org-log-done 'time)
-(setq org-agenda-include-diary t)
+(with-eval-after-load 'org
+  (setq org-directory "~/org/")
+  (setq org-log-done 'time)
+  (setq org-agenda-include-diary t)
 
-;; https://emacs.stackexchange.com/questions/31683/schedule-org-task-for-last-day-of-every-month
-(defun diary-last-day-of-month (date)
-"Return `t` if DATE is the last day of the month."
-  (let* ((day (calendar-extract-day date))
-         (month (calendar-extract-month date))
-         (year (calendar-extract-year date))
-         (last-day-of-month
-            (calendar-last-day-of-month month year)))
-    (= day last-day-of-month)))
+  ;; https://emacs.stackexchange.com/questions/31683/schedule-org-task-for-last-day-of-every-month
+  (defun diary-last-day-of-month (date)
+  "Return `t` if DATE is the last day of the month."
+    (let* ((day (calendar-extract-day date))
+          (month (calendar-extract-month date))
+          (year (calendar-extract-year date))
+          (last-day-of-month
+              (calendar-last-day-of-month month year)))
+      (= day last-day-of-month)))
+#+end_src
+*** Org Agenda
+What's more better than organizing your life with org *super* agenda.
+#+begin_src emacs-lisp
+  (load-file (concat doom-private-dir "/lisp/agendas.el"))
+#+end_src
+*** Key Mapp
+Set Shortcuts To Open Agenda,Todo,Notes.
+#+begin_src emacs-lisp
+  (map! :leader
+        (:prefix ("-" . "Open File")
+        :desc "Open Agenda" "a" #'(lambda () (interactive) (find-file "~/org/agenda.org"))
+        :desc "Open Todo" "t" #'(lambda () (interactive) (find-file "~/org/todo.org"))
+        :desc "Open Notes" "n" #'(lambda () (interactive) (find-file "~/org/notes.org"))
+        :desc "Open Journal" "j" #'(lambda () (interactive) (find-file "~/org/journal.org"))
+        :desc "Open Config" "c" #'(lambda () (interactive) (find-file "~/.doom.d/config.org"))))
+
+  (map! :map evil-org-mode-map
+        :after evil-org
+        :n "g <up>" #'org-backward-heading-same-level
+        :n "g <down>" #'org-forward-heading-same-level
+        :n "g <left>" #'org-up-element
+        :n "g <right>" #'org-down-element)
+
+  (define-key org-mode-map (kbd "C-c h") 'org-recent-headings)
+#+end_src
+*** Latex Export
+Using [[https://orgmode.org/worg/exporters/ox-overview.html][Ox-latex]] export framework to export from org to latex to pdf
+#+begin_src emacs-lisp
+  (load-file (concat doom-private-dir "/lisp/ox-latex.el"))
 #+end_src
 *** Org Keywords
 #+begin_src emacs-lisp
-;; Org Keywords
-(after! org
+  ;; Org Keywords
   (setq org-todo-keywords
         '((sequence
           "TODO(t)"  ; A task that needs doing & is ready to do
@@ -810,194 +858,64 @@ Setting custom org directory and enabling org logging, so each time a task is fi
           "|"
           "OKAY(o)"
           "YES(y)"
-          "NO(n)"))))
+          "NO(n)")))
 #+end_src
 *** Org Roam
 I use org-roam to manage my org files and organize my life.
 #+begin_src emacs-lisp
-;; (load-file (concat doom-private-dir "/lisp/roam.el"))
-#+end_src
-*** Latex Export
-Using [[https://orgmode.org/worg/exporters/ox-overview.html][Ox-latex]] export framework to export from org to latex to pdf
-#+begin_src emacs-lisp
-(load-file (concat doom-private-dir "/lisp/ox-latex.el"))
-#+end_src
-*** Org Agenda
-What's more better than organizing your life with org *super* agenda.
-#+begin_src emacs-lisp
-(load-file (concat doom-private-dir "/lisp/agendas.el"))
-#+end_src
-*** Org Superstar
-#+begin_src emacs-lisp
-;; (load-file (concat doom-private-dir "/lisp/superstar.el"))
+(load-file (concat doom-private-dir "/lisp/roam.el"))
 #+end_src
 *** Org Pretty Table
 #+begin_src emacs-lisp
-;; (progn
-;;  (add-to-list 'load-path "~/.doom.d/lisp/org-pretty-table")
-;;  (require 'org-pretty-table)
-;;  (add-hook 'org-mode-hook (lambda () (org-pretty-table-mode))))
+  (add-to-list 'load-path "~/.doom.d/lisp/org-pretty-table")
+  (require 'org-pretty-table)
+  (add-hook 'org-mode-hook #'(lambda () (org-pretty-table-mode)))
 #+end_src
 *** Org Appear
 #+begin_src emacs-lisp
-;; (progn
-;;  (add-to-list 'load-path "~/.doom.d/lisp/org-appear")
-;;  (require 'org-appear)
-;;  (add-hook 'org-mode-hook (lambda () (org-appear-mode))))
+  (progn
+  (add-to-list 'load-path "~/.doom.d/lisp/org-appear")
+  (require 'org-appear)
+  (add-hook 'org-mode-hook #'(lambda () (org-appear-mode)))
+  (setq org-appear-autoemphasis t
+      org-appear-autosubmarkers t
+      org-appear-autolinks nil))
 #+end_src
-*** Key Mapp
-Set Shortcuts To Open Agenda,Todo,Notes.
+*** Org Beautify
+Using =org-modern= because its very modern, a good replacement to =org-superstar=.
 #+begin_src emacs-lisp
-(map! :leader
-      (:prefix ("-" . "Open File")
-       :desc "Open Agenda" "a" #'(lambda () (interactive) (find-file "~/org/agenda.org"))
-       :desc "Open Todo" "t" #'(lambda () (interactive) (find-file "~/org/todo.org"))
-       :desc "Open Notes" "n" #'(lambda () (interactive) (find-file "~/org/notes.org"))
-       :desc "Open Journal" "j" #'(lambda () (interactive) (find-file "~/org/journal.org"))
-       :desc "Open Config" "c" #'(lambda () (interactive) (find-file "~/.doom.d/config.org"))))
-
-(map! :map evil-org-mode-map
-      :after evil-org
-      :n "g <up>" #'org-backward-heading-same-level
-      :n "g <down>" #'org-forward-heading-same-level
-      :n "g <left>" #'org-up-element
-      :n "g <right>" #'org-down-element)
-
-(define-key org-mode-map (kbd "C-c h") 'org-recent-headings)
+  (load-file (concat doom-private-dir "/lisp/modern.el"))
+  ;; (load-file (concat doom-private-dir "/lisp/superstar.el"))
+  ;; (load-file (concat doom-private-dir "/lisp/prettify_symb.el"))
 #+end_src
-*** Prettify Symbols
-**** Fontifying inline src blocks
-Org does lovely things with =#+begin_src= blocks, like using font-lock for
-language's major-mode behind the scenes and pulling out the lovely colourful
-results. By contrast, inline =src_= blocks are somewhat neglected.
-
-I am not the first person to feel this way, thankfully others have [[https://stackoverflow.com/questions/20309842/how-to-syntax-highlight-for-org-mode-inline-source-code-src-lang/28059832][taken to
-stackexchange]] to voice their desire for inline src fontification. I was going to
-steal their work, but unfortunately they didn't perform /true/ source code
-fontification, but simply applied the =org-code= face to the content.
-
-We can do better than that, and we shall! Using ~org-src-font-lock-fontify-block~
-we can apply language-appropriate syntax highlighting. Then, continuing on to
-={{{results(...)}}}= , it can have the =org-block= face applied to match, and then
-the value-surrounding constructs hidden by mimicking the behaviour of
-~prettify-symbols-mode~.
-
-#+begin_warning
-This currently only highlights a single inline src block per line.
-I have no idea why it stops, but I'd rather it didn't.
-If you have any idea what's going on or how to fix this /please/ get in touch.
-#+end_warning
-
-Doom theme's extra fontification is more problematic than helpful.
-
-#+begin_src emacs-lisp :exports none
-;; (load-file (concat doom-private-dir "/lisp/prettify_symb.el"))
+We cannot forgot about tags either and for that matter without using =org-pretty-tags= because its makes tags better.
+#+begin_src emacs-lisp
+  (load-file (concat doom-private-dir "/lisp/symbols.el"))
 #+end_src
-**** Symbols
-It's also nice to make use of the Unicode characters for check boxes, and other commands.
-#+begin_src emacs-lisp :exports none
-;; (appendq! +ligatures-extra-symbols
-;;           `(:checkbox      "☐"
-;;             :pending       "◼"
-;;             :checkedbox    "☑"
-;;             :list_property "∷"
-;;             :em_dash       "—"
-;;             :ellipses      "…"
-;;             :arrow_right   "→"
-;;             :arrow_left    "←"
-;;             :title         "𝙏"
-;;             :subtitle      "𝙩"
-;;             :author        "𝘼"
-;;             :date          "𝘿"
-;;             :property      "☸"
-;;             :options       "⌥"
-;;             :startup       "⏻"
-;;             :macro         "𝓜"
-;;             :html_head     "🅷"
-;;             :html          "🅗"
-;;             :latex_class   "🄻"
-;;             :latex_header  "🅻"
-;;             :beamer_header "🅑"
-;;             :latex         "🅛"
-;;             :attr_latex    "🄛"
-;;             :attr_html     "🄗"
-;;             :attr_org      "⒪"
-;;             :begin_quote   "❝"
-;;             :end_quote     "❞"
-;;             :caption       "☰"
-;;             :header        "›"
-;;             :results       "🠶"
-;;             :begin_export  "⏩"
-;;             :end_export    "⏪"
-;;             :properties    "⚙"
-;;             :end           "∎"
-;;             :priority_a   ,(propertize "⚑" 'face 'all-the-icons-red)
-;;             :priority_b   ,(propertize "⬆" 'face 'all-the-icons-orange)
-;;             :priority_c   ,(propertize "■" 'face 'all-the-icons-yellow)
-;;             :priority_d   ,(propertize "⬇" 'face 'all-the-icons-green)
-;;             :priority_e   ,(propertize "❓" 'face 'all-the-icons-blue)))
-;; (set-ligatures! 'org-mode
-;;   :merge t
-;;   :checkbox      "[ ]"
-;;   :pending       "[-]"
-;;   :checkedbox    "[X]"
-;;   :list_property "::"
-;;   :em_dash       "---"
-;;   :ellipsis      "..."
-;;   :arrow_right   "->"
-;;   :arrow_left    "<-"
-;;   :title         "#+title:"
-;;   :subtitle      "#+subtitle:"
-;;   :author        "#+author:"
-;;   :date          "#+date:"
-;;   :property      "#+property:"
-;;   :options       "#+options:"
-;;   :startup       "#+startup:"
-;;   :macro         "#+macro:"
-;;   :html_head     "#+html_head:"
-;;   :html          "#+html:"
-;;   :latex_class   "#+latex_class:"
-;;   :latex_header  "#+latex_header:"
-;;   :beamer_header "#+beamer_header:"
-;;   :latex         "#+latex:"
-;;   :attr_latex    "#+attr_latex:"
-;;   :attr_html     "#+attr_html:"
-;;   :attr_org      "#+attr_org:"
-;;   :begin_quote   "#+begin_quote"
-;;   :end_quote     "#+end_quote"
-;;   :caption       "#+caption:"
-;;   :header        "#+header:"
-;;   :begin_export  "#+begin_export"
-;;   :end_export    "#+end_export"
-;;   :results       "#+RESULTS:"
-;;   :property      ":PROPERTIES:"
-;;   :end           ":END:"
-;;   :priority_a    "[#A]"
-;;   :priority_b    "[#B]"
-;;   :priority_c    "[#C]"
-;;   :priority_d    "[#D]"
-;;   :priority_e    "[#E]")
-;; (plist-put +ligatures-extra-symbols :name "⁍")
-#+end_src
-
-~org-superstar-mode~ is great. While we're at it we may as well make tags prettier as well 🙂
-#+begin_src emacs-lisp :exports none
-;; (load-file (concat doom-private-dir "/lisp/symbols.el"))
-#+end_src
-
-Using prettify symbols modes to add replace traditional ligatures with custom unicode
 *** Org Templates
 Adding a bunch of templates to make it easier instead of typing manually.
 #+begin_src emacs-lisp
-;; (require 'org-tempo)
-;; (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
-;; (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
-;; (add-to-list 'org-structure-template-alist '("py" . "src python"))
+  (require 'org-tempo)
+  (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+  (add-to-list 'org-structure-template-alist '("py" . "src python"))
+#+end_src
+*** Zen Write
+Customized =Zen-Mode= Aka =Write-Room= to be more precise and better focused when writing code and documents.
+#+begin_src emacs-lisp
+  (load-file (concat doom-private-dir "/lisp/zen_write.el"))
 #+end_src
 *** Org Header
 Beautifying Headers And Enabling Org-Pretty-Mode With Custom Faces
 #+begin_src emacs-lisp
-;; (load-file (concat doom-private-dir "/lisp/org-headder.el"))
+  (load-file (concat doom-private-dir "/lisp/org-headder.el"))
+#+end_src
+*** Org Recent Heading
+Using [[https://github.com/alphapapa/org-recent-headings][Org-Recent-Headings]] To Navigate Quickly between previously viewed headings.
+#+begin_src emacs-lisp
+  (use-package! org-recent-headings
+    :config (org-recent-headings-mode)
+    (setq org-recent-headings-save-file (concat doom-private-dir "/.cache/org-recent-headings"))))
 #+end_src
 *** Mixed pitch
 #+begin_quote
@@ -1061,46 +979,6 @@ Thankfully, it isn't to hard to add these to the ~composition-function-table~.
 (set-char-table-range composition-function-table ?f '(["\\(?:ff?[fijlt]\\)" 0 font-shape-gstring]))
 (set-char-table-range composition-function-table ?T '(["\\(?:Th\\)" 0 font-shape-gstring]))
 #+end_src
-*** Load All
-#+begin_src emacs-lisp
-(with-eval-after-load 'org
-
-    (load-file (concat doom-private-dir "/lisp/roam.el"))
-
-    (progn
-    (add-to-list 'load-path "~/.doom.d/lisp/org-pretty-table")
-    (require 'org-pretty-table)
-    (add-hook 'org-mode-hook (lambda () (org-pretty-table-mode))))
-
-    (progn
-    (add-to-list 'load-path "~/.doom.d/lisp/org-appear")
-    (require 'org-appear)
-    (add-hook 'org-mode-hook (lambda () (org-appear-mode)))
-    (setq org-appear-autoemphasis t
-        org-appear-autosubmarkers t
-        org-appear-autolinks nil))
-
-    ;; Symbols
-    (load-file (concat doom-private-dir "/lisp/modern.el"))
-    ;; (load-file (concat doom-private-dir "/lisp/superstar.el"))
-    ;; (load-file (concat doom-private-dir "/lisp/prettify_symb.el"))
-
-    ;; Tags
-    (load-file (concat doom-private-dir "/lisp/symbols.el"))
-
-    (require 'org-tempo)
-    (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
-    (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
-    (add-to-list 'org-structure-template-alist '("py" . "src python"))
-
-    (load-file (concat doom-private-dir "/lisp/org-headder.el"))
-
-    ;; Zen Write
-    (load-file (concat doom-private-dir "/lisp/zen_write.el"))
-
-    (use-package! org-recent-headings
-      :config (org-recent-headings-mode)))
-#+end_src
 *** Ispell
 #+begin_src emacs-lisp
 (setq ispell-dictionary "en_US"
@@ -1111,12 +989,6 @@ Thankfully, it isn't to hard to add these to the ~composition-function-table~.
       ispell-alternate-dictionary (concat doom-private-dir "misc/english-words.txt"))
 ;; Disabling Company-ispell because auto-complete is better
 (setq company-ispell-available nil)
-#+end_src
-*** Org Recent Heading
-Using [[https://github.com/alphapapa/org-recent-headings][Org-Recent-Headings]] To Navigate Quickly between previously viewed headings.
-#+begin_src emacs-lisp
-;;(use-package! org-recent-headings
-;;  :config (org-recent-headings-mode))
 #+end_src
 ** Large Files
 Using vlf to edit large files in chunks
@@ -1305,7 +1177,7 @@ org-mime is another cool packages , that allows us to turn org syntax into html 
   (define-key vterm-mode-map (kbd "<C-left>") 'vterm-send-M-b)
   (define-key vterm-mode-map (kbd "<C-right>") 'vterm-send-M-e)
   (define-key vterm-mode-map (kbd "<C-backspace>")
-    '(lambda () (interactive) (vterm-send-key (kbd "C-w")))))
+    #'(lambda () (interactive) (vterm-send-key (kbd "C-w")))))
 #+end_src
 ** Screenshot And Screencast
 *** Screenshot
@@ -1316,8 +1188,8 @@ Using this awesome package called [[https://github.com/tecosaur/screenshot][Scre
   (add-to-list 'load-path "~/.doom.d/lisp/screenshot")
   (require 'screenshot)
   (setq screenshot-upload-fn "~/.local/bin/0x0 %s 2>/dev/null")
-  (setq screenshot-font-size 9)
-  (setq screenshot-font-family "Cascadia Code")
+  (setq screenshot-font-size 10)
+  (setq screenshot-font-family "VictorMono Nerd Font")
   (setq screenshot-shadow-color "#cd7054")
   (setq screenshot-shadow-offset-horizontal -10)
   (setq screenshot-shadow-offset-vertical 10))
@@ -1507,11 +1379,9 @@ Twittering-Mode , To View status and stuff
 #+end_src
 ** Fun Packages
 *** Emoji
-For starters, twitter's emojis look nicer than emoji-one.
-Other than that, this is pretty great OOTB 😀.
-
+Switched From =Twitter Emoji= to =Open Emoji= because it looks better.
 #+begin_src emacs-lisp
-(setq emojify-emoji-set "twemoji-v2")
+(setq emojify-emoji-set "openmoji-v13-0")
 (global-emojify-mode-line-mode)
 #+end_src
 

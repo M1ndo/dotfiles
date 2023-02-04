@@ -87,7 +87,7 @@
   # #+LATEX_HEADER: {\HUGE\textsc\Title\par}
   #+LATEX_HEADER: {\fontsize{20pt}{20pt}\myfont\HUGE\textsc\@title}
   # #+LATEX_HEADER: \rule{\textwidth}{0in}\par
-  #+LATEX_HEADER: {\par\vspace{-0.2em}\fontsize{9pt}{9pt}\textit{\myauthor}}
+  #+LATEX_HEADER: {\par\vspace{-0.2em}\fontsize{9pt}{9pt}\textit{\@author}}
   #+LATEX_HEADER: {\footnotesize\textit{in \textsc{\yesterday}}\par}
   #+LATEX_HEADER: \end{center}
 #+LATEX_HEADER: \endgroup}
