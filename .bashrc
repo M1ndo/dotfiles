@@ -210,7 +210,7 @@ say() {
 genpdf() {
 
     DIR=$(mktemp -d)
-    xelatex -shell-escape -interaction nonstopmode --output-directory="$DIR" "$1"
+    lualatex -shell-escape -interaction nonstopmode --output-directory="$DIR" "$1"
 
     mv "$DIR/"*pdf .
 
@@ -219,7 +219,7 @@ genpdf() {
 genpdf2() {
 
     DIR=$(mktemp -d)
-    latexmk -f -pdf -xelatex -shell-escape -interaction=nonstopmode --output-directory="$DIR" "$1"
+    latexmk -f -pdf -lualatex -shell-escape -interaction=nonstopmode --output-directory="$DIR" "$1"
     mv "$DIR/"*pdf .
 
 }
@@ -242,6 +242,7 @@ alias vim=nvim
 
 # Trash
 alias rm='trash'
+alias rms='/bin/rm'
 
 # Clear
 alias clear='echo -en "\x1b[2J\x1b[1;1H"'
@@ -275,7 +276,7 @@ alias src='yay -Ss'
 alias ins='yay -S'
 alias up='yay -Sy'
 alias upd='yay -Syu'
-alias rms='yay -R'
+alias yrms='yay -R'
 alias pcsrc='pacman -Ss'
 alias pcin='sudo pacman -S'
 alias pcr='sudo pacman -R'
