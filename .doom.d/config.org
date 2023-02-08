@@ -454,7 +454,7 @@ This packages highlights indent guides, which is really useful when writing code
         highlight-indent-guides-responsive 'stack
         highlight-indent-guides-auto-enabled nil))
 #+end_src
-*** Spell
+*** Auto Complete & FlySpell
 Using the built-in flyspell in emacs, fantastic.
 #+begin_src emacs-lisp
 (require 'flyspell)
@@ -470,10 +470,9 @@ Setting a custom dictionary to auto complete
 (require 'auto-complete-config)
 (ac-config-default)
 (add-to-list 'ac-dictionary-files "~/.doom.d/misc/english-words.txt")
-(setq-default ac-sources '(ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
-(dolist (mode '(org-mode))
+(setq-default ac-sources '(ac-source-dictionary ac-source-words-in-same-mode-buffers))
+(dolist (mode '(org-mode LaTeX-mode markdown-mode text-mode fundamental-mode))
   (add-to-list 'ac-modes mode))
-(add-hook! '(org-mode-hook markdown-mode-hook text-mode-hook fundamental-mode LaTeX-mode-hook) #'(lambda () (auto-complete-mode 1)))
 ;; Adding Keymap to lunch or stop auto-complete
 (define-key ac-mode-map (kbd "M-[") 'auto-complete)
 (define-key ac-completing-map (kbd "M-]") 'ac-stop)
@@ -844,6 +843,8 @@ Using [[https://orgmode.org/worg/exporters/ox-overview.html][Ox-latex]] export f
           "IDEA(i)"  ; An unconfirmed and unapproved task or notion
           "GYM(g)"  ; Set a Gym Task
           "DATE(D)"  ; Set a Date
+          "NEXT(n)"  ; Task successfully completed
+          "GOAL(G)"  ; Task successfully completed
           "|"
           "DONE(d)"  ; Task successfully completed
           "CANCELLED(c)"  ; Task successfully completed
@@ -857,8 +858,8 @@ Using [[https://orgmode.org/worg/exporters/ox-overview.html][Ox-latex]] export f
           (sequence
           "|"
           "OKAY(o)"
-          "YES(y)"
-          "NO(n)")))
+          "YES(Y)"
+          "NO(N)")))
 #+end_src
 *** Org Roam
 I use org-roam to manage my org files and organize my life.

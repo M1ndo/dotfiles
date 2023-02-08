@@ -42,18 +42,17 @@
       :if-new (file+head "{slug}.org" "#+title: ${title}\n#+category: ${Cat}\n#+filetags: School")
       :unnarrowed t)))
   (org-roam-dailies-capture-templates
-   '(("d" "default" entry "%?"
+   '(("d" "default" entry "\n* %?"
       :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+category: Daily\n#+filetags: Daily")
       :unnarrowed t)
-     ("m" "maybe do today" entry "* %?"
-      :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+category :Daily\n#+filetags: MaybeTo" ("Maybe do today"))
-      ;; :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+category :Daily\n#+filetags: MaybeTo")
+     ("m" "maybe do today" entry "\n* %?"
+      :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+category: Daily\n#+filetags: MaybeTo")
       :unnarrowed t)
-     ("t" "Do today" entry "* TODO %?"
+     ("t" "Do today" entry "\n* TODO %?"
       :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+category: Daily\n#+filetags: todo")
       :unnarrowed t)
      ("j" "Journal" entry "* %<%H:%M> %?"
-      :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+category: Daily\n#+filetags: Journal" ("Journal"))
+      :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+category: Daily\n#+filetags: Journal")
       :unnarrowed t)))
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)

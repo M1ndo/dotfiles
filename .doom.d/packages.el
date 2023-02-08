@@ -56,3 +56,4 @@
 (package! zoom-window)
 (package! goggles)
 (package! eldoc-box)
+;;(package! vulpea)
