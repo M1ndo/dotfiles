@@ -84,16 +84,16 @@ scrolling:
 
 font:
   normal:
-    family: Cascadia Code
-    style: Regular
+    family: VictorMono Nerd Font Mono
+    style: SemiBold 
   bold:
-    family: Cascadia Code
+    family: VictorMono Nerd Font Mono
     style: Bold
   italic:
-    family: Cascadia Code
+    family: VictorMono Nerd Font Mono
     style: Italic
   bold_italic:
-    family: Cascadia Code
+    family: VictorMono Nerd Font Mono
     style: Bold Italic
 
   size: 10
@@ -103,7 +103,9 @@ font:
     y: 0
 
 cursor:
-  style: Beam
+  style: block 
+  blinking: Always 
+  blink_interval: 50 
 
 live_config_reload: true
 
@@ -125,7 +127,7 @@ key_bindings:
   - { key: V,         mods: Alt,       action: Paste            }
   - { key: C,         mods: Alt,       action: Copy             }
   - { key: Insert,    mods: Shift,     action: PasteSelection   }
-  - { key: Key1,      mods: Alt,       action: ResetFontSize    }
+  - { key: Key1,      mods: Alt|Shift,       action: ResetFontSize    }
   - { key: Up,        mods: Alt|Shift, action: IncreaseFontSize }
   - { key: K,         mods: Alt|Shift, action: IncreaseFontSize }
   - { key: Down,      mods: Alt|Shift, action: DecreaseFontSize }

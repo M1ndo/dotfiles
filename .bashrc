@@ -1,13 +1,13 @@
 # Maintainer Ybenel (ybenel@molero.xyz)
 
 # Including Local Bin Tool In The Path
-PATH="$HOME/.emacs.d/bin:$HOME/.local/bin:$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH"
-
+PATH="$HOME/.emacs.d/bin:$HOME/.local/bin:$HOME/.gem/ruby/3.0.0/bin:$PATH"
 # Setting Editor As Emacs
-EDITOR="emacsclient -a -c " 
+EDITOR="emacsclient -r"
 
 # Source Skey
-source $HOME/.skey
+# source $HOME/.skey
+source $HOME/.shortcuts
 
 # Exporting Term Colors To Xterm 
 # Note: For Better Colors Change To "st-256color" if you have st installed
@@ -142,6 +142,7 @@ ex ()
       *.Z)         uncompress $1;;
       *.7z)        7z x $1      ;;
       *.tar.zst)        tar xf $1      ;;
+      *.tar.xz)        tar xf $1      ;;
       *)           echo "'$1' cannot be extracted via ex()" ;;
     esac
   else
@@ -224,8 +225,6 @@ genpdf2() {
 
 }
 
-alias zt='zathura'
-
 calc ()
 {
   (( d = $1 ))
@@ -233,19 +232,24 @@ calc ()
 }
 
 ### ALIASES ###
+# Open Files
+alias ope='emacsclient -r '
 
 # navigation
 alias ..='cd ..' 
 alias ...='cd ../..'
+
 # vim
-alias vim=nvim
 
 # Trash
-alias rm='trash'
+#alias rm='trash'
 alias rms='/bin/rm'
 
 # Clear
 alias clear='echo -en "\x1b[2J\x1b[1;1H"'
+
+# Doas as Sudo
+alias sudo='doas'
 
 # broot
 alias br='br -dhp'
@@ -309,7 +313,11 @@ export DARKREP="/home/llove/DarkOs/Full/DarkOs-Repo/x86_64/"
 alias tlmgr='/usr/share/texmf-dist/scripts/texlive/tlmgr.pl  --usermode'
 
 # Emacs
-alias emax='emacsclient -c --tty'
+alias emax='emacsclient -r --tty'
+
+# Pdf open
+alias zt='zathura'
+
 
 # Mpv Alias
 alias plhd="mpv --ytdl-format='bestvideo[height<=?720]+bestaudio/best'"
@@ -324,6 +332,7 @@ alias scv='LIBGL_ALWAYS_SOFTWARE=1'
 
 # adding flags
 alias cp="cp -i"                          # confirm before overwriting something
+alias rcpp="rsync -hvrPt" ### Rsync Copy (New And Modified files/directories)
 alias df='df -h'                          # human-readable sizes
 alias du='du -h'
 alias free='free -m'                      # show sizes in MB
@@ -353,6 +362,8 @@ alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacma
 
 #get the error messages from journalctl
 alias jctl="journalctl -p 3 -xb"
+alias sysu="systemctl --user status "
+alias sysr="doas systemctl status "
 
 # termbin
 alias tb="nc termbin.com 9999"
@@ -361,10 +372,10 @@ alias tb="nc termbin.com 9999"
 set -o vi
 
 ### SET VIM/NVIM AS MANPAGER ###
-#export MANPAGER="/bin/sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist noma' -\""
+export MANPAGER="/bin/sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist noma' -\""
 #export MANPAGER="sh -c 'sed -e s/.\\\\x08//g | bat -l man -p'"
-export MANPAGER="nvimpager"
-export PAGER="nvimpager"
+#export MANPAGER="nvimpager"
+#export PAGER="nvimpager"
 
 #Recent Installed Packages
 alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"

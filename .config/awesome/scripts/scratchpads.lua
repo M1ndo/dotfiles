@@ -29,7 +29,7 @@ local anim_z = rubato.timed {
     awestore_compat = true
 }
 
-local music_ncmp = bling.module.scratchpad { command = "st -n scratch_ncmp -e ncmpcpp",
+local music_ncmp = bling.module.scratchpad { command = "xterm -name scratch_ncmp -e ncmpcpp",
                                       rule = { instance = "scratch_ncmp" },                 
                                       sticky = false, autoclose = true,                              
                                       floating = true, geometry = {x = dpi(220), y = dpi(130), height = dpi(550), width = dpi(960)},
@@ -43,19 +43,19 @@ local music_lyrics = bling.module.scratchpad { command = "xterm -name scratch_ly
                                       reapply = true, dont_focus_before_close  = true,
                                       rubato = {x = anim_z}
 }
-local music_spot = bling.module.scratchpad { command = "spot_load",
-                                      rule = { class = "Spotify" },                 
+local music_spot = bling.module.scratchpad { command = "alacritty --class NcSpot -e ncspot",
+                                      rule = { class = "NcSpot" },
                                       sticky = false, autoclose = true,
                                       floating = true, geometry = {x = dpi(220), y = dpi(130), height = dpi(550), width = dpi(960)},
                                       reapply = true, dont_focus_before_close  = false,
                                       rubato = {x = anim_x}
 }
-local file_manager = bling.module.scratchpad { command = "pcmanfm",
-                                      rule = { instance = "pcmanfm" },                 
+local term_scratch = bling.module.scratchpad { command = "xterm -name 'Term' -fn 'Cascadia Code' -fa 'Cascadia Code' -fs 10",
+                                      rule = { instance = "Term" },
                                       sticky = false, autoclose = true,                              
-                                      floating = false, geometry = {x = 0 , y = 0},
+                                      floating = true, geometry = {x = dpi(220) , y = dpi(130), height = dpi(550), width = dpi(960)},
                                       reapply = true, dont_focus_before_close  = false,
-                                      --rubato = {x = anim_x, y = anim_y} 
+                                      rubato = {x = anim_x}
 }
 local discord = bling.module.scratchpad { command = "discord",
                                       rule = { class = "discord" },                 
@@ -64,21 +64,21 @@ local discord = bling.module.scratchpad { command = "discord",
                                       reapply = true, dont_focus_before_close  = false,
                                       --rubato = {x = anim_x, y = anim_y} 
 }
-local chromium = bling.module.scratchpad { command = "firefox",
-                                      rule = { class = "Firefox" },
-                                      sticky = false, autoclose = true,                              
-                                      floating = false, geometry = {x = 0 , y = 0},
-                                      reapply = true, dont_focus_before_close  = false,
-                                      --rubato = {x = anim_x, y = anim_y} 
+local volume_ctl = bling.module.scratchpad { command = "xterm -name AmixerNcp -e ncpamixer",
+                                      rule = { instance = "AmixerNcp" },
+                                      sticky = false, autoclose = true,
+                                      floating = true, geometry = {x = dpi(220), y = dpi(130), height = dpi(550), width = dpi(960)},
+                                      reapply = true, dont_focus_before_close  = true,
+                                      rubato = {y = anim_y}
 }
 
 local scratchs = {music_ncmp,music_spot,music_lyrics}
 awesome.connect_signal("scratch::music", function() music_ncmp:toggle() end)
 awesome.connect_signal("scratch::lyrics", function() music_lyrics:toggle() end)
 awesome.connect_signal("scratch::spot", function() music_spot:toggle() end)
-awesome.connect_signal("scratch::filem", function() file_manager:toggle() end)
+awesome.connect_signal("scratch::term", function() term_scratch:toggle() end)
 awesome.connect_signal("scratch::disco", function() discord:toggle() end)
-awesome.connect_signal("scratch::brows", function() chromium:toggle() end)
+awesome.connect_signal("scratch::vctl", function() volume_ctl:toggle() end)
 awesome.connect_signal("scratch::turn_on", function()
     for _, scratch in ipairs(scratchs) do
         scratch:turn_on()

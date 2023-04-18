@@ -6,7 +6,7 @@ import System.Exit (exitSuccess)
 import qualified XMonad.StackSet as W
 
   -- Actions
-import XMonad.Actions.CopyWindow (kill1, killAllOtherCopies,copyToAll,wsContainingCopies,killAllOtherCopies)
+import XMonad.Actions.CopyWindow (kill1, killAllOtherCopies, copyToAll, wsContainingCopies)
 import XMonad.Actions.CycleWS (moveTo, shiftTo, WSType(..), nextScreen, prevScreen)
 import XMonad.Actions.PhysicalScreens
 import XMonad.Actions.GridSelect
@@ -86,11 +86,13 @@ import XMonad.Util.SpawnOnce
 -- statusBar
 import XMonad.Hooks.StatusBar
 import XMonad.Hooks.StatusBar.PP
+-- import XMonad.Hooks.TaffybarPagerHints (pagerHints) -- Trying TaffyBar
 
 main :: IO ()
 main = do
   -- the xmonad, ya know...what the WM is named after!
   xmonad . withSB mySB . E.ewmh . E.ewmhFullscreen . docks . (`additionalKeysP` myKeys) $ navigation2D
+  -- xmonad . pagerHints . E.ewmh . E.ewmhFullscreen . docks . (`additionalKeysP` myKeys) $ navigation2D
           def
           (xK_Up, xK_Left, xK_Down, xK_Right)
           [(mod4Mask, windowGo), (mod4Mask .|. shiftMask, windowSwap)]
@@ -119,15 +121,15 @@ myModMask :: KeyMask
 myModMask = mod4Mask       -- Sets modkey to super/windows key
 
 myTerminal :: String
-myTerminal = "alacrit"   -- Sets default terminal to the favorite (xterm)
-myTerminal2 = "xterm"   -- Sets default terminal to the favorite (xterm)
+myTerminal = "xterm"   -- Sets default terminal to the favorite (xterm)
+myTerm = "alacritty"   -- Sets secondary terminal to (Alacritty)
 
 myBrowser :: String
 myBrowser = "firefox "               -- Moved To A better Browser .
 
 -- Setup A Emacs Client
 myEmacs :: String
-myEmacs = "emacsclient -c -a emacs"
+myEmacs = "emacsclient -r"
 
 myBorderWidth :: Dimension
 myBorderWidth = 2          -- Sets border width for windows
@@ -139,8 +141,8 @@ myFocusColor :: String
 myFocusColor  = "#46d9ff"  -- Border color of focused windows
 
 trayerCommand :: String
--- trayerCommand = "trayer --edge top --align right --widthtype request --padding 2 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x282C34 --height 22 --iconspacing 0 --margin 479 --distance 9 &" -- Normal Xmobarrc 
-trayerCommand = "trayer --edge top --align right --widthtype request --padding 2 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x282C34 --height 20 --iconspacing 0 --margin 14 --distance 9 &" -- Xmobar Themed
+trayerCommand = "trayer --edge top --align right --widthtype request --padding 2 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x282C34 --height 22 --iconspacing 0 --margin 310 --distance 9 &" -- Normal Xmobarrc
+-- trayerCommand = "trayer --edge top --align right --widthtype request --padding 2 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 10 --tint 0x282C34 --height 20 --iconspacing 0 --margin 14 --distance 9 &" -- Xmobar Themed
 
 xmobarToggleCommand :: String
 xmobarToggleCommand = "dbus-send --session --dest=org.Xmobar.Control --type=method_call '/org/Xmobar/Control' org.Xmobar.Control.SendSignal \"string:Toggle 0\""
@@ -174,15 +176,19 @@ myStartupHook = do
         spawnOnce "nitrogen --restore &"
         spawnOnce "picom &"
         spawnOnce "unclutter -root &"
+        spawnOnce "dunst &"
         spawnOnce "sxhkd &"
         spawnOnce "nm-applet &"
         spawnOnce "volumeicon &"
         spawnOnce trayerCommand
-        spawnOnce "/usr/lib/polkit-kde-authentication-agent-1 &"
-        spawnOnce "powerkit &"
+        -- spawnOnce "/usr/lib/polkit-kde-authentication-agent-1 &"
+        spawnOnce "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &"
+        -- spawnOnce "powerkit &"
+        -- spawnOnce "status-notifier-watcher &"
+        spawnOnce "xfce4-power-manager &"
         spawnOnce "numlockx on &"
-        spawnOnce "xscreensaver -no-splash &"
-        spawnOnce "caffeine &"
+        -- spawnOnce "xscreensaver -no-splash &"
+        spawnOnce "caffeine-indicator &"
         spawnOnce "eww daemon &"
         -- spawnOnce "xdg-autostart-launcher --user &"
         spawnOnce "xsetroot -cursor_name left_ptr"
@@ -354,13 +360,14 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
               --, NS "irssi" spawnIrc findIrc manageIrc
               , NS "mocp" spawnMocp findMocp manageMocp
               , NS "Ncp" spawnNcp findNcp manageNcp
-              -- , NS "discord" spawnDiscord findDiscord manageDiscord
+              , NS "Ncmp" spawnNcmp findNcmp manageNcmp
+              , NS "discord" spawnDiscord findDiscord manageDiscord
               -- , NS "lightcord" spawnLcord findLcord manageLcord
-              , NS "qjackctl" spawnQjack findQjack manageQjack
+              , NS "lyrics" spawnLyr findLyr manageLyr
               , NS "spotify" spawnSpot findSpot manageSpot
               ]
  where
-  spawnTerm  = myTerminal2 ++ " -class 'Term' -fn 'Cascadia Code' -fa 'Cascadia Code'"
+  spawnTerm  = myTerminal ++ " -class 'Term' -fn 'Cascadia Code' -fa 'Cascadia Code'"
   findTerm   = (className =? "Term")
   manageTerm = customFloating $ W.RationalRect l t w h
              where
@@ -373,15 +380,24 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
              --   w = 0.9
              --   t = 0.95 -h
              --   l = 0.95 -w
-  spawnMocp  = myTerminal2 ++ " -name mocp -e /usr/bin/mocp"
+  spawnNcmp = myTerminal ++ " -name AmixerNcp -e ncpamixer"
+  findNcmp = appName =? "AmixerNcp"
+  manageNcmp = customFloating $ W.RationalRect l t w h
+             where
+               h = 0.5
+               w = 0.5
+               t = 0.2
+               l = 0.2
+
+  spawnMocp  = myTerminal ++ " -name mocp -e /usr/bin/mocp"
   findMocp   = appName =? "mocp"
   manageMocp = nonFloating
 
-  spawnNcp  = myTerminal2 ++ " -name ncmpcpp -e ncmpcpp"
+  spawnNcp  = myTerminal ++ " -name ncmpcpp -e ncmpcpp"
   findNcp   = appName =? "ncmpcpp"
   manageNcp = ( noTaskbar <+> customFloating (W.RationalRect 0.25 0.1 0.5 0.8) )
 
-  --spawnIrc  = myTerminal2 ++ " -n irssi -e 'torify irssi'"
+  --spawnIrc  = myTerminal ++ " -n irssi -e 'torify irssi'"
   --findIrc   = (stringProperty "WM_NAME" =? "irssi")
   --manageIrc = customFloating $ W.RationalRect l t w h
   --          where
@@ -389,26 +405,32 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
   --            w = 0.96
   --            t = 0.5
   --            l = 0.5
-  -- spawnDiscord  = "discord"
-  -- findDiscord   = (className =? "discord")
-  -- manageDiscord = nonFloating
+  spawnDiscord  = "discord"
+  findDiscord   = (className =? "discord")
+  manageDiscord = nonFloating
 
   -- spawnLcord  = "lightcord"
   -- findLcord   = (className =? "lightcord")
   -- manageLcord = nonFloating
 
-  spawnQjack  = "qjackctl"
-  findQjack   = (className =? "qjackctl")
-  -- manageQjack = defaultFloating
-  manageQjack = customFloating $ W.RationalRect l t w h
+  spawnLyr  = myTerminal ++ " -name scratch_lyrics -e ~/.local/bin/lyrics"
+  findLyr   = appName =? "scratch_lyrics"
+  -- manageLyr = defaultFloating
+  manageLyr = customFloating $ W.RationalRect l t w h
             where
-              h = 0.96
-              w = 0.96
-              t = 0.5
-              l = 0.5
-  spawnSpot  = "spot_load"
-  findSpot   = (className =? "Spotify")
-  manageSpot = nonFloating
+              h = 0.9
+              w = 0.3
+              t = 0.0
+              l = 0.3
+
+  spawnSpot = "alacritty --class NcSpot -e ncspot"
+  findSpot   = (className =? "NcSpot")
+  manageSpot = customFloating $ W.RationalRect l t w h
+           where
+             h = 0.85
+             w = 0.85
+             t = 0.1
+             l = 0.1
 
 mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
 mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True
@@ -545,9 +567,9 @@ myKeys =
 
   -- Useful programs to have a keybinding for launch
       , ("M-<Return>", spawn myTerminal)
-      , ("M-M1-<Return>", spawn myTerminal2)
+      , ("M-M1-<Return>", spawn myTerm)
       , ("M-S-b", spawn myBrowser)
-      , ("M-M1-h", spawn (myTerminal2 ++ " -e gtop"))
+      , ("M-M1-h", spawn (myTerminal ++ " -e gtop"))
 
   -- Toggle Xmobar
       , ("M-b", spawn (xmobarToggleCommand ++ " && pkill trayer || " ++ trayerCommand))
@@ -642,9 +664,10 @@ myKeys =
       , ("M-C-c", namedScratchpadAction myScratchPads "mocp")
       -- , ("M-C-e", namedScratchpadAction myScratchPads "irssi")
       , ("M-C-a", namedScratchpadAction myScratchPads "Ncp")
-      -- , ("M-C-x", namedScratchpadAction myScratchPads "discord")
+      , ("M-C-o", namedScratchpadAction myScratchPads "Ncmp")
+      , ("M-C-x", namedScratchpadAction myScratchPads "discord")
       -- , ("M-C-z", namedScratchpadAction myScratchPads "lightcord")
-      , ("M-C-p", namedScratchpadAction myScratchPads "qjackctl")
+      , ("M-C-p", namedScratchpadAction myScratchPads "lyrics")
       , ("M-C-y", namedScratchpadAction myScratchPads "spotify")
 
   -- Controls for mocp music player (SUPER-u followed by a key)
@@ -659,11 +682,11 @@ myKeys =
       , ("M-u b", spawn "mpc prev")
       , ("M-u m", spawn "mpc stop")
 
-  -- Controls for Ncmpcpp mpd music player (SUPER-u followed by a key)
-      , ("M-u w", spawn "playerctl -p spotify play-pause")
-      , ("M-u d", spawn "playerctl -p spotify next")
-      , ("M-u a", spawn "playerctl -p spotify previous")
-      , ("M-u s", spawn "playerctl -p spotify stop")
+  -- Controls for Mpris (Spotify, Ncspot, Parole) (SUPER-u followed by a key)
+      , ("M-u w", spawn "~/.config/eww/scripts/getmusic --toggle")
+      , ("M-u d", spawn "~/.config/eww/scripts/getmusic --next")
+      , ("M-u a", spawn "~/.config/eww/scripts/getmusic --prev")
+      , ("M-u s", spawn "~/.config/eww/scripts/getmusic --stop")
 
   -- Player Ctl Stop Content (alt-p followed by a key)
       , ("M1-p", spawn "playerctl play-pause")
@@ -674,20 +697,21 @@ myKeys =
       , ("M-r c", spawn "eww open time-side")
       , ("M-r p", spawn "eww open quote")
       , ("M-r w", spawn "eww open weather")
-      , ("M-r a", spawn "eww open-many player_side time-side quote weather")
+      , ("M-r l", spawn "eww open lyrics_w")
+      , ("M-r a", spawn "eww open-many player_side time-side quote weather lyrics_w")
       , ("M-r q", spawn "eww close-all")
 
   -- App Shortcuts
       , ("M1-<Return>", spawn "rofi -show drun -show-icons")
       , ("M-M1-s", spawn "dmenu_run -c -b -l 10 -g 4 -p 'ybenel: ' -fn 'scientifica:size=12'")
-      , ("M-M1-e", spawn (myTerminal2 ++ " -e irssi"))
-      , ("M-M1-c", spawn (myTerminal2 ++ " -e /usr/bin/mocp"))
+      , ("M-M1-e", spawn (myTerminal ++ " -e irssi"))
+      , ("M-M1-c", spawn (myTerminal ++ " -e /usr/bin/mocp"))
       , ("M-e", spawn myEmacs)
       , ("M1-C-s", spawn "./.dmenu/dmenu-scrot.sh")
       , ("M1-C-b", spawn "./.dmenu/dmenu-setbg.sh")
       , ("M1-C-h", spawn "./.dmenu/dmenu-sysmon.sh")
       , ("M1-C-e", spawn "./.dmenu/dmenu-edit-configs.sh")
-      , ("M-M1-z", spawn (myTerminal2 ++ " -e ncmpcpp"))
+      , ("M-M1-z", spawn (myTerminal ++ " -e ncmpcpp"))
 
   -- Multimedia Keys
       , ("<XF86AudioPlay>", spawn  "mpc toggle")

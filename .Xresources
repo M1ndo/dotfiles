@@ -15,7 +15,8 @@ Xcursor.size: 24
 
 XTerm.termName: xterm-256color
 XTerm*renderFont: true
-XTerm*faceName: Cascadia Code
+XTerm*faceName: VictorMono Nerd Font Mono
+! XTerm*faceName: Cascadia Code
 xterm*faceSize: 10
 ! VT Font Menu: Unreadable
 xterm*faceSize1: 8

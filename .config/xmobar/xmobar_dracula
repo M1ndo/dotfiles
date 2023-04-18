@@ -1,8 +1,6 @@
-Config { font            = "xft:Scientifica:pixelsize=11:antialias=true:hinting=true" 
-       , additionalFonts = [ "xft:Mononoki:pixelsize=11:antialias=true:hinting=true"
-                           , "xft:Font Awesome 6 Free Solid:pixelsize=12"
-                           , "xft:Font Awesome 6 Brands:pixelsize=12"
-                           ]
+Config {
+       font              = "Alegreya SC 9"
+       , additionalFonts = [ "Iosevka 10", "Symbola 10"]
      --  , bgColor      = "#282a36"
        , bgColor = "#282c34"
        , fgColor = "#06da86"
@@ -31,7 +29,7 @@ Config { font            = "xft:Scientifica:pixelsize=11:antialias=true:hinting=
                         -- Echos a "bell" icon in front of the pacman updates.
                     , Run Com "echo" ["<fn=2>\xf0f3</fn>"] "bell" 3600
                         -- Check for pacman updates (script found in .local/bin)
-                    , Run Com ".local/bin/pacupdate" [] "pacupdate" 36000
+                    , Run Com "pacupdate" [] "pacupdate" 36000
                         -- Echos a "battery" icon in front of the pacman updates.
                     , Run Com "echo" ["<fn=2>\xf242</fn>"] "baticon" 3600
                         -- Battery
@@ -40,10 +38,10 @@ Config { font            = "xft:Scientifica:pixelsize=11:antialias=true:hinting=
                     -- , Run Date "<fn=2>\xf017</fn>  %b %d %Y - (%H:%M) " "date" 50
                     , Run Date "<fn=2>\xf017</fn> %b %d (%H:%M)" "date" 50
                         -- Script that dynamically adjusts xmobar padding depending on number of trayer icons.
-                    , Run Com "/home/llove/.config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 10
+                    , Run Com "~/.config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 10
                         -- Prints out the left side items such as workspaces, layout, etc.
                     , Run XMonadLog 
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = " %XMonadLog% }{ <box type=Bottom width=2 mb=2 color=#f1fa8c><fc=#f1fa8c>%cpu%</fc></box> <fc=#666666>|</fc> <box type=Bottom width=2 mb=2 color=#ff5555><fc=#ff5555>%memory%</fc></box> <fc=#666666>|</fc> <box type=Bottom width=2 mb=2 color=#5af78e><fc=#5af78e>%disku%</fc></box> <fc=#666666>|</fc> <box type=Bottom width=2 mb=2 color=#8be9fd><fc=#8be9fd>%bell% %pacupdate%</fc></box> <fc=#666666>|</fc> <box type=Bottom width=2 mb=2 color=#caa9fa><fc=#caa9fa>%date%</fc></box> <fc=#666666>|</fc> <box type=Bottom width=2 mb=2 color=#caa9fa><fc=#666666> %trayerpad% |</fc></box>"}
+       , template = " %XMonadLog% }{ <fc=#666666> %trayerpad% |</fc> <box type=Bottom width=2 mb=2 color=#f1fa8c><fc=#f1fa8c>%cpu%</fc></box> <fc=#666666>|</fc> <box type=Bottom width=2 mb=2 color=#ff5555><fc=#ff5555>%memory%</fc></box> <fc=#666666>|</fc> <box type=Bottom width=2 mb=2 color=#5af78e><fc=#5af78e>%disku%</fc></box> <fc=#666666>|</fc> <box type=Bottom width=2 mb=2 color=#8be9fd><fc=#8be9fd>%bell% %pacupdate%</fc></box> <fc=#666666>|</fc> <box type=Bottom width=2 mb=2 color=#caa9fa><fc=#caa9fa>%date%</fc></box> <fc=#666666></fc>"}

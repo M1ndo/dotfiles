@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
 
-# A script that interacts with eww widget (player-side) to get information about (spotify||mpd)
+# A script that interacts with eww widget (player-side) to get information about (spotify|Mpris|mpd)
 
 # Get Current Running Player.
-if ps -C spotify > /dev/null; then
-    status=$(playerctl -p spotify status)
-    if [ "$status" = "Playing" ] || [ "$status" = "Paused" ]; then
-        PLAYER="spotify"
+players=("spotify" "parole" "ncspot")
+for player in "${players[@]}"; do
+    if ps -C $player > /dev/null; then
+        status=$(eval "playerctl -p \$player status")
+        if [ "$status" = "Playing" ] || [ "$status" = "Paused" ]; then
+            PLAYER=$player
+        fi
     fi
-fi
+done
 if ps -C mpd > /dev/null; then
     status=$(mpc status | grep playing > /dev/null)
     exit_code=$?
@@ -25,12 +28,21 @@ if ps -C mpd > /dev/null; then
         fi
     fi
 fi
+if [ -z $PLAYER ]; then
+   status=$(playerctl status)
+   if [ "$status" = "Playing" ] || [ "$status" = "Paused" ]; then
+       PLAYER="Unknown"
+   fi
+fi
 get_title() {
-    if  [ "$PLAYER" = "spotify" ]; then
-        TITLE=$(playerctl -p spotify metadata --format '{{title}}')
+    if  [[ "${players[@]}" =~ "$PLAYER" ]]; then
+        TITLE=$(eval playerctl -p \$PLAYER metadata --format '{{title}}')
         echo $TITLE
     elif [ "$PLAYER" = "mpd" ]; then
         TITLE=$(mpc -f %title% current)
+        echo $TITLE
+    elif [ "$PLAYER" = "Unknown" ]; then
+        TITLE=$(playerctl metadata -f '{{title}}')
         echo $TITLE
     else
         echo "Offline"
@@ -38,30 +50,36 @@ get_title() {
 }
 
 get_album() {
-    if  [ "$PLAYER" = "spotify" ]; then
-        ALBUM=$(playerctl -p spotify metadata --format '{{album}}')
+    if  [[ "${players[@]}" =~ "$PLAYER" ]]; then
+        ALBUM=$(eval playerctl -p \$PLAYER metadata --format '{{album}}')
         echo $ALBUM
     elif [ "$PLAYER" = "mpd" ]; then
         ALBUM=$(mpc -f %album% current)
+        echo $ALBUM
+    elif [ "$PLAYER" = "Unknown" ]; then
+        ALBUM=$(playerctl metadata -f '{{album}}')
         echo $ALBUM
     else
         echo "Offline"
     fi
 }
 get_artist() {
-    if  [ "$PLAYER" = "spotify" ]; then
-        ARTIST=$(playerctl -p spotify metadata --format '{{artist}}')
+    if  [[ "${players[@]}" =~ "$PLAYER" ]]; then
+        ARTIST=$(eval playerctl -p \$PLAYER metadata --format '{{artist}}')
         echo $ARTIST
     elif [ "$PLAYER" = "mpd" ]; then
         ARTIST=$(mpc -f %artist% current)
+        echo $ARTIST
+    elif [ "$PLAYER" = "Unknown" ]; then
+        ARTIST=$(playerctl metadata -f '{{artist}}')
         echo $ARTIST
     else
         echo "Player"
     fi
 }
 get_status() {
-    if  [ "$PLAYER" = "spotify" ]; then
-        STATUS=$(playerctl -p spotify status)
+    if  [[ "${players[@]}" =~ "$PLAYER" ]]; then
+        STATUS=$(eval playerctl -p \$PLAYER status)
         if [ "$STATUS" = "Playing" ]; then
             STATUS=""
         else
@@ -82,8 +100,8 @@ get_status() {
     fi
 }
 get_statuss() {
-    if  [ "$PLAYER" = "spotify" ]; then
-        STATUS=$(playerctl -p spotify status)
+    if  [[ "${players[@]}" =~ "$PLAYER" ]]; then
+        STATUS=$(eval playerctl -p \$PLAYER status)
         if [ "$STATUS" = "Playing" ]; then
             STATUS="Playing"
         else
@@ -104,99 +122,10 @@ get_statuss() {
     fi
 }
 
-get_status() {
-    if  [ "$PLAYER" = "spotify" ]; then
-        STATUS=$(playerctl -p spotify status)
-        if [ "$STATUS" = "Playing" ]; then
-            STATUS=""
-        else
-            STATUS=""
-        fi
-        printf "$STATUS"
-    elif [ "$PLAYER" = "mpd" ]; then
-        STATUS=$(mpc status | grep playing > /dev/null)
-        exit_code=$?
-        if [ $exit_code -eq 0 ]; then
-            STATUS=""
-        else
-            STATUS=""
-        fi
-        printf "$STATUS"
-    else
-        printf ""
-    fi
-}
-get_status() {
-    if  [ "$PLAYER" = "spotify" ]; then
-        STATUS=$(playerctl -p spotify status)
-        if [ "$STATUS" = "Playing" ]; then
-            STATUS=""
-        else
-            STATUS=""
-        fi
-        printf "$STATUS"
-    elif [ "$PLAYER" = "mpd" ]; then
-        STATUS=$(mpc status | grep playing > /dev/null)
-        exit_code=$?
-        if [ $exit_code -eq 0 ]; then
-            STATUS=""
-        else
-            STATUS=""
-        fi
-        printf "$STATUS"
-    else
-        printf ""
-    fi
-}
-get_status() {
-    if  [ "$PLAYER" = "spotify" ]; then
-        STATUS=$(playerctl -p spotify status)
-        if [ "$STATUS" = "Playing" ]; then
-            STATUS=""
-        else
-            STATUS=""
-        fi
-        printf "$STATUS"
-    elif [ "$PLAYER" = "mpd" ]; then
-        STATUS=$(mpc status | grep playing > /dev/null)
-        exit_code=$?
-        if [ $exit_code -eq 0 ]; then
-            STATUS=""
-        else
-            STATUS=""
-        fi
-        printf "$STATUS"
-    else
-        printf ""
-    fi
-}
-get_status() {
-    if  [ "$PLAYER" = "spotify" ]; then
-        STATUS=$(playerctl -p spotify status)
-        if [ "$STATUS" = "Playing" ]; then
-            STATUS=""
-        else
-            STATUS=""
-        fi
-        printf "$STATUS"
-    elif [ "$PLAYER" = "mpd" ]; then
-        STATUS=$(mpc status | grep playing > /dev/null)
-        exit_code=$?
-        if [ $exit_code -eq 0 ]; then
-            STATUS=""
-        else
-            STATUS=""
-        fi
-        printf "$STATUS"
-    else
-        printf ""
-    fi
-}
-
 cp_ranimg() {
     DIR_IMG="$HOME/.config/eww/imgs/"
     FILE=$(find "$DIR_IMG" -type f | shuf -n 1)
-    if [ "$PLAYER" = "spotify" ]; then
+    if [[ "${players[@]}" =~ "$PLAYER" ]]; then
         cp $FILE /tmp/spotify_cover.png
     elif [ "$PLAYER" = "mpd" ]; then
         cp $FILE /tmp/mpd_cover.png
@@ -206,10 +135,17 @@ cp_ranimg() {
 }
 
 get_art() {
-    if  [ "$PLAYER" = "spotify" ]; then
-        ARTLINK=$(playerctl metadata mpris:artUrl | sed -e 's/open.spotify.com/i.scdn.co/g')
-        if [ $(playerctl metadata mpris:artUrl) ]; then
-            curl -s $ARTLINK --output "/tmp/spotify_cover.png"
+    if  [[ "${players[@]}" =~ "$PLAYER"  ]]; then
+        if [ $(eval playerctl -p \$PLAYER metadata mpris:artUrl) ]; then
+            ARTLINK=$(eval playerctl -p \$PLAYER metadata mpris:artUrl | sed -e 's/open.spotify.com/i.scdn.co/g')
+            if [[ "$ARTLINK" =~ "file://" ]]; then
+                ARTLINK=$(eval "playerctl -p \$PLAYER metadata -f '{{mpris:artUrl}}' | awk -F:// '{print $2}");
+            fi
+            if [ ! -f $ARTLINK ]; then
+                curl -s $ARTLINK --output "/tmp/spotify_cover.png"
+            else
+                cp $ARTLINK "/tmp/spotify_cover.png"
+            fi
         else
             cp_ranimg
         fi
@@ -220,6 +156,11 @@ get_art() {
         exit_code=$?
         [ "$exit_code" -eq 1 ] && cp_ranimg
         echo "/tmp/mpd_cover.png"
+    elif [ "$PLAYER" = "Unknown" ]; then
+        file=$(playerctl metadata -f '{{mpris:artUrl}}')
+        if [ ! -z $file ]; then
+            echo $file
+        fi
     else
         cp_ranimg
     fi
@@ -227,43 +168,71 @@ get_art() {
 
 
 pause_play() {
-    if [ "$PLAYER" = "spotify" ]; then
-        playerctl -p spotify play-pause
+    if [[ "${players[@]}" =~ "$PLAYER"  ]]; then
+        playerctl -p $player play-pause
     elif [ "$PLAYER" = "mpd" ]; then
         mpc toggle
     fi
 }
 
 play_prev() {
-    if [ "$PLAYER" = "spotify" ]; then
-        playerctl -p spotify previous
+    if [[ "${players[@]}" =~ "$PLAYER"  ]]; then
+        playerctl -p $player previous
     elif [ "$PLAYER" = "mpd" ]; then
         mpc prev
     fi
 }
 
 play_next() {
-    if [ "$PLAYER" = "spotify" ]; then
-        playerctl -p spotify next
+    if [[ "${players[@]}" =~ "$PLAYER"  ]]; then
+        playerctl -p $player next
     elif [ "$PLAYER" = "mpd" ]; then
         mpc next
     fi
 }
 
 player_stop() {
-    if [ "$PLAYER" = "spotify" ]; then
-        playerctl -p spotify stop
+    if [[ "${players[@]}" =~ "$PLAYER"  ]]; then
+        playerctl -p $player stop
     elif [ "$PLAYER" = "mpd" ]; then
         mpc stop
     fi
 }
 
-show_current() { 
+show_current() {
     echo "Album        `get_album`"
     echo "AlbumArtist  `get_artist`"
     echo "Artist       `get_artist`"
     echo "Title        `get_title`"
     echo "Status       `get_statuss`"
+    echo "Duration     `get_timing`"
+
+}
+
+get_lyrics() {
+    file=$(eval find ~/.cache/lyrics/ | grep -i `get_title|tr -d '[:space:]'`)
+    if [ ! -z $file ]; then
+        cat $file
+    else
+        echo "No Lyrics Had Been Found 😿"
+    fi
+}
+
+get_timing() {
+   FULL_M=`python -c "print(($(nc -W 1 -U ~/.cache/ncspot/ncspot.sock | jq '.playable.duration')/1000/60) % 60)" | cut -c -4`
+   CUR_T=`playerctl position | cut -c -5`
+   if [[ `bc -l <<< "$CUR_T > 60"` -eq 1 ]]; then
+      CUR_M=`python -c "print($(playerctl position|cut -c -5)/60)" | cut -c -4 | awk -F. -vOFS=':' '{print $1,$2}'`
+   else
+       CUR_M="0:"`playerctl position | cut -c -2`
+   fi
+   echo "[$CUR_M/$FULL_M]"
+}
+
+get_percentage() {
+   FULL_M=`python -c "print(($(nc -W 1 -U ~/.cache/ncspot/ncspot.sock | jq '.playable.duration')/1000/60) % 60)" | cut -c -4`
+   CUR_T=`playerctl position | cut -c -5`
+   python -c "print(($CUR_T / ($FULL_M * 60)) * 100)" | cut -c -2
 }
 
 if [[ "$1" == "--art" ]]; then
@@ -289,4 +258,10 @@ elif [[ "$1" == "--stop" ]]; then
     player_stop
 elif [[ "$1" == "--current" ]]; then
     show_current
+elif [[ "$1" == "--lyrics" ]]; then
+    get_lyrics
+elif [[ "$1" == "--time" ]]; then
+    get_timing
+elif [[ "$1" == "--perc" ]]; then
+    get_percentage
 fi

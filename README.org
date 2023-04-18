@@ -15,7 +15,8 @@ Eww widgets are compatible with *1920x1080* // *1366x768* resolutions
  + To Change Resolution to 1366x768 change [[https://github.com/m1ndo/dotfiles/blob/master/.config/eww/eww.yuck][Eww.yuck]] and un-comment 1366x768 widgets
    + Make sure to comment out 1920x1080 widgets
 *** Widgets Supported
-+ Player Widget ( Spotify / Mpd )
++ Player Widget ( Spotify,Ncspot / Mpd )
++ Lyrics Widget ( Same As Above )
 + Time Widget
 + Quotes Widget
 + Weather Widget

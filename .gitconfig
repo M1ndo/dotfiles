@@ -12,5 +12,6 @@
 	version = HTTP/2
 [core]
 	compression = 0
+	editor = emacsclient -r
 [init]
 	defaultBranch = master

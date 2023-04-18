@@ -90,7 +90,7 @@ theme.terex_off = theme.dir .. "icons/offside.svg"
 
 -- bling Related
 theme.flash_focus_step = 0.01 
-theme.flash_focus_start_opacity = 0.8
+theme.flash_focus_start_opacity = 0.5
 
 -- Tabbed
 theme.mstab_bar_height = dpi(60)
@@ -452,7 +452,7 @@ function theme.at_screen_connect(s)
         border_width = dpi(1)
     elseif s.geometry.width == 1920 then
         theme.taglist_font = "FiraCode Nerd Font Mono 19"
-        theme.font                                      = "Caskaydia Cove 10"
+        theme.font                                      = "Cascadia Code 10"
         theme.font2                                     = "Mononoki Nerd Font 10"
         width1 = 180
         width2 = 1400

@@ -1,24 +1,28 @@
 ;; Eww Configuration
 ;; Written by ybenel (ybenel@pm.me)
-;; Date: 2021-12-15
-
+;; Date: 2021-12-15 Updated in 2023-03-15
 
 ;; Music Variables
-
 (defpoll TITLE :interval "5s" "~/.config/eww/scripts/getmusic --title")
 (defpoll COVER :interval "5s" "~/.config/eww/scripts/getmusic --art")
 (defpoll MUSICSTAT :interval "5s" "~/.config/eww/scripts/getmusic --status")
 (defpoll ARTIST :interval "5s" "~/.config/eww/scripts/getmusic --artist")
+(defpoll ALBUM :interval "5s" "~/.config/eww/scripts/getmusic --album")
+(defpoll LYRICS :interval "5s" "~/.config/eww/scripts/getmusic --lyrics")
+(defpoll SONG_TIME :interval "1s" "~/.config/eww/scripts/getmusic --time")
+(defpoll TIMING :interval "1s" "~/.config/eww/scripts/getmusic --perc")
+
 ;; TIme
 (defpoll HOUR :interval "30m" "date '+%I'")
 (defpoll MIN :interval "10s" "date '+%M'")
 (defpoll DAY :interval "15h" "date '+%A'")
 (defpoll DAYY :interval "15h" "date '+%d/%m'")
+
 ;; Quote
 (defpoll QUOTE :interval "10m" "~/.config/eww/scripts/getquote --quote")
 (defpoll QUOTE_AUTHOR :interval "10m" "~/.config/eww/scripts/getquote --author")
-;; Weather
 
+;; Weather
 (defpoll ICON :interval "15m"  "~/.config/eww/scripts/weather_info --getdata && ~/.config/eww/scripts/weather_info --icon")
 (defpoll STAT :interval "15m"  "~/.config/eww/scripts/weather_info --stat")
 (defpoll TEMP :interval "15m"  "~/.config/eww/scripts/weather_info --temp")
@@ -31,12 +35,12 @@
        (image :path "${COVER}" :height 100 :image-width 150 :image-height 150)
        (box :class "musicstuff-side" :orientation "v" :spacing 10 :space-evenly "false" :vexpand "false" :hexpand "false"
             (label :class "musicinfo-side" :halign "center" :wrap "true" :limit-width 20 :text TITLE)
+            (label :class "musicinf-album" :halign "center" :wrap "true" :limit-width 15 :text ALBUM)
             (box :class "musicbtn-side" :orientation "h" :spacing 10 :halign "center" :space-evenly "false" :vexpand "false" :hexpand "false"
                  (button :class "btn-previous" :onclick "~/.config/eww/scripts/getmusic --prev" "")
                  (button :class "pause-play-side" :onclick "~/.config/eww/scripts/getmusic --toggle" MUSICSTAT)
                  (button :class "btn-next" :onclick "~/.config/eww/scripts/getmusic --next" ""))
             (label :class "musicinfo" :halign "center" :wrap "true" :text ARTIST))))
-
 
 (defwidget time []
   (box :class "time-side" :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false"
@@ -45,6 +49,14 @@
        (label :class "day-side" :wrap "true" :limit-width 20 :text "${DAY}")
        (label :class "dayy-side" :wrap "true" :limit-width 20 :text "${DAYY}")))
 
+(defwidget lyrics []
+  (box :class "lyrics-box" :orientation "v" :space-evenly "false" :spacing 10
+       (image :class "img_lyrics" :path "${COVER}" :height 200 :image-width 250 :image-height 250)
+       (box :class "ratetim" :orientation "h" :space-evenly "true" :spacing 5
+          (scale :class "scale" :halign "center" :value TIMING :orientation "h" :flipped true :max 100 :min 0)
+          (label :class "rateim-text" :text "${SONG_TIME}" :wrap "true" :xalign 0.3))
+       (label :class "lyrics_s" :wrap "true" :text "${LYRICS}")
+       (image :class "img_lyrics" :path "${COVER}" :height 150 :image-width 225 :image-height 225)))
 
 (defwidget quote []
   (box :class "quote" :orientation "v" :space-evenly "false" :vexpand "false" :hexpand "false"
@@ -63,9 +75,15 @@
             (label :class "label_quote" :text QUOTE2_WEATHER))))
 
 ;; Player-side widget top-left for 1366x768 && 1920x1080
-(defwindow player_side2 :stacking "fg" :focusable "false" :monitor 1
+(defwindow player_side2 :stacking "fg" :focusable "false" :monitor 0
   :geometry (geometry :x 1038 :y 10 :width 200 :height 135)
                 (music))
+
+;; Lyrics Widget For 1366x768 && 1920x1080
+(defwindow lyrics_w :stacking "fg" :focusable "false" :monitor 0
+   :geometry (geometry :anchor "center" :width 500 :height 560)
+   (scroll :hscroll "true" :height 500 :width 300
+    (lyrics)))
 
 ;; Quote Widget for 1366x768 && 1920x1080
 (defwindow quote :stacking "fg" :focusable "false" :monitor 0

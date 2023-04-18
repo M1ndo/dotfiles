@@ -126,7 +126,7 @@ local mailclient        = "evolution"
 local mediaplayer       = "vlc"
 local scrlocker         = "betterlockscreen -l"
 local terminal          = "xterm"
-local terminal_s        = "alacrit"
+local terminal_s        = "alacritty"
 local virtualmachine    = "virtualbox"
 
 -- awesome variables
@@ -284,7 +284,7 @@ globalkeys = my_table.join(
 	    beautiful.bg_normal, beautiful.fg_normal, beautiful.bg_focus, beautiful.fg_focus))
 	    end,
     {description = "show rofi", group = "hotkeys"}),
-     
+
 
     -- My dmenu scripts (Alt+Ctrl+Key)
     awful.key({ altkey, "Control" }, "e", function () awful.util.spawn( "./.dmenu/dmenu-edit-configs.sh" ) end,
@@ -301,7 +301,7 @@ globalkeys = my_table.join(
     -- My applications (Super+Alt+Key)
     awful.key({ altkey, }, "e", function () awful.util.spawn( terminal .. " -e nvim" ) end,
         {description = "Open Nvim" , group = "hotkeys" }),
-    awful.key({ modkey, }, "e", function () awful.util.spawn("emacsclient -c -a emacs") end,
+    awful.key({ modkey, }, "e", function () awful.util.spawn("emacsclient -r") end,
         {description = "Open Emacs" , group = "hotkeys" }),
     awful.key({ modkey, altkey }, "c", function () awful.util.spawn( terminal.." -e mocp" ) end,
         {description = "mocp" , group = "terminal apps" }),
@@ -329,10 +329,10 @@ globalkeys = my_table.join(
         {description = "Lyrics" , group = "Scratchpad" }),
     awful.key({ modkey, }, "F1", function () awesome.emit_signal("scratch::spot") end,
         {description = "Spotify" , group = "Scratchpad" }),
-    -- awful.key({ }, "XF86HomePage", function () awesome.emit_signal("scratch::brows") end,
-    --     {description = "Firefox ScratchPad" , group = "Scratchpad" }),
-    -- awful.key({ }, "XF86Mail", function () awesome.emit_signal("scratch::filem") end,
-    --     {description = "File_Manager (Pcmanfm)" , group = "Scratchpad" }),
+    awful.key({ modkey, }, "F7", function () awesome.emit_signal("scratch::vctl") end,
+        {description = "Volume Control" , group = "Scratchpad" }),
+    awful.key({ modkey, "Control" }, "Return", function () awesome.emit_signal("scratch::term") end,
+        {description = "Xterm (ScatchPad)" , group = "Scratchpad" }),
     awful.key({ modkey, }, "F4", function () awesome.emit_signal("scratch::disco") end,
         {description = "Discord" , group = "Scratchpad" }),
     awful.key({ modkey, }, "F12", function () awesome.emit_signal("scratch::turn_off") end,
@@ -361,26 +361,26 @@ globalkeys = my_table.join(
         {description = "Mpd Stop", group = "Mpd"}),
 
     -- Mpd Controls
-    awful.key({ altkey, "Shift" }, "w", function () os.execute('playerctl -p spotify play-pause') end,
-        {description = "Spotify Toggle", group = "Mpd"}),
-    awful.key({ altkey, "Shift" }, "d", function () os.execute('playerctl -p spotify next') end,
-        {description = "Spotify Next", group = "Mpd"}),
-    awful.key({ altkey, "Shift" }, "a", function () os.execute('playerctl -p spotify previous') end,
-        {description = "Spotify Previous", group = "Mpd"}),
-    awful.key({ altkey, "Shift" }, "s", function () os.execute('playerctl -p spotify stop') end,
-        {description = "Spotify Stop", group = "Mpd"}),
+    awful.key({ altkey, "Shift" }, "w", function () os.execute('~/.config/eww/scripts/getmusic --toggle') end,
+        {description = "Spotify Toggle", group = "Mpris"}),
+    awful.key({ altkey, "Shift" }, "d", function () os.execute('~/.config/eww/scripts/getmusic --next') end,
+        {description = "Spotify Next", group = "Mpris"}),
+    awful.key({ altkey, "Shift" }, "a", function () os.execute('~/.config/eww/scripts/getmusic --prev') end,
+        {description = "Spotify Previous", group = "Mpris"}),
+    awful.key({ altkey, "Shift" }, "s", function () os.execute('~/.config/eww/scripts/getmusic --stop') end,
+        {description = "Spotify Stop", group = "Mpris"}),
 
     -- Browser *Dbus* Audio Control
     awful.key({ altkey }, "p", function() os.execute('playerctl play-pause') end),
 
     -- Eww Widgets
-    awful.key({ altkey }, "m", function() os.execute('eww open player_side') end),
-    awful.key({ altkey }, "s", function() os.execute('eww open player_side2') end),
-    awful.key({ altkey }, "r", function() os.execute('eww open time-side') end),
-    awful.key({ altkey }, "q", function() os.execute('eww open quote') end),
-    awful.key({ altkey, "Control" }, "w", function() os.execute('eww open weather') end),
-    awful.key({ altkey, "Control" }, "a", function() os.execute('eww open-many player_side time-side quote weather') end),
-    awful.key({ altkey, "Control" }, "x", function() os.execute('eww close-all') end),
+    awful.key({ altkey }, "m", function() os.execute('eww open player_side') end, {description = "Eww Open Player", group = "Eww"}),
+    awful.key({ altkey }, "s", function() os.execute('eww open player_side2') end, {description = "Eww Open Player2", group = "Eww"}),
+    awful.key({ altkey }, "r", function() os.execute('eww open time-side') end, {description = "Eww Open Time", group = "Eww"}),
+    awful.key({ altkey }, "q", function() os.execute('eww open quote') end, {description = "Eww Open Quote", group = "Eww"}),
+    awful.key({ altkey, "Control" }, "w", function() os.execute('eww open weather') end, {description = "Eww Open Weather", group = "Eww"}),
+    awful.key({ altkey, "Control" }, "a", function() os.execute('eww open-many player_side time-side quote weather') end, {description = "Eww Open All", group = "Eww"}),
+    awful.key({ altkey, "Control" }, "x", function() os.execute('eww close-all') end, {description = "Eww Close All", group = "Eww"}),
 
 
     -- Hotkeys Awesome
@@ -426,7 +426,7 @@ globalkeys = my_table.join(
     awful.key({ altkey, "Shift" }, "Tab",  awful.tag.viewprev,
          {description = "View Previous", group = "Tag"}),
 
-     
+
 
     -- By direction client focus with arrows (Modkey + <UP/Down/Right/Left>)
     awful.key({ modkey, }, "Down",
@@ -511,10 +511,10 @@ globalkeys = my_table.join(
     awful.key({ modkey, }, "l", function () awful.spawn(scrlocker) end,
               {description = "Lock Screen", group = "Super"}),
 
-    awful.key({ modkey, "Control" }, "Return", function () awful.spawn(terminal_s) end,
-              {description = "Launch Terminal", group = "Super"}),
+    awful.key({ altkey, modkey }, "Return", function () awful.spawn(terminal_s) end,
+              {description = "Launch 2Terminal", group = "Super"}),
 
-    -- Leaved Layout 
+    -- Leaved Layout
     -- awful.key({ modkey, }, "s", leaved.keys.min_container,
     --           {description = "Minimize Container Windows", group = "Leaved"}),
     -- awful.key({ modkey, }, ";", leaved.keys.shiftOrder,
@@ -556,7 +556,7 @@ globalkeys = my_table.join(
     awful.key({ altkey, modkey }, "Down", function() bling.module.tabbed.pick_by_direction("down") end,
               {description = "Pick From Down", group = "Mstab"}),
 
-    
+
     -- Layout Selection
     awful.key({ modkey, }, "Tab", function () awful.layout.inc( 1) end,
               {description = "Select Next", group = "Layout"}),
@@ -625,13 +625,13 @@ clientkeys = my_table.join(
               {description = "Magnify Client", group = "Client"}),
     awful.key({ modkey,           }, "f", awful.client.floating.toggle,
         {description = "Toggle Floating", group = "Client"}),
- -- Kill Window 
+ -- Kill Window
     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill() end,
               {description = "Close", group = "Hotkeys"}),
     awful.key({ modkey, "Shift"   }, "a",
         function (c)
             for _, c in ipairs(mouse.screen.selected_tag:clients())
-                do c:kill() 
+                do c:kill()
             end
         end,
         {description = "Close All Windows", group = "Hotkeys"}),
@@ -649,14 +649,14 @@ clientkeys = my_table.join(
 
     --awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end,
       --        {description = "Toggle To Keep On Top", group = "Client"}),
-    
+
      -- Maximize / Fullscreen / Minimize Window
      awful.key({ modkey, }, "n",
         function (c)
             c.minimized = true
         end ,
         {description = "Minimize", group = "Client"}),
-    
+
     awful.key({ modkey, altkey}, "n",
         function (c)
             for _, c in ipairs(mouse.screen.selected_tag:clients())
@@ -664,7 +664,7 @@ clientkeys = my_table.join(
             end
         end ,
         {description = "Minimize", group = "Client"}),
-              
+
     awful.key({ modkey, }, "space",
         function (c)
             c.maximized = not c.maximized

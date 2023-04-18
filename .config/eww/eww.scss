@@ -16,13 +16,19 @@ window {
 // Music
 .musicinfo-side {
   font-size: 15px;
-  margin-top: 40px;
+  margin-top: 25px;
   margin-left: 5px;
   font-weight: bold;
   // margin: 20px;
   border-radius: 10px;
   // border: 1px solid white;
   min-width: 40px;
+}
+.musicinf-album {
+  color: violet;
+}
+.musicinfo {
+  color: #98f5ff;
 }
 .musicbtn-side {
   padding-left: 29px;
@@ -107,4 +113,48 @@ window {
 .label_quote {
 	color : #E5E5E5;
 	font-weight : normal;
+}
+
+.lyrics_s {
+  font-family: Alegreya SC;
+  font-size: 15px;
+  color: #ffdab9;
+  // margin: 0px 0px 300px 10px;
+  // margin-top: 200px;
+  border: 2px #ffd5cd;
+  border-style: solid;
+}
+.img_lyrics {
+  // margin-top: 500px;
+  border: 2px #ffd5cd;
+  border-style: solid;
+}
+
+.rateim-text {
+  // border: 2px #dda0dd;
+  // border-style: solid;
+  font-family: Alegreya SC;
+  margin-left: -350px;
+}
+
+.scale {
+  // border: 2px #dda0dd;
+  // border-style: solid;
+  // border-left: 0px;
+  // border-right: 0px;
+  // border-top: ;
+  margin-right: -250px;
+}
+
+scale trough {
+  all: unset;
+  background-color: darkcyan;
+  border-radius: 5px;
+  min-height: 10px;
+  min-width: 100px;
+  margin: .3rem 0 .3rem 0;
+}
+.scale trough highlight {
+  background-color: palevioletred;
+  border-radius: 5px;
 }
