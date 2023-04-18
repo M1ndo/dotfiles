@@ -23,6 +23,8 @@ use epa-file to decrypt our *GPG* encrypt personal.el then load it.
     (epa-file-enable)))
 (load (concat doom-private-dir "personal.el"))
 (setq auth-sources '("~/.authinfo.gpg"))
+(setq inhibit-automatic-native-compilation t
+      native-comp-async-report-warnings-errors 'silent)
 #+end_src
 ** Visuals
 *** Set Doom Font
@@ -59,6 +61,10 @@ Right here I'm using doom-dracula , there's also [[github:dracula/emacs][Dracula
   (doom-themes-neotree-config)   ;; Enable custom neotree theme
   (doom-themes-org-config))  ;; Corrects (and improves) org-mode's native fontification.
 
+
+;; (add-to-list 'custom-theme-load-path "~/.doom.d/lisp/themes")
+;; (load-theme 'chocolate t)
+
 ;; (when (window-system 'nil) (progn (load-theme 'dracula t)) (load-theme 'doom-moonlight 't))
 #+end_src
 However, by default ~red~ text is used in the ~modeline~, so let's make that orange
@@ -89,8 +95,9 @@ What's more fun than adding emacs logo in splash screen of doom dashboard.
 There's also a tool called [[github:folke/splashcii][Splashcii]] that downloads ascii arts and place it in our doom-dashboard
 + Removing Doom Dashboard and using [[https://github.com/emacs-dashboard/emacs-dashboard][Emacs Dashboard]] meanly because its extensable.
 #+begin_src emacs-lisp
-(setq doom-fallback-buffer-name "► Doom"
-      +doom-dashboard-name "► Doom")
+(setq doom-fallback-buffer-name "👽 Doom"
+      +doom-dashboard-name "👽 Doom"
+      +workspaces-main "👽 Doom")
 ;; (use-package! dashboard
 ;;  :init
 ;;  (setq dashboard-set-heading-icons t)
@@ -112,7 +119,8 @@ There's also a tool called [[github:folke/splashcii][Splashcii]] that downloads 
 ;; (setq doom-fallback-buffer-name "*dashboard*")
 ;; (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 ;; Splash screen for doom dashboard
-(setq fancy-splash-image "~/.doom.d/img/doom-emacs.png")
+;; (setq fancy-splash-image "~/.doom.d/img/doom-emacs.png")
+(setq fancy-splash-image "~/.doom.d/img/alien_300.png")
 
 ;; (defvar fancy-splash-image-template
 ;;   ;; "~/.doom.d/img/doom-emacs.svg"
@@ -120,21 +128,21 @@ There's also a tool called [[github:folke/splashcii][Splashcii]] that downloads 
 ;;   ;; (expand-file-name "img/doom-emacs.svg" doom-private-dir)
 ;;   "Default template svg used for the splash image, with substitutions from ")
 
-(defvar fancy-splash-sizes
-  `((:height 300 :min-height 50 :padding (0 . 2))
-    (:height 250 :min-height 42 :padding (2 . 4))
-    (:height 200 :min-height 35 :padding (3 . 3))
-    (:height 150 :min-height 28 :padding (3 . 3))
-    (:height 100 :min-height 20 :padding (2 . 2))
-    (:height 75  :min-height 15 :padding (2 . 1))
-    (:height 50  :min-height 10 :padding (1 . 0))
-    (:height 1   :min-height 0  :padding (0 . 0)))
-  "list of plists with the following properties
-  :height the height of the image
-  :min-height minimum `frame-height' for image
-  :padding `+doom-dashboard-banner-padding' (top . bottom) to apply
-  :template non-default template file
-  :file file to use instead of template")
+;; (defvar fancy-splash-sizes
+;;   `((:height 300 :min-height 50 :padding (0 . 2))
+;;     (:height 250 :min-height 42 :padding (2 . 4))
+;;     (:height 200 :min-height 35 :padding (3 . 3))
+;;     (:height 150 :min-height 28 :padding (3 . 3))
+;;     (:height 100 :min-height 20 :padding (2 . 2))
+;;     (:height 75  :min-height 15 :padding (2 . 1))
+;;     (:height 50  :min-height 10 :padding (1 . 0))
+;;     (:height 1   :min-height 0  :padding (0 . 0)))
+;;   "list of plists with the following properties
+;;   :height the height of the image
+;;   :min-height minimum `frame-height' for image
+;;   :padding `+doom-dashboard-banner-padding' (top . bottom) to apply
+;;   :template non-default template file
+;;   :file file to use instead of template")
 
 ;; (defvar fancy-splash-template-colours
 ;;   '(("$colour1" . keywords) ("$colour2" . type) ("$colour3" . base5) ("$colour4" . base8))
@@ -297,24 +305,38 @@ There's also a tool called [[github:folke/splashcii][Splashcii]] that downloads 
    (doom-dashboard-phrase)
    "\n"))
 
+(defadvice! doom-dashboard-new-footer ()
+  :override #'doom-dashboard-widget-footer
+  (insert
+   "\n"
+   (+doom-dashboard--center
+    (- +doom-dashboard--width 2)
+    (with-temp-buffer
+      (insert-text-button "👽"
+                          'action (lambda (_) (browse-url "https://ybenel.cf/alien"))
+                          'face 'doom-dashboard-footer-icon
+                          'follow-link t
+                          'help-echo "Click Me Homan!")
+      (buffer-string)))
+   "\n"))
 
 (remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
 (add-hook! '+doom-dashboard-mode-hook (hide-mode-line-mode 1) (hl-line-mode -1))
 (setq-hook! '+doom-dashboard-mode-hook evil-normal-state-cursor (list nil))
 
 ;; Call splashcii to get the banne and output it .
-(defvar +fl/splashcii-query ""
-  "The query to search on asciiur.com")
-(defun +fl/splashcii-banner ()
-  (mapc (lambda (line)
-          (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
-                              'face 'doom-dashboard-banner) " ")
-          (insert "\n"))
-        (split-string (with-output-to-string
-                        (call-process "splashcii" nil standard-output nil +fl/splashcii-query))
-                      "\n" t)))
-(setq +doom-dashboard-ascii-banner-fn #'+fl/splashcii-banner)
-(setq +fl/splashcii-query "batman")
+;; (defvar +fl/splashcii-query ""
+;;   "The query to search on asciiur.com")
+;; (defun +fl/splashcii-banner ()
+;;   (mapc (lambda (line)
+;;           (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
+;;                               'face 'doom-dashboard-banner) " ")
+;;           (insert "\n"))
+;;         (split-string (with-output-to-string
+;;                         (call-process "splashcii" nil standard-output nil +fl/splashcii-query))
+;;                       "\n" t)))
+;; (setq +doom-dashboard-ascii-banner-fn #'+fl/splashcii-banner)
+;; (setq +fl/splashcii-query "batman")
 #+end_src
 *** Background for non-real buffer
 Using Solaire-mode to add the dark background in unreal buffers
@@ -456,28 +478,22 @@ This packages highlights indent guides, which is really useful when writing code
 #+end_src
 *** Auto Complete & FlySpell
 Using the built-in flyspell in emacs, fantastic.
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (require 'flyspell)
-(map! :leader
-      (:prefix-map ("d" . "Doom")
-       (:prefix ("s". "spell")
-        :desc "Run Spell Check On Region" "r" #'flyspell-region
-        :desc "Correct Next Word" "n" #'flyspell-correct-next
-        :desc "Correct Previous Word" "p" #'flyspell-correct-previous)))
 #+end_src
 Setting a custom dictionary to auto complete
 #+begin_src emacs-lisp
-(require 'auto-complete-config)
-(ac-config-default)
-(add-to-list 'ac-dictionary-files "~/.doom.d/misc/english-words.txt")
-(setq-default ac-sources '(ac-source-dictionary ac-source-words-in-same-mode-buffers))
-(dolist (mode '(org-mode LaTeX-mode markdown-mode text-mode fundamental-mode))
-  (add-to-list 'ac-modes mode))
-;; Adding Keymap to lunch or stop auto-complete
-(define-key ac-mode-map (kbd "M-[") 'auto-complete)
-(define-key ac-completing-map (kbd "M-]") 'ac-stop)
-;; Changing default color
-(custom-set-faces! '(ac-selection-face :slant italic  :foreground "black" :background "LightCoral"))
+(when (require 'auto-complete-config nil 'noerror)
+  (ac-config-default)
+  (add-to-list 'ac-dictionary-files "~/.doom.d/misc/english-words.txt")
+  (setq-default ac-sources '(ac-source-dictionary ac-source-words-in-same-mode-buffers))
+  (dolist (mode '(org-mode LaTeX-mode markdown-mode text-mode fundamental-mode))
+    (add-to-list 'ac-modes mode))
+  ;; Adding Keymap to lunch or stop auto-complete
+  (define-key ac-mode-map (kbd "M-[") 'auto-complete)
+  (define-key ac-completing-map (kbd "M-]") 'ac-stop)
+  ;; Changing default color
+  (custom-set-faces! '(ac-selection-face :slant italic  :foreground "black" :background "LightCoral")))
 #+end_src
 Setting thesaurus api key
 #+begin_src emacs-lisp
@@ -566,7 +582,7 @@ Setting up lsp-mode and other functionalities for better features.
 #+begin_src sh :tangle no
 pip install --user "python-language-server[all]"
 #+end_src
-#+begin_src emacs-lisp :exports none :tangle no
+#+begin_src emacs-lisp :tangle no
 (use-package! python-mode
   :ensure t
   :hook (python-mode . lsp-deferred)
@@ -679,6 +695,24 @@ But Thanks to a reddit post, a new package exists for it and it does what i need
 (global-set-key (kbd "M-C-[") 'softresize-enlarge-window-horizontally)
 (global-set-key (kbd "M-C-]") 'softresize-reduce-window-horizontally)
 #+end_src
+*** LSP
+Setting Custom Lsp Settings To Enable Certain Features
++ Enabling the headerline
++ Enabling signature and documentation
+#+begin_src emacs-lisp
+(setq lsp-headerline-breadcrumb-enable t
+      lsp-signature-render-documentation t
+      lsp-signature-auto-activate t)
+#+end_src
+*** Browse Directory
+#+begin_src emacs-lisp :tangle no
+(defun yb/search-folder ()
+  ;; "~/.dotfiles" "~/.config" "~/Pictures" "~/Documents" "~/Downloads" "~/Templates" "~/Projects" "~/Public"
+  (interactive
+   (list
+    (completing-read "Browse Directory: " (let ((directory-root (list "~/.dotfiles" "~/.config" "~/Pictures" "~/Documents" "~/Downloads" "~/Templates" "~/Projects" "~/Public")))))))
+  (doom-project-browse directory-root))
+#+end_src
 ** Tabs/Modeline
 Using centaur-tabs to adds tabs in to our emacs with customizations
 #+begin_src emacs-lisp
@@ -693,11 +727,12 @@ Using centaur-tabs to adds tabs in to our emacs with customizations
   :config
   (setq centaur-tabs-set-icons t
     centaur-tabs-gray-out-icons 'buffer
-    centaur-tabs-set-bar 'tabs
+    centaur-tabs-set-bar 'over
     centaur-tabs-set-modified-marker t
-    centaur-tabs-close-button "✕"
-    centaur-tabs-modified-marker "•"
+    centaur-tabs-close-button "❌"
+    centaur-tabs-modified-marker "👾"
     centaur-tabs-cycle-scope 'tabs)
+  (centaur-tabs-change-fonts "VictorMono Nerd Font" 100)
   (add-hook! '(dashboard-mode-hook  +popup-buffer-mode-hook)
     (defun +tabs-disable-centaur-tabs-mode-maybe-h ()
       "Disable `centaur-tabs-mode' in current buffer."
@@ -765,8 +800,13 @@ there's alot of ways to map keys in emacs, we use ~map!~ in doom emacs to make n
 
 (map! :leader
       (:prefix-map ("d" . "Doom")
-       :desc "Clippy describes function under point" "f" #'eldoc-box-eglot-help-at-point
-       :desc "Clippy describes variable under point" "v" #'eldoc-box-help-at-point))
+       :desc "Eldoc (Eglot) help at point" "f" #'eldoc-box-eglot-help-at-point
+       :desc "Eldoc Box help at point" "v" #'eldoc-box-help-at-point
+       :desc "Lsp doc Unfocus Frame" ";" #'lsp-ui-doc-unfocus-frame
+       :desc "Lsp doc Focus Frame" "'" #'lsp-ui-doc-focus-frame
+       :desc "Lsp Doc Info Hide" "/" #'lsp-ui-doc-hide
+       :desc "Lsp doc info toggle" "\\" #'lsp-ui-doc-glance
+       :desc "Lsp Signature Active" "." #'lsp-signature-activate))
 
 (map! :leader
       (:prefix-map ("d" . "Doom")
@@ -779,6 +819,16 @@ there's alot of ways to map keys in emacs, we use ~map!~ in doom emacs to make n
        (:prefix ("m". "Mixed Pitch")
         :desc "Mixed Pitched Mode" "m" #'mixed-pitch-mode
         :desc "Mixed Pitched Serif" "s" #'mixed-pitch-serif-mode)))
+
+(map! :leader
+      (:prefix-map ("d" . "Doom")
+       (:prefix ("s". "spell")
+        :desc "Run Spell Check On Region" "r" #'flyspell-region
+        :desc "Correct Next Word" "n" #'flyspell-correct-next
+        :desc "Correct Previous Word" "p" #'flyspell-correct-previous
+        :desc "The Saurus Look Up" "s" #'mw-thesaurus-lookup-at-point
+        :desc "The Saurus Look Up Word" "w" #'mw-thesaurus-lookup-dwim
+        :desc "The Saurus Look Up Region" "d" #'mw-thesaurus-lookup)))
 #+end_src
 ** Org
 *** Set Org Directory
@@ -930,8 +980,10 @@ initialisation, which is problematic. To resolve this, we create a hook that
 runs after UI initialisation and both
 + conditionally enables =mixed-pitch-mode=
 + sets up the mixed pitch hooks
+- Currently disabled, I usually turn it off (but i'm lazy to do it everytime)
+So i just disabled the hook to initiate it everytime.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (defvar mixed-pitch-modes '(org-mode LaTeX-mode markdown-mode gfm-mode Info-mode)
   "Modes that `mixed-pitch-mode' should be enabled in, but only after UI initialisation.")
 (defun init-mixed-pitch-h ()
@@ -1088,7 +1140,7 @@ There's variety of Mail client in Emacs such as the builtin one, however i'd pre
 *** Mu4e-alert
 Since I'm using Mu4e 1.7.0 which is unstable , obviously there's fewer bugs and this one is related mu4e-alert.
 This piece of configuration is totally not needed in Doom Emacs Since it's already there if you enable it .
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package! mu4e-alert
   :after mu4e
   :config
@@ -1483,11 +1535,14 @@ The Dancing Rainbow Cat
 *** Smudge
 Using Smudge To Control Spotify
 #+begin_src emacs-lisp
-(setq smudge-oauth2-client-secret "---SECRET---KEY")
-(setq smudge-oauth2-client-id "---CLIENT_ID-------")
-(setq smudge-player-status-format "%a - %t ◷ %l ")
-(setq smudge-player-status-truncate-length 40)
-;; (global-smudge-remote-mode)
+(load-file (concat doom-private-dir "/lisp/smudge/smudge.el"))
+(with-eval-after-load 'smudge
+  (setq smudge-oauth2-client-secret "---SECRET-------"
+        smudge-oauth2-client-id "---CLIENT_ID-------"
+        smudge-player-status-format "%a - %t ◷ %l "
+        smudge-player-status-truncate-length 40)
+  (define-key smudge-mode-map (kbd "C-c o") 'smudge-command-map))
+  ;; (global-smudge-remote-mode))
 #+end_src
 *** Goggles
 Goggles highlights the modified region, Supported commands (undo, yank, kill and delete)
@@ -1496,6 +1551,17 @@ Goggles highlights the modified region, Supported commands (undo, yank, kill and
   :hook ((prog-mode text-mode) . goggles-mode)
   :config
   (setq-default goggles-pulse t)) ;; set to nil to disable pulsing
+#+end_src
+*** Mpris
+Controlling Mpris And Adding Song Metadata Into Modeline
+#+begin_src emacs-lisp
+(load-file (concat doom-private-dir "/lisp/mpris-control.el"))
+(mpris-control-info-mode)
+#+end_src
+*** Gptel
+Attempting to use chatGPT in Emacs.
+#+begin_src emacs-lisp
+(setq gptel-model "gpt-4")
 #+end_src
 ** Scimax Bookmard
 scimax-bookmarks from [[https://github.com/jkitchin/scimax][Scimax]] is a cool snippet, that highlights a specific word/sentence also does other cool things.

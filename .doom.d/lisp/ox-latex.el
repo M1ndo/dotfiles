@@ -248,11 +248,11 @@ every listing line={\\textcolor{red}{\\small\\ttfamily\\bfseries \\textit{cmd} \
 
   (defvar org-latex-keyword-box "
 \\newtcbox{\\myk}{enhanced,nobeforeafter,tcbox raise base, %
-boxrule=0.2pt,top=0mm,bottom=0mm,colframe=blue, colback=black!90, %
-frame style={opacity=0.50}, interior style={opacity=0.50},shrink tight, extrude by=1mm}
-\\directlua{dofile(\"/home/llove/org/Templates/replMe.lua\")}
-\\AtBeginDocument{%
-\\directlua{luatexbase.add_to_callback (\"process_input_buffer\", replMe.replaceMe, \"replMe.replaceMe\")}}
+boxrule=0.2pt,top=0mm,bottom=0mm,colframe=blue, colback=white!90, %
+frame style={opacity=0.12}, interior style={opacity=0.20},shrink tight, extrude by=1mm}
+\\directlua{dofile(\"/home/alienx/org/Templates/replMe.lua\")}
+% \\AtBeginDocument{%
+% \\directlua{luatexbase.add_to_callback (\"process_input_buffer\", replMe.replaceMe, \"replMe.replaceMe\")}}
 "
     "Preamble To Supply TODO Keywords With Beautifed Box")
 

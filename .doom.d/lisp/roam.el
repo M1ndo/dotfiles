@@ -17,6 +17,11 @@
       (file "~/org/Templates/Projects.org")
       :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: Projects\n#+filetags: Project")
       :unnarrowed t)
+     ("g" "BBounty" plain
+      (file "~/org/Templates/Bounty.org")
+      :if-new (file "${slug}.org")
+      :head "#+TITLE: ${title}"
+      :unnarrowed t)
      ("b" "Boxes" plain
       (file "~/org/Templates/Boxes.org")
       :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: Boxes\n#+filetags: Boxes")
@@ -210,7 +215,7 @@ capture was not aborted."
   (org-roam-capture- :node (org-roam-node-read
                             nil
                             (lambda (node)
-                              (seq-intersection '("Project" "Daily")
+                              (seq-intersection '("Project" "Daily" "Todo")
                                                 (org-roam-node-tags node))))
                      ;; (my/org-roam-filter-by-tag "Project" ))
                      :templates '(("p" "project" plain "** TODO %?"
@@ -223,7 +228,7 @@ capture was not aborted."
   (let ((org-refile-keep t) ;; Set this to nil to delete the original!
         (org-roam-dailies-capture-templates
          '(("t" "tasks" entry "%?"
-            :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+category: Finished\n" ("Tasks")))))
+            :if-new (file+head+olp "%<%Y-%m-%d>.org" "%<%Y-%m-%d>\n#+category: Finished\n" ("Tasks")))))
         (org-after-refile-insert-hook #'save-buffer)
         today-file
         pos)

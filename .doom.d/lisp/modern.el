@@ -4,6 +4,7 @@
   :config
   (setq org-modern-star '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
         org-modern-table-vertical 1
+        org-modern-table nil
         org-modern-table-horizontal 0.2
         org-modern-list '((43 . "➤")
                           (45 . "–")
