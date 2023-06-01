@@ -172,7 +172,7 @@ mySB = statusBarProp "xmobar -x 0 $HOME/.config/xmobar/xmobar_dracula" (pure myP
     
 myStartupHook :: X ()
 myStartupHook = do
-        spawn "/home/llove/.screenlayout/screen1.sh"
+        -- spawn "/home/llove/.screenlayout/screen1.sh"
         spawnOnce "nitrogen --restore &"
         spawnOnce "picom &"
         spawnOnce "unclutter -root &"
@@ -230,8 +230,8 @@ myAppGrid = [ ("Xterm", "xterm")
                , ("Lite XL", "lite-xl")
                , ("Gimp", "gimp")
                , ("Discord", "discord")
-               , ("Spotify", "spot_load")
-               , ("Emacs", "emacsclient -c -a emacs")
+               , ("Spotify", "spotify")
+               , ("Emacs", "emacsclient -r")
                , ("PCManFM", "pcmanfm")
                ]
 
@@ -338,6 +338,7 @@ ybXPKeymap = M.fromList $
 archwiki, urban :: S.SearchEngine
 archwiki = S.searchEngine "archwiki" "https://wiki.archlinux.org/index.php?search="
 urban    = S.searchEngine "urban" "https://www.urbandictionary.com/define.php?term="
+archaur  = S.searchEngine "ArchAur" "https://aur.archlinux.org/packages?O=0&K="
 browser  = S.selectSearchBrowser "/usr/bin/firefox"
 -- This is the list of search engines that I want to use. Some are from
 -- XMonad.Actions.Search, and some are the ones that I added above.
@@ -352,7 +353,8 @@ searchList = [ ("a", archwiki)
            , ("u", urban)
            , ("w", S.wikipedia)
            , ("y", S.youtube)
-           , ("G", S.github)
+           , ("j", S.github)
+           , ("p", archaur)
            ]
 
 myScratchPads :: [NamedScratchpad]

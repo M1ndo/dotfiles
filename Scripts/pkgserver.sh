@@ -15,7 +15,7 @@ ctrl_c () {
 
 upgrade() {
   # Upgrade System Packages.
-  yes | pacman -Syu
+  pacman -Syu --noconfirm
   if [[ $? -eq 0 ]]; then
       printf "[+] System Upgrade Is Done Successfully.\n"
   else

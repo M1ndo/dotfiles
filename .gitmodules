@@ -16,3 +16,6 @@
 [submodule ".doom.d/lisp/posframe"]
 	path = .doom.d/lisp/posframe
 	url = https://github.com/tumashu/posframe
+[submodule ".doom.d/lisp/smudge"]
+  path = .doom.d/lisp/smudge
+  url = https://github.com/danielfm/smudge

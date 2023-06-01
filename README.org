@@ -2,7 +2,7 @@
 ** My Keybindings For Awesome WM/HerbstluftWm/Xmonad/Qtile
 The MODKEY is set to the /Super key/ (aka the *Windows* key). I try to keep
 the keybindings consistent with all of my window managers. Full
-Keybinding Documentation Is Available [[https://docs.darkos.cf/bindings/][Here]]
+Keybinding Documentation Is Available [[https://darkos-arch.github.io/DarkOs-Docs/bindings/][Here]]
 ** Installing
 #+begin_src shell
 git clone --recurse-submodules -j3 --depth 1 https://github.com/m1ndo/dotfiles
@@ -25,7 +25,7 @@ Eww widgets are compatible with *1920x1080* // *1366x768* resolutions
 [[file:screenshots/ybenel-full-20211219-211935.png]]
 
 ** Doom Emacs.
-Read README.org in [[https://github.com/M1ndo/dotfiles/tree/master/.doom.d][,doom.d/README.org]]
+Read README.org in [[https://github.com/M1ndo/dotfiles/tree/master/.doom.d][doom.d/README.org]]
 
 ** Neovim.
 Read README.org in [[https://github.com/M1ndo/dotfiles/tree/master/.config/nvim][nvim/README.org]]

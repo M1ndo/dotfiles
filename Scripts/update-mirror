@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+sudo reflector --download-timeout 15 --protocol https --latest 15 --number 10 --sort rate -c spain,portugal,france,germany --verbose --save /etc/pacman.d/mirrorlist
+

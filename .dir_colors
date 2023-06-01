@@ -129,7 +129,8 @@ EXEC 1;38;5;82                        # This is for files with execute permissio
 .md       1;36;4;34       
 .ini      1;100;3;32              
 .yml      1;109;3;35   
-.cfg      1;100;3;32
+.json     1;109;3;34   
+.ufg      1;100;3;32
 .conf     1;100;3;32  
 .objc            00
 .sqlite          00
