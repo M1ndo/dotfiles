@@ -62,7 +62,8 @@
       (progn
         (setq mpris-control-properties-changed-registration
               (dbus-register-signal
-               :session nil
+               :session
+               "org.mpris.MediaPlayer2.ncspot"
                "/org/mpris/MediaPlayer2"
                "org.freedesktop.DBus.Properties"
                "PropertiesChanged"

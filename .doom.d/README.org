@@ -1,4 +1,5 @@
 * Doom Emacs Configuration
+[[file:../screenshots/ybenel-full-20230415-163241.png]]
 ** Other Things
 Other things that aren't included here, should be documented in *config.org* make sure to read it.
 ** Requirements
@@ -6,32 +7,50 @@ Other things that aren't included here, should be documented in *config.org* mak
 **** Requirements
 1. Make sure to have *~/.doom.d/misc/english-words.txt*
 2. Install the following packages: =aspell + aspell-en + hunspell + hunspell-en_us=
-3. Install The following fonts =ttf-iosevka + ttf-cascadia-code + ttf-alegreya + ttf-ibm-plex + ttf-juliamono + ttf-jetbrains-mono=
+3. Install The following fonts =ttf-iosevka + ttf-cascadia-code + ttf-alegreya + ttf-ibm-plex + ttf-juliamono + ttf-victor-mono-nerd=
 **** To Change Spelling Language
 Make sure to change the following to your preference.
 (default) English-US
-#+begin_src lisp
-(setq ispell-dictionary "en_US")
-(setq ispell-local-dictionary "en_US")
-(setq ispell-local-dictionary-alist
-      '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
-(setq company-ispell-dictionary (concat doom-private-dir "misc/english-words.txt"))
+#+begin_src emacs-lisp
+(setq ispell-dictionary "en_US"
+      ispell-local-dictionary "en_US"
+      ispell-local-dictionary-alist
+      '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8))
+      ispell-alternate-dictionary (concat doom-user-dir "misc/english-words.txt"))
+;; Set Cape dict file
+(setq cape-dict-file (concat doom-user-dir "misc/english-words.txt"))
 #+end_src
-**** Extra Info 
-Some =Keybindings= To Make Your Life Easier, ~NOTE~ 'AC-STOP' can be used when /auto-complete/ interfere with /company-mode/ in ~prog-mode~
-
-|-----+----------------------|
-| Key | Function             |
-|-----+----------------------|
-| M-[ | Auto Completion      |
-| M-] | Auto Completion Stop |
-|-----+----------------------|
-#NOTE Company-Mode (Ispell) Is Disabled In Favor Of Auto-Complete.
-#NOTE To Enable Company-Mode Ispell Set The Following =company-ispell-available= to "t" In [[https://github.com/M1ndo/dotfiles/blob/master/.doom.d/config.org#ispell][Config.Org]]
-**** Packages Installed
-- mw-thesaurus "Thesaurus look up dictionary"
-- auto-complete "Auto Complete Words"
-- Flyspell+Grammar "Spell Check And Grammar Checking"
+**** Also
+- =mw-thesaurus= is installed change =api-key= in =config.org= also the keybindings.
+- =Flyspell+Grammar= "Spell Check And Grammar Checking"
+*** (Auto Complete Corfu Supports Spell with cape)
+*NOTE* Auto Complete is now using =corfu= + =cape= + =orderless=
+By default =TAB= is used to auto complete and it will be enable automatically after
+2 characters.
+=Modes Enabled= =org-mode text-mode markdown-mode latex-mode prog-mode-hook=
+Comments and strings will also have auto complete for =cape-dict= and =cape-file=
+=Other Interesting
+#+begin_src emacs-lisp
+;; TAB to auto complete
+ (map! :map corfu-map
+        "C-SPC"    #'corfu-insert-separator ;; Initiate Orderless
+        "C-n"      #'corfu-next
+        "C-p"      #'corfu-previous
+        "M-m"      #'corfu-move-to-minibuffer
+        (:prefix "C-x"
+                 "C-k"     #'cape-dict
+                 "C-f"     #'cape-file))
+(map! (:map 'corfu-map
+         :desc "scroll info up" "C-<up>" #'corfu-popupinfo-scroll-down
+         :desc "scroll info down" "C-<down>" #'corfu-popupinfo-scroll-up
+         :desc "scroll info up" "C-S-p" #'corfu-popupinfo-scroll-down
+         :desc "scroll info down" "C-S-n" #'corfu-popupinfo-scroll-up
+         :desc "toggle info" "C-h" #'corfu-popupinfo-toggle)
+        (:map 'corfu-popupinfo-map
+         :when (modulep! :editor evil)
+         :desc "scroll info up" "C-S-k" #'corfu-popupinfo-scroll-down
+         :desc "scroll info down" "C-S-j" #'corfu-popupinfo-scroll-up))
+#+end_src
 *** Latex + Org Export
 **** Requirements
 - For Latex Export and Latex Completion, Install The following packages
@@ -39,11 +58,12 @@ Some =Keybindings= To Make Your Life Easier, ~NOTE~ 'AC-STOP' can be used when /
 2. In order to use my custom latex templates make sure you have *~/.doom.d/Templates*
 
 ***** Using (Templates/Latex.Setup ..) 
-#WARNING When Exporting Using One Of My Latex Templates (Templates/latex.setup ...) THERE ARE SOME ~REQUIREMENTS~.
+*WARNING* When Exporting Using One Of My Latex Templates (Templates/latex.setup ...) THERE ARE SOME ~REQUIREMENTS~.
 Please Install Any Necessary Packages That Might Be Missing When Compiling .Tex file.
 The fonts are currently in use when exporting are =Iosevka,Algreya SC,texgyreadventor,QTHeidelbergType,QTBlackForest= And [[https://brill.com/][Brill]]
 To Install Any Latex Packages, Please Refer to [[https://wiki.archlinux.org/title/TeX_Live#tlmgr][Tlmgr]]
 ** To Know About
+*** =mpris-control.el= (Modified to only support Ncspot)
 *** [[https://github.com/danielfm/smudge/][Smudge]] (Spotify Controller)
 - Requires Spotify Premium To Control Spotify
 - *READ THE CONFIGURATION PAGE ON THEIR REPO* And Change The Following API KEYS

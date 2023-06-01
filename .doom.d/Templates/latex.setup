@@ -22,7 +22,7 @@
 
 # #+LATEX_HEADER: \usepackage{graphicx} % Disabled Because its already default
 # #+LATEX_HEADER: \usepackage[table, xcdraw, dvipsnames]{xcolor}
-#+LATEX_HEADER: \usepackage{xcolor}
+#+LATEX_HEADER: \usepackage[dvipsnames, x11names, svgnames]{xcolor}
 #+LATEX_HEADER: \usepackage{changepage} % Used to replace koma-article (addmargin)
 # #+LATEX_HEADER: \usepackage{multicol}
 #+LATEX_HEADER: \usepackage[breakable,xparse,raster,skins]{tcolorbox}

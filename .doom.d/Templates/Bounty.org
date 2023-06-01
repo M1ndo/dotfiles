@@ -1,0 +1,16 @@
+#+SUBTITLE: /%^{SUBTITLE}/
+#+AUTHOR: %^{AUTHOR}
+#+DATE: {{{modification-time(%Y-%m-%d, t)}}} at {{{modification-time(%H:%M, t)}}}
+#+category: Bounty
+#+filetags: Bounty
+#+SETUPFILE: ~/org/Templates/latex.setup
+#+OPTIONS: toc:t
+
+* Scope
+- %?
+** Invalid Scopes
+-
+* Sub-Domain
+* [#A] Found
+* [#B] Reported
+* [#C] Accepted

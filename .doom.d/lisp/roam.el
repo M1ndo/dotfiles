@@ -228,7 +228,7 @@ capture was not aborted."
   (let ((org-refile-keep t) ;; Set this to nil to delete the original!
         (org-roam-dailies-capture-templates
          '(("t" "tasks" entry "%?"
-            :if-new (file+head+olp "%<%Y-%m-%d>.org" "%<%Y-%m-%d>\n#+category: Finished\n" ("Tasks")))))
+            :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+category: Finished\n" ("Tasks")))))
         (org-after-refile-insert-hook #'save-buffer)
         today-file
         pos)

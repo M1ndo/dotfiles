@@ -14,11 +14,14 @@ function replace_keywords(s)
   s = string.gsub(s, "NEXT", "\\myk{\\textcolor{SteelBlue4}{NEXT}}")
   s = string.gsub(s, "OKAY", "\\myk{\\textcolor{LimeGreen}{OKAY}}")
   s = string.gsub(s, "NO", "\\myk{\\textcolor{HotPink1}{NO}}")
-  s = string.gsub(s, "[X]", "\\myk{\\textcolor{goldenrod1}{[X]}}")
-  s = string.gsub(s, "[-]", "\\myk{\\textcolor{LightCyan4}{[-]}}")
-  s = string.gsub(s, "[?]", "\\myk{\\textcolor{SlateBlue4}{[?]}}")
-  s = string.gsub(s, "[ ]", "\\myk{\\textcolor{HotPink3}{[ ]}}")
+  -- s = string.gsub(s, "[X]", "\\myk{\\textcolor{goldenrod1}{[X]}}")
+  -- s = string.gsub(s, "[-]", "\\myk{\\textcolor{LightCyan4}{[-]}}")
+  -- s = string.gsub(s, "[?]", "\\myk{\\textcolor{SlateBlue4}{[?]}}")
+  -- s = string.gsub(s, "[ ]", "\\myk{\\textcolor{HotPink3}{[ ]}}")
   s = string.gsub(s, "YES", "\\myk{\\textcolor{PaleGreen1}{YES}}")
   return s
 end
-return { replaceMe = replace_keywords }
+-- luatexbase.add_to_callback()
+luatexbase.add_to_callback("process_input_buffer", replace_keywords, "replaceMe")
+-- callback.register("process_input_buffer", replace_keywords)
+-- return { replaceMe = replace_keywords }
