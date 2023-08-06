@@ -2,7 +2,7 @@
     Awesome WM Configuration 2.0
     Customized by ybenel
     My Personall Config File
-    (C) 2017-2022 Ybenel <github.com/m1ndo/dotfiles>
+    (C) 2017-2023 Ybenel <github.com/m1ndo/dotfiles>
 --]]
 
 -- {{{  libraries
@@ -35,10 +35,9 @@ local freedesktop   = require("freedesktop")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
                       require("awful.hotkeys_popup.keys")
 local my_table      = awful.util.table or gears.table -- 4.{0,1} compatibility
-local helpers       = require("lain.helpers")
-local dpi   = require("beautiful").xresources.apply_dpi
+-- local helpers       = require("lain.helpers") -- Unused
+-- local dpi   = require("beautiful").xresources.apply_dpi -- Unused
 -- }}}
-
 
 
 -- {{{ Error handling
@@ -66,6 +65,8 @@ do
 end
 -- }}}
 
+-- Dunst Fix
+package.loaded["naughty.dbus"] = {}
 
 
 -- {{{ Autostart windowless processes
@@ -200,10 +201,7 @@ lain.layout.cascade.tile.ncol          = 2
 
 -- }}}
 
-
-
 -- Menu Without apps
-
 local myawesomemenu = {
     { "hotkeys", function() return false, hotkeys_popup.show_help end },
     { "manual", terminal .. " -e 'man awesome'" },
@@ -214,22 +212,23 @@ local myawesomemenu = {
 beautiful.menu_font = "scientifica 9"
 beautiful.menu_border_color = "#002133"
 beautiful.menu_border_width = 2
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    {"Browser", "firefox", beautiful.browser_ico},
-                                    {"Stremio", "stremio", beautiful.stremio_ico},
-				                    {"Pcmanfm", "pcmanfm", beautiful.pcman_ico},
-                                    {"Lite", "lite", beautiful.atom_ico},
-                                    {"Gimp","gimp", beautiful.gimp_ico},
-                                    --{"Discord", "discord", beautiful.discord_ico},
-                                    --{"Telegram", "telegram-desktop", beautiful.telegram_ico},
-                                    { "Terminal", terminal, beautiful.terminal_ico},
-                                    { "Log out", function() awesome.quit() end, beautiful.logout_ico},
-                                    { "Sleep", "xscreensaver-command -lock", beautiful.sleep_ico},
-                                    { "Hiber", "systemctl hibernate", beautiful.hibernate_ico},
-                                    { "Restart", "systemctl reboot", beautiful.restart_ico},
-                                    { "Exit", "shutdown now", beautiful.exit_ico},
-                                  }
-                        })
+mymainmenu = awful.menu({ items = {
+        { "awesome", myawesomemenu, beautiful.awesome_icon },
+        {"Browser", "firefox", beautiful.browser_ico},
+        {"Stremio", "stremio", beautiful.stremio_ico},
+        {"Pcmanfm", "pcmanfm", beautiful.pcman_ico},
+        {"Lite", "lite", beautiful.atom_ico},
+        {"Gimp","gimp", beautiful.gimp_ico},
+        {"Discord", "discord", beautiful.discord_ico},
+        --{"Telegram", "telegram-desktop", beautiful.telegram_ico},
+        { "Terminal", terminal, beautiful.terminal_ico},
+        { "Log out", function() awesome.quit() end, beautiful.logout_ico},
+        { "Sleep", "xscreensaver-command -lock", beautiful.sleep_ico},
+        { "Hiber", "systemctl hibernate", beautiful.hibernate_ico},
+        { "Restart", "systemctl reboot", beautiful.restart_ico},
+        { "Exit", "shutdown now", beautiful.exit_ico},
+    }
+})
 
 --mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
  --                                    menu = mymainmenu })
@@ -322,6 +321,14 @@ globalkeys = my_table.join(
 
     -- Personal keybindings
 
+    -- SafeOauth
+    awful.key({ modkey, modkey1 }, "c", function () awful.util.spawn("safeoauth --create") end,
+        {description = "SafeOauth Create", group = "SafeOauth"}),
+    awful.key({ modkey, modkey1 }, "e", function () awful.util.spawn("safeoauth --edit") end,
+        {description = "SafeOauth Edit", group = "SafeOauth"}),
+    awful.key({ modkey, modkey1 }, "s", function () awful.util.spawn("safeoauth --show") end,
+        {description = "SafeOauth Show", group = "SafeOauth"}),
+
     -- Scratchpads
     awful.key({ modkey, }, "F2", function () awesome.emit_signal("scratch::music") end,
         {description = "ncmpcpp" , group = "Scratchpad" }),
@@ -378,6 +385,7 @@ globalkeys = my_table.join(
     awful.key({ altkey }, "s", function() os.execute('eww open player_side2') end, {description = "Eww Open Player2", group = "Eww"}),
     awful.key({ altkey }, "r", function() os.execute('eww open time-side') end, {description = "Eww Open Time", group = "Eww"}),
     awful.key({ altkey }, "q", function() os.execute('eww open quote') end, {description = "Eww Open Quote", group = "Eww"}),
+    awful.key({ altkey }, "l", function() os.execute('eww open lyrics_w') end, {description = "Eww Open Lyrics", group = "Eww"}),
     awful.key({ altkey, "Control" }, "w", function() os.execute('eww open weather') end, {description = "Eww Open Weather", group = "Eww"}),
     awful.key({ altkey, "Control" }, "a", function() os.execute('eww open-many player_side time-side quote weather') end, {description = "Eww Open All", group = "Eww"}),
     awful.key({ altkey, "Control" }, "x", function() os.execute('eww close-all') end, {description = "Eww Close All", group = "Eww"}),

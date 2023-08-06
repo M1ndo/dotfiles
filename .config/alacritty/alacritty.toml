@@ -1,0 +1,180 @@
+live_config_reload = true
+
+[colors.bright]
+black = "#484E5B"
+blue = "#79AAEB"
+cyan = "#7ACFE4"
+green = "#8CD7AA"
+magenta = "#C488EC"
+red = "#F16269"
+white = "#E5E5E5"
+yellow = "#E9967E"
+
+[colors.cursor]
+cursor = "#D9D7D6"
+text = "CellForeground"
+
+[colors.normal]
+black = "#1C252C"
+blue = "#6791C9"
+cyan = "#67AFC1"
+green = "#78B892"
+magenta = "#BC83E3"
+red = "#DF5B61"
+white = "#D9D7D6"
+yellow = "#DE8F78"
+
+[colors.primary]
+background = "#061115"
+foreground = "#D9D7D6"
+
+[cursor]
+blink_interval = 50
+#blinking = "Always"
+style = "block"
+
+[env]
+EDITOR = "nvim"
+MANPAGER = '''/bin/sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist noma' -\"'''
+TERM = "xterm-256color"
+
+[font]
+size = 10
+
+[font.bold]
+family = "Iosevka Term"
+style = "Bold"
+
+[font.bold_italic]
+family = "Iosevka Term"
+style = "Bold Italic"
+
+[font.italic]
+family = "Iosevka Term"
+style = "Italic"
+
+[font.normal]
+family = "Iosevka Term"
+style = "SemiBold"
+
+[font.offset]
+x = 0
+y = 0
+
+[[keyboard.bindings]]
+action = "Paste"
+key = "V"
+mods = "Alt"
+
+[[keyboard.bindings]]
+action = "Copy"
+key = "C"
+mods = "Alt"
+
+[[keyboard.bindings]]
+action = "PasteSelection"
+key = "Insert"
+mods = "Shift"
+
+[[keyboard.bindings]]
+action = "ResetFontSize"
+key = "Key1"
+mods = "Alt|Shift"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "Up"
+mods = "Alt|Shift"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "K"
+mods = "Alt|Shift"
+
+[[keyboard.bindings]]
+action = "DecreaseFontSize"
+key = "Down"
+mods = "Alt|Shift"
+
+[[keyboard.bindings]]
+action = "DecreaseFontSize"
+key = "J"
+mods = "Alt|Shift"
+
+[[keyboard.bindings]]
+action = "SearchBackward"
+key = "R"
+mods = "Alt|Shift"
+
+[[keyboard.bindings]]
+action = "SpawnNewInstance"
+key = "N"
+mods = "Alt|Shift"
+
+[[keyboard.bindings]]
+action = "SearchForward"
+key = "F"
+mods = "Alt|Shift"
+
+[[keyboard.bindings]]
+action = "Paste"
+key = "Paste"
+
+[[keyboard.bindings]]
+action = "Copy"
+key = "Copy"
+
+[[keyboard.bindings]]
+action = "ClearLogNotice"
+key = "L"
+mods = "Control"
+
+[[keyboard.bindings]]
+chars = "\f"
+key = "L"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "ScrollPageUp"
+key = "PageUp"
+mode = "~Alt"
+mods = "Shift"
+
+[[keyboard.bindings]]
+action = "ScrollPageDown"
+key = "PageDown"
+mode = "~Alt"
+mods = "Shift"
+
+[[keyboard.bindings]]
+action = "ScrollToTop"
+key = "Home"
+mode = "~Alt"
+mods = "Shift"
+
+[[keyboard.bindings]]
+action = "ScrollToBottom"
+key = "End"
+mode = "~Alt"
+mods = "Shift"
+
+[mouse]
+hide_when_typing = true
+
+[[mouse.bindings]]
+action = "PasteSelection"
+mouse = "Middle"
+
+[scrolling]
+#auto_scroll = true
+history = 10000
+
+[selection]
+save_to_clipboard = true
+
+[window]
+dynamic_padding = true
+
+[window.padding]
+x = 25
+y = 25

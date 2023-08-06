@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-# A script that interacts with eww widget (player-side) to get information about (spotify|Mpris|mpd)
+# A script that interacts with eww widget (player-side) to get information about (spotify|ncspot/Mpris|mpd)
+# Written By ybenel (github.com/m1ndo)
 
 # Get Current Running Player.
 players=("spotify" "parole" "ncspot")
@@ -166,10 +167,9 @@ get_art() {
     fi
 }
 
-
 pause_play() {
     if [[ "${players[@]}" =~ "$PLAYER"  ]]; then
-        playerctl -p $player play-pause
+        playerctl -p $PLAYER play-pause
     elif [ "$PLAYER" = "mpd" ]; then
         mpc toggle
     fi
@@ -177,7 +177,7 @@ pause_play() {
 
 play_prev() {
     if [[ "${players[@]}" =~ "$PLAYER"  ]]; then
-        playerctl -p $player previous
+        playerctl -p $PLAYER previous
     elif [ "$PLAYER" = "mpd" ]; then
         mpc prev
     fi
@@ -185,7 +185,7 @@ play_prev() {
 
 play_next() {
     if [[ "${players[@]}" =~ "$PLAYER"  ]]; then
-        playerctl -p $player next
+        playerctl -p $PLAYER next
     elif [ "$PLAYER" = "mpd" ]; then
         mpc next
     fi
@@ -193,7 +193,7 @@ play_next() {
 
 player_stop() {
     if [[ "${players[@]}" =~ "$PLAYER"  ]]; then
-        playerctl -p $player stop
+        playerctl -p $PLAYER stop
     elif [ "$PLAYER" = "mpd" ]; then
         mpc stop
     fi
@@ -235,33 +235,32 @@ get_percentage() {
    python -c "print(($CUR_T / ($FULL_M * 60)) * 100)" | cut -c -2
 }
 
-if [[ "$1" == "--art" ]]; then
-    get_art
-elif [[ "$1" == "--artist" ]]; then
-    get_artist
-elif [[ "$1" == "--title" ]]; then
-    get_title
-elif [[ "$1" == "--album" ]]; then
-    get_album
-elif [[ "$1" == "--status" ]]; then
-    get_status
-elif [[ "$1" == "--fetch" ]]; then
-    # echo %{F#00ff7f} `get_title` %{F#ffff00}- %{F#7b68ee}`get_artist`
-    echo %{F#00ff7f}`get_title` %{F#7b68ee}- %{F#ffff00}`get_artist`
-elif [[ "$1" == "--toggle" ]]; then
-    pause_play
-elif [[ "$1" == "--next" ]]; then
-    play_next
-elif [[ "$1" == "--prev" ]]; then
-    play_prev
-elif [[ "$1" == "--stop" ]]; then
-    player_stop
-elif [[ "$1" == "--current" ]]; then
-    show_current
-elif [[ "$1" == "--lyrics" ]]; then
-    get_lyrics
-elif [[ "$1" == "--time" ]]; then
-    get_timing
-elif [[ "$1" == "--perc" ]]; then
-    get_percentage
-fi
+shortopts="atilsfnpocyhST"
+options=$(getopt -o $shortopts --long artist,title,album,art,lyrics,status,fetch,toggle,next,prev,stop,current,time,perc,help -- "$@")
+eval set -- "$options"
+
+# Process options
+while true; do
+    case $1 in
+        -a|--art) get_art ;;
+        -t|--title) get_title ;;
+        -i|--artist) get_artist ;;
+        -l|--lyrics) get_lyrics ;;
+        -s|--status) get_status ;;
+        -f|--fetch) echo "%{F#00ff7f}$(get_title) %{F#7b68ee}- %{F#ffff00}$(get_artist)" ;;
+        -n|--next) play_next ;;
+        -p|--prev) play_prev ;;
+        -S|--stop) player_stop ;;
+        -T|--toggle) pause_play ;;
+        -c|--current) show_current ;;
+        -y|--time) get_timing ;;
+        --perc) get_percentage ;;
+        -h|--help)
+            echo "Usage: $0 [-a|--art] [-t|--title] [-i|--artist] [-l|--lyrics] [-s|--status] [-f|--fetch] [-n|--next] [-p|--prev] [-S|--stop] [-T|--toggle] [-c|--current] [-y|--time] [--perc] [-h|--help]" >&2
+            exit 1 ;;
+        --) shift; break ;;
+        *) echo "Invalid option: $1" >&2
+           exit 1 ;;
+    esac
+    shift
+done

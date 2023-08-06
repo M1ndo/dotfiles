@@ -39,6 +39,7 @@ import XMonad.Hooks.ServerMode
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.WorkspaceHistory
 import XMonad.Hooks.FadeWindows
+import XMonad.Hooks.Focus
   -- Layouts
 import XMonad.Layout.Accordion
 import XMonad.Layout.GridVariants (Grid(Grid))
@@ -111,7 +112,7 @@ main = do
       , borderWidth        = myBorderWidth
       , normalBorderColor  = myNormColor
       , focusedBorderColor = myFocusColor
-      , logHook = workspaceHistoryHook <+> myLogHook <+> fadeWindowsLogHook myFadeHook
+      , logHook = workspaceHistoryHook <+> fadeWindowsLogHook myFadeHook <+> myLogHook
       } 
 
 myFont :: String
@@ -529,9 +530,12 @@ myWorkspaces = [" B ", " T ", " E ", " S ", " C ", " M "]
 --myClickableWorkspaces ws = "<action=xdotool key super+"++show i++">"++ws++"</action>"
 --    where i = fromJust $ M.lookup ws myWorkspaceIndices
 
-myFadeHook = composeAll [className =? "lite" --> transparency 0.6
-                        ,                opaque
-                        ]
+myFadeHook = composeAll [
+  isUnfocused --> transparency 0.5
+  , isFloating --> transparency 0.9
+  , opaque
+  ]
+
 myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
 myManageHook = composeAll
    -- using 'doShift ( myWorkspaces !! 3)' sends program to workspace 4!
@@ -546,6 +550,7 @@ myManageHook = composeAll
    , className =? "Vmware Workstation" --> doShift  ( myWorkspaces !! 3 )
    , className =? "file_progress"   --> doFloat
    , className =? "dialog"          --> doFloat
+   , className =? "Zenity"          --> doFloat
    , className =? "download"        --> doFloat
    , className =? "error"           --> doFloat
    , className =? "notification"    --> doFloat
@@ -555,7 +560,7 @@ myManageHook = composeAll
 
 myLogHook :: X ()
 myLogHook = fadeInactiveLogHook fadeAmount
-  where fadeAmount = 1.0
+  where fadeAmount = 0.8
 
 myKeys :: [(String, X ())]
 myKeys =
@@ -702,6 +707,14 @@ myKeys =
       , ("M-r l", spawn "eww open lyrics_w")
       , ("M-r a", spawn "eww open-many player_side time-side quote weather lyrics_w")
       , ("M-r q", spawn "eww close-all")
+
+  -- SafeOauth (Super-c)
+      , ("M-c s", spawn "safeoauth --show")
+      , ("M-c e", spawn "safeoauth --edit")
+      , ("M-c c", spawn "safeoauth --create")
+
+  -- Set Window Opacity
+      , ("M-c l", withFocused $ \w -> focus w >> setOpacity w 0.83)
 
   -- App Shortcuts
       , ("M1-<Return>", spawn "rofi -show drun -show-icons")
