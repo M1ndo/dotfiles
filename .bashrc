@@ -1,7 +1,7 @@
 # Maintainer Ybenel (ybenel@molero.xyz)
 
 # Including Local Bin Tool In The Path
-PATH="$HOME/.emacs.d/bin:$HOME/.local/bin:$HOME/.gem/ruby/3.0.0/bin:$PATH"
+PATH="$HOME/.emacs.d/bin:$HOME/.local/bin:$HOME/.gem/ruby/3.0.0/bin:$PATH:$HOME/go/bin"
 # Setting Editor As Emacs
 EDITOR="emacsclient -r"
 
@@ -12,6 +12,19 @@ source $HOME/.shortcuts
 # Exporting Term Colors To Xterm 
 # Note: For Better Colors Change To "st-256color" if you have st installed
 export TERM="xterm-256color"
+
+# TMux fix
+if [[ -n "$TMUX" ]]; then
+    bind '"\e[1~":"\eOH"'
+    bind '"\e[4~":"\eOF"'
+    bind '"\e[A":history-search-backward'
+    bind '"\e[B":history-search-forward'
+    bind '"\C-l":clear-screen'
+    bind '"\C-p":history-search-backward'
+    bind '"\C-n":history-search-forward'
+    bind '"\C-x":backward-kill-word'
+fi
+
 
 # Maximize History
 HISTSIZE=10000
@@ -225,11 +238,11 @@ genpdf2() {
 
 }
 
-calc ()
-{
-  (( d = $1 ))
-  echo $d
-}
+#calc ()
+#{
+#  (( d = $1 ))
+#  echo $d
+#}
 
 ### ALIASES ###
 # Open Files
@@ -324,8 +337,8 @@ alias plhd="mpv --ytdl-format='bestvideo[height<=?720]+bestaudio/best'"
 alias plhd+="mpv --ytdl-format='bestvideo[height<=?1080]+bestaudio/best'"
 
 # Res
-alias revp="xrandr --output LVDS-1 --mode 1366x768 --panning 1920x1080 --scale 1.40556369x1.40625"
-alias revpo="xrandr --output LVDS-1 --mode 1366x768 --panning 1366x768 --scale 1x1"
+alias revp="xrandr --output LVDS1 --mode 1366x768 --panning 1920x1080 --scale 1.40556369x1.40625"
+alias revpo="xrandr --output LVDS1 --mode 1366x768 --panning 1366x768 --scale 1x1"
 
 # Add A Special Env For My Laptop
 alias scv='LIBGL_ALWAYS_SOFTWARE=1'
@@ -363,7 +376,7 @@ alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacma
 #get the error messages from journalctl
 alias jctl="journalctl -p 3 -xb"
 alias sysu="systemctl --user status "
-alias sysr="doas systemctl status "
+alias sysr="systemctl status "
 
 # termbin
 alias tb="nc termbin.com 9999"
