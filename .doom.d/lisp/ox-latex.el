@@ -6,8 +6,8 @@
 
 (with-eval-after-load 'ox-latex
   ;; (add-to-list 'org-latex-packages-alist '("" "minted")) ;; I have it added into latex.setup
-  (setq org-latex-listings 'engraved
-        org-latex-compiler "XeLaTeX"
+  (setq org-latex-src-block-backend 'engraved
+        org-latex-compiler "LuaLaTex"
         org-latex-hyperref-template "\\hypersetup{\n pdfauthor={%a},\n pdftitle={%t},\n pdfkeywords={%k},\n pdfsubject={%d},\n pdfcreator={%c}, \n pdflang={%L}, \n colorlinks=true, \n linktoc=page, \n linkcolor=blue, \n urlcolor=bblue}\n")
   ;; Fix Encoding And Setting Default Packages
   (setq org-latex-default-packages-alist
@@ -25,7 +25,7 @@
           ("" "capt-of" nil)
           ("" "hyperref" nil)))
   ;; Change Height between Subtitle And Title
-  (setq org-latex-subtitle-format "\\\\\\smallskip\n\\large %s")
+  (setq org-latex-subtitle-format "\\\\\\smallskip\n\\large %s") ;; Using smallskip to not enlarge the gap.
 
   ;; custom Example Block
   (defadvice! org-latex-example-block (example-block _contents info)
@@ -224,14 +224,14 @@ holding contextual information."
 \\DeclareTotalTCBox{\\commandbox}{ s v }
 {verbatim,colupper=white,colback=black!75!white,colframe=black}
 {\\IfBooleanT{#1}{\\textcolor{red}{\\bfseries » }}%
-\\lstinline[language=command.com,keywordstyle=\\color{yellow!35!white}\\bfseries]^#2^}
+\\lstinline[language=bash,showspaces=false,showtabs=false,basicstyle=\\iosevkaterm,keywordstyle=\\color{yellow!35!white}]^#2^}
 "
     "Mark \"Something\" As Command")
 
   (defvar org-latex-cmdsh-preamble "
 \\tcbuselibrary{listings}
 \\newtcblisting{commandshell}{colback=blue!20!black,colupper=white,colframe=yellow!75!black,%
-listing only,listing options={style=tcblatex,language=bash},%
+listing only,listing options={style=tcblatex,language=bash,showspaces=false,showtabs=false},%
 every listing line={\\textcolor{red}{\\small\\ttfamily\\bfseries \\textit{cmd} \$> }}}
 "
     "Mark Each Line In \\begin{commandshell} as a command")
@@ -293,6 +293,7 @@ frame style={opacity=0.12}, interior style={opacity=0.20},shrink tight, extrude 
       ("\\\\commandbox" . cmd-link)
       ("^[ \t]*#\\+KEYS_ENABLE" . keyword-box)
       ("^[ \t]*#\\+TOCT" . toc-box)
+      ("\\\\Parallel" . parallel)
       ((and org-latex-italic-quotes "^[ \t]*#\\+begin_quote\\|\\\\begin{quote}") . italic-quotes)
       (org-latex-par-sep . par-sep)
       ("^[ \t]*#\\+begin_chat\\|\\\\begin{chat}" . box-chat)
@@ -337,6 +338,7 @@ existance of the feature.")
       (checkbox      :requires .pifont :snippet org-latex-checkbox-preamble  :order 3)
       (.fancy-box    :requires (.pifont .xcoffins) :snippet org-latex-box-preamble :order 3.9)
       (keyword-box   :snippet org-latex-keyword-box :order 3.9)
+      (parallel      :snippet "\\usepackage{pdfcolparallel}" :order 2)
       (box-chat      :requires .fancy-box :order 4))
 
     "LaTeX features and details required to implement them.
@@ -379,7 +381,8 @@ Features that start with ! will be eagerly loaded, i.e. without being detected."
                      (if (listp (cdr construct-feature)) (cdr construct-feature) (list (cdr construct-feature)))))
                  org-latex-conditional-features)))))
   (defun org-latex-expand-features (features)
-    "For each feature in FEATURES process :requires, :when, and :prevents keywords and sort according to :order."
+    "For each feature in FEATURES process :requires, :when,
+ and :prevents keywords and sort according to :order."
     (dolist (feature features)
       (unless (assoc feature org-latex-feature-implementations)
         (error "Feature %s not provided in org-latex-feature-implementations" feature)))

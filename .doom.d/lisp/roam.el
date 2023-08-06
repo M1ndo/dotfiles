@@ -11,7 +11,7 @@
   (org-roam-capture-templates
    '(("d" "default" plain
       "%?"
-      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${tag}\n#+filetags: ${tag}")
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${cat}\n#+filetags: ${tag}")
       :unnarrowed t)
      ("p" "project" plain
       (file "~/org/Templates/Projects.org")
@@ -19,8 +19,7 @@
       :unnarrowed t)
      ("g" "BBounty" plain
       (file "~/org/Templates/Bounty.org")
-      :if-new (file "${slug}.org")
-      :head "#+TITLE: ${title}"
+      :if-new (file+head "${slug}.org" "#+TITLE: ${title}")
       :unnarrowed t)
      ("b" "Boxes" plain
       (file "~/org/Templates/Boxes.org")
@@ -28,23 +27,23 @@
       :unnarrowed t)
      ("l" "Life" plain
       (file "~/org/Templates/Life.org")
-      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${Cat}\n#+filetags: Life")
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${cat}\n#+filetags: Life")
       :unnarrowed t)
      ("m" "Biblio" plain
       (file "~/org/Templates/Bib.org")
-      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${Cat}\n#+filetags: Biblio")
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${cat}\n#+filetags: Biblio")
       :unnarrowed t)
      ("e" "Letter" plain
       (file "~/org/Templates/Letter.org")
-      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${Cat}\n#+filetags: Letter")
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: ${cat}\n#+filetags: Letter")
       :unnarrowed t)
      ("t" "Ebook" plain
       (file "~/org/Templates/novel.tex")
-      :if-new (file+head "${slug}.tex" "#+title: ${title}\n#+category: ${Cat}\n#+filetags: Ebook")
+      :if-new (file+head "${slug}.tex" "#+title: ${title}\n#+category: ${cat}\n#+filetags: Ebook")
       :unnarrowed t)
      ("s" "School" plain
       (file "~/org/Templates/School.org")
-      :if-new (file+head "{slug}.org" "#+title: ${title}\n#+category: ${Cat}\n#+filetags: School")
+      :if-new (file+head "{slug}.org" "#+title: ${title}\n#+category: ${cat}\n#+filetags: School")
       :unnarrowed t)))
   (org-roam-dailies-capture-templates
    '(("d" "default" entry "\n* %?"
@@ -66,6 +65,8 @@
          ("C-c n p" . my/org-roam-find-project)
          ("C-c n t" . my/org-roam-capture-task)
          ("C-c n b" . my/org-roam-capture-inbox)
+         ;; ("C-c n e" . my/org-roam-encrypt-node)
+         ;; ("C-c n o" . my/org-roam-open-node)
          ("C-c n c" . org-roam-capture)
          :map org-mode-map
          ("C-M-i" . completion-at-point)
@@ -246,3 +247,35 @@ capture was not aborted."
              (lambda ()
                (when (or (equal org-state "DONE") (equal org-state "COMPLETED") (equal org-state "NO") (equal org-state "KILL") (equal org-state "CANCELLED"))
                  (my/org-roam-copy-todo-to-today))))
+
+;; (defvar my/org-roam-encrypted-nodes '()
+;;   "List to store the paths of encrypted Org-roam nodes.")
+
+;; (defun my/org-roam-encrypt-node ()
+;;   "Encrypt the currently opened or edited Org-roam node using EasyPG."
+;;   (interactive)
+;;   (let* ((node-path (org-roam-node-file (org-roam-node-at-point)))
+;;          (encrypted-file-path (concat node-path ".gpg"))
+;;          (recipients (epg-make-key-list (list (epg-sub-key-list (epg-key-list-keys (epg-context-home-directory)) t) my_enc))))
+;;     (unless (file-exists-p encrypted-file-path)
+;;       (epa-encrypt-file node-path recipients))
+;;     (add-to-list 'my/org-roam-encrypted-nodes encrypted-file-path)))
+
+;; (defun my/org-roam-open-decrypted-node ()
+;;   "Decrypt and open the Org-roam node at point using EasyPG."
+;;   (interactive)
+;;   (let* ((node-path (org-roam-node-file (org-roam-node-at-point)))
+;;          (decrypted-file-path (concat node-path ".decrypted")))
+;;     (unless (file-exists-p decrypted-file-path)
+;;       (epa-decrypt-file node-path decrypted-file-path))
+;;     (org-open-file decrypted-file-path)))
+
+;; (defun my/org-roam-open-node ()
+;;   "Decrypt and open the Org-roam node if encrypted,
+;; otherwise open the node directly."
+;;   (interactive)
+;;   (let* ((node-path (org-roam-node-file (org-roam-node-at-point)))
+;;          (encrypted-file-path (concat node-path ".gpg")))
+;;     (if (file-exists-p encrypted-file-path)
+;;         (my/org-roam-open-decrypted-node)
+;;       (org-open-file node-path))))

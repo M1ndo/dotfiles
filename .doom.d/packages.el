@@ -61,5 +61,7 @@
 ;;(package! vulpea)
 (package! hl-anything)
 (package! gptel :recipe (:host github :repo "karthink/gptel"))
-(package! autothemer)
+(package! autothemer :disable t)
 (package! meow :disable t)
+(package! pkgbuild-mode)
+(package! sudo-edit)

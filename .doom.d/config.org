@@ -40,6 +40,17 @@ I'm using [[github:eliheuer/caskaydia-cove][Caskaydia Cove]] which is a fork of 
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
   '(font-lock-keyword-face :slant italic))
+;; Set Custom font for python-mode.
+;; (setq py-modefont (font-spec :family "Iosevka Term" :size 11))
+;; (add-hook 'python-mode-hook
+;;           (lambda ()
+;;             (apply 'set-face-attribute 'default nil (font-face-attributes py-modefont))))
+(defface my-python-face '((t (:inherit default :family "Iosevka Term" :size 11)))
+  "Face for Python mode."
+  :group 'basic-faces)
+(add-hook 'python-mode-hook
+          (lambda ()
+            (setq-local face-remapping-alist '((default my-python-face)))))
 #+end_src
 *** Set Doom Theme
 Doom-themes are fantastic, there's alot of variants you could choose from.
@@ -718,6 +729,14 @@ Setting Custom Lsp Settings To Enable Certain Features
     (completing-read "Browse Directory: " (let ((directory-root (list "~/.dotfiles" "~/.config" "~/Pictures" "~/Documents" "~/Downloads" "~/Templates" "~/Projects" "~/Public")))))))
   (doom-project-browse directory-root))
 #+end_src
+*** Edit As Root
+#+begin_src emacs-lisp
+(use-package! sudo-edit
+  :config
+  (if (executable-find "doas")
+      (setq sudo-edit-local-method "doas")
+    (setq sudo-edit-local-method "su")))
+#+end_src
 ** Tabs/Modeline
 Using centaur-tabs to adds tabs in to our emacs with customizations
 #+begin_src emacs-lisp
@@ -835,6 +854,11 @@ there's alot of ways to map keys in emacs, we use ~map!~ in doom emacs to make n
         :desc "The Saurus Look Up" "s" #'mw-thesaurus-lookup-at-point
         :desc "The Saurus Look Up Word" "w" #'mw-thesaurus-lookup-dwim
         :desc "The Saurus Look Up Region" "d" #'mw-thesaurus-lookup)))
+
+(map! :leader
+      (:prefix-map ("f" . "file")
+       :desc "Doas/Sudo Edit" ";" #'sudo-edit
+       :desc "Doas/Sudo Edit Find File" "'" #'sudo-edit-find-file))
 #+end_src
 ** Org
 *** Set Org Directory
@@ -1060,7 +1084,11 @@ Using =org-crypt= to encrypt entries on our org-files.
 #+begin_src emacs-lisp
 (setq org-crypt-key "84263A08F86B7E99")
 #+end_src
-
+*** Ox-Hugo
+#+begin_src emacs-lisp
+(setq org-hugo-base-dir "~/Templates/Website/WebRoot/blog_ybenel/"
+      org-hugo-section "post")
+#+end_src
 ** Large Files
 Using vlf to edit large files in chunks
 #+begin_src emacs-lisp :exports none :tangle no
@@ -1250,6 +1278,15 @@ org-mime is another cool packages , that allows us to turn org syntax into html 
   (define-key vterm-mode-map (kbd "<C-backspace>")
     #'(lambda () (interactive) (vterm-send-key (kbd "C-w")))))
 #+end_src
+** Treemacs
+By default treemacs font-face is really terrible, very large and doesn't look to good.
+So we're changing it to Iosevka Or JuliaMono.
+#+begin_src emacs-lisp
+(setq doom-themes-treemacs-enable-variable-pitch nil)
+(custom-set-faces! '(treemacs-root-face :slant italic :font-family "Iosevka Term" :weigth 1.0)
+  '(treemacs-file-face :slant italic :font-family "Iosevka Term")
+  '(treemacs-directory-face :slant italic :font-family "Iosevka Term"))
+#+end_src
 ** Screenshot And Screencast
 *** Screenshot
 Using this awesome package called [[https://github.com/tecosaur/screenshot][Screenshot]] take takes cool screenshots like this one.
@@ -1296,32 +1333,37 @@ Hammy interactive interval timers, used for setting up timers and resting period
 (use-package! hammy
   :config
   (hammy-mode)
+  (hammy-define (propertize "👾" 'face '(:foreground "SpringGreen4"))
+    :documentation "Quickie 15min timer"
+    :intervals
+    (list (interval :name "Quickie" :duration "15 minutes" :before (do (announce "Starting Quickie") (notify "Starting Quickie"))
+                    :advance (do (announce "Quickie Ended") (notify "Quickie Ended")))))
   (hammy-define (propertize "🍅" 'face '(:foreground "tomato"))
     :documentation "The classic pomodoro timer."
     :intervals
     (list
-    (interval :name "Work"
-              :duration "35 minutes"
-              :before (do (announce "Starting work time.")
-                          (notify "Starting work time."))
-              :advance (do (announce "Break time!")
+     (interval :name "Work"
+               :duration "35 minutes"
+               :before (do (announce "Starting work time.")
+                           (notify "Starting work time."))
+               :advance (do (announce "Break time!")
                             (notify "Break time!")))
-    (interval :name "Break"
-              :duration (do (if (and (not (zerop cycles))
+     (interval :name "Break"
+               :duration (do (if (and (not (zerop cycles))
                                       (zerop (mod cycles 3)))
-                                ;; If a multiple of three cycles have
-                                ;; elapsed, the fourth work period was
-                                ;; just completed, so take a longer break.
-                                "30 minutes"
-                              "5 minutes"))
-              :before (do (announce "Starting break time.")
-                          (notify "Starting break time."))
-              :advance (do (announce "Break time is over!")
+                                 ;; If a multiple of three cycles have
+                                 ;; elapsed, the fourth work period was
+                                 ;; just completed, so take a longer break.
+                                 "30 minutes"
+                               "5 minutes"))
+               :before (do (announce "Starting break time.")
+                           (notify "Starting break time."))
+               :advance (do (announce "Break time is over!")
                             (notify "Break time is over!"))))))
 #+end_src
 ** Twitter-Mode
 Twittering-Mode , To View status and stuff
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (with-eval-after-load 'twittering-mode
   (setq twittering-allow-insecure-server-cert t)
   (setq twittering-use-master-password t)
@@ -1580,6 +1622,15 @@ Controlling Mpris And Adding Song Metadata Into Modeline
 Attempting to use chatGPT in Emacs.
 #+begin_src emacs-lisp
 (setq gptel-model "gpt-4")
+#+end_src
+*** PKGBUILD
+Using =pkgbuild-mode= to recognize pkgbuild files makes editing
+easier.
+#+begin_src emacs-lisp
+(use-package! pkgbuild-mode
+  :config
+  (setq auto-mode-alist (append '(("/PKGBUILD$" . pkgbuild-mode))
+                                auto-mode-alist)))
 #+end_src
 ** Scimax Bookmard
 scimax-bookmarks from [[https://github.com/jkitchin/scimax][Scimax]] is a cool snippet, that highlights a specific word/sentence also does other cool things.
