@@ -22,7 +22,7 @@ Plug 'Yggdroot/indentLine' " Indent Line
 Plug 'nvim-tree/nvim-web-devicons' " Icons
 Plug 'romgrk/barbar.nvim' " Tabs
 Plug 'cohama/lexima.vim' " Auto Complete Brackets Quotes .. 
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Auto Completion For Lsp
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Auto Completion For Lsp
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
@@ -102,14 +102,14 @@ let g:lexima_no_default_rules = 1
 call lexima#set_default_rules()
 call lexima#insmode#map_hook('before', '<CR>', '')
 
-function! s:my_cr_function() abort
-  return deoplete#close_popup() . lexima#expand('<CR>', 'i')
-endfunction
+"function! s:my_cr_function() abort
+"  return deoplete#close_popup() . lexima#expand('<CR>', 'i')
+"endfunction
 
-inoremap <expr> <cr> <sid>my_cr_function()
+"inoremap <expr> <cr> <sid>my_cr_function()
 " deoplate
 
-let g:deoplete#enable_at_startup = 1
+"let g:deoplete#enable_at_startup = 1
 " inoremap <silent><expr> <TAB>
 " \ pumvisible() ? "\<C-n>" :
 " \ <SID>check_back_space() ? "\<TAB>" :
@@ -124,7 +124,7 @@ let g:SuperTabMappingBackward = '<tab>'
 
 let g:LanguageClient_serverCommands = {
     \ 'sh': ['bash-language-server', 'start'],
-    \ 'python': ['/home/llove/.local/bin/pylsp'],
+    \ 'python': ['/home/alienx/.local/bin/pylsp'],
     \ }
 nnoremap <Space>is :LanguageClientStart<CR>
 nnoremap <Space>iS :LanguageClientStop<CR>
