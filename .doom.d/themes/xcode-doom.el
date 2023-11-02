@@ -1,4 +1,4 @@
-;;; doom-xcode-theme.el --- based off of Apple's Xcode Dark Theme -*- lexical-binding: t; no-byte-compile: t; -*-
+;;; xcode-doom-theme.el --- based off of Apple's Xcode Dark Theme -*- lexical-binding: t; no-byte-compile: t; -*-
 ;;
 ;; Added: February 28, 2020 (#414)
 ;; Author: kadenbarlow <https://github.com/kadenbarlow>
