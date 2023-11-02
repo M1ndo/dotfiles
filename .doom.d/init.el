@@ -32,7 +32,7 @@
        doom              ; what makes DOOM look the way it does
        doom-dashboard    ; a nifty splash screen for Emacs
        doom-quit         ; DOOM quit-message prompts when you quit Emacs
-       ;;(emoji +unicode)  ; 🙂
+       ;; (emoji +unicode)  ; 🙂
        ;;fill-column       ; a `fill-column' indicator
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        ;;hydra
@@ -69,7 +69,7 @@
        ;;word-wrap         ; soft wrapping with language-aware indent
 
        :emacs
-       (dired +icons +dirvish)             ; making dired pretty [functional]
+       (dired +icons)             ; making dired pretty [functional]
        ;; electric          ; smarter, keyword-based electric-indent
        (ibuffer +icons)         ; interactive buffer management
        undo              ; persistent, smarter undo for your inevitable mistakes
@@ -152,7 +152,7 @@
        ;;nim               ; python + lisp at the speed of c
        ;;nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
-       ;; php               ; perl's insecure younger brother
+       php               ; perl's insecure younger brother
        (org +present +pomodoro +journal +hugo) ; organize your plain life in plain text
        ;;plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional

@@ -33,7 +33,7 @@ I'm using [[github:eliheuer/caskaydia-cove][Caskaydia Cove]] which is a fork of 
 (setq doom-font (font-spec :family "VictorMono Nerd Font" :weight 'Regular :foreground "#00bfff" :size 15)
       doom-variable-pitch-font (font-spec :family "Cascadia Code" :weight 'SemiLight :size 15)
       ;; doom-variable-pitch-font (font-spec :family "JetBrains Mono" :weight 'Medium :size 15)
-      doom-unicode-font (font-spec :family "JuliaMono")
+      doom-symbol-font (font-spec :family "JuliaMono")
       doom-big-font (font-spec :family "Cascadia Code" :weight 'SemiBold :size 24)
       doom-serif-font (font-spec :family "IBM Plex Mono" :size 22 :weight 'light))
 
@@ -41,16 +41,16 @@ I'm using [[github:eliheuer/caskaydia-cove][Caskaydia Cove]] which is a fork of 
   '(font-lock-comment-face :slant italic)
   '(font-lock-keyword-face :slant italic))
 ;; Set Custom font for python-mode.
-;; (setq py-modefont (font-spec :family "Iosevka Term" :size 11))
-;; (add-hook 'python-mode-hook
-;;           (lambda ()
-;;             (apply 'set-face-attribute 'default nil (font-face-attributes py-modefont))))
-(defface my-python-face '((t (:inherit default :family "Iosevka Term" :size 11)))
-  "Face for Python mode."
+(defface my-prog-face '((t (:inherit default :family "Iosevka Term" :size 11)))
+  "Face for prog mode."
   :group 'basic-faces)
-(add-hook 'python-mode-hook
-          (lambda ()
-            (setq-local face-remapping-alist '((default my-python-face)))))
+;; (add-hook 'go-mode-hook (lambda ()
+;;   (setq-local face-remapping-alist '((default my-prog-face)))))
+(add-hook 'python-mode-hook (lambda ()
+  (setq-local face-remapping-alist '((default my-prog-face)))))
+
+;; Font used for nerd-fonts.
+(setq +nerd-icons-font "Iosevka Nerd Font")
 #+end_src
 *** Set Doom Theme
 Doom-themes are fantastic, there's alot of variants you could choose from.
@@ -70,7 +70,7 @@ Right here I'm using doom-dracula , there's also [[github:dracula/emacs][Dracula
   ;; (load-theme 'challenger-doom-deep t) ;; set laserwave theme
   (if (display-graphic-p) ;; Load Theme based display type
       (load-theme 'doom-xcode t)
-    (load-theme 'challenger-doom-deep t))
+    (load-theme 'xcode-doom t))
   (doom-themes-visual-bell-config)   ;; Enable flashing mode-line on errors
   (doom-themes-neotree-config)   ;; Enable custom neotree theme
   (doom-themes-org-config))  ;; Corrects (and improves) org-mode's native fontification.
@@ -109,6 +109,7 @@ What's more fun than adding emacs logo in splash screen of doom dashboard.
 There's also a tool called [[github:folke/splashcii][Splashcii]] that downloads ascii arts and place it in our doom-dashboard
 + Removing Doom Dashboard and using [[https://github.com/emacs-dashboard/emacs-dashboard][Emacs Dashboard]] meanly because its extensable.
 #+begin_src emacs-lisp
+;; Set default fallback buffer
 (setq doom-fallback-buffer-name "👽 Doom"
       +doom-dashboard-name "👽 Doom"
       +workspaces-main "👽 Doom")
@@ -128,10 +129,6 @@ There's also a tool called [[github:folke/splashcii][Splashcii]] that downloads 
 ;;  (dashboard-setup-startup-hook)
 ;;  (dashboard-modify-heading-icons '((recents . "file-text")
 ;;                                    (bookmarks . "book"))))
-;; ;;Set default fallback buffer
-;; (setq doom-fallback-buffer "*dashboard*")
-;; (setq doom-fallback-buffer-name "*dashboard*")
-;; (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 ;; Splash screen for doom dashboard
 (setq fancy-splash-image "~/.doom.d/img/gnu_color.png")
 
@@ -362,13 +359,14 @@ I'd like to have just the buffer name, then if applicable the project folder
 (setq frame-title-format
       '(""
         (:eval
-         (if (s-contains-p org-roam-directory (or buffer-file-name ""))
+         (if (string-match-p (regexp-quote (or (bound-and-true-p org-roam-directory) "\u0000"))
+                             (or buffer-file-name ""))
              (replace-regexp-in-string
               ".*/[0-9]*-?" "☰ "
-              (subst-char-in-string ?_ ?  buffer-file-name))
+              (subst-char-in-string ?_ ?\s buffer-file-name))
            "%b"))
         (:eval
-         (let ((project-name (projectile-project-name)))
+         (when-let ((project-name (and (featurep 'projectile) (projectile-project-name))))
            (unless (string= "-" project-name)
              (format (if (buffer-modified-p)  " ◉ %s" "  ●  %s") project-name))))))
 #+end_src
@@ -540,11 +538,6 @@ Sublimity Packages is another cool one that gives us minimap similar to whats li
   (setq sublimity-map-fraction 0.9)
   (setq sublimity-map-text-scale -9))
 #+end_src
-*** Lua Mode
-Enable Lua-mode
-#+begin_src emacs-lisp
-(require 'lua-mode)
-#+end_src
 *** Consult-dir
 Select Recent Viewed Dir Or Bookmark,Projects..
 #+begin_src emacs-lisp
@@ -590,7 +583,60 @@ Recentf package doesn't seem to be saving every file due to not setting configur
       recentf-max-saved-items 400)
 (add-hook 'find-file-hook 'recentf-save-list)
 #+end_src
-*** Python Mode
+*** Column Force
+Using [[https://github.com/jordonbiondo/column-enforce-mode][column-enforce-mode]] to force a certain column width
+#+begin_src emacs-lisp
+(setq column-enforce-column 90)
+#+end_src
+*** Rainbow Delimeters
+#+begin_src emacs-lisp
+(add-hook 'prog-mode-hook #'(lambda () (rainbow-delimiters-mode)))
+#+end_src
+*** Eldoc Box
+Enabling Eldoc-Box In all minor programming mode
+#+begin_src emacs-lisp
+(add-hook 'prog-mode-hook #'(lambda () (eldoc-box-hover-at-point-mode) (eldoc-box-hover-mode)))
+#+end_src
+*** History Files
+So when i do backups, i generally don't wanna backup my whole emacs.d directory,
+because it can take a lot of space, and most of saved files are not generally important, Except for history files.
+So instead i'm saving them in my =.doom.d= directory, that i can peacefully backup.
+#+begin_src emacs-lisp
+(setq savehist-file (concat doom-user-dir ".cache/savehist")
+      recentf-save-file (concat doom-user-dir ".cache/recentf")
+      save-place-file (concat doom-user-dir ".cache/saveplace")
+      projectile-known-projects-file (concat doom-user-dir ".cache/projectile.projects")
+      projectile-cache-file (concat doom-user-dir ".cache/projectile.cache")
+      bookmark-default-file (concat doom-user-dir ".cache/bookmarks"))
+#+end_src
+*** Resize Windows
+I've been struggling to resize windows manually in Emacs.
+But Thanks to a reddit post, a new package exists for it and it does what i need.
+#+begin_src emacs-lisp
+(require 'softresize)
+(global-set-key (kbd "M-C-.") 'softresize-enlarge-window)
+(global-set-key (kbd "M-C-,") 'softresize-reduce-window)
+(global-set-key (kbd "M-C-[") 'softresize-enlarge-window-horizontally)
+(global-set-key (kbd "M-C-]") 'softresize-reduce-window-horizontally)
+#+end_src
+*** LSP
+Setting Custom Lsp Settings To Enable Certain Features
++ Enabling the headerline
++ Enabling signature and documentation
+#+begin_src emacs-lisp
+(after! lsp
+  (setq lsp-headerline-breadcrumb-enable t
+        lsp-signature-render-documentation t
+        lsp-signature-auto-activate t))
+;; Set Standard Indent to 2
+(setq-default standard-indent 2)
+#+end_src
+**** Lua Mode
+Enable Lua-mode
+#+begin_src emacs-lisp
+(require 'lua-mode)
+#+end_src
+**** Python Mode :noexport:
 Using [[https://github.com/palantir/python-language-server][Pyls]] Rather Than The Default Mspyls because it had issues in doom emacs.
 Setting up lsp-mode and other functionalities for better features.
 + Before Continuing Please Install Pyl
@@ -675,59 +721,23 @@ pip install --user "python-language-server[all]"
 #+begin_src emacs-lisp
 (setq python-indent-offset 2)
 #+end_src
-*** Column Force
-Using [[https://github.com/jordonbiondo/column-enforce-mode][column-enforce-mode]] to force a certain column width
+**** Go Mode
+Set go modules to on since its off by default.
 #+begin_src emacs-lisp
-(setq column-enforce-column 90)
+(setq lsp-go-env '((GO111MODULE . "on")))
 #+end_src
-*** Rainbow Delimeters
+Use gofmt-tag to format struct in go.
 #+begin_src emacs-lisp
-(add-hook 'prog-mode-hook #'(lambda () (rainbow-delimiters-mode)))
-#+end_src
-*** Eldoc Box
-Enabling Eldoc-Box In all minor programming mode
-#+begin_src emacs-lisp
-(add-hook 'prog-mode-hook #'(lambda () (eldoc-box-hover-at-point-mode) (eldoc-box-hover-mode)))
-#+end_src
-*** History Files
-So when i do backups, i generally don't wanna backup my whole emacs.d directory,
-because it can take a lot of space, and most of saved files are not generally important, Except for history files.
-So instead i'm saving them in my =.doom.d= directory, that i can peacefully backup.
-#+begin_src emacs-lisp
-(setq savehist-file (concat doom-user-dir ".cache/savehist")
-      recentf-save-file (concat doom-user-dir ".cache/recentf")
-      save-place-file (concat doom-user-dir ".cache/saveplace")
-      projectile-known-projects-file (concat doom-user-dir ".cache/projectile.projects")
-      projectile-cache-file (concat doom-user-dir ".cache/projectile.cache")
-      bookmark-default-file (concat doom-user-dir ".cache/bookmarks"))
-#+end_src
-*** Resize Windows
-I've been struggling to resize windows manually in Emacs.
-But Thanks to a reddit post, a new package exists for it and it does what i need.
-#+begin_src emacs-lisp
-(require 'softresize)
-(global-set-key (kbd "M-C-.") 'softresize-enlarge-window)
-(global-set-key (kbd "M-C-,") 'softresize-reduce-window)
-(global-set-key (kbd "M-C-[") 'softresize-enlarge-window-horizontally)
-(global-set-key (kbd "M-C-]") 'softresize-reduce-window-horizontally)
-#+end_src
-*** LSP
-Setting Custom Lsp Settings To Enable Certain Features
-+ Enabling the headerline
-+ Enabling signature and documentation
-#+begin_src emacs-lisp
-(setq lsp-headerline-breadcrumb-enable t
-      lsp-signature-render-documentation t
-      lsp-signature-auto-activate t)
+(require 'gofmt-tag)
+(add-hook 'go-mode-hook #'(lambda () (gofmt-tag-mode)))
 #+end_src
 *** Browse Directory
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
 (defun yb/search-folder ()
-  ;; "~/.dotfiles" "~/.config" "~/Pictures" "~/Documents" "~/Downloads" "~/Templates" "~/Projects" "~/Public"
-  (interactive
-   (list
-    (completing-read "Browse Directory: " (let ((directory-root (list "~/.dotfiles" "~/.config" "~/Pictures" "~/Documents" "~/Downloads" "~/Templates" "~/Projects" "~/Public")))))))
-  (doom-project-browse directory-root))
+  (interactive)
+  (let ((directory-root '("~/.dotfiles" "~/.config/" "~/Pictures/" "~/Documents/" "~/Downloads/" "~/Templates/" "~/Projects/" "~/Public/" "~/org/" "~/org/roam" "~/Templates/Website/WebRoot/blog_ybenel/" "~/Projects/Git_Pro/")))
+    (let ((selected-directory (completing-read "Browse Directory: " directory-root)))
+      (doom-project-browse selected-directory))))
 #+end_src
 *** Edit As Root
 #+begin_src emacs-lisp
@@ -736,6 +746,21 @@ Setting Custom Lsp Settings To Enable Certain Features
   (if (executable-find "doas")
       (setq sudo-edit-local-method "doas")
     (setq sudo-edit-local-method "su")))
+#+end_src
+*** Ligatures
+#+begin_src emacs-lisp
+(ligature-set-ligatures 'org-mode '("<==>" "<!--" "~~>"
+                                       ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+                                       ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+                                       "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+                                       "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+                                       "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+                                       "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+                                       "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+                                       ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+                                       "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+                                       "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+                                       "?=" "?." "??" "/*" "/=" "/>" "//" "__" "~~"))
 #+end_src
 ** Tabs/Modeline
 Using centaur-tabs to adds tabs in to our emacs with customizations
@@ -789,7 +814,8 @@ there's alot of ways to map keys in emacs, we use ~map!~ in doom emacs to make n
        :desc "Bufler Set Workspace Frame" "q" #'bufler-workspace-frame-set
        :desc "Counel Switch Buffer" "w" #'consult-buffer
        :desc "Window Zoom/Unzoom" "z" #'zoom-window-zoom
-       :desc "Toggle Transparency" "o" #'toggle-transparency))
+       :desc "Toggle Transparency" "o" #'toggle-transparency
+       :desc "Browse Directories" "F" #'yb/search-folder))
 
 (map! :leader
       :desc "Switch To Left Window" "<left>" #'evil-window-left
@@ -1089,7 +1115,7 @@ Using =org-crypt= to encrypt entries on our org-files.
 (setq org-hugo-base-dir "~/Templates/Website/WebRoot/blog_ybenel/"
       org-hugo-section "post")
 #+end_src
-** Large Files
+** Large Files :noexport:
 Using vlf to edit large files in chunks
 #+begin_src emacs-lisp :exports none :tangle no
 (use-package! vlf-setup
@@ -1180,8 +1206,6 @@ There's variety of Mail client in Emacs such as the builtin one, however i'd pre
   ;;         ("/[Gmail]/All Mail"  . ?a))))
 #+end_src
 
-#+RESULTS:
-
 ~NOTICE:~ Since I'm using experimental mu4e __1.7.0__ Remove ~add-to-list ...~ this will load installed mu and mu4e stable __1.6*__
 *** Mu4e-alert
 Since I'm using Mu4e 1.7.0 which is unstable , obviously there's fewer bugs and this one is related mu4e-alert.
@@ -1247,25 +1271,25 @@ This piece of configuration is totally not needed in Doom Emacs Since it's alrea
         (list :title sender :body subject))))
   (setq mu4e-alert-grouped-mail-notification-formatter #'+mu4e-alert-grouped-mail-notification-formatter-with-bell))
 #+end_src
-*** Org Mime
+*** Org Mime :noexport:
 org-mime is another cool packages , that allows us to turn org syntax into html when composing mail, since few mail providers do not supports plain-text SMH
-#+begin_src emacs-lisp
-;;(use-package! org-mime
-;;  :ensure t
-;;  :config
-;;  (setq org-mime-export-options '(:section-numbers nil
-;;                                  :with-author nil
-;;                                  :with-toc nil))
-;;  (add-hook 'org-mime-html-hook
-;;            (lambda ()
-;;              (org-mime-change-element-style
-;;               "pre" (format "color: %s; background-color: %s; padding: 0.5em;"
-;;                             "#E6E1DC" "#232323"))))
-;;  (add-hook 'message-send-hook 'org-mime-htmlize))
+#+begin_src emacs-lisp :tangle no
+(use-package! org-mime
+ :ensure t
+ :config
+ (setq org-mime-export-options '(:section-numbers nil
+                                 :with-author nil
+                                 :with-toc nil))
+ (add-hook 'org-mime-html-hook
+           (lambda ()
+             (org-mime-change-element-style
+              "pre" (format "color: %s; background-color: %s; padding: 0.5em;"
+                            "#E6E1DC" "#232323"))))
+ (add-hook 'message-send-hook 'org-mime-htmlize))
 #+end_src
 ** Neotree
-#+begin_src emacs-lisp
-(use-package! "neotree"
+#+begin_src emacs-lisp :tangle no
+(use-package! neotree
   :bind(("C-c C-f" . neotree-toggle))
   :config
   (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
@@ -1361,196 +1385,7 @@ Hammy interactive interval timers, used for setting up timers and resting period
                :advance (do (announce "Break time is over!")
                             (notify "Break time is over!"))))))
 #+end_src
-** Twitter-Mode
-Twittering-Mode , To View status and stuff
-#+begin_src emacs-lisp :tangle no
-(with-eval-after-load 'twittering-mode
-  (setq twittering-allow-insecure-server-cert t)
-  (setq twittering-use-master-password t)
-  (defun *twittering-generate-format-table (status-sym prefix-sym)
-    `(("%" . "%")
-      ("}" . "}")
-      ("#" . (cdr (assq 'id ,status-sym)))
-      ("'" . (when (cdr (assq 'truncated ,status-sym))
-               "..."))
-      ("c" .
-       (let ((system-time-locale "C"))
-         (format-time-string "%a %b %d %H:%M:%S %z %Y"
-                             (cdr (assq 'created-at ,status-sym)))))
-      ("d" . (cdr (assq 'user-description ,status-sym)))
-      ("f" .
-       (twittering-make-string-with-source-property
-        (cdr (assq 'source ,status-sym)) ,status-sym))
-      ("i" .
-       (when (and twittering-icon-mode window-system)
-         (let ((url
-                (cond
-                 ((and twittering-use-profile-image-api
-                       (eq twittering-service-method 'twitter)
-                       (or (null twittering-convert-fix-size)
-                           (member twittering-convert-fix-size '(48 73))))
-                  (let ((user (cdr (assq 'user-screen-name ,status-sym)))
-                        (size
-                         (if (or (null twittering-convert-fix-size)
-                                 (= 48 twittering-convert-fix-size))
-                             "normal"
-                           "bigger")))
-                    (format "http://%s/%s/%s.xml?size=%s" twittering-api-host
-                            (twittering-api-path "users/profile_image") user size)))
-                 (t
-                  (cdr (assq 'user-profile-image-url ,status-sym))))))
-           (twittering-make-icon-string nil nil url))))
-      ("I" .
-       (let* ((entities (cdr (assq 'entity ,status-sym)))
-              text)
-         (mapc (lambda (url-info)
-                 (setq text (or (cdr (assq 'media-url url-info)) "")))
-               (cdr (assq 'media entities)))
-         (if (string-equal "" text)
-             text
-           (let ((twittering-convert-fix-size 360))
-             (twittering-make-icon-string nil nil text)))))
-      ("j" . (cdr (assq 'user-id ,status-sym)))
-      ("L" .
-       (let ((location (or (cdr (assq 'user-location ,status-sym)) "")))
-         (unless (string= "" location)
-           (concat " [" location "]"))))
-      ("l" . (cdr (assq 'user-location ,status-sym)))
-      ("p" . (when (cdr (assq 'user-protected ,status-sym))
-               "[x]"))
-      ("r" .
-       (let ((reply-id (or (cdr (assq 'in-reply-to-status-id ,status-sym)) ""))
-             (reply-name (or (cdr (assq 'in-reply-to-screen-name ,status-sym))
-                             ""))
-             (recipient-screen-name
-              (cdr (assq 'recipient-screen-name ,status-sym))))
-         (let* ((pair
-                 (cond
-                  (recipient-screen-name
-                   (cons (format "sent to %s" recipient-screen-name)
-                         (twittering-get-status-url recipient-screen-name)))
-                  ((and (not (string= "" reply-id))
-                        (not (string= "" reply-name)))
-                   (cons (format "in reply to %s" reply-name)
-                         (twittering-get-status-url reply-name reply-id)))
-                  (t nil)))
-                (str (car pair))
-                (url (cdr pair))
-                (properties
-                 (list 'mouse-face 'highlight 'face 'twittering-uri-face
-                       'keymap twittering-mode-on-uri-map
-                       'uri url
-                       'front-sticky nil
-                       'rear-nonsticky t)))
-           (when (and str url)
-             (concat " " (apply 'propertize str properties))))))
-      ("R" .
-       (let ((retweeted-by
-              (or (cdr (assq 'retweeting-user-screen-name ,status-sym)) "")))
-         (unless (string= "" retweeted-by)
-           (concat " (retweeted by " retweeted-by ")"))))
-      ("S" .
-       (twittering-make-string-with-user-name-property
-        (cdr (assq 'user-name ,status-sym)) ,status-sym))
-      ("s" .
-       (twittering-make-string-with-user-name-property
-        (cdr (assq 'user-screen-name ,status-sym)) ,status-sym))
-      ("U" .
-       (twittering-make-fontified-tweet-unwound ,status-sym))
-      ;; ("D" .
-      ;;  (twittering-make-fontified-tweet-unwound ,status-sym))
-      ("T" .
-       ,(twittering-make-fontified-tweet-text
-         `(twittering-make-fontified-tweet-text-with-entity ,status-sym)
-         twittering-regexp-hash twittering-regexp-atmark))
-      ("t" .
-       ,(twittering-make-fontified-tweet-text
-         `(twittering-make-fontified-tweet-text-with-entity ,status-sym)
-         twittering-regexp-hash twittering-regexp-atmark))
-      ("u" . (cdr (assq 'user-url ,status-sym)))))
-  (advice-add #'twittering-generate-format-table :override #'*twittering-generate-format-table)
-  (defface twitter-divider
-    `((t (:underline (:color "grey"))))
-    "The vertical divider between tweets."
-    :group 'twittering-mode)
-  (setq twittering-icon-mode t
-        twittering-use-icon-storage t
-        twittering-convert-fix-size 40
-        twittering-status-format "
-  %i  %FACE[font-lock-function-name-face]{  @%s}  %FACE[italic]{%@}  %FACE[error]{%FIELD-IF-NONZERO[❤ %d]{favorite_count}}  %FACE[warning]{%FIELD-IF-NONZERO[↺ %d]{retweet_count}}
-
-%FOLD[   ]{%FILL{%t}
-%QT{
-%FOLD[   ]{%FACE[font-lock-function-name-face]{@%s}\t%FACE[shadow]{%@}
-%FOLD[ ]{%FILL{%t}}
-}}}
-
-    %I
-
-%FACE[twitter-divider]{                                                                                                                                                                                  }
-"))
-#+end_src
 ** Fun Packages
-*** Emoji
-Switched From =Twitter Emoji= to =Open Emoji= because it looks better.
-#+begin_src emacs-lisp :tangle no
-(setq emojify-emoji-set "openmoji-v13-0")
-(global-emojify-mode-line-mode)
-#+end_src
-
-One minor annoyance is the use of emojis over the default character
-when the default is actually preferred. This occurs with overlay symbols I use
-in Org mode, such as checkbox state, and a few other miscellaneous cases.
-
-We can accommodate our preferences by deleting those entries from the emoji hash
-table
-
-#+begin_src emacs-lisp :tangle no
-(defvar emojify-disabled-emojis
-  '(;; Org
-    "◼" "☑" "☸" "⚙" "⏩" "⏪" "⬆" "⬇" "❓"
-    ;; Terminal powerline
-    "✔"
-    ;; Box drawing
-    "▶" "◀")
-  "Characters that should never be affected by `emojify-mode'.")
-
-(defadvice! emojify-delete-from-data ()
-  "Ensure `emojify-disabled-emojis' don't appear in `emojify-emojis'."
-  :after #'emojify-set-emoji-data
-  (dolist (emoji emojify-disabled-emojis)
-    (remhash emoji emojify-emojis)))
-#+end_src
-
-Now, it would be good to have a minor mode which allowed you to type ascii/gh
-emojis and get them converted to unicode. Let's make one.
-#+begin_src emacs-lisp :tangle no
-(defun emojify--replace-text-with-emoji (orig-fn emoji text buffer start end &optional target)
-  "Modify `emojify--propertize-text-for-emoji' to replace ascii/github emoticons with unicode emojis, on the fly."
-  (if (or (not emoticon-to-emoji) (= 1 (length text)))
-      (funcall orig-fn emoji text buffer start end target)
-    (delete-region start end)
-    (insert (ht-get emoji "unicode"))))
-
-(define-minor-mode emoticon-to-emoji
-  "Write ascii/gh emojis, and have them converted to unicode live."
-  :global nil
-  :init-value nil
-  (if emoticon-to-emoji
-      (progn
-        (setq-local emojify-emoji-styles '(ascii github unicode))
-        (advice-add 'emojify--propertize-text-for-emoji :around #'emojify--replace-text-with-emoji)
-        (unless emojify-mode
-          (emojify-turn-on-emojify-mode)))
-    (setq-local emojify-emoji-styles (default-value 'emojify-emoji-styles))
-    (advice-remove 'emojify--propertize-text-for-emoji #'emojify--replace-text-with-emoji)))
-#+end_src
-
-This new minor mode of ours will be nice for messages, so let's hook it in for
-Email and IRC.
-#+begin_src emacs-lisp :tangle no
-(add-hook! '(mu4e-compose-mode org-msg-edit-mode circe-channel-mode) (emoticon-to-emoji 1))
-#+end_src
 *** Rainbow Mode
 Display hex colors
 #+begin_src emacs-lisp
@@ -1617,11 +1452,6 @@ Controlling Mpris And Adding Song Metadata Into Modeline
 #+begin_src emacs-lisp
 (load-file (concat doom-user-dir "/lisp/mpris-control.el"))
 (mpris-control-info-mode)
-#+end_src
-*** Gptel
-Attempting to use chatGPT in Emacs.
-#+begin_src emacs-lisp
-(setq gptel-model "gpt-4")
 #+end_src
 *** PKGBUILD
 Using =pkgbuild-mode= to recognize pkgbuild files makes editing
