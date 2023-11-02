@@ -1,0 +1,9 @@
+[Unit]
+Description=Remap Keys after resume from sleep or suspend
+
+[Service]
+ExecStart=/bin/bash /usr/local/bin/kdb_remap.sh
+
+[Install]
+WantedBy=sleep.target suspend.target
+

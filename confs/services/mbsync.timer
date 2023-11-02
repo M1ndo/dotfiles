@@ -1,0 +1,10 @@
+[Unit]
+Description=call mbsync on all accounts every 5 minutes
+ConditionPathExists=%h/.mbsyncrc
+
+[Timer]
+OnBootSec=5m
+OnUnitInactiveSec=5m
+
+[Install]
+WantedBy=default.target

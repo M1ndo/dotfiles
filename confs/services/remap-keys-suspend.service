@@ -1,0 +1,12 @@
+[Unit]
+Description=Remap Keys before and after suspend
+
+[Service]
+Type=simple
+#ExecStart=/usr/local/bin/remap-keys-suspend.sh pre
+#ExecStop=/usr/local/bin/remap-keys-suspend.sh post
+ExecStart=/usr/local/bin/remap-keys-suspend.sh pre >> /tmp/remap-keys.log 2>&1
+ExecStop=/usr/local/bin/remap-keys-suspend.sh post >> /tmp/remap-keys.log 2>&1
+
+[Install]
+WantedBy=suspend.target
