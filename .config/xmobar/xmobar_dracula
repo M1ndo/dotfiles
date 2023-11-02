@@ -1,47 +1,49 @@
-Config {
-       font              = "Alegreya SC 9"
-       , additionalFonts = [ "Iosevka 10", "Symbola 10"]
-     --  , bgColor      = "#282a36"
-       , bgColor = "#282c34"
-       , fgColor = "#06da86"
-       , position = Static { xpos = 6, ypos = 9, width = 1354, height = 24 }
-       --, position = Static { xpos = 6, ypos = 9, width = 1908, height = 24 }
-       , lowerOnStart = True
-       , hideOnStart  = False
-       , allDesktops  = True
-       , persistent   = True
-       , iconRoot     = ".xmonad/xpm/" 
-       , commands = [
-                        -- Echos a "penguin" icon in front of the kernel output.
-                      Run Com "echo" ["<fn=3>\xf17c</fn>"] "penguin" 3600
-                        -- Get kernel version (script found in .local/bin)
-                    , Run Com "uname -r" [] "kernel" 3600
-                        -- Cpu usage in percent
-                    , Run Cpu ["-t", "<fn=2>\xf108</fn> (<total>%)","-H","50","--high","red"] 20
-                        -- Ram used number and percent
-                    , Run Memory ["-t", "<fn=2>\xf233</fn> <used>M"] 20
-                        -- Disk space free
-                    , Run DiskU [("/", "<fn=2>\xf0c7</fn> <free>")] [] 60
-                        -- Echos an "up arrow" icon in front of the uptime output.
-                    , Run Com "echo" ["<fn=2>\xf0aa</fn>"] "uparrow" 3600
-                        -- Uptime
-                    , Run Uptime ["-t", "uptime: <days>d <hours>h"] 360
-                        -- Echos a "bell" icon in front of the pacman updates.
-                    , Run Com "echo" ["<fn=2>\xf0f3</fn>"] "bell" 3600
-                        -- Check for pacman updates (script found in .local/bin)
-                    , Run Com "pacupdate" [] "pacupdate" 36000
-                        -- Echos a "battery" icon in front of the pacman updates.
-                    , Run Com "echo" ["<fn=2>\xf242</fn>"] "baticon" 3600
-                        -- Battery
-                    , Run BatteryP ["BAT0"] ["-t", "<acstatus><watts> (<left>%)"] 360
-                        -- Time and date
-                    -- , Run Date "<fn=2>\xf017</fn>  %b %d %Y - (%H:%M) " "date" 50
-                    , Run Date "<fn=2>\xf017</fn> %b %d (%H:%M)" "date" 50
-                        -- Script that dynamically adjusts xmobar padding depending on number of trayer icons.
-                    , Run Com "~/.config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 10
-                        -- Prints out the left side items such as workspaces, layout, etc.
-                    , Run XMonadLog 
-                    ]
-       , sepChar = "%"
-       , alignSep = "}{"
-       , template = " %XMonadLog% }{ <fc=#666666> %trayerpad% |</fc> <box type=Bottom width=2 mb=2 color=#f1fa8c><fc=#f1fa8c>%cpu%</fc></box> <fc=#666666>|</fc> <box type=Bottom width=2 mb=2 color=#ff5555><fc=#ff5555>%memory%</fc></box> <fc=#666666>|</fc> <box type=Bottom width=2 mb=2 color=#5af78e><fc=#5af78e>%disku%</fc></box> <fc=#666666>|</fc> <box type=Bottom width=2 mb=2 color=#8be9fd><fc=#8be9fd>%bell% %pacupdate%</fc></box> <fc=#666666>|</fc> <box type=Bottom width=2 mb=2 color=#caa9fa><fc=#caa9fa>%date%</fc></box> <fc=#666666></fc>"}
+Config
+  { font = "Alegreya SC 9",
+    additionalFonts = ["Iosevka 10", "Symbola 10"],
+    --  , bgColor      = "#282a36"
+    bgColor = "#282c34",
+    fgColor = "#06da86",
+    alpha = 150,
+    position = Static {xpos = 6, ypos = 9, width = 1354, height = 24},
+    -- , position = Static { xpos = 6, ypos = 9, width = 1908, height = 24 }
+    lowerOnStart = True,
+    hideOnStart = False,
+    allDesktops = True,
+    persistent = False,
+    iconRoot = ".xmonad/xpm/",
+    commands =
+      [ -- Echos a "penguin" icon in front of the kernel output.
+        -- Run Com "echo" ["<fn=3>\xf17c</fn>"] "penguin" 3600,
+        -- Get kernel version (script found in .local/bin)
+        -- Run Com "uname -r" [] "kernel" 3600,
+        -- Cpu usage in percent
+        Run Cpu ["-t", "<fn=2>\xf108</fn>    <total>%", "-H", "50", "--high", "red"] 20,
+        -- Ram used number and percent
+        Run Memory ["-t", "<fn=2>\xf233</fn>    <used>M"] 20,
+        -- Disk space free
+        Run DiskU [("/", "<fn=2>\xf0c7</fn> <free>")] [] 60,
+        -- Echos an "up arrow" icon in front of the uptime output.
+        -- Run Com "echo" ["<fn=2>\xf0aa</fn>"] "uparrow" 3600,
+        -- Uptime
+        Run Uptime ["-t", "uptime: <days>d <hours>h"] 360,
+        -- Echos a "bell" icon in front of the pacman updates.
+        Run Com "echo" ["<fn=2>\xf0f3</fn>"] "bell" 3600,
+        -- Check for pacman updates (script found in .local/bin)
+        Run Com "pacupdate" [] "pacupdate" 36000,
+        -- Echos a "battery" icon in front of the pacman updates.
+        -- Run Com "echo" ["<fn=2>\xf242</fn>"] "baticon" 3600,
+        -- Battery
+        -- Run BatteryP ["BAT0"] ["-t", "<acstatus><watts> (<left>%)"] 360,
+        -- Time and date
+        -- , Run Date "<fn=2>\xf017</fn>  %b %d %Y - (%H:%M) " "date" 50
+        Run Date "<fn=2>\xf017</fn> %b %d (%H:%M)" "date" 50,
+        -- Script that dynamically adjusts xmobar padding depending on number of trayer icons.
+        Run Com "~/.config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 10,
+        -- Prints out the left side items such as workspaces, layout, etc.
+        Run XMonadLog
+      ],
+    sepChar = "%",
+    alignSep = "}{",
+    template = " %XMonadLog% }{ <fc=#666666> %trayerpad% | </fc> <box type=Bottom width=2 mb=2 color=#f1fa8c><fc=#f1fa8c>%cpu%</fc></box> <fc=#666666>|</fc> <box type=Bottom width=2 mb=2 color=#ff5555><fc=#ff5555>%memory%</fc></box> <fc=#666666>|</fc> <box type=Bottom width=2 mb=2 color=#5af78e><fc=#5af78e>%disku%</fc></box> <fc=#666666>|</fc> <box type=Bottom width=2 mb=2 color=#8be9fd><fc=#8be9fd>%bell% %pacupdate%</fc></box> <fc=#666666>|</fc> <box type=Bottom width=2 mb=2 color=#caa9fa><fc=#caa9fa>%date%</fc></box> <fc=#666666></fc>"
+  }
