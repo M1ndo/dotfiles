@@ -30,6 +30,11 @@ For completion in comments, see `+corfu-ispell-in-comments-and-strings'.")
   "Enable completion with ispell inside comments when in a `prog-mode'
 derivative.")
 
+(defvar +nerd-icons-font "VictorMono Nerd Font"
+  "Font used for nerd-icon-corfu
+
+  Default font used `VictorMon Nerd Font'")
+
 (use-package! corfu
   :custom
   (corfu-auto t)
@@ -107,50 +112,12 @@ derivative.")
   (setq completion-styles '(orderless partial-completion)
         completion-category-overrides '((file (styles . (partial-completion))))))
 
-
-(use-package! kind-icon
+(use-package! nerd-icons-corfu
   :after corfu
-  :when (modulep! +icons)
-  :hook (doom-load-theme . kind-icon-reset-cache)
   :init
-  (setq kind-icon-default-face 'corfu-default
-        kind-icon-use-icons t
-        svg-lib-icons-dir (expand-file-name "svg-lib" doom-cache-dir)
-        kind-icon-mapping
-        '((array "a" :icon "code-brackets" :face font-lock-variable-name-face)
-          (boolean "b" :icon "circle-half-full" :face font-lock-builtin-face)
-          (class "c" :icon "view-grid-plus-outline" :face font-lock-type-face)
-          (color "#" :icon "palette" :face success)
-          (constant "co" :icon "pause-circle" :face font-lock-constant-face)
-          (constructor "cn" :icon "table-column-plus-after" :face font-lock-function-name-face)
-          (enum "e" :icon "format-list-bulleted-square" :face font-lock-builtin-face)
-          (enum-member "em" :icon "format-list-checks" :face font-lock-builtin-face)
-          (event "ev" :icon "lightning-bolt-outline" :face font-lock-warning-face)
-          (field "fd" :icon "application-braces-outline" :face font-lock-variable-name-face)
-          (file "f" :icon "file" :face font-lock-string-face)
-          (folder "d" :icon "folder" :face font-lock-doc-face)
-          (function "f" :icon "sigma" :face font-lock-function-name-face)
-          (interface "if" :icon "video-input-component" :face font-lock-type-face)
-          (keyword "kw" :icon "image-filter-center-focus" :face font-lock-keyword-face)
-          (macro "mc" :icon "lambda" :face font-lock-keyword-face)
-          (method "m" :icon "sigma" :face font-lock-function-name-face)
-          (module "{" :icon "view-module" :face font-lock-preprocessor-face)
-          (numeric "nu" :icon "numeric" :face font-lock-builtin-face)
-          (operator "op" :icon "plus-circle-outline" :face font-lock-comment-delimiter-face)
-          (param "pa" :icon "cog" :face default)
-          (property "pr" :icon "tune-vertical" :face font-lock-variable-name-face)
-          (reference "rf" :icon "bookmark-box-multiple" :face font-lock-variable-name-face)
-          (snippet "S" :icon "text-short" :face font-lock-string-face)
-          (string "s" :icon "sticker-text-outline" :face font-lock-string-face)
-          (struct "%" :icon "code-braces" :face font-lock-variable-name-face)
-          (t "." :icon "crosshairs-question" :face shadow)
-          (text "tx" :icon "script-text-outline" :face shadow)
-          (type-parameter "tp" :icon "format-list-bulleted-type" :face font-lock-type-face)
-          (unit "u" :icon "ruler-square" :face shadow)
-          (value "v" :icon "numeric-1-box-multiple-outline" :face font-lock-builtin-face)
-          (variable "va" :icon "adjust" :face font-lock-variable-name-face)))
-  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
-
+  (after! nerd-icons
+    (setq nerd-icons-font-family +nerd-icons-font))
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 
 (use-package! cape
   :defer t
@@ -228,19 +195,21 @@ derivative.")
          :desc "scroll info up" "C-S-k" #'corfu-popupinfo-scroll-down
          :desc "scroll info down" "C-S-j" #'corfu-popupinfo-scroll-up)))
 
-(use-package! cape-yasnippet
+
+(use-package! yasnippet-capf
   :after corfu
   :init
-  (add-to-list '+corfu-global-capes #'cape-yasnippet))
+  (add-to-list '+corfu-global-capes #'yasnippet-capf))
 
 
-(use-package! cape-use-package
+(use-package! package-capf
   :after corfu
   :init
   (add-hook! 'emacs-lisp-mode-hook
     (defun +corfu--emacs-lisp-set-capfs ()
       (make-local-variable '+corfu-global-capes)
-      (add-to-list '+corfu-global-capes #'cape-use-package))))
+      (add-to-list '+corfu-global-capes #'package-capf)
+      (+corfu--load-capes))))
 
 
 (use-package! evil-collection-corfu

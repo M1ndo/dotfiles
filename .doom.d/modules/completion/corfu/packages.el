@@ -3,15 +3,18 @@
 
 (package! corfu
   :recipe (:files (:defaults "extensions/*.el")))
+;; (when (modulep! +icons)
+;;   (package! kind-icon))
 (when (modulep! +icons)
-  (package! kind-icon))
+  (package! nerd-icons)
+  (package! nerd-icons-corfu))
 (when (modulep! +orderless)
   (package! orderless))
 (package! corfu-doc
   :recipe (:host github :repo "galeo/corfu-doc"))
 (package! cape)
-(package! cape-yasnippet
-  :recipe (:host github :repo "elken/cape-yasnippet"))
+ (package! cape-yasnippet
+   :recipe (:host github :repo "elken/cape-yasnippet"))
 (package! cape-use-package
   :recipe (:host github :repo "elken/cape-use-package"))
 
