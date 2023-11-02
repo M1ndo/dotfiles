@@ -1,0 +1,5 @@
+bleopt keymap_vi_mode_show:=
+bleopt highlight_syntax=
+bleopt highlight_filename=
+bleopt highlight_variable=
+bleopt complete_menu_complete=

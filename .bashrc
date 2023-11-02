@@ -1,4 +1,6 @@
 # Maintainer Ybenel (ybenel@molero.xyz)
+# Ble.sh
+[[ $- == *i* ]] && source /usr/share/blesh/ble.sh --noattach
 
 # Including Local Bin Tool In The Path
 PATH="$HOME/.emacs.d/bin:$HOME/.local/bin:$HOME/.gem/ruby/3.0.0/bin:$PATH:$HOME/go/bin"
@@ -12,6 +14,7 @@ source $HOME/.shortcuts
 # Exporting Term Colors To Xterm 
 # Note: For Better Colors Change To "st-256color" if you have st installed
 export TERM="xterm-256color"
+export GO111MODULE=on
 
 # TMux fix
 if [[ -n "$TMUX" ]]; then
@@ -23,6 +26,7 @@ if [[ -n "$TMUX" ]]; then
     bind '"\C-p":history-search-backward'
     bind '"\C-n":history-search-forward'
     bind '"\C-x":backward-kill-word'
+    bind '"\C-y":insert-last-argument'
 fi
 
 
@@ -255,7 +259,7 @@ alias ...='cd ../..'
 # vim
 
 # Trash
-#alias rm='trash'
+alias rm='trash'
 alias rms='/bin/rm'
 
 # Clear
@@ -267,6 +271,9 @@ alias sudo='doas'
 # broot
 alias br='br -dhp'
 alias bs='br --sizes'
+
+# Aria2c 
+alias dwn='aria2c --max-connection-per-server=16 --split=8 --min-split-size=10M --max-concurrent-downloads=4 --max-overall-download-limit=0 --retry-wait=5 --file-allocation=prealloc'
 
 #Source .bashrc
 alias sr='source ~/.bashrc'
@@ -361,7 +368,7 @@ alias ips="curl -s ifconfig.co"
 
 # Awesome Screen Locker
 #alias bls="betterlockscreen -w ~/Pictures/Backgrounds/Carina_Nebula.jpg -l -t 'Victory Is Mine !'"
-alias bls="betterlockscreen -l" 
+alias bls="betterlockscreen -l --display 1"  
 
 # xclip 
 alias xc='xclip -sel clip -rmlastnl'
@@ -385,7 +392,8 @@ alias tb="nc termbin.com 9999"
 set -o vi
 
 ### SET VIM/NVIM AS MANPAGER ###
-export MANPAGER="/bin/sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist noma' -\""
+#export MANPAGER="/bin/sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist noma' -\""
+export MANPAGER="nvim +Man!"
 #export MANPAGER="sh -c 'sed -e s/.\\\\x08//g | bat -l man -p'"
 #export MANPAGER="nvimpager"
 #export PAGER="nvimpager"
@@ -411,3 +419,4 @@ export PS1="\[\e[1;49;32m\]\W \[\e[m\]\[\e[1;49;96m\]\\$\[\e[1;49;39m\] "
 eval $(thefuck --alias)
 eval "$(zoxide init bash)"
 eval "$(starship init bash)"
+[[ ${BLE_VERSION-} ]] && ble-attach
