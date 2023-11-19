@@ -1,0 +1,123 @@
+/* -----------------------------------------------------
+ * General
+ * ----------------------------------------------------- */
+* {
+font-family: Iosevka Nerd Font; /*, Symbola, VictorMono Nerd Font, JuliaMono; */
+font-size: 14px;
+font-style: normal;
+min-height: 0;
+border: none;
+border-radius: 0;
+min-height: 0;
+margin: 0;
+padding: 0;
+}
+
+/* window#waybar { */
+/* background-color: rgba(40, 42, 54, 0.4); */
+/* border-bottom: 1px solid rgba(40, 42, 55, 0.1); */
+/* border-radius: 0px; */
+/* color: #f8f8f2; */
+/* } */
+
+window#waybar {
+background: transparent;
+}
+
+/* -----------------------------------------------------
+ * Workspaces
+ * ----------------------------------------------------- */
+#workspaces {
+/* background-color: RGBA(175,135,242,0.29); */
+/* padding: 0 1rem; */
+/* border-radius: 0.75rem; */
+/* margin: 4px 2px 4px 2px; */
+/* padding: 0px 2px 0px 5px; */
+/* border: solid 0px #f4d9e1; */
+font-weight: normal;
+font-style: normal;
+}
+
+#workspaces button {
+padding: 0px 2px;
+border-radius: 15px;
+color: #ee3b3b;
+}
+
+#workspaces button.active {
+color: #00fa9a;
+background-color: transparent;
+border-radius: 15px;
+}
+
+/* -----------------------------------------------------
+ * Tooltips
+ * ----------------------------------------------------- */
+tooltip {
+background: #282a36;
+border: 1px solid #bd93f9;
+border-radius: 10px;
+}
+
+tooltip label {
+color: #f8f8f2;
+}
+
+/* -----------------------------------------------------
+ * Window
+ * ----------------------------------------------------- */
+#window {
+color: #f8f8f2;
+/* padding: 4px 10px; */
+/* background-color: RGBA(175,135,242,0.29); */
+/* padding: 0 1rem; */
+/* border-radius: 0.75rem; */
+/* margin: 4px 2px 4px 2px; */
+/* padding: 0px 5px 0px 5px; */
+/* border: solid 0px #f4d9e1; */
+/* font-family: ; */
+font-style: italic;
+}
+
+#custom-packages {
+color: #ff79c6;
+padding: 4px 10px;
+}
+
+#memory {
+color: #ffb86c;
+padding: 4px 10px;
+}
+
+#clock {
+color: #50fa7b;
+padding: 2px;
+}
+
+#cpu {
+color: #8be9fd;
+padding: 4px;
+}
+
+#disk {
+color: #50fa7b;
+padding: 4px;
+}
+
+#battery {
+color: #f8f8f2;
+padding: 4px;
+}
+
+#network {
+color: #f8f8f2;
+padding: 4px;
+}
+
+#tray {
+padding: 0px 2px;
+/* margin: 1px 1px 1px 1px; */
+/* background: blue; */
+border-radius: 15px;
+color: #ee3b3b;
+}

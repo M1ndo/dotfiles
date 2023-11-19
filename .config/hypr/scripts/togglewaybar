@@ -1,0 +1,8 @@
+#!/bin/bash
+
+poc=$(pgrep -x waybar)
+if [[ -n "$poc" ]] && ps -p "$poc" > /dev/null; then
+    kill "$poc"
+else
+    waybar &
+fi

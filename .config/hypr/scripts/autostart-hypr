@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+function run {
+    CMD=$(echo $1 | awk '{print $1}')
+    if [[ -z $(pgrep $CMD) ]]; then
+        $1 &
+    fi
+}
+run "hyprpaper"
+run "dunst"
+run "nm-applet"
+run "numlockx on"
+# run "powerkit"
+run "volumeicon"
+run "pcmanfm --daemon"
+run "/usr/bin/eww daemon"
+#run "mpd"

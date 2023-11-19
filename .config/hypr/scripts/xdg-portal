@@ -1,0 +1,8 @@
+#!/bin/bash 
+
+sleep 1
+systemctl --user stop xdg-desktop-portal-gtk.service
+killall xdg-desktop-portal
+/usr/lib/xdg-desktop-portal-hyprland &
+sleep 2
+/usr/lib/xdg-desktop-portal &

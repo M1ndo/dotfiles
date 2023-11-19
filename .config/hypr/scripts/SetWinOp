@@ -1,0 +1,30 @@
+#!/bin/bash
+
+file=~/.config/hypr/.savewindows
+
+SetOpacity() {
+  active_window=$(hyprctl activewindow | head -1 | awk '{printf "0x%s", $2}')
+  out=$(grep "$active_window" "$file")
+  if [[ -z "$out" ]]; then
+    msg=$(hyprctl setprop address:"$active_window" alpha 0.8)
+    if [[ $msg == "ok" ]]; then
+      SaveWindow "$active_window"
+    fi
+  else 
+    msg=$(hyprctl setprop address:"$active_window" alpha 1)
+    if [[ $msg == "ok" ]]; then
+      SaveWindow "$active_window"
+    fi
+  fi
+}
+
+SaveWindow() {
+  grep -q "$1" "$file"
+  if [[ $? -ne 0 ]]; then
+    echo "$1" >> "$file"
+  else
+    sed -i "/$1/d" "$file"
+  fi
+}
+
+SetOpacity
