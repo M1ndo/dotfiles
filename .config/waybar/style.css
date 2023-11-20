@@ -100,18 +100,24 @@ padding: 4px;
 }
 
 #disk {
-color: #50fa7b;
-padding: 4px;
-}
-
-#battery {
-color: #f8f8f2;
-padding: 4px;
+color: #ffff00;
+padding: 0px 0px 0px 8px;
 }
 
 #network {
-color: #f8f8f2;
-padding: 4px;
+color: #dda0dd;
+/* padding: 4px; */
+font-size: 15px;
+}
+
+#wireplumber{
+color: #1e90ff;
+padding: 0px 5px 0px 3px;
+font-size: 15px;
+}
+
+#wireplumber.muted {
+color: #db7093;
 }
 
 #tray {

@@ -5,14 +5,16 @@
   "output": "LVDS-1",
   "modules-left": [
     "hyprland/workspaces",
+    "wireplumber",
     "tray"
   ],
   "modules-center": [
     "hyprland/window",
   ],
   "modules-right": [
-    "memory",
     "network",
+    "disk",
+    "memory",
     "cpu",
     "custom/packages",
     "clock"
@@ -74,11 +76,21 @@
     "interval": 1,
     "interface": "eno1",
     "format-ethernet": "🛸",
-    "format-disconnected": "󰤮",
+    "format-disconnected": "󰢚 ",
     "tooltip": false,
+  },
+  "disk": {
+    "interval": 30,
+    "format": "󱘤 {free}",
   },
   "tray": {
     "icon-size": 20,
     "spacing": 8
+  },
+  "wireplumber": {
+    "format": "",
+    "format-muted": "",
+    "tooltip-format": "{volume}%",
+    "on-click": "amixer set Master toggle"
   }
 }
