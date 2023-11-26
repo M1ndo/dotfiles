@@ -95,7 +95,7 @@ holding contextual information."
       ))
 
   (setq +latex-viewers '(zathura evince))
-  (setq org-latex-pdf-process '("latexmk -f -pdf -lualatex -shell-escape -interaction=nonstopmode %f"))
+  (setq org-latex-pdf-process '("latexmk -f -pdf -r . -shell-escape -interaction=nonstopmode %f"))
   (setq! org-latex-engraved-preamble
          "\\usepackage{fvextra}
 
