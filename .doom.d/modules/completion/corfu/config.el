@@ -76,7 +76,7 @@ derivative.")
         (setq-local
          completion-at-point-functions
          (cl-substitute
-          (apply #'cape-super-capf (cl-substitute (car host) :completion (cl-pushnew :completion +corfu-global-capes)))
+          (apply #'cape-capf-super (cl-substitute (car host) :completion (cl-pushnew :completion +corfu-global-capes)))
           (car host)
           completion-at-point-functions)))))
 
@@ -132,7 +132,7 @@ derivative.")
   ;; Enable completion in Comments And Strings
   (when +corfu-ispell-in-comments-and-strings
     (defalias 'corfu--ispell-in-comments-and-strings
-      (cape-super-capf (cape-capf-inside-comment #'cape-dict)
+      (cape-capf-super (cape-capf-inside-comment #'cape-dict)
                        (cape-capf-inside-string #'cape-dict)))
     (add-hook 'prog-mode-hook
               (lambda ()
@@ -147,7 +147,7 @@ derivative.")
       (add-to-list 'completion-at-point-functions #'cape-tex t))
     :depth 2)
 
-  (add-to-list '+corfu-global-capes #'cape-file)
+  (add-to-list '+corfu-global-capes #'cape-file t)
   (add-to-list '+corfu-global-capes #'cape-keyword t)
   (add-to-list '+corfu-global-capes #'cape-dabbrev t))
   ;; :config
@@ -199,7 +199,7 @@ derivative.")
 (use-package! yasnippet-capf
   :after corfu
   :init
-  (add-to-list '+corfu-global-capes #'yasnippet-capf))
+  (add-to-list '+corfu-global-capes #'yasnippet-capf t))
 
 
 (use-package! package-capf
