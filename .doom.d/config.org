@@ -6,8 +6,33 @@
 #+startup: fold hideblocks
 #+LaTeX_CLASS: article
 #+SETUPFILE: ~/org/Templates/latex.setup
-#+latex_engraved_theme: doom-moonlight
-#+OPTIONS: toc:t
+#+latex_engraved_theme: challenger-doom-deep
+#+OPTIONS: toc:nil
+#+TOCT:
+#+begin_src latex :tangle no
+\begin{tcolorbox}[breakable,enhanced jigsaw,title={Table Of Contents},fonttitle=\myfont\bfseries\Large,
+  colback=yellow!10!white,colframe=red!50!black,before=\par\bigskip\noindent,
+  interior style={fill overzoom image=/home/alienx/org/covers/default.png,fill image opacity=0.25},
+  colbacktitle=red!50!yellow!75!black,
+  enlargepage flexible=\baselineskip,pad at break*=3mm,
+  height fixed for=first and middle,
+  watermark color=yellow!75!red!25!white,
+  watermark text={\bfseries\large I'm batman},
+  attach boxed title to top center={yshift=-0.25mm-\tcboxedtitleheight/2,yshifttext=2mm-\tcboxedtitleheight/2},
+  boxed title style={enhanced,boxrule=0.5mm,
+    frame code={\path[tcb fill frame] ([xshift=-4mm]frame.west) -- (frame.north west)
+      -- (frame.north east) -- ([xshift=4mm]frame.east)
+      -- (frame.south east) -- (frame.south west) -- cycle; },
+    interior code={\path[tcb fill interior] ([xshift=-2mm] interior.west)
+      -- (interior.north west) -- (interior.north east)
+      -- ([xshift=2mm]interior.east) -- (interior.south east) -- (interior.south west)
+      -- cycle;}},
+  drop fuzzy shadow]
+  \makeatletter
+  \@starttoc{toc} % Replace it with \@starttoc{lot} for tables and \@starttoc{lof} for figures.
+  \makeatother
+\end{tcolorbox}
+#+end_src
 
 * Basic Startup
 Set lexical binding to make this file run faster
@@ -28,9 +53,46 @@ use epa-file to decrypt our *GPG* encrypt personal.el then load it.
 #+end_src
 ** Visuals
 *** Set Doom Font
-I'm using [[github:eliheuer/caskaydia-cove][Caskaydia Cove]] which is a fork of [[github:microsoft/cascadia-code][Cascadia Code]]
+Checking if required fonts are available.
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "VictorMono Nerd Font" :weight 'Regular :foreground "#00bfff" :size 15)
+;; Some code has been taken from (Thanks) Tecosaur github.com/tecosuar/emacs-config
+(defvar available-fonts
+  (delete-dups (or (font-family-list)
+                   (split-string (shell-command-to-string "fc-list : family") "[,\n]"))))
+
+(defvar required-fonts '("VictorMono Nerd Font" "Cascadia Code" "JuliaMono" "IBM Plex Mono"
+                         "Iosevka Nerd Font" "Iosevka Term" "Monaspace Radon Var" ""))
+
+(defvar missing-fonts
+  (delq nil (mapcar
+             (lambda (font)
+               (unless (delq nil (mapcar (lambda (f)
+                                           (string-match-p (format "^%s$" font) f))
+                                         available-fonts))
+                 font))
+             required-fonts)))
+
+(defun yb/CheckMissingFonts(missing-fonts)
+  "Check if there's missing fonts and warn"
+  (if missing-fonts
+      (progn
+          (run-at-time nil nil
+            (lambda ()
+              (message "%s missing the following fonts: %s"
+                (propertize "Warning!" 'face '(bold warning))
+                  (mapconcat (lambda (font)
+                    (propertize font 'face 'font-lock-variable-name-face))
+                      missing-fonts
+                      ", ")))))))
+
+(yb/CheckMissingFonts missing-fonts)
+#+end_src
+
+I'm using a wide variety of fonts, each has its own purpose,
+but my personal choice i go with [[https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/VictorMono][VictorMono]].
+#+begin_src emacs-lisp
+;; doom-font (font-spec :family "VictorMono Nerd Font" :weight 'Medium :foreground "#00bfff" :size 15)
+(setq doom-font (font-spec :family "VictorMono Nerd Font" :weight 'Medium :size 15)
       doom-variable-pitch-font (font-spec :family "Cascadia Code" :weight 'SemiLight :size 15)
       ;; doom-variable-pitch-font (font-spec :family "JetBrains Mono" :weight 'Medium :size 15)
       doom-symbol-font (font-spec :family "JuliaMono")
@@ -40,17 +102,53 @@ I'm using [[github:eliheuer/caskaydia-cove][Caskaydia Cove]] which is a fork of 
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
   '(font-lock-keyword-face :slant italic))
-;; Set Custom font for python-mode.
-(defface my-prog-face '((t (:inherit default :family "Iosevka Term" :size 11)))
-  "Face for prog mode."
-  :group 'basic-faces)
-;; (add-hook 'go-mode-hook (lambda ()
-;;   (setq-local face-remapping-alist '((default my-prog-face)))))
-(add-hook 'python-mode-hook (lambda ()
-  (setq-local face-remapping-alist '((default my-prog-face)))))
 
 ;; Font used for nerd-fonts.
 (setq +nerd-icons-font "Iosevka Nerd Font")
+#+end_src
+
+This piece of code is used for me to select whichever font i like in a buffer.
+Switching to a wayland compositor caused issues in fonts. (eg VictorMono doesn't look to good.)
+Some issue related to hinting and anti-aliasing which i have no idea how to solve..
+While the issue can be fixed by just increasing the font size, i find it impractical and doesn't
+provide a wide coverage for whatever code/text i'm looking at.
+That's why i created a bunch of faces for me to choose from.
+#+begin_src emacs-lisp
+;; Set Custom fonts for prog-modes.
+(defface my-radon-face '((t (:inherit default :family "Monaspace Radon" :weight Regular :size 11)))
+  "Custom Face for prog mode (Monospace Radon)."
+  :group 'basic-faces)
+
+(defface my-neon-face '((t (:inherit default :family "MonispaceNe NFM" :weight Regular :size 11)))
+  "Custom Face for prog mode (Monospace Radon (NF))."
+  :group 'basic-faces)
+
+(defface my-iosevka-face '((t (:inherit default :family "IosevkaTerm Nerd Font" :weight Regular :size 11)))
+  "Custom Face for prog mode (Iosevka Term)."
+  :group 'basic-faces)
+
+(defface my-cascadia-face '((t (:inherit default :family "Cascadia Code" :weight Regular :size 11)))
+  "Custom Face for prog mode (Cascadia Code)."
+  :group 'basic-faces)
+
+;; Custom Func to set. a font for a current-opened buffer.
+(defun yb/set-buff-font ()
+  "Change the default font in the current buffer based on user selection."
+  (interactive)
+  (let ((list-fontfaces '(("Monaspace Radon" . my-radon-face)
+                          ("Monispace Neon" . my-neon-face)
+                          ("Iosevka Term" . my-iosevka-face)
+                          ("Cascadia Code" . my-cascadia-face))))
+    (let* ((selected-font (completing-read "Select a font: " list-fontfaces))
+           (selected-face (cdr (assoc selected-font list-fontfaces))))
+      (if selected-face
+          (setq buffer-face-mode-face selected-face)
+        (setq buffer-face-mode-face 'default))))
+  (buffer-face-mode))
+;; (add-hook 'go-mode-hook (lambda ()
+;;   (setq-local face-remapping-alist '((default my-prog-face)))))
+;; (add-hook 'python-mode-hook (lambda ()
+;;   (setq-local face-remapping-alist '((default my-prog-face)))))
 #+end_src
 *** Set Doom Theme
 Doom-themes are fantastic, there's alot of variants you could choose from.
@@ -69,8 +167,8 @@ Right here I'm using doom-dracula , there's also [[github:dracula/emacs][Dracula
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   ;; (load-theme 'challenger-doom-deep t) ;; set laserwave theme
   (if (display-graphic-p) ;; Load Theme based display type
-      (load-theme 'doom-xcode t)
-    (load-theme 'xcode-doom t))
+      (load-theme 'challenger-doom-deep t)
+    (load-theme 'doom-xcode t))
   (doom-themes-visual-bell-config)   ;; Enable flashing mode-line on errors
   (doom-themes-neotree-config)   ;; Enable custom neotree theme
   (doom-themes-org-config))  ;; Corrects (and improves) org-mode's native fontification.
@@ -382,8 +480,8 @@ I'm using the absolute line numbers
 *** Set Frame Transparency
 Enabling Frame Transparency For Focused And Unfocused Frames
 #+begin_src emacs-lisp
-(set-frame-parameter (selected-frame) 'alpha '(95 . 80))
-(add-to-list 'default-frame-alist '(alpha . (95 . 80)))
+;; (set-frame-parameter (selected-frame) 'alpha '(95 . 80))
+;; (add-to-list 'default-frame-alist '(alpha . (95 . 80)))
 
 (defun toggle-transparency ()
   (interactive)
@@ -781,7 +879,7 @@ Using centaur-tabs to adds tabs in to our emacs with customizations
     centaur-tabs-close-button "❌"
     centaur-tabs-modified-marker "👾"
     centaur-tabs-cycle-scope 'tabs)
-  (centaur-tabs-change-fonts "VictorMono Nerd Font" 100)
+  (centaur-tabs-change-fonts "Monaspace Radon Var" 100)
   (add-hook! '(dashboard-mode-hook  +popup-buffer-mode-hook)
     (defun +tabs-disable-centaur-tabs-mode-maybe-h ()
       "Disable `centaur-tabs-mode' in current buffer."
@@ -815,7 +913,8 @@ there's alot of ways to map keys in emacs, we use ~map!~ in doom emacs to make n
        :desc "Counel Switch Buffer" "w" #'consult-buffer
        :desc "Window Zoom/Unzoom" "z" #'zoom-window-zoom
        :desc "Toggle Transparency" "o" #'toggle-transparency
-       :desc "Browse Directories" "F" #'yb/search-folder))
+       :desc "Browse Directories" "F" #'yb/search-folder
+       :desc "Toggle A Font In A Buffer" "j" #'yb/set-buff-font))
 
 (map! :leader
       :desc "Switch To Left Window" "<left>" #'evil-window-left
