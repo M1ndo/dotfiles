@@ -648,9 +648,14 @@ myKeys =
     ("M-M1-<Return>", spawn myTerm),
     ("M-S-b", spawn myBrowser),
     ("M-M1-h", spawn (myTerminal ++ " -e gtop")),
+
     -- Toggle Xmobar
     ("M-b", spawnDBusSignal "Toggle 1" >> spawn ("pkill trayer || " ++ trayerCommand)),
     ("M-M1-b", spawnDBusSignal "SetAlpha 100" >> spawnDBusSignal "Reveal 0"),
+
+    -- Lock screen
+    ("M-S-l", spawn "betterlockscreen -l"),
+
     -- Kill windows
     ("M-S-c", kill1), -- Kill the currently focused client
     ("M-S-a", killAll), -- Kill all windows on current workspace
@@ -722,6 +727,7 @@ myKeys =
     -- Window Minimize / Maximize
     ("M-n", withFocused minimizeWindow),
     ("M-C-n", withLastMinimized maximizeWindow),
+
     -- Sublayouts
     -- This is used to push windows to tabbed sublayouts, or pull them out of it.
     ("M-C-h", sendMessage $ pullGroup L),
@@ -737,30 +743,37 @@ myKeys =
     -- Scratchpads
     ("M-C-<Return>", namedScratchpadAction myScratchPads "terminal"),
     ("M-C-c", namedScratchpadAction myScratchPads "mocp"),
+
     -- , ("M-C-e", namedScratchpadAction myScratchPads "irssi")
     ("M-C-a", namedScratchpadAction myScratchPads "Ncp"),
     ("M-C-o", namedScratchpadAction myScratchPads "Ncmp"),
     ("M-C-x", namedScratchpadAction myScratchPads "discord"),
+
     -- , ("M-C-z", namedScratchpadAction myScratchPads "lightcord")
     ("M-C-p", namedScratchpadAction myScratchPads "lyrics"),
     ("M-C-y", namedScratchpadAction myScratchPads "spotify"),
+
     -- Controls for mocp music player (SUPER-u followed by a key)
     ("M-u p", spawn "mocp --play"),
     ("M-u l", spawn "mocp --next"),
     ("M-u h", spawn "mocp --previous"),
     ("M-u <Space>", spawn "mocp --toggle-pause"),
+
     -- Controls for Ncmpcpp mpd music player (SUPER-u followed by a key)
     ("M-u x", spawn "mpc toggle"),
     ("M-u v", spawn "mpc next"),
     ("M-u b", spawn "mpc prev"),
     ("M-u m", spawn "mpc stop"),
+
     -- Controls for Mpris (Spotify, Ncspot, Parole) (SUPER-u followed by a key)
     ("M-u w", spawn "~/.config/eww/scripts/getmusic --toggle"),
     ("M-u d", spawn "~/.config/eww/scripts/getmusic --next"),
     ("M-u a", spawn "~/.config/eww/scripts/getmusic --prev"),
     ("M-u s", spawn "~/.config/eww/scripts/getmusic --stop"),
+
     -- Player Ctl Stop Content (alt-p followed by a key)
     ("M1-p", spawn "playerctl play-pause"),
+
     -- Eww Widgets (Super-r followed by a key)
     ("M-r m", spawn "eww open player_side"),
     ("M-r s", spawn "eww open player_side2"),
@@ -770,12 +783,15 @@ myKeys =
     ("M-r l", spawn "eww open lyrics_w"),
     ("M-r a", spawn "eww open-many player_side time-side quote weather lyrics_w"),
     ("M-r q", spawn "eww close-all"),
+
     -- SafeOauth (Super-c)
     ("M-c s", spawn "safeoauth --show"),
     ("M-c e", spawn "safeoauth --edit"),
     ("M-c c", spawn "safeoauth --create"),
+
     -- Set Window Opacity
     ("M-c l", withFocused $ \w -> focus w >> setOpacity w 0.83),
+
     -- App Shortcuts
     ("M1-<Return>", spawn "rofi -show drun -show-icons"),
     ("M-M1-s", spawn "dmenu_run -c -b -l 10 -g 4 -p 'ybenel: ' -fn 'scientifica:size=12'"),
@@ -787,6 +803,7 @@ myKeys =
     ("M1-C-h", spawn "./.dmenu/dmenu-sysmon.sh"),
     ("M1-C-e", spawn "./.dmenu/dmenu-edit-configs.sh"),
     ("M-M1-z", spawn (myTerminal ++ " -e ncmpcpp")),
+
     -- Multimedia Keys
     ("<XF86AudioPlay>", spawn "mpc toggle"),
     ("<XF86AudioPrev>", spawn "mpc prev"),
