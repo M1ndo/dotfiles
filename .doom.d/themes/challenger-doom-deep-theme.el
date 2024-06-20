@@ -1,8 +1,10 @@
 ;;; challenger-doom-deep-theme.el --- inspired by Vim's Challenger Deep theme -*- lexical-binding: t; no-byte-compile: t; -*-
 ;;
 ;; Added: April 5, 2016 (#163)
+;; Updated: December 8, 2023
 ;; Author: fuxialexander <https://github.com/fuxialexander>
-;; Maintainer:
+;; Author: ybenel <https://github.com/m1ndo/dotfiles>
+;; Maintainer: ybenel
 ;; Source: https://github.com/challenger-deep-theme/vim
 ;;
 ;;; Commentary:
@@ -48,7 +50,8 @@ determine the exact padding."
   "A dark theme inspired by VIM Challenger Deep"
 
   ;; name        default   256       16
-  ((bg         '("#1E1C31" "#121212" nil            ))
+  ;; ((bg         '("#1E1C31" "#121212" nil            ))
+  ((bg         '("#12111E" "#121212" nil            ))
    (bg-alt     '("#12111E" "#111111" nil            ))
    (base0      '("#100E23" "#080808" "black"        ))
    (base1      '("#292F37" "#191a2a" "brightblack"  ))

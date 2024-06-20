@@ -1,5 +1,6 @@
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
+;; local packages
 (when (package! screenshot :recipe (:local-repo "~/.doom.d/lisp/screenshot"))
   (package! posframe))
 (package! org-appear :recipe (:local-repo "~/.doom.d/lisp/org-appear"))
@@ -8,6 +9,8 @@
 (package! engrave-faces :recipe (:local-repo "~/.doom.d/lisp/engrave-faces"))
 (package! softresize :recipe (:host github :repo "jdburgosr/softresize"))
 (package! smudge :recipe (:local-repo "~/.doom.d/lisp/smudge"))
+(package! v-mode :recipe (:local-repo "~/.doom.d/lisp/v-mode"))
+;; remote packages
 (package! gofmt-tag)
 (package! org-super-agenda)
 (package! hammy)
@@ -67,3 +70,6 @@
 (package! pkgbuild-mode)
 (package! sudo-edit)
 (package! org :pin "806abc5a2bbcb5f884467a0145547221ba09eb59")
+(package! org-tidy)
+(package! org-download)
+;; (package! whitespace-mode :disable t) ;; This won't be disabled since `'whitespace-mode`' is internal package.

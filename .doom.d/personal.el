@@ -1,11 +1,11 @@
-;;;; -*- epa-file-encrypt-to: ("me@localhost") -*-
+;;;; -*- epa-file-encrypt-to: ("ybenel@pm.me") -*-
 
-(setq my_name "MY NAME")
-(setq my_email "mymail@gmail.com")
-(setq my_signature "Signed by me")
-(setq my_hosts "mywebsite.com")
+(setq my_name "Younes Ben El")
+(setq my_email "Redacted@gmail.com")
+(setq my_signature "--- \nMeow Meow Meow")
+(setq my_hosts "ybenel.xyz")
 
-(setq my_name2 "MY NAME2")
-(setq my_email2 "mymail2@gmail.com")
-(setq my_signature2 "--- \nSigned by ME\nRANDOM QUOTE")
-(setq my_hosts2 "mywebsite2.com")
+(setq my_name2 "Younes Ben El")
+(setq my_email2 "root@ybenel.xyz")
+(setq my_signature2 "--- \nMeow Meow\nI Go Meow Meow")
+(setq my_hosts2 "ybenel.xyz")

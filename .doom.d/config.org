@@ -12,7 +12,7 @@
 #+begin_src latex :tangle no
 \begin{tcolorbox}[breakable,enhanced jigsaw,title={Table Of Contents},fonttitle=\myfont\bfseries\Large,
   colback=yellow!10!white,colframe=red!50!black,before=\par\bigskip\noindent,
-  interior style={fill overzoom image=/home/alienx/org/covers/default.png,fill image opacity=0.25},
+  interior style={fill overzoom image=/home/ybenel/org/covers/default.png,fill image opacity=0.25},
   colbacktitle=red!50!yellow!75!black,
   enlargepage flexible=\baselineskip,pad at break*=3mm,
   height fixed for=first and middle,
@@ -167,8 +167,8 @@ Right here I'm using doom-dracula , there's also [[github:dracula/emacs][Dracula
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   ;; (load-theme 'challenger-doom-deep t) ;; set laserwave theme
   (if (display-graphic-p) ;; Load Theme based display type
-      (load-theme 'challenger-doom-deep t)
-    (load-theme 'doom-xcode t))
+      (load-theme 'xcode-doom t)
+    (load-theme 'challenger-doom-deep t))
   (doom-themes-visual-bell-config)   ;; Enable flashing mode-line on errors
   (doom-themes-neotree-config)   ;; Enable custom neotree theme
   (doom-themes-org-config))  ;; Corrects (and improves) org-mode's native fontification.
@@ -823,17 +823,55 @@ pip install --user "python-language-server[all]"
 Set go modules to on since its off by default.
 #+begin_src emacs-lisp
 (setq lsp-go-env '((GO111MODULE . "on")))
+(after! lsp
+  (setq lsp-go-hover-kind "FullDocumentation"))
 #+end_src
 Use gofmt-tag to format struct in go.
 #+begin_src emacs-lisp
 (require 'gofmt-tag)
 (add-hook 'go-mode-hook #'(lambda () (gofmt-tag-mode)))
 #+end_src
+**** V Mode
+Configuring lsp to use [[https://github.com/v-analyzer/v-analyzer][v-analyzer]] which a language server that's going to enable
+us to get code completion and such.
+#+begin_src emacs-lisp
+(with-eval-after-load 'lsp-mode
+  (add-to-list 'lsp-language-id-configuration
+               '(v-mode . "v"))
+
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection "v-analyzer")
+                    :activation-fn (lsp-activate-on "v")
+                    :server-id 'v-analyzer)))
+
+(defun my-lsp-filter-unknown-notification (args)
+  "Filter out the 'experimental/serverStatus' notification."
+  (let ((jsonrpc-method (cdr (assq 'method args))))
+    (not (string= jsonrpc-method "experimental/serverStatus"))))
+
+(add-hook 'lsp-after-open-hook
+          (lambda ()
+            (advice-add 'lsp--send-notification
+                        :before-while
+                        #'my-lsp-filter-unknown-notification)))
+
+(defun disable-whitespace ()
+  "Disable whitespace-mode for Vlang"
+  (whitespace-mode -1))
+
+(defun my-v-mode-setup ()
+  "Setup for v-mode."
+  (lsp-deferred))
+
+(add-hook 'v-mode-hook #'my-v-mode-setup)
+(add-hook 'v-mode-hook #'disable-whitespace 'append)
+;; (global-whitespace-mode -1)
+#+end_src
 *** Browse Directory
 #+begin_src emacs-lisp
 (defun yb/search-folder ()
   (interactive)
-  (let ((directory-root '("~/.dotfiles" "~/.config/" "~/Pictures/" "~/Documents/" "~/Downloads/" "~/Templates/" "~/Projects/" "~/Public/" "~/org/" "~/org/roam" "~/Templates/Website/WebRoot/blog_ybenel/" "~/Projects/Git_Pro/")))
+  (let ((directory-root '("~/.dotfiles" "~/.config/" "~/Pictures/" "~/Documents/" "~/Downloads/" "~/Templates/" "~/Projects/" "~/Public/" "~/org/" "~/org/roam" "~/Templates/Website/WebRoot/blog_ybenel/" "~/Projects/Git_Pro/" "~/MMach/Work/Projects")))
     (let ((selected-directory (completing-read "Browse Directory: " directory-root)))
       (doom-project-browse selected-directory))))
 #+end_src
@@ -1053,6 +1091,10 @@ Using [[https://orgmode.org/worg/exporters/ox-overview.html][Ox-latex]] export f
           "GOAL(G)"  ; Task successfully completed
           "FIXME(f)" ; Task needs a fix
           "BUG(b)" ; Task has a bug
+          "HIGH(H)" ; Task has a bug
+          "CRITICAL(O)" ; Task has a bug
+          "MEDIUM(M)" ; Task has a bug
+          "LOW(L)" ; Task has a bug
           "|"
           "DONE(d)"  ; Task successfully completed
           "CANCELLED(c)"  ; Task successfully completed
@@ -1069,6 +1111,14 @@ Using [[https://orgmode.org/worg/exporters/ox-overview.html][Ox-latex]] export f
           "OKAY(o)"
           "YES(Y)"
           "NO(N)")))
+#+end_src
+*** Org Babel
+#+begin_src emacs-lisp
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ (quote (
+         ;; ...
+         (powershell . t))))
 #+end_src
 *** Org Roam
 I use org-roam to manage my org files and organize my life.
@@ -1213,6 +1263,11 @@ Using =org-crypt= to encrypt entries on our org-files.
 #+begin_src emacs-lisp
 (setq org-hugo-base-dir "~/Templates/Website/WebRoot/blog_ybenel/"
       org-hugo-section "post")
+#+end_src
+*** Org Tidy
+#+begin_src emacs-lisp
+(require 'org-tidy)
+(add-hook 'org-mode-hook #'org-tidy-mode)
 #+end_src
 ** Large Files :noexport:
 Using vlf to edit large files in chunks
