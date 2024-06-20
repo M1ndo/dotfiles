@@ -1,4 +1,3 @@
-
 TERM dvtm
 TERM dvtm-256color
 TERM rxvt
@@ -123,7 +122,8 @@ EXEC 1;38;5;82                        # This is for files with execute permissio
 .cc       3;38;5;83     
 .h        1;33;4;25
 .hpp      1;33;4;25           
-.go       3;38;5;83
+.go       1;38;5;205
+.mod      1;38;5;203
 .js       3;38;5;83
 .rb       3;38;5;83
 .md       1;36;4;34       
@@ -212,4 +212,5 @@ EXEC 1;38;5;82                        # This is for files with execute permissio
 .divx   3;38;5;171
 .webm   3;38;5;171
 
-
+*Makefile 1;38;5;154
+*LICENSE  1;38;5;202

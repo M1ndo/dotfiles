@@ -4,3 +4,5 @@
 "\C-a.":beginning-of-line
 "\C-e.":end-of-line
 "\C-x":backward-kill-word
+"\C-y":insert-last-argument
+

