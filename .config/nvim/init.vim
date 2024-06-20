@@ -3,7 +3,7 @@ filetype off                  " required
 
 call plug#begin("~/.config/nvim/plugged")
 Plug 'preservim/nerdcommenter'                     " Line Commenter
-Plug 'nvim-treesitter/nvim-treesitter' 
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'itchyny/lightline.vim'                       " Lightline statusbar
 Plug 'frazrepo/vim-rainbow'
 Plug 'johnstef99/vim-nerdtree-syntax-highlight'    " Highlighting NerdTree (Fixing Bug)  
@@ -23,10 +23,10 @@ Plug 'nvim-tree/nvim-web-devicons' " Icons
 Plug 'romgrk/barbar.nvim' " Tabs
 Plug 'cohama/lexima.vim' " Auto Complete Brackets Quotes .. 
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Auto Completion For Lsp
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+" Plug 'autozimu/LanguageClient-neovim', {
+"     \ 'branch': 'next',
+"     \ 'do': 'bash install.sh',
+"     \ }
 Plug 'junegunn/fzf' 
 Plug 'junegunn/vim-easy-align' " Easy Aligning
 Plug 'jceb/vim-orgmode' " Org Mode Yaa Top G!
@@ -34,8 +34,8 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' } " Search
 Plug 'terryma/vim-multiple-cursors' " Multi Cursor OFC
 Plug 'SirVer/ultisnips' " Snippets For Sure
-" Plug 'honza/vim-snippets'
-Plug 'M1ndo/vim-snippets', { 'branch' : 'Org-Add' } " My Snippets Patch
+Plug 'honza/vim-snippets'
+" Plug 'M1ndo/vim-snippets', { 'branch' : 'Org-Add' } " My Snippets Patch
 Plug 'majutsushi/tagbar' " Tag Bar *Why Not
 Plug 'wellle/targets.vim' " Expanded Text Object Deletion (Not Sure abt the term?)
 Plug 'ervandew/supertab' " Tab Sucks in insert mode
@@ -122,12 +122,12 @@ call lexima#insmode#map_hook('before', '<CR>', '')
 let g:SuperTabMappingForward = '<s-tab>'
 let g:SuperTabMappingBackward = '<tab>'
 
-let g:LanguageClient_serverCommands = {
-    \ 'sh': ['bash-language-server', 'start'],
-    \ 'python': ['/home/alienx/.local/bin/pylsp'],
-    \ }
-nnoremap <Space>is :LanguageClientStart<CR>
-nnoremap <Space>iS :LanguageClientStop<CR>
+" let g:LanguageClient_serverCommands = {
+"     \ 'sh': ['bash-language-server', 'start'],
+"     \ 'python': ['/usr/bin/pyright'],
+"     \ }
+" nnoremap <Space>is :LanguageClientStart<CR>
+" nnoremap <Space>iS :LanguageClientStop<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Theming
@@ -313,17 +313,17 @@ nnoremap <silent>    <Space><Tab><Tab> <Cmd>tabnew<CR>
 " => Snippets 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " <tab> => expand the snippets
-let g:UltiSnipsExpandTrigger = '<tab>'
+" let g:UltiSnipsExpandTrigger = '<tab>'
 " <ctrl-d> => list available snippets start with the chars before the cursor
-let g:UltiSnipsListSnippets = '<c-d>'
+"let g:UltiSnipsListSnippets = '<c-d>'
 " <enter> => go to the next placeholder
-let g:UltiSnipsJumpForwardTrigger = '<enter>'
+"let g:UltiSnipsJumpForwardTrigger = '<enter>'
 " <shift-enter> => go to the previous placeholder
-if exists('g:nyaovim_version')
-  let g:UltiSnipsJumpBackwardTrigger = '<s-enter>'
-else "as <shift-enter> can't be handled in terminal, use <ctrl-k> instead
-  let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
-endif
+"if exists('g:nyaovim_version')
+"  let g:UltiSnipsJumpBackwardTrigger = '<s-enter>'
+"else "as <shift-enter> can't be handled in terminal, use <ctrl-k> instead
+"  let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
+"endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => TagBar 
