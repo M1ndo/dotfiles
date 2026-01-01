@@ -32,6 +32,8 @@
   \@starttoc{toc} % Replace it with \@starttoc{lot} for tables and \@starttoc{lof} for figures.
   \makeatother
 \end{tcolorbox}
+% make an empty space so it won't be with the content.
+\newpage
 #+end_src
 
 * Basic Startup
@@ -93,7 +95,7 @@ but my personal choice i go with [[https://github.com/ryanoasis/nerd-fonts/tree/
 #+begin_src emacs-lisp
 ;; doom-font (font-spec :family "VictorMono Nerd Font" :weight 'Medium :foreground "#00bfff" :size 15)
 (setq doom-font (font-spec :family "VictorMono Nerd Font" :weight 'Medium :size 15)
-      doom-variable-pitch-font (font-spec :family "Cascadia Code" :weight 'SemiLight :size 15)
+      doom-variable-pitch-font (font-spec :family "ETBembo" :weight 'Thin :height 180 :size 15)
       ;; doom-variable-pitch-font (font-spec :family "JetBrains Mono" :weight 'Medium :size 15)
       doom-symbol-font (font-spec :family "JuliaMono")
       doom-big-font (font-spec :family "Cascadia Code" :weight 'SemiBold :size 24)
@@ -567,9 +569,104 @@ Setting up beacon to highlight cursor
 (zoom-window-setup)
 #+end_src
 ** Editing
+*** Meow
+Trying out Meow intead of Evil.
+#+begin_src emacs-lisp :tangle no
+(defun meow-setup ()
+  (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
+  (meow-motion-overwrite-define-key
+   '("j" . meow-next)
+   '("k" . meow-prev)
+   '("<escape>" . ignore))
+  (meow-leader-define-key
+   ;; SPC j/k will run the original command in MOTION state.
+   '("j" . "H-j")
+   '("k" . "H-k")
+   ;; Use SPC (0-9) for digit arguments.
+   '("1" . meow-digit-argument)
+   '("2" . meow-digit-argument)
+   '("3" . meow-digit-argument)
+   '("4" . meow-digit-argument)
+   '("5" . meow-digit-argument)
+   '("6" . meow-digit-argument)
+   '("7" . meow-digit-argument)
+   '("8" . meow-digit-argument)
+   '("9" . meow-digit-argument)
+   '("0" . meow-digit-argument)
+   '("/" . meow-keypad-describe-key)
+   '("?" . meow-cheatsheet))
+  (meow-normal-define-key
+   '("0" . meow-expand-0)
+   '("9" . meow-expand-9)
+   '("8" . meow-expand-8)
+   '("7" . meow-expand-7)
+   '("6" . meow-expand-6)
+   '("5" . meow-expand-5)
+   '("4" . meow-expand-4)
+   '("3" . meow-expand-3)
+   '("2" . meow-expand-2)
+   '("1" . meow-expand-1)
+   '("-" . negative-argument)
+   '(";" . meow-reverse)
+   '("," . meow-inner-of-thing)
+   '("." . meow-bounds-of-thing)
+   '("[" . meow-beginning-of-thing)
+   '("]" . meow-end-of-thing)
+   '("a" . meow-append)
+   '("A" . meow-open-below)
+   '("b" . meow-back-word)
+   '("B" . meow-back-symbol)
+   '("c" . meow-change)
+   '("d" . meow-delete)
+   '("D" . meow-backward-delete)
+   '("e" . meow-next-word)
+   '("E" . meow-next-symbol)
+   '("f" . meow-find)
+   '("g" . meow-cancel-selection)
+   '("G" . meow-grab)
+   '("h" . meow-left)
+   '("H" . meow-left-expand)
+   '("i" . meow-insert)
+   '("I" . meow-open-above)
+   '("j" . meow-next)
+   '("J" . meow-next-expand)
+   '("k" . meow-prev)
+   '("K" . meow-prev-expand)
+   '("l" . meow-right)
+   '("L" . meow-right-expand)
+   '("m" . meow-join)
+   '("n" . meow-search)
+   '("o" . meow-block)
+   '("O" . meow-to-block)
+   '("p" . meow-yank)
+   '("q" . meow-quit)
+   '("Q" . meow-goto-line)
+   '("r" . meow-replace)
+   '("R" . meow-swap-grab)
+   '("s" . meow-kill)
+   '("t" . meow-till)
+   '("u" . meow-undo)
+   '("U" . meow-undo-in-selection)
+   '("v" . meow-visit)
+   '("w" . meow-mark-word)
+   '("W" . meow-mark-symbol)
+   '("x" . meow-line)
+   '("X" . meow-goto-line)
+   '("y" . meow-save)
+   '("Y" . meow-sync-grab)
+   '("z" . meow-pop-selection)
+   '("'" . repeat)
+   '("<escape>" . ignore)))
+(require 'meow)
+(meow-setup)
+(meow-global-mode 1)
+#+end_src
+#+begin_src emacs-lisp
+(setq meow-use-clipboard t)
+#+end_src
 *** Aggressive Indent
 Indent blocks very useful then editing lisp code,also other stuff
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (global-aggressive-indent-mode 1)
 ;; (add-to-list 'aggressive-indent-excluded-modes 'html-mode)
 ;; (use-package! aggressive-indent
@@ -660,12 +757,12 @@ Adding other cool stuff
       truncate-string-ellipsis "…"                ; Unicode ellispis are nicer than "...", and also save /precious/ space
       password-cache-expiry nil                   ; I can trust my computers ... can't I?
       ;; scroll-preserve-screen-position 'always     ; Don't have `point' jump around
-      scroll-margin 2)                            ; It's nice to maintain a little margin
+      scroll-margin 0)                            ; It's nice to maintain a little margin
 
 (display-time-mode 1)                             ; Enable time in the mode-line
 
-;;(unless (string-match-p "^Power N/A" (battery))   ; On laptops...
-;;  (display-battery-mode 1))                       ; it's nice to know how much power you have
+(unless (string-match-p "^Power N/A" (battery))   ; On laptops...
+ (display-battery-mode 1))                       ; it's nice to know how much power you have
 
 (global-subword-mode 1)                           ; Iterate through CamelCase words
 #+end_src
@@ -676,10 +773,11 @@ Adding other cool stuff
 *** Recentf
 Recentf package doesn't seem to be saving every file due to not setting configuration properly by doom emacs
 #+begin_src emacs-lisp
-(setq recentf-auto-cleanup 'never
-      recentf-max-menu-items 50
-      recentf-max-saved-items 400)
-(add-hook 'find-file-hook 'recentf-save-list)
+(after! recentf-mode
+  (add-hook! 'find-file-hook 'recentf-save-list)
+    (setq recentf-auto-cleanup 'never
+        recentf-max-menu-items 50
+        recentf-max-saved-items 400))
 #+end_src
 *** Column Force
 Using [[https://github.com/jordonbiondo/column-enforce-mode][column-enforce-mode]] to force a certain column width
@@ -717,6 +815,73 @@ But Thanks to a reddit post, a new package exists for it and it does what i need
 (global-set-key (kbd "M-C-[") 'softresize-enlarge-window-horizontally)
 (global-set-key (kbd "M-C-]") 'softresize-reduce-window-horizontally)
 #+end_src
+*** Corfu
+- After ditching my corfu config to using doom-emacs corfu completion config
+  I found some missing things, like global file completion, text completion
+  And so on. So I'll be tweaking these settings here.
+  #+begin_src emacs-lisp
+(defvar +corfu-global-capes
+  '(:completion)
+  "A list of global capes to be available at all times.
+The key :completion is used to specify where completion candidates should be
+
+placed, otherwise they come first.")
+
+(defvar +corfu-capf-hosts
+  '(lsp-completion-at-point
+    eglot-completion-at-point
+    elisp-completion-at-point
+    tags-completion-at-point-function)
+  "A prioritised list of host capfs to create a super cape onto from.
+
+`+corfu-global-capes'.")
+
+(defvar +corfu-ispell-in-comments-and-strings t
+  "Enable completion with ispell inside comments when in a `prog-mode'.
+
+derivative.")
+
+(defvar +corfu-ispell-completion-modes '(org-mode markdown-mode text-mode)
+  "Modes to enable ispell completion in.
+
+For completion in comments, see `+corfu-ispell-in-comments-and-strings'.")
+
+(after! corfu
+  (add-hook! '(lsp-mode-hook eglot-mode-hook after-change-major-mode-hook)
+    (defun +corfu--load-capes ()
+      "Load all capes specified in `+corfu-global-capes'."
+      (interactive)
+      (when-let ((host (cl-intersection +corfu-capf-hosts completion-at-point-functions)))
+        (setq-local
+         completion-at-point-functions
+         (cl-substitute
+          (apply #'cape-capf-super (cl-substitute (car host) :completion (cl-pushnew :completion +corfu-global-capes)))
+          (car host)
+          completion-at-point-functions))))))
+
+(after! cape
+  (when +corfu-ispell-in-comments-and-strings
+    (defalias 'corfu--ispell-in-comments-and-strings
+      (cape-capf-super (cape-capf-inside-comment #'cape-dict)
+                       (cape-capf-inside-string #'cape-dict)))
+    (add-hook 'prog-mode-hook
+              (lambda ()
+                (add-to-list 'completion-at-point-functions #'corfu--ispell-in-comments-and-strings))))
+
+  ;; Add Cape-dict into select modes
+  (dolist (sym +corfu-ispell-completion-modes)
+    (add-hook (intern (concat (symbol-name sym) "-hook"))
+              (lambda ()
+                (add-to-list 'completion-at-point-functions #'cape-dict))))
+  (add-hook! '(TeX-mode-hook LaTeX-mode-hook org-mode-hook)
+    (lambda ()
+      (add-to-list 'completion-at-point-functions #'cape-tex t))
+    :depth 2)
+
+  (add-to-list '+corfu-global-capes #'cape-file t)
+  (add-to-list '+corfu-global-capes #'cape-keyword t)
+  (add-to-list '+corfu-global-capes #'cape-dabbrev t))
+  #+end_src
 *** LSP
 Setting Custom Lsp Settings To Enable Certain Features
 + Enabling the headerline
@@ -728,6 +893,22 @@ Setting Custom Lsp Settings To Enable Certain Features
         lsp-signature-auto-activate t))
 ;; Set Standard Indent to 2
 (setq-default standard-indent 2)
+#+end_src
+**** C/C++ mode
+Prioritize clcls over clangd
+#+begin_src emacs-lisp
+;; (after! ccls
+;;   (setq ccls-initialization-options '(:index (:comments 2) :completion (:detailedLabel t)))
+;;   (set-lsp-priority! 'ccls 1))
+(after! lsp-clangd
+  (setq lsp-clients-clangd-args
+        '("-j=3"
+          "--background-index"
+          "--clang-tidy"
+          "--completion-style=detailed"
+          "--header-insertion=never"
+          "--header-insertion-decorators=0"))
+  (set-lsp-priority! 'clangd 2))
 #+end_src
 **** Lua Mode
 Enable Lua-mode
@@ -876,7 +1057,7 @@ us to get code completion and such.
       (doom-project-browse selected-directory))))
 #+end_src
 *** Edit As Root
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package! sudo-edit
   :config
   (if (executable-find "doas")
@@ -897,6 +1078,25 @@ us to get code completion and such.
                                        "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
                                        "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
                                        "?=" "?." "??" "/*" "/=" "/>" "//" "__" "~~"))
+#+end_src
+*** Tramp :noexport:
+- Set remote files to be specified instead of the default ones.
+- Missed up a long way to change this path
+  #+begin_src emacs-lisp :tangle no
+(after! tramp
+  (setq tramp-remote-path nil)
+  (setq tramp-remote-path
+        (append tramp-remote-path
+                '(tramp-remote-path
+                  "~/org"
+                  "/org/roam"))))
+  #+end_src
+*** Magit
+I ran into a problem when showing crlf in diff buffers and despite configuring
+git to fix this issue it remained, so i came across this option so we can enable it
+and it would disable issue.
+#+begin_src emacs-lisp
+(setq magit-diff-hide-trailing-cr-characters 't)
 #+end_src
 ** Tabs/Modeline
 Using centaur-tabs to adds tabs in to our emacs with customizations
@@ -952,6 +1152,8 @@ there's alot of ways to map keys in emacs, we use ~map!~ in doom emacs to make n
        :desc "Window Zoom/Unzoom" "z" #'zoom-window-zoom
        :desc "Toggle Transparency" "o" #'toggle-transparency
        :desc "Browse Directories" "F" #'yb/search-folder
+       :desc "Consult Org Headings" "," #'consult-org-heading
+       :desc "Org-Tidy Toggle Tidy/Untidy" "m" #'org-tidy-toggle
        :desc "Toggle A Font In A Buffer" "j" #'yb/set-buff-font))
 
 (map! :leader
@@ -1018,10 +1220,10 @@ there's alot of ways to map keys in emacs, we use ~map!~ in doom emacs to make n
         :desc "The Saurus Look Up Word" "w" #'mw-thesaurus-lookup-dwim
         :desc "The Saurus Look Up Region" "d" #'mw-thesaurus-lookup)))
 
-(map! :leader
-      (:prefix-map ("f" . "file")
-       :desc "Doas/Sudo Edit" ";" #'sudo-edit
-       :desc "Doas/Sudo Edit Find File" "'" #'sudo-edit-find-file))
+;;(map! :leader
+;;      (:prefix-map ("f" . "file")
+;;       :desc "Doas/Sudo Edit" ";" #'sudo-edit
+;;       :desc "Doas/Sudo Edit Find File" "'" #'sudo-edit-find-file))
 #+end_src
 ** Org
 *** Set Org Directory
@@ -1031,6 +1233,7 @@ Setting custom org directory and enabling org logging, so each time a task is fi
   (setq org-directory "~/org/")
   (setq org-log-done 'time)
   (setq org-agenda-include-diary t)
+  (setq org-ellipsis " ⬭")
 
   ;; https://emacs.stackexchange.com/questions/31683/schedule-org-task-for-last-day-of-every-month
   (defun diary-last-day-of-month (date)
@@ -1045,7 +1248,9 @@ Setting custom org directory and enabling org logging, so each time a task is fi
 *** Org Agenda
 What's more better than organizing your life with org *super* agenda.
 #+begin_src emacs-lisp
-  (load-file (concat doom-user-dir "/lisp/agendas.el"))
+(load-file (concat doom-user-dir "/lisp/agendas.el"))
+;; Load nano calendar
+;; (nano-calendar)
 #+end_src
 *** Key Mapp
 Set Shortcuts To Open Agenda,Todo,Notes.
@@ -1057,6 +1262,7 @@ Set Shortcuts To Open Agenda,Todo,Notes.
       :desc "Open Todo" "t" #'(lambda () (interactive) (find-file "~/org/todo.org"))
       :desc "Open Notes" "n" #'(lambda () (interactive) (find-file "~/org/notes.org"))
       :desc "Open Journal" "j" #'(lambda () (interactive) (find-file "~/org/journal.org"))
+      :desc "Open Life" "l" #'(lambda () (interactive) (find-file "~/org/life.org"))
       :desc "Open Config" "c" #'(lambda () (interactive) (find-file "~/.doom.d/config.org"))))
 
 (map! :map evil-org-mode-map
@@ -1268,6 +1474,21 @@ Using =org-crypt= to encrypt entries on our org-files.
 #+begin_src emacs-lisp
 (require 'org-tidy)
 (add-hook 'org-mode-hook #'org-tidy-mode)
+(after! org-tidy
+  (setq org-tidy-properties-inline-symbol "🛸"))
+#+end_src
+*** Org alert
+=org-alert= to alert me of any incoming scheduled/deadlines.
+#+begin_src emacs-lisp
+(use-package! org-alert
+  :ensure t
+  :custom  (alert-default-style 'libnotify)
+  :config
+  (setq org-alert-notification-title "WakeUp!"
+        alert-fade-time 10
+        org-alert-interval 3600))
+
+(org-alert-enable)
 #+end_src
 ** Large Files :noexport:
 Using vlf to edit large files in chunks
@@ -1479,6 +1700,16 @@ Using this awesome package called [[https://github.com/tecosaur/screenshot][Scre
   (setq screenshot-shadow-color "#cd7054")
   (setq screenshot-shadow-offset-horizontal -10)
   (setq screenshot-shadow-offset-vertical 10))
+
+
+(use-package! org-attach-screenshot
+  :bind ("<f2> x" . org-attach-screenshot)
+  :config (setq org-attach-screenshot-dirfunction
+    (lambda ()
+        (progn (cl-assert (buffer-file-name))
+            (concat (file-name-sans-extension (buffer-file-name))
+                "-att")))
+    org-attach-screenshot-command-line "/usr/local/bin/flameone"))
 #+end_src
 *** Screencast
 For capturing emacs frames i use gif-screencast which does the job.
@@ -1615,6 +1846,49 @@ easier.
   :config
   (setq auto-mode-alist (append '(("/PKGBUILD$" . pkgbuild-mode))
                                 auto-mode-alist)))
+#+end_src
+** Slack
+Configuration for slack client.
+#+begin_src emacs-lisp
+(use-package! slack
+  :bind (("C-c S K" . slack-stop)
+         ("C-c S c" . slack-select-rooms)
+         ("C-c S u" . slack-select-unread-rooms)
+         ("C-c S U" . slack-user-select)
+         ("C-c S s" . slack-search-from-messages)
+         ("C-c S J" . slack-jump-to-browser)
+         ("C-c S j" . slack-jump-to-app)
+         ("C-c S e" . slack-insert-emoji)
+         ("C-c S E" . slack-message-edit)
+         ("C-c S r" . slack-message-add-reaction)
+         ("C-c S t" . slack-thread-show-or-create)
+         ("C-c S g" . slack-message-redisplay)
+         ("C-c S G" . slack-conversations-list-update-quick)
+         ("C-c S q" . slack-quote-and-reply)
+         ("C-c S Q" . slack-quote-and-reply-with-link)
+         (:map slack-mode-map
+               (("@" . slack-message-embed-mention)
+                ("#" . slack-message-embed-channel)))
+         (:map slack-thread-message-buffer-mode-map
+               (("C-c '" . slack-message-write-another-buffer)
+                ("@" . slack-message-embed-mention)
+                ("#" . slack-message-embed-channel)))
+         (:map slack-message-buffer-mode-map
+               (("C-c '" . slack-message-write-another-buffer)))
+         (:map slack-message-compose-buffer-mode-map
+               (("C-c '" . slack-message-send-from-buffer)))
+         )
+  :custom
+  (slack-extra-subscribed-channels (mapcar 'intern (list "general")))
+  :config
+  (slack-register-team
+     :name "pwnarena"
+     :token "xoxc-XXXXXXXX"
+     :cookie "xoxd-XXXXXXX; d-s=XXXXX; lc=XXXXXXXXX"
+     :full-and-display-names t
+     :default t
+     :subscribed-channels nil ;; using slack-extra-subscribed-channels because I can change it dynamically
+     ))
 #+end_src
 ** Scimax Bookmard
 scimax-bookmarks from [[https://github.com/jkitchin/scimax][Scimax]] is a cool snippet, that highlights a specific word/sentence also does other cool things.

@@ -4,6 +4,7 @@
   :init
   (setq org-roam-v2-ack t)
   :custom
+  (org-roam-database-connector 'sqlite-builtin)
   (setq org-roam-db-gc-threshold gc-cons-threshold)
   (org-roam-directory "~/org/roam")
   (org-roam-db-location (concat org-directory ".org-roam.db"))
@@ -15,7 +16,7 @@
       :unnarrowed t)
      ("p" "project" plain
       (file "~/org/Templates/Projects.org")
-      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: Projects\n#+filetags: Project")
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+category: Projects\n#+filetags: ${tag}")
       :unnarrowed t)
      ("g" "BBounty" plain
       (file "~/org/Templates/Bounty.org")
@@ -65,6 +66,7 @@
          ("C-c n p" . my/org-roam-find-project)
          ("C-c n t" . my/org-roam-capture-task)
          ("C-c n b" . my/org-roam-capture-inbox)
+         ("C-c n w" . my/org-add-work-proj)
          ;; ("C-c n e" . my/org-roam-encrypt-node)
          ;; ("C-c n o" . my/org-roam-open-node)
          ("C-c n c" . org-roam-capture)
@@ -169,10 +171,10 @@
         (append
          (my/org-roam-list-notes-by-tag "todo")
          (list "~/org/agenda.org"
-               "~/org/notes.org"
+               "~/org/life.org"
                "~/org/todo.org"))))
-         ;; (my/org-roam-list-notes-by-tag "Biblio")
-         ;; (my/org-roam-list-notes-by-tag "Life"))))
+;; (my/org-roam-list-notes-by-tag "Biblio")
+;; (my/org-roam-list-notes-by-tag "Life"))))
 
 ;; Build the agenda list the first time for the session
 (my/org-roam-refresh-agenda-list)
@@ -204,8 +206,14 @@ capture was not aborted."
 (defun my/org-roam-capture-inbox ()
   (interactive)
   (org-roam-capture- :node (org-roam-node-create)
-                     :templates '(("i" "inbox" plain "* %?"
+                     :templates '(("i" "inbox" plain "\n\n* %?"
                                    :if-new (file+head "Inbox.org" "#+title: Inbox\n")))))
+
+(defun my/org-add-work-proj ()
+  (interactive)
+  (org-roam-capture- :node (org-roam-node-create)
+                     :templates '(("w" "Work" plain "** %?"
+                                   :if-new (file+olp "~/org/todo.org" ("Work"))))))
 
 (defun my/org-roam-capture-task ()
   (interactive)
@@ -229,7 +237,7 @@ capture was not aborted."
   (let ((org-refile-keep t) ;; Set this to nil to delete the original!
         (org-roam-dailies-capture-templates
          '(("t" "tasks" entry "%?"
-            :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+category: Finished\n" ("Tasks")))))
+            :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+category: Finished\n" ("Tasks")))))
         (org-after-refile-insert-hook #'save-buffer)
         today-file
         pos)

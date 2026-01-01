@@ -68,8 +68,14 @@
 (package! autothemer :disable t)
 (package! meow :disable t)
 (package! pkgbuild-mode)
-(package! sudo-edit)
+;; (package! sudo-edit) ;; Not working
+(package! su)
 (package! org :pin "806abc5a2bbcb5f884467a0145547221ba09eb59")
 (package! org-tidy)
 (package! org-download)
+(package! org-alert)
+(package! ultra-scroll :recipe (:host github :repo "jdtsmith/ultra-scroll"))
 ;; (package! whitespace-mode :disable t) ;; This won't be disabled since `'whitespace-mode`' is internal package.
+(package! org-attach-screenshot)
+(package! nano-calendar :recipe (:host github :repo "rougier/nano-calendar"))
+(package! slack)

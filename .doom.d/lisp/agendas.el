@@ -5,12 +5,12 @@
   (setq org-agenda-skip-deadline-if-done t)
   (setq org-agenda-current-time-string "⭠ now ─────────────────────────────────────────────────")
   (setq org-agenda-custom-commands
-        '(("t" "Today view"
+        '(("d" "Today view"
            ((agenda "" ((org-agenda-overriding-header "")
                         (org-agenda-span 'day)
                         (org-agenda-start-day nil)
                         ;; always show timelines!
-                        (org-agenda-time-grid '((daily today) (800 1000 1200 1400 1600 1800 2000) "" "----------------"))
+                        (org-agenda-time-grid '((daily today) (800 1000 1200 1400 1600 1800 2000 2200 0000) "" "----------------"))
                         (org-agenda-current-time-string "⭠ now ─────────────────────────────────────────────────")
                         (org-agenda-prefix-format '((agenda . " %i %?-12t%-6e% s")))
                         (org-super-agenda-groups

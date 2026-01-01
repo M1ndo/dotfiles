@@ -2,6 +2,8 @@
 (use-package! org-modern
   :hook (org-mode . org-modern-mode)
   :config
+  ;; '("🙐" "🙑" "🙒" "🙓" "🙔" "🙕" "🙖" "🙗")
+  ;; '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
   (setq org-modern-star '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
         org-modern-table-vertical 1
         org-modern-table nil
@@ -41,7 +43,7 @@
           ("example" "»–" "–«")
           ("quote" "❝" "❞")
           ("export" "⏩" "⏪"))
-        org-modern-progress nil
+        org-modern-progress '("○" "◔" "◐" "◕" "●")
         org-modern-priority nil
         org-modern-horizontal-rule (make-string 36 ?─)
         org-modern-keyword
@@ -49,9 +51,9 @@
           ("title" . "𝙏")
           ("subtitle" . "𝙩")
           ("author" . "𝘼")
-          ("email" . #("" 0 1 (display (raise -0.14))))
+          ("email" . "📧")
           ("date" . "𝘿")
-          ("property" . "☸")
+          ("property" . "🛶")
           ("options" . "⌥")
           ("startup" . "⏻")
           ("macro" . "𝓜")
