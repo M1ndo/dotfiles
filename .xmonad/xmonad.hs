@@ -130,8 +130,8 @@ myModMask :: KeyMask
 myModMask = mod4Mask -- Sets modkey to super/windows key
 
 myTerminal :: String
-myTerminal = "xterm" -- Sets default terminal to the favorite (xterm)
-myTerm = "alacritty" -- Sets secondary terminal to (Alacritty)
+myTerminal = "alacritty" -- Sets default terminal to the favorite (xterm)
+myTerm = "xterm" -- Sets secondary terminal to (Alacritty)
 
 myBrowser :: String
 myBrowser = "brave " -- Moved To A better Browser .
@@ -179,7 +179,7 @@ mySB = statusBarProp "xmobar -x 0 $HOME/.config/xmobar/xmobar_dracula" (pure myP
 
 myStartupHook :: X ()
 myStartupHook = do
-  spawn "/home/alienx/.screenlayout/xmonad.sh"
+  -- spawn "/home/alienx/.screenlayout/xmonad.sh"
   spawnOnce "nitrogen --restore &"
   spawnOnce "picom &"
   spawnOnce "unclutter -root &"
@@ -195,10 +195,12 @@ myStartupHook = do
   spawnOnce "xfce4-power-manager &"
   spawnOnce "numlockx on &"
   -- spawnOnce "xscreensaver -no-splash &"
-  spawnOnce "caffeine-indicator &"
+  -- spawnOnce "caffeine-indicator &"
   spawnOnce "eww daemon &"
   -- spawnOnce "xdg-autostart-launcher --user &"
   spawnOnce "xsetroot -cursor_name left_ptr"
+  spawnOnce "xmodmap /home/ybenel/.Xmodmap"
+  spawnOnce "xset r rate 300 50"
   setWMName "LG3D"
 
 myColorizer :: Window -> Bool -> X (String, String)
@@ -207,8 +209,10 @@ myColorizer =
     (0x28, 0x2c, 0x34) -- lowest inactive bg
     (0x28, 0x2c, 0x34) -- highest inactive bg
     (0xc7, 0x92, 0xea) -- active bg
-    (0xc0, 0xa7, 0x9a) -- inactive fg
-    (0x28, 0x2c, 0x34) -- active fg
+    (0xe3, 0xb5, 0xe0) -- inactive fg (soft pink)
+    (0x80, 0x2c, 0x7f) -- active fg (deep violet)
+    -- (0xc0, 0xa7, 0x9a) -- inactive fg ( More Darker )
+    -- (0x28, 0x2c, 0x34) -- active fg ( More Darker )
 
 -- gridSelect menu layout
 mygridConfig :: p -> GSConfig Window
@@ -236,15 +240,22 @@ spawnSelected' lst = gridselect conf lst >>= flip whenJust spawn
         }
 
 myAppGrid =
-  [ ("Xterm", "xterm"),
+  [ ("Emacs", "emacsclient -r"),
+    ("Term", "alacritty"),
     ("Browser", myBrowser),
     ("Stremio", "stremio"),
-    ("Lite XL", "lite-xl"),
-    ("Gimp", "gimp"),
-    ("Discord", "discord"),
+    ("Discord", "vesktop"),
     ("Spotify", "spotify"),
-    ("Emacs", "emacsclient -r"),
     ("PCManFM", "pcmanfm")
+  ]
+
+mySAppGrid =
+  [ ("Screen", "~/.screenlayout/home_layout.sh"),
+    ("Nitrogen", "nitrogen --restore"),
+    ("Suspend", "/usr/local/bin/time_suspend 30s suspend"),
+    ("Reboot", "/usr/local/bin/time_suspend 30s reboot"),
+    ("PowerOff", "/usr/local/bin/time_suspend 30s poweroff"),
+    ("LockBlur", "betterlockscreen -l blur")
   ]
 
 -- Xmonad Shell Prompt Coordinates On The Screen (Default Centered)
@@ -408,10 +419,11 @@ myScratchPads =
     NS "discord" spawnDiscord findDiscord manageDiscord,
     -- , NS "lightcord" spawnLcord findLcord manageLcord
     NS "lyrics" spawnLyr findLyr manageLyr,
-    NS "spotify" spawnSpot findSpot manageSpot
+    NS "ncspot" spawnSpot findSpot manageSpot,
+    NS "spotify" spawnSpotify findSpotify manageSpotify
   ]
   where
-    spawnTerm = myTerminal ++ " -class 'Term' -fn 'Cascadia Code' -fa 'Cascadia Code'"
+    spawnTerm = myTerminal ++ " --class 'Term'"
     findTerm = (className =? "Term")
     manageTerm = customFloating $ W.RationalRect l t w h
       where
@@ -424,8 +436,8 @@ myScratchPads =
     --   w = 0.9
     --   t = 0.95 -h
     --   l = 0.95 -w
-    spawnNcmp = myTerminal ++ " -name AmixerNcp -e ncpamixer"
-    findNcmp = appName =? "AmixerNcp"
+    spawnNcmp = myTerminal ++ " --class AmixerNcp -e ncpamixer"
+    findNcmp = ( className =? "AmixerNcp" )
     manageNcmp = customFloating $ W.RationalRect l t w h
       where
         h = 0.5
@@ -433,12 +445,12 @@ myScratchPads =
         t = 0.2
         l = 0.2
 
-    spawnMocp = myTerminal ++ " -name mocp -e /usr/bin/mocp"
-    findMocp = appName =? "mocp"
+    spawnMocp = myTerminal ++ " --class mocp -e /usr/bin/mocp"
+    findMocp = (className =? "mocp")
     manageMocp = nonFloating
 
-    spawnNcp = myTerminal ++ " -name ncmpcpp -e ncmpcpp"
-    findNcp = appName =? "ncmpcpp"
+    spawnNcp = myTerminal ++ " --class ncmpcpp -e ncmpcpp"
+    findNcp = (className =? "ncmpcpp")
     manageNcp = (noTaskbar <+> customFloating (W.RationalRect 0.25 0.1 0.5 0.8))
 
     --spawnIrc  = myTerminal ++ " -n irssi -e 'torify irssi'"
@@ -449,16 +461,16 @@ myScratchPads =
     --            w = 0.96
     --            t = 0.5
     --            l = 0.5
-    spawnDiscord = "discord"
-    findDiscord = (className =? "discord")
+    spawnDiscord = "vesktop"
+    findDiscord = (className =? "vesktop")
     manageDiscord = nonFloating
 
     -- spawnLcord  = "lightcord"
     -- findLcord   = (className =? "lightcord")
     -- manageLcord = nonFloating
 
-    spawnLyr = myTerminal ++ " -name scratch_lyrics -e ~/.local/bin/lyrics"
-    findLyr = appName =? "scratch_lyrics"
+    spawnLyr = myTerminal ++ " --class scratch_lyrics -e ~/.local/bin/lyrics"
+    findLyr = (className =? "scratch_lyrics")
     -- manageLyr = defaultFloating
     manageLyr = customFloating $ W.RationalRect l t w h
       where
@@ -467,6 +479,7 @@ myScratchPads =
         t = 0.0
         l = 0.3
 
+    -- NCSPOT && Spotify (Why both? because why not)
     spawnSpot = "alacritty --class NcSpot -e ncspot"
     findSpot = (className =? "NcSpot")
     manageSpot = customFloating $ W.RationalRect l t w h
@@ -475,6 +488,10 @@ myScratchPads =
         w = 0.85
         t = 0.1
         l = 0.1
+
+    spawnSpotify = "spotify"
+    findSpotify = (className =? "spotify")
+    manageSpotify = nonFloating
 
 mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
 mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True
@@ -598,10 +615,12 @@ myWorkspaces = [" B ", " T ", " E ", " S ", " C ", " M "]
 
 myFadeHook =
   composeAll
-    [ isUnfocused --> transparency 0.5,
+    [
+      isUnfocused --> transparency 0.7,
       isFloating --> transparency 0.9,
-      opaque
+      transparency 0.1
     ]
+
 
 myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
 myManageHook =
@@ -619,7 +638,7 @@ myManageHook =
       className =? "Vmware Workstation" --> doShift (myWorkspaces !! 3),
       className =? "file_progress" --> doFloat,
       className =? "dialog" --> doFloat,
-      className =? "Zenity" --> doFloat,
+      className =? "zenity" --> doFloat,
       className =? "download" --> doFloat,
       className =? "error" --> doFloat,
       className =? "notification" --> doFloat,
@@ -654,7 +673,7 @@ myKeys =
     ("M-M1-b", spawnDBusSignal "SetAlpha 100" >> spawnDBusSignal "Reveal 0"),
 
     -- Lock screen
-    ("M-S-l", spawn "betterlockscreen -l"),
+    ("M-S-l", spawn "betterlockscreen -l dim"),
 
     -- Kill windows
     ("M-S-c", kill1), -- Kill the currently focused client
@@ -680,6 +699,7 @@ myKeys =
 
     -- Grid Select (CTR-g followed by a key)
     ("C-g g", spawnSelected' myAppGrid), -- grid select favorite apps
+    ("C-g v", spawnSelected' mySAppGrid), -- grid select favorite apps
     ("C-g t", goToSelected $ mygridConfig myColorizer), -- goto selected window
     ("C-g b", bringSelected $ mygridConfig myColorizer), -- bring selected window
 
@@ -709,6 +729,7 @@ myKeys =
     ("M-<Space>", sendMessage (MT.Toggle NBFULL) >> sendMessage ToggleStruts), -- Toggles noborder/full
     ("M-S-n", sendMessage $ MT.Toggle NOBORDERS), -- Toggles noborder
     ("M-C-d", windows $ copyToAll),
+
     -- Increase/decrease windows in the master pane or the stack
     ("M-S-<Up>", sendMessage (IncMasterN 1)), -- Increase number of clients in master pane
     ("M-S-<Down>", sendMessage (IncMasterN (-1))), -- Decrease number of clients in master pane
@@ -751,7 +772,8 @@ myKeys =
 
     -- , ("M-C-z", namedScratchpadAction myScratchPads "lightcord")
     ("M-C-p", namedScratchpadAction myScratchPads "lyrics"),
-    ("M-C-y", namedScratchpadAction myScratchPads "spotify"),
+    -- ("M-C-y", namedScratchpadAction myScratchPads "ncspot"),
+    ("M-C-y", namedScratchpadAction myScratchPads "spotify"), -- Duplicate Keybinding
 
     -- Controls for mocp music player (SUPER-u followed by a key)
     ("M-u p", spawn "mocp --play"),
@@ -766,10 +788,10 @@ myKeys =
     ("M-u m", spawn "mpc stop"),
 
     -- Controls for Mpris (Spotify, Ncspot, Parole) (SUPER-u followed by a key)
-    ("M-u w", spawn "~/.config/eww/scripts/getmusic --toggle"),
-    ("M-u d", spawn "~/.config/eww/scripts/getmusic --next"),
-    ("M-u a", spawn "~/.config/eww/scripts/getmusic --prev"),
-    ("M-u s", spawn "~/.config/eww/scripts/getmusic --stop"),
+    ("M-u w", spawn "/usr/local/bin/getmusic --toggle"),
+    ("M-u d", spawn "/usr/local/bin/getmusic --next"),
+    ("M-u a", spawn "/usr/local/bin/getmusic --prev"),
+    ("M-u s", spawn "/usr/local/bin/getmusic --stop"),
 
     -- Player Ctl Stop Content (alt-p followed by a key)
     ("M1-p", spawn "playerctl play-pause"),
@@ -798,8 +820,9 @@ myKeys =
     ("M-M1-e", spawn (myTerminal ++ " -e irssi")),
     ("M-M1-c", spawn (myTerminal ++ " -e /usr/bin/mocp")),
     ("M-e", spawn myEmacs),
+    ("M1-e", spawn (myTerminal ++ " -e nvim")),
     ("M1-C-s", spawn "./.dmenu/dmenu-scrot.sh"),
-    ("M1-C-b", spawn "./.dmenu/dmenu-setbg.sh"),
+    ("M1-C-b", spawn "./.dmenu/dmenu-screen.sh"),
     ("M1-C-h", spawn "./.dmenu/dmenu-sysmon.sh"),
     ("M1-C-e", spawn "./.dmenu/dmenu-edit-configs.sh"),
     ("M-M1-z", spawn (myTerminal ++ " -e ncmpcpp")),
@@ -808,20 +831,20 @@ myKeys =
     ("<XF86AudioPlay>", spawn "mpc toggle"),
     ("<XF86AudioPrev>", spawn "mpc prev"),
     ("<XF86AudioNext>", spawn "mpc next"),
-    ("<XF86AudioMute>", spawn "amixer set Master toggle"),
-    ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%- unmute"),
-    ("<XF86AudioRaiseVolume>", spawn "amixer set Master 5%+ unmute"),
-    ("<F2>", spawn "xbacklight -dec 5"),
-    ("<F3>", spawn "xbacklight -inc 5"),
-    ("<F4>", spawn "arandr"),
+    ("<XF86AudioMute>", spawn "pamixer -t"),
+    ("<XF86AudioLowerVolume>", spawn "pamixer -d 10"),
+    ("<XF86AudioRaiseVolume>", spawn "pamixer -i 10"),
+    -- ("<F2>", spawn "xbacklight -dec 5"),
+    -- ("<F3>", spawn "xbacklight -inc 5"),
+    -- ("<F4>", spawn "arandr"),
     ("<XF86HomePage>", spawn myBrowser),
     ("<XF86Search>", safeSpawn myBrowser ["https://www.duckduckgo.com/"]),
     ("<XF86Mail>", runOrRaise "thunderbird" (resource =? "thunderbird")),
     ("<XF86Calculator>", runOrRaise "gcalctool" (resource =? "gcalctool")),
     ("<XF86Eject>", spawn "toggleeject"),
-    ("<Print>", spawn "flameshot gui"),
-    ("M-<F1>", spawn "sxiv -r -q -t -o ~/Pictures/Backgrounds/*"),
-    ("M-<F2>", spawn "/bin/ls ~/Pictures/Backgrounds/* | shuf -n 1 | xargs feh --bg-scale")
+    ("<Print>", spawn "flameshot gui")
+    -- ("M-<F1>", spawn "sxiv -r -q -t -o ~/Pictures/Backgrounds/*"),
+    -- ("M-<F2>", spawn "/bin/ls ~/Pictures/Backgrounds/* | shuf -n 1 | xargs feh --bg-scale")
   ]
     -- Appending search engine prompts to keybindings list.
     -- Look at "search engines" section of this config for values for "k".

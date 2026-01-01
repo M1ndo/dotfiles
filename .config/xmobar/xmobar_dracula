@@ -5,8 +5,8 @@ Config
     bgColor = "#282c34",
     fgColor = "#06da86",
     alpha = 150,
-    position = Static {xpos = 6, ypos = 9, width = 1354, height = 24},
-    -- , position = Static { xpos = 6, ypos = 9, width = 1908, height = 24 }
+    -- position = Static {xpos = 6, ypos = 9, width = 1354, height = 24},
+    position = Static { xpos = 6, ypos = 9, width = 1908, height = 24 },
     lowerOnStart = True,
     hideOnStart = False,
     allDesktops = True,
