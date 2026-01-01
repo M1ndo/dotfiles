@@ -1,8 +1,10 @@
 ;;; xcode-doom-theme.el --- based off of Apple's Xcode Dark Theme -*- lexical-binding: t; no-byte-compile: t; -*-
 ;;
 ;; Added: February 28, 2020 (#414)
+;; Updated: December 8, 2023
 ;; Author: kadenbarlow <https://github.com/kadenbarlow>
-;; Maintainer:
+;; Author: ybenel <https://github.com/m1ndo/dotfiles>
+;; Maintainer: ybenel
 ;; Source: Xcode.app
 ;;
 ;;; Commentary:
@@ -32,19 +34,19 @@ Can be an integer to determine the exact padding."
   "A theme based off of the Xcode Dark Theme"
 
   ;; name        gui       256       16
-  ((bg         '("#292A30" nil       nil          ))
-   (bg-alt     '("#252629" nil       nil          ))
-   (base0      '("#0d0d0d" "black"   "black"      ))
-   (base1      '("#1b1b1b" "#1b1b1b"              ))
-   (base2      '("#212122" "#1e1e1e"              ))
-   (base3      '("#292b2b" "#292929" "brightblack"))
-   (base4      '("#3f4040" "#3f3f3f" "brightblack"))
-   (base5      '("#5c5e5e" "#525252" "brightblack"))
-   (base6      '("#757878" "#6b6b6b" "brightblack"))
-   (base7      '("#969896" "#979797" "brightblack"))
-   (base8      '("#ffffff" "#ffffff" "white"      ))
-   (fg         '("#FFFFFF" "#ffffff" "white"))
-   (fg-alt     (doom-darken fg 0.4))
+  ((bg         '("#1B2B34" nil       nil            ))
+   (bg-alt     '("#14232D" nil       nil            ))
+   (base0      '("#1B2B34" "black"   "black"        ))
+   (base1      '("#343D46" "#1e1e1e" "brightblack"  ))
+   (base2      '("#4F5B66" "#2e2e2e" "brightblack"  ))
+   (base3      '("#65737E" "#262626" "brightblack"  ))
+   (base4      '("#A7ADBA" "#3f3f3f" "brightblack"  ))
+   (base5      '("#C0C5CE" "#525252" "brightblack"  ))
+   (base6      '("#CDD3DE" "#6b6b6b" "brightblack"  ))
+   (base7      '("#D8DEE9" "#979797" "white"        ))
+   (base8      base7)
+   (fg-alt     base6)
+   (fg         base8)
 
    (red        '("#FC6A5D" "#FC6A5D" "red"))
    (orange     '("#FD8F3F" "#FD8F3F" "orange"))
@@ -71,7 +73,7 @@ Can be an integer to determine the exact padding."
    (comments       grey)
    (doc-comments   (doom-lighten grey 0.14))
    (constants      violet)
-   (functions      dark-blue)
+   (functions      magenta)
    (keywords       pink)
    (methods        dark-blue)
    (operators      orange)
@@ -88,6 +90,7 @@ Can be an integer to determine the exact padding."
    (vc-deleted     red)
 
    ;; custom categories
+   (hidden     `(,(car bg) "black" "black"))
    (modeline-bg     `(,(doom-darken (car bg-alt) 0.3) ,@(cdr base3)))
    (modeline-bg-alt `(,(car bg) ,@(cdr base1)))
    (modeline-fg     base8)
@@ -109,21 +112,33 @@ Can be an integer to determine the exact padding."
     :background modeline-bg-alt :foreground modeline-fg-alt
     :box (if -modeline-pad `(:line-width ,-modeline-pad :color ,modeline-bg-alt)))
 
+   ;;;; VCS/magit readability
+   (diff-refine-removed :foreground vc-deleted :background bg :inverse-video t)
+   (diff-refine-added :foreground vc-added :background bg :inverse-video t)
+
+   (magit-diff-removed-highlight :foreground vc-deleted :background base1 :weight 'bold)
+
+   (magit-diff-base :foreground vc-modified :background bg-alt)
+   (magit-diff-removed :foreground vc-deleted :background base1)
+   (magit-diff-added :foreground vc-added :background base1)
+
+   ;;;; org <built-in>
+   ((org-block &override) :background bg-alt)
+   ;; ((org-block-begin-line &override) :background bg-alt)
+   ;; ((org-block-end-line &override) :background bg-alt)
+   ;; (org-hide :foreground hidden)
    ;;;; doom-modeline
    (doom-modeline-buffer-path       :foreground dark-blue :bold bold)
    (doom-modeline-buffer-major-mode :inherit 'doom-modeline-buffer-path)
    ;;;; rainbow-delimiters
-   (rainbow-delimiters-depth-1-face :foreground violet)
+   (rainbow-delimiters-depth-1-face :foreground yellow)
    (rainbow-delimiters-depth-2-face :foreground blue)
    (rainbow-delimiters-depth-3-face :foreground orange)
    (rainbow-delimiters-depth-4-face :foreground green)
    (rainbow-delimiters-depth-5-face :foreground magenta)
-   (rainbow-delimiters-depth-6-face :foreground yellow)
+   (rainbow-delimiters-depth-6-face :foreground violet)
    (rainbow-delimiters-depth-7-face :foreground teal))
 
-  ;; Org - Mode
-  (org-code :background bg :family "Iosevka")
-  (org-block :background bg :family "Iosevka")
   ;; --- variables --------------------------
   ;; ()
   )
